@@ -1,5 +1,4 @@
 import * as React from "react"
-import NextLink from "next/link"
 
 import {
   Button,
@@ -67,13 +66,13 @@ export const PaginationButton = (props: PaginationButtonProps) => {
 type PaginationLinkProps = {
   isActive?: boolean
 } & Pick<ButtonProps, "size"> &
-  React.ComponentProps<typeof NextLink>
+  React.ComponentProps<typeof 'a'>
 
 export const PaginationLink = (props: PaginationLinkProps) => {
   const { className, isActive, size = "icon", ...rest } = props
 
   return (
-    <NextLink
+    <a
       aria-current={isActive ? "page" : undefined}
       className={cn(
         buttonVariants({
