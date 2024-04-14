@@ -1,10 +1,9 @@
 ---
-import type { Session } from "@auth/core/types"
-import { Auth, SignIn, SignOut } from "auth-astro/components"
-
 import MainLayout from "@/layouts/MainLayout.astro"
 
 import "@/styles/globals.css"
+
+const user = Astro.locals.user
 ---
 
 <script>
@@ -31,31 +30,21 @@ import "@/styles/globals.css"
     <div class="w-15em">
       <Auth>
         {
-          (session: Session) =>
-            !session ? (
-              <div class="space-y-4">
-                <p
-                  class="text-center text-xl font-600"
-                  id="public-greeting-value"
-                />
-                <SignIn
-                  provider="github"
-                  class="outline-none p-2 rounded-md w-full bg-black text-white"
-                >
-                  Log in with Github
-                </SignIn>
-              </div>
-            ) : (
-              <div class="space-y-4">
-                <p
-                  class="text-center text-xl font-600"
-                  id="private-greeting-value"
-                />
-                <SignOut class="outline-none p-2 rounded-xl w-full bg-black text-white">
-                  Log out
-                </SignOut>
-              </div>
-            )
+          !user ? (
+            <div class="space-y-4">
+              <a href="/login/google">Sign in with Google</a>
+            </div>
+          ) : (
+            <div class="space-y-4">
+              <p
+                class="text-center text-xl font-600"
+                id="private-greeting-value"
+              />
+              <form method="post" action="/api/logout">
+                <button>Sign out</button>
+              </form>
+            </div>
+          )
         }
       </Auth>
     </div>

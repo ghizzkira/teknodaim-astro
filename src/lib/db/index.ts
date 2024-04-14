@@ -1,16 +1,12 @@
-import { PrismaClient } from "@prisma/client"
+import { createClient } from "@libsql/client"
+import { drizzle } from "drizzle-orm/libsql"
 
-const globalForPrisma = globalThis as unknown as {
-  prisma: PrismaClient | undefined
-}
+import * as schema from "./schema"
 
-export const prisma =
-  globalForPrisma.prisma ??
-  new PrismaClient({
-    log:
-      import.meta.env.MODE === "development"
-        ? ["query", "error", "warn"]
-        : ["error"],
-  })
+export const sqlite = createClient({
+  url: import.meta.env.DATABASE_URL,
+  authToken: import.meta.env.DATABASE_AUTH_TOKEN,
+})
 
-if (import.meta.env.MODE !== "production") globalForPrisma.prisma = prisma
+export const initializeDB = drizzle(sqlite)
+export const db = drizzle(sqlite, { schema })

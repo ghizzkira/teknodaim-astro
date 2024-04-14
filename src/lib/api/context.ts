@@ -1,26 +1,32 @@
-import type { Session } from "@auth/core/types"
+import type { APIContext } from "astro"
 import type { inferAsyncReturnType } from "@trpc/server"
 import type { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch"
-import { getSession } from "auth-astro/server"
 
-import { prisma } from "@/lib/db"
+import { validateRequest, type AuthSession } from "@/lib/auth/utils"
+import { db } from "@/lib/db"
 
 interface CreateInnerContextOptions
   extends Partial<FetchCreateContextFnOptions> {
-  session: Session | null
+  session: AuthSession["session"] | null
+  context: APIContext
 }
 
-export async function createTRPCInnerContext(opts?: CreateInnerContextOptions) {
+export function createTRPCInnerContext(opts?: CreateInnerContextOptions) {
   return {
-    prisma,
     session: opts?.session,
+    user: opts?.session?.user,
+    db,
+    ...opts,
   }
 }
 
-export async function createContext(opts: FetchCreateContextFnOptions) {
-  const session = await getSession(opts.req)
+export async function createContext(
+  opts: FetchCreateContextFnOptions & { context: APIContext },
+) {
+  const { session } = await validateRequest(opts?.context)
 
-  const contextInner = await createTRPCInnerContext({ session })
+  //@ts-expect-error
+  const contextInner = createTRPCInnerContext({ session })
 
   return {
     ...contextInner,
