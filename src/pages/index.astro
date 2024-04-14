@@ -1,0 +1,50 @@
+---
+import type { Session } from "@auth/core/types"
+import { Auth, SignIn, SignOut } from "auth-astro/components"
+import MainLayout from "../layouts/MainLayout.astro"
+---
+
+<script>
+    import { trpc } from "../utils"
+
+    const publicValue = document.getElementById("public-greeting-value") as HTMLElement
+    const privateValue = document.getElementById("private-greeting-value") as HTMLElement
+
+    try {
+        const dataPrivate = await trpc.example.private.query()
+        privateValue.innerHTML = dataPrivate
+    } catch (error) {
+        const dataPublic = await trpc.example.public.query()
+        publicValue.innerText = dataPublic
+    }
+</script>
+
+<MainLayout>
+    <div class="flex items-center justify-center min-h-screen">
+        <div class="w-15em">
+            <Auth>
+                {
+                    (session: Session) =>
+                        !session ? (
+                            <div class="space-y-4">
+                                <p class="text-center text-xl font-600" id="public-greeting-value" />
+                                <SignIn
+                                    provider="github"
+                                    class="outline-none p-2 rounded-md font-500 w-full bg-dark text-white"
+                                >
+                                    Log in with Github
+                                </SignIn>
+                            </div>
+                        ) : (
+                            <div class="space-y-4">
+                                <p class="text-center text-xl font-600" id="private-greeting-value" />
+                                <SignOut class="outline-none p-2 rounded-md font-500 w-full bg-dark text-white">
+                                    Log out
+                                </SignOut>
+                            </div>
+                        )
+                }
+            </Auth>
+        </div>
+    </div>
+</MainLayout>

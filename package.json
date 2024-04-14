@@ -1,0 +1,33 @@
+{
+  "name": "astro-with-trpc",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "postinstall": "prisma generate",
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/vercel": "^3.3.0",
+    "@auth/core": "^0.5.1",
+    "@next-auth/prisma-adapter": "^1.0.6",
+    "@prisma/client": "^4.14.0",
+    "@trpc/client": "^10.25.0",
+    "@trpc/server": "^10.25.0",
+    "@unocss/reset": "^0.51.12",
+    "astro": "^2.4.2",
+    "auth-astro": "^3.0.0",
+    "cookie": "^0.5.0",
+    "zod": "^3.21.4"
+  },
+  "devDependencies": {
+    "browserslist": "^4.21.5",
+    "lightningcss": "^1.20.0",
+    "prisma": "^4.14.0",
+    "unocss": "^0.51.12",
+    "unocss-preset-autoprefixer": "^0.0.5"
+  }
+}
