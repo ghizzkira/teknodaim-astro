@@ -66,7 +66,7 @@ export const PaginationButton = (props: PaginationButtonProps) => {
 type PaginationLinkProps = {
   isActive?: boolean
 } & Pick<ButtonProps, "size"> &
-  React.ComponentProps<typeof 'a'>
+  React.ComponentProps<"a">
 
 export const PaginationLink = (props: PaginationLinkProps) => {
   const { className, isActive, size = "icon", ...rest } = props
