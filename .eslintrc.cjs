@@ -5,7 +5,7 @@ const config = {
     "plugin:@typescript-eslint/recommended-type-checked",
     "plugin:@typescript-eslint/stylistic-type-checked",
     "plugin:prettier/recommended",
-    "plugin:astro/recommende",
+    "plugin:astro/recommended",
     "prettier",
   ],
   overrides: [
