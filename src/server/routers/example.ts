@@ -1,4 +1,4 @@
-import { privateProcedure, publicProcedure, router } from "../init"
+import { privateProcedure, publicProcedure, router } from "@/server/init"
 
 export default router({
   public: publicProcedure.query(() => {
