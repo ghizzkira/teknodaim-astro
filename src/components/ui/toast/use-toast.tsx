@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/array-type */
 
-"use client"
-
 import * as React from "react"
 
 import type { ToastActionElement, ToastProps } from "./toast"

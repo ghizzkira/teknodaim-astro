@@ -5,6 +5,11 @@ import { Auth, SignIn, SignOut } from "auth-astro/components"
 import MainLayout from "@/layouts/MainLayout.astro"
 
 import "@/styles/globals.css"
+
+import InfiniteScrollWpPost from "@/components/wp/infinite-scroll-wp-posts"
+import { wpGetAllPostsAction } from "@/lib/wp/action/wp-post"
+
+const { posts, pageInfo } = await wpGetAllPostsAction("ID")
 ---
 
 <script>
@@ -27,37 +32,117 @@ import "@/styles/globals.css"
 </script>
 
 <MainLayout>
-  <div class="flex items-center justify-center min-h-screen">
-    <div class="w-15em">
-      <Auth>
-        {
-          (session: Session) =>
-            !session ? (
-              <div class="space-y-4">
-                <p
-                  class="text-center text-xl font-600"
-                  id="public-greeting-value"
-                />
-                <SignIn
-                  provider="github"
-                  class="outline-none p-2 rounded-md w-full bg-black text-white"
-                >
-                  Log in with Github
-                </SignIn>
-              </div>
-            ) : (
-              <div class="space-y-4">
-                <p
-                  class="text-center text-xl font-600"
-                  id="private-greeting-value"
-                />
-                <SignOut class="outline-none p-2 rounded-xl w-full bg-black text-white">
-                  Log out
-                </SignOut>
-              </div>
-            )
-        }
-      </Auth>
+  <!-- <BreadcrumbJsonLd
+    useAppDir={true}
+    itemListElements={[
+      {
+        position: 1,
+        name:
+          locale === "id"
+            ? env.NEXT_PUBLIC_DOMAIN
+            : env.NEXT_PUBLIC_EN_SUBDOMAIN,
+        item:
+          locale === "id"
+            ? env.NEXT_PUBLIC_SITE_URL
+            : env.NEXT_PUBLIC_EN_SITE_URL,
+      },
+    ]}
+  />
+  <SiteLinksSearchBoxJsonLd
+    useAppDir={true}
+    url={locale === "id"
+      ? env.NEXT_PUBLIC_SITE_URL
+      : env.NEXT_PUBLIC_EN_SITE_URL}
+    potentialActions={[
+      {
+        target: `${
+          locale === "id"
+            ? env.NEXT_PUBLIC_SITE_URL
+            : env.NEXT_PUBLIC_EN_SITE_URL
+        }/search?q`,
+        queryInput: "search_term_string",
+      },
+    ]}
+  />
+  {
+    featuredCategories && Array.isArray(featuredCategories) && (
+      <div class="block sm:hidden">
+        <WpFeaturedCategories categories={featuredCategories} />
+      </div>
+    )
+  } -->
+  <section class="fade-up-element flex w-full flex-col pt-5">
+    <!-- <AdWrapper /> -->
+    <div
+      class="mx-auto mb-5 flex w-full flex-col px-4 md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]"
+    >
+      <!-- {
+        filtered_featured_posts && (
+          <div class="mb-[30px]">
+            <WpListPostFeatured
+              locale={locale}
+              posts={filtered_featured_posts}
+            />
+          </div>
+        )
+      }
+      {
+        carouselData && (
+          <div class="mb-[25px]">
+            <WpVerticalCarousel
+              filteredQueries={queriesFilter?.queries}
+              articles={carouselData}
+            />
+          </div>
+        )
+      } -->
     </div>
-  </div>
+    <div
+      class="mx-auto flex w-full flex-row md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]"
+    >
+      <div class="flex w-full flex-col px-4 lg:w-8/12">
+        <div class="mb-[25px] border-l-[3px] border-l-main px-3">
+          <div class="text-[18px] font-bold leading-[36px] text-main">
+            Teknodaim Latest
+          </div>
+        </div>
+        <InfiniteScrollWpPost
+          language={"id"}
+          posts={posts}
+          pageInfo={pageInfo}
+          client:idle
+        />
+      </div>
+      <aside class="hidden w-4/12 lg:block">
+        <div class="sticky top-4 rounded-xl border border-border p-4">
+          <div class="relative mb-4">
+            <div
+              class="block text-center after:absolute after:bottom-[-3px] after:left-1/2 after:right-[auto] after:top-[auto] after:ml-[-25px] after:h-[3px] after:w-[50px] after:border after:border-main after:bg-main"
+            >
+              <span class="block h-[36px] text-main">Trending</span>
+            </div>
+          </div>
+          <!-- {
+            trendingPosts?.map((post) => {
+              const isWordIncluded = queriesFilter?.queries?.some((word) =>
+                post.title.toLowerCase().includes(word.toLowerCase()),
+              )
+              if (isWordIncluded === true) {
+                return null
+              }
+              return (
+                <WpPostCardSide
+                  key={post.id}
+                  src={post.thumbnail}
+                  alt={post.title}
+                  uri={`/${post.primary_category_slug}/${post.slug}`}
+                  title={post.title}
+                />
+              )
+            })
+          } -->
+        </div>
+      </aside>
+    </div>
+  </section>
 </MainLayout>
