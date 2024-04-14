@@ -1,7 +1,7 @@
 {
   "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
-    "baseUrl": "/home/karyana/Projects/teknodaim-astro",
+    "baseUrl": ".",
     "paths": {
       "@/*": [
         "./src/*"
