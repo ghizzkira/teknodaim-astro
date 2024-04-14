@@ -15,8 +15,8 @@ dependencies:
     specifier: ^7.5.3
     version: 7.5.3(astro@4.6.1)(next@14.2.1)(react@18.2.0)
   '@auth/core':
-    specifier: ^0.29.0
-    version: 0.29.0
+    specifier: ^0.5.1
+    version: 0.5.1
   '@next-auth/prisma-adapter':
     specifier: ^1.0.7
     version: 1.0.7(@prisma/client@5.12.1)(next-auth@4.24.7)
@@ -75,8 +75,8 @@ dependencies:
     specifier: ^4.6.1
     version: 4.6.1(typescript@5.4.5)
   auth-astro:
-    specifier: ^4.1.1
-    version: 4.1.1(@auth/core@0.29.0)(astro@4.6.1)(next@14.2.1)(react-dom@18.2.0)(react@18.2.0)
+    specifier: ^3.0.0
+    version: 3.0.0(@auth/core@0.5.1)(astro@4.6.1)(next@14.2.1)(react-dom@18.2.0)(react@18.2.0)
   class-variance-authority:
     specifier: ^0.7.0
     version: 0.7.0
@@ -299,24 +299,17 @@ packages:
       - supports-color
     dev: false
 
-  /@auth/core@0.29.0:
-    resolution: {integrity: sha512-MdfEjU6WRjUnPG1+XeBWrTIlAsLZU6V0imCIqVDDDPxLI6UZWldXVqAA2EsDazGofV78jqiCLHaN85mJITDqdg==}
+  /@auth/core@0.5.1:
+    resolution: {integrity: sha512-t9z8F7dkuVceKWBmMy1fd2t6H+vfRju/YJ1lm+6RnJ7pNEvX5qMR874wg0+cYbWvyZazLi8fFK/FA6I3D5sSkA==}
     peerDependencies:
-      '@simplewebauthn/browser': ^9.0.1
-      '@simplewebauthn/server': ^9.0.2
       nodemailer: ^6.8.0
     peerDependenciesMeta:
-      '@simplewebauthn/browser':
-        optional: true
-      '@simplewebauthn/server':
-        optional: true
       nodemailer:
         optional: true
     dependencies:
       '@panva/hkdf': 1.1.1
-      '@types/cookie': 0.6.0
-      cookie: 0.6.0
-      jose: 5.2.4
+      cookie: 0.5.0
+      jose: 4.15.5
       oauth4webapi: 2.10.4
       preact: 10.11.3
       preact-render-to-string: 5.2.3(preact@10.11.3)
@@ -2302,10 +2295,6 @@ packages:
       '@babel/types': 7.24.0
     dev: false
 
-  /@types/cookie@0.6.0:
-    resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
-    dev: false
-
   /@types/debug@4.1.12:
     resolution: {integrity: sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ==}
     dependencies:
@@ -2961,15 +2950,16 @@ packages:
     resolution: {integrity: sha512-tLRNUXati5MFePdAk8dw7Qt7DpxPB60ofAgn8WRhW6a2rcimZnYBP9oxHiv0OHy+Wz7kPMG+t4LGdt31+4EmGg==}
     dev: false
 
-  /auth-astro@4.1.1(@auth/core@0.29.0)(astro@4.6.1)(next@14.2.1)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-7dTs8OcSYIYEmmlVw/HJ2k3otwDrD2fG2NTrKaij/VH8TfQ9EhS4VGgoQw1yArQoV0v6kvqOD4lFHFehQzKKqA==}
+  /auth-astro@3.0.0(@auth/core@0.5.1)(astro@4.6.1)(next@14.2.1)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-ZvN2aP84D5z+NrMVYTbhvrzgdwB6Pe1zfAkR3moB+C+moJA4NKsNWOnditPEVEN54m62ImTzaE/ktx6C21zy+A==}
     engines: {node: '>=17.4'}
     peerDependencies:
-      '@auth/core': ^0.18.6
-      astro: ^4.0.0
+      '@auth/core': ^0.5.1
+      astro: ^2.0.0
     dependencies:
-      '@auth/core': 0.29.0
+      '@auth/core': 0.5.1
       astro: 4.6.1(typescript@5.4.5)
+      cookie: 0.5.0
       next-auth: 4.24.7(next@14.2.1)(react-dom@18.2.0)(react@18.2.0)
       set-cookie-parser: 2.6.0
     transitivePeerDependencies:
@@ -4921,10 +4911,6 @@ packages:
 
   /jose@4.15.5:
     resolution: {integrity: sha512-jc7BFxgKPKi94uOvEmzlSWFFe2+vASyXaKUpdQKatWAESU2MWjDfFf0fdfc83CDKcA5QecabZeNLyfhe3yKNkg==}
-    dev: false
-
-  /jose@5.2.4:
-    resolution: {integrity: sha512-6ScbIk2WWCeXkmzF6bRPmEuaqy1m8SbsRFMa/FLrSCkGIhj8OLVG/IH+XHVmNMx/KUo8cVWEE6oKR4dJ+S0Rkg==}
     dev: false
 
   /js-tokens@4.0.0:
