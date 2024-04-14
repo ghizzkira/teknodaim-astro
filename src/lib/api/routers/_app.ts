@@ -1,4 +1,4 @@
-import { router } from "../init"
+import { router } from "@/lib/api/init"
 import example from "./example"
 
 export const appRouter = router({
