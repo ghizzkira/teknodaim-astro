@@ -1,0 +1,96 @@
+.review {
+  @apply relative mb-7 w-full overflow-hidden rounded-md p-4;
+}
+.review__image {
+  @apply absolute inset-0 z-0;
+}
+.review__image img {
+  @apply w-full;
+}
+.review__image::before {
+  @apply block h-full w-full;
+  content: "";
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.6477941518) 7%,
+    black 14%,
+    black 100%
+  );
+  transform: scaleY(1.5);
+}
+.review__content {
+  @apply relative z-10 mb-4 flex w-full flex-row flex-wrap;
+}
+.review__content .flex-1 {
+  @apply order-2 md:order-1;
+}
+.review__content .flex-1 .title {
+  @apply mb-3 mt-0 text-2xl font-bold text-white md:text-3xl;
+}
+.review__content .flex-1 .description {
+  @apply mb-3 mt-0 text-base text-white;
+}
+.review__content .score {
+  @apply order-1 mb-4 flex w-full flex-col flex-wrap items-center overflow-hidden rounded-md bg-success/70 md:order-2 md:mb-0 md:w-28;
+  max-height: 162px;
+}
+.review__content .score .percentage {
+  @apply mb-0 flex grow items-center py-4 text-3xl font-bold text-white md:py-10;
+}
+.review__content .score .label {
+  @apply flex w-full justify-center bg-success/90 py-2 text-xs text-white;
+}
+.review__details {
+  @apply relative z-[2] flex w-full flex-wrap overflow-hidden rounded-md bg-white;
+}
+.review__details .pros-cons {
+  @apply flex w-full flex-wrap gap-4 border-0 border-b-2 border-solid border-muted-foreground/20 dark:border-muted/10 md:gap-0;
+}
+.review__details .pros-cons .pros,
+.review__details .pros-cons .cons {
+  @apply basis-full border-0 border-b-2 border-solid border-muted-foreground/20 p-3 dark:border-muted/10 md:basis-6/12 md:border-b-0 md:border-r-2;
+}
+.review__details .pros-cons .pros p,
+.review__details .pros-cons .cons p {
+  @apply mb-3 mt-0 text-sm font-bold text-black/70;
+}
+.review__details .pros-cons .pros ul,
+.review__details .pros-cons .cons ul {
+  @apply m-0 list-none pl-0;
+}
+.review__details .pros-cons .pros ul li,
+.review__details .pros-cons .cons ul li {
+  @apply m-0 flex flex-wrap;
+}
+.review__details .pros-cons .pros ul li svg {
+  @apply h-5 w-5 text-success/70;
+}
+.review__details .pros-cons .cons ul li svg {
+  @apply h-5 w-5 text-danger;
+}
+.review__details .pros-cons .pros ul li p,
+.review__details .pros-cons .cons ul li p {
+  @apply mb-3 mt-0 flex-1 text-base text-black/70;
+}
+.review__details .review-breakdown {
+  @apply flex w-full flex-wrap p-5;
+}
+.review__details .review-breakdown__header {
+  @apply mb-3 mt-0 text-sm font-bold text-black/70;
+}
+.review__details .review-breakdown__title {
+  @apply mb-2 text-sm text-black/70;
+}
+.review__details .review-breakdown .review-breakdown__slider {
+  @apply mb-6;
+}
+.review__details .review-breakdown .review-breakdown__slider .bar {
+  @apply relative h-2 w-full rounded border border-solid border-muted-foreground/30 bg-white dark:border-0 dark:bg-black/10;
+}
+.review__details .review-breakdown .review-breakdown__slider .bar .progress {
+  @apply h-full rounded;
+}
+.review__details .review-breakdown .review-breakdown__slider .bar .marker {
+  @apply absolute top-1/2 h-4 w-4 -translate-x-1/2 -translate-y-1/2 rounded-full border-[4px] border-solid border-danger bg-white;
+}

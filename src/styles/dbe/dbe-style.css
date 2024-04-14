@@ -1,0 +1,35 @@
+@import "./components/button-download.css";
+@import "./components/how-to.css";
+@import "./components/ranked-list.css";
+@import "./components/recommendation.css";
+@import "./components/review.css";
+
+.dbe-block {
+  @apply my-6;
+}
+
+.dbe-block h1,
+.dbe-block h2,
+.dbe-block h3,
+.dbe-block h4,
+.dbe-block h5,
+.dbe-block h6,
+.dbe-block p {
+  @apply !m-0 !break-words;
+}
+
+.dbe-block .text-white {
+  @apply !text-white;
+}
+
+.dbe-block ol li {
+  @apply !ml-0 !list-none;
+}
+
+.dbe-block .howto-step__image {
+  @apply !w-full;
+}
+
+.dbe-block figure {
+  @apply !mb-0 mt-0;
+}

@@ -1,0 +1,107 @@
+.how-to {
+  @apply mb-8;
+}
+.dbe-how-to__title {
+  @apply text-3xl;
+}
+.how-to .dbe-how-to__introduction {
+  @apply m-0 mb-3;
+}
+.how-to .dbe-how-to__additional {
+  @apply mb-4 flex w-full justify-center;
+}
+.how-to .dbe-how-to__cost {
+  @apply mr-5;
+}
+.how-to .dbe-how-to__cost-svg {
+  @apply inline-block h-4 w-4;
+}
+.how-to .dbe-how-to__cost-display-text {
+  @apply m-0 inline-block text-base;
+}
+.how-to .dbe-how-to__time {
+  @apply flex items-center text-base;
+}
+.how-to .dbe-how-to__time-svg {
+  @apply inline-block h-4 w-4;
+}
+.how-to .dbe-how-to__section {
+  @apply mb-6 list-none space-y-4 pl-0;
+}
+.how-to .dbe-how-to__section-item {
+  @apply list-none rounded-md border border-solid border-border;
+}
+.how-to .dbe-how-to__step {
+  @apply mb-4 list-none rounded-md border border-solid border-border p-3;
+}
+.how-to .dbe-how-to__step-number {
+  @apply my-2 flex aspect-square h-fit w-[2.2rem] flex-none flex-wrap items-center justify-center rounded-full bg-foreground/10 text-2xl font-semibold md:col-span-1 md:w-[2.2rem] md:text-2xl;
+}
+.how-to .dbe-how-to__step-title-text {
+  @apply text-[1.3rem] font-normal md:text-2xl;
+}
+.how-to .dbe-how-to__step-direction {
+  @apply col-span-12 mb-3 w-full md:col-span-11;
+}
+.how-to .dbe-how-to__step-image {
+  @apply col-span-12 mx-auto max-h-[1000px] w-full md:max-h-[1600px];
+}
+.how-to .dbe-how-to__step-image-item {
+  @apply mx-auto mb-2 overflow-hidden rounded-xl;
+}
+.how-to .dbe-how-to__step-image-caption {
+  @apply text-sm;
+}
+.how-to .how-to-yield {
+  @apply rounded-xl bg-success/80 p-5 text-white;
+}
+.how-to .how-to-yield-title {
+  @apply mb-3 flex w-full flex-wrap justify-center;
+}
+.how-to .how-to-yield-title-text {
+  @apply m-0 text-3xl font-bold text-white;
+}
+.how-to .how-to-yield-image-container {
+  @apply relative mt-2 w-full;
+}
+.how-to .how-to-yield-image {
+  @apply mx-auto mb-2 overflow-hidden rounded-xl;
+}
+.how-to .how-to-yield-image-caption {
+  @apply text-base text-white;
+}
+.how-to .how-to-yield-text {
+  @apply mb-0 mt-2 text-white;
+}
+.how-to .how-to-review {
+  @apply mb-3 rounded-lg border border-solid border-border p-3 md:overflow-hidden;
+}
+.how-to .how-to-review-vote {
+  @apply mb-2 w-full text-center;
+}
+.how-to .how-to-review-vote-buttons {
+  @apply mb-1 flex w-full flex-wrap items-center justify-center;
+}
+.how-to .how-to-review-vote-like,
+.how-to .how-to-review-vote-dislike {
+  @apply cursor-pointer;
+}
+.how-to .how-to-review-vote-button {
+  @apply flex items-center bg-transparent py-1;
+}
+.how-to .how-to-review-vote-icon {
+  @apply h-8 w-8;
+}
+.how-to .how-to-review-thank {
+  @apply my-4 w-full text-center text-lg;
+}
+.how-to .how-to-review-thank-text {
+  @apply m-0;
+}
+.how-to .how-to-review-result__good-svg,
+.how-to .how-to-review-result__medium-svg {
+  @apply h-10 w-10 rotate-[-13.41deg];
+}
+.how-to .how-to-review-result__good-svg {
+  @apply h-10 w-10;
+}
