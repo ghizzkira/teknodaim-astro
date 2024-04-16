@@ -1,0 +1,63 @@
+---
+import type { Session } from "@auth/core/types"
+import { Auth, SignIn, SignOut } from "auth-astro/components"
+
+import Logo from "@/components/brand/logo"
+
+import "@/styles/globals.css"
+
+import { Button, buttonVariants } from "@/components/ui/button"
+import { Icon } from "@/components/ui/icon"
+import { cn } from "@/lib/utils/style"
+import { getSession } from "auth-astro/server"
+
+const session = await getSession(Astro.request)
+
+if (session) {
+  return Astro.redirect("/")
+}
+
+---
+
+<div
+  class="flex h-screen w-screen flex-col items-center justify-center bg-gradient-to-r from-main/30 to-main/70 px-4 md:px-10 xl:px-20"
+>
+  <div
+    class="absolute top-4 flex w-full justify-between px-4 md:top-8 md:px-10 xl:px-20"
+  >
+    <a
+      aria-label="Back to Home"
+      href="/"
+      class={cn(buttonVariants({ variant: "ghost" }), "bg-background")}
+    >
+      <>
+        <Icon.ChevronLeft aria-label="Back to Home" class="mr-2 h-4 w-4" />
+        Back to Home
+      </>
+    </a>
+    <!-- <LanguageSwitcher /> -->
+  </div>
+
+  <div
+    class="mx-auto flex w-full flex-col justify-center space-y-6 rounded-lg bg-background p-5 shadow-md sm:w-[350px] md:ml-0 md:mr-auto md:p-10"
+  >
+    <a aria-label="Back to Home" href="/" class="block self-center">
+      <Logo />
+    </a>
+    <div class="flex flex-col space-y-2 text-center">
+      <h1 class="text-3xl font-bold">Welcome back</h1>
+    </div>
+    <Button asChild variant="outline">
+      <SignIn
+        provider="github"
+        class={cn(
+          buttonVariants({ variant: "outline" }),
+          "outline-none p-2 rounded-md font-500 w-full bg-dark",
+        )}
+      >
+        <Icon.GoogleColored className="mr-3" />
+        Login with Google
+      </SignIn>
+    </Button>
+  </div>
+</div>
