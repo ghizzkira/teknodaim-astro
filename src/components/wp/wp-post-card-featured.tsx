@@ -55,7 +55,7 @@ const WpPostCardFeatured: React.FunctionComponent<WpPostCardFeaturedProps> = (
             <img
               sizes="(max-width: 768px) 80vw, (max-width: 1200px) 60vw, 40vw"
               src={thumbnail}
-              className="overflow-hidden object-cover transition-all duration-300 group-hover:scale-125"
+              className="!h-full !w-full overflow-hidden object-cover transition-all duration-300 group-hover:scale-125"
               alt={title}
             />
           </div>
@@ -91,7 +91,7 @@ const WpPostCardFeatured: React.FunctionComponent<WpPostCardFeaturedProps> = (
                   <div className="relative h-[20px] w-[20px]">
                     <img
                       src={author_image}
-                      className="overflow-hidden rounded-full object-cover"
+                      className="!h-[20px] !w-[20px] overflow-hidden rounded-full object-cover"
                       alt={author_name}
                       sizes="(max-width: 768px) 20px, 50px"
                     />

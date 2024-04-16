@@ -14,7 +14,7 @@ export const wpHttp = async <T>(
     }),
   }
 
-  const url = new URL(import.meta.env.WP_API ?? "")
+  const url = new URL(import.meta.env.PUBLIC_WP_API ?? "")
 
   try {
     const res = await fetch(url.toString(), defaultConfig)

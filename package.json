@@ -43,6 +43,8 @@
     "astro": "^4.6.1",
     "auth-astro": "^4.1.1",
     "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
+    "dayjs": "^1.11.10",
     "drizzle-orm": "^0.30.8",
     "nanoid": "^5.0.7",
     "react": "^18.2.0",

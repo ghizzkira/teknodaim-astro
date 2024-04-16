@@ -51,7 +51,6 @@ const InfiniteScrollWpPost: React.FunctionComponent<
 
   React.useEffect(() => {
     const lmRef = loadMoreRef.current
-
     const observer = new IntersectionObserver(handleObserver, {
       root: null, // viewport
       rootMargin: "-500px 0px 0px 0px",
