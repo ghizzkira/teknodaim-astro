@@ -22,4 +22,4 @@ const checkAuth = t.middleware(async (opts) => {
   })
 })
 
-export const privateProcedure = publicProcedure.use(checkAuth)
+export const protectedProcedure = publicProcedure.use(checkAuth)
