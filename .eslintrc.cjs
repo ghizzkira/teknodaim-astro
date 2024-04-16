@@ -97,6 +97,7 @@ const config = {
     "**/.eslintrc.cjs",
     "**/*.config.js",
     "**/*.config.cjs",
+    "**/*.config.mjs",
     ".astro",
     "dist",
     "pnpm-lock.yaml",
