@@ -25,7 +25,11 @@ const WpPostCardSearch: React.FunctionComponent<WpPostCardSearchProps> = (
           href={url}
           className="relative block aspect-[1/1] h-[80px] w-auto max-w-[unset] overflow-hidden rounded-md"
         >
-          <img src={imgUrl} className="object-cover" alt={title} />
+          <img
+            src={imgUrl}
+            className="!h-[80px] !w-auto object-cover"
+            alt={title}
+          />
         </a>
         <div className="ml-2 w-3/4">
           <div className="hidden md:block">

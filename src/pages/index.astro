@@ -19,19 +19,19 @@ const { posts, pageInfo } = await wpGetAllPostsAction("ID")
     "private-greeting-value",
   ) as HTMLElement
 
-  try {
-    const dataPrivate = await trpc.example.private.query()
-    privateValue.innerHTML = dataPrivate
-  } catch (error) {
-    const dataPublic = await trpc.example.public.query()
-    publicValue.innerText = dataPublic
-  }
+  // try {
+  //   const dataPrivate = await trpc.example.private.query()
+  //   privateValue.innerHTML = dataPrivate
+  // } catch (error) {
+  //   const dataPublic = await trpc.example.public.query()
+  //   publicValue.innerText = dataPublic
+  // }
 </script>
 
 <MainLayout>
   <div class="flex items-center justify-center min-h-screen">
     <div class="w-15em">
-      <Auth>
+      <!-- <Auth>
         {
           !user ? (
             <div class="space-y-4">
@@ -49,7 +49,7 @@ const { posts, pageInfo } = await wpGetAllPostsAction("ID")
             </div>
           )
         }
-      </Auth>
+      </Auth> -->
     </div>
     <div
       class="mx-auto flex w-full flex-row md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]"
@@ -98,5 +98,5 @@ const { posts, pageInfo } = await wpGetAllPostsAction("ID")
         </div>
       </aside>
     </div>
-  </section>
+  </div>
 </MainLayout>

@@ -1,19 +1,21 @@
 ---
+import MainContainer from "@/components/layout/main-container"
+
 type Props = {
-    title?: string
+  title?: string
 }
 
 const { title = "Astro" } = Astro.props
 ---
 
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>{title}</title>
-    </head>
-    <body class="antialiased font-400 font-sans">
-        <slot />
-    </body>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+  </head>
+  <body class="antialiased font-400 font-sans">
+    <MainContainer><slot /></MainContainer>
+  </body>
 </html>
