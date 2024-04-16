@@ -8,6 +8,11 @@ const config = {
     "plugin:astro/recommended",
     "prettier",
   ],
+  settings: {
+    "import/resolver": {
+      typescript: { project: ["./tsconfig.json"] },
+    },
+  },
   overrides: [
     {
       files: ["*.astro"],
@@ -18,6 +23,7 @@ const config = {
       },
       rules: {
         "astro/no-set-html-directive": "error",
+        "import/no-absolute-path": "off",
       },
     },
   ],
@@ -39,6 +45,12 @@ const config = {
     "no-prototype-builtins": "off",
     "no-unsafe-optional-chaining": "off",
     "import/consistent-type-specifier-style": "off",
+    "import/no-unresolved": [
+      2,
+      {
+        ignore: ["@astrojs/image/components"],
+      },
+    ],
     "no-unused-vars": [
       "error",
       {

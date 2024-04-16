@@ -19,13 +19,13 @@ const { posts, pageInfo } = await wpGetAllPostsAction("ID")
     "private-greeting-value",
   ) as HTMLElement
 
-  // try {
-  //   const dataPrivate = await trpc.example.private.query()
-  //   privateValue.innerHTML = dataPrivate
-  // } catch (error) {
-  //   const dataPublic = await trpc.example.public.query()
-  //   publicValue.innerText = dataPublic
-  // }
+  try {
+    const dataPrivate = await trpc.example.private.query()
+    privateValue.innerHTML = dataPrivate
+  } catch (error) {
+    const dataPublic = await trpc.example.public.query()
+    publicValue.innerText = dataPublic
+  }
 </script>
 
 <MainLayout>
