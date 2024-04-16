@@ -19,7 +19,7 @@ import {
   wpTagPathBySlug,
 } from "@/lib/wp/helper"
 import WpPostBody from "./wp-post-body"
-// import WpPostInfo from "./wp-post-info"
+import WpPostInfo from "./wp-post-info"
 import WpPostView from "./wp-post-view"
 
 // import WpPostViewCounter from "./wp-post-view-counter"
@@ -159,13 +159,13 @@ const WpPostContent: React.FunctionComponent<WpPostContentProps> = React.memo(
             {title}
           </h1>
           <div className="mb-2 flex justify-between">
-            {/* <WpPostInfo
+            <WpPostInfo
               authorName={authorName}
               authorSlug={authorUrl}
               date={date}
               locale={locale}
               authorAvatarUrl={authorImg}
-            /> */}
+            />
             <WpPostView className="ml-2 flex items-center" post_slug={slug} />
           </div>
           <div
