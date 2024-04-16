@@ -3,7 +3,7 @@ import { sqliteTable, text } from "drizzle-orm/sqlite-core"
 
 import { users } from "./user"
 
-export const userLinks = sqliteTable("user_links", {
+export const userLinks = sqliteTable("user_link", {
   id: text("id").primaryKey(),
   title: text("title").notNull(),
   url: text("url").notNull(),

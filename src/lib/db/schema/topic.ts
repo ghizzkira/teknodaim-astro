@@ -7,13 +7,13 @@ import { TOPIC_TYPE, TOPIC_VISIBILITY } from "@/lib/validation/topic"
 import { articleTopics } from "./article"
 import { medias } from "./media"
 
-export const topicTranslations = sqliteTable("topic_translations", {
+export const topicTranslations = sqliteTable("topic_translation", {
   id: text("id").primaryKey(),
   createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
   updatedAt: text("updated_at").default(sql`CURRENT_TIMESTAMP`),
 })
 
-export const topics = sqliteTable("topics", {
+export const topics = sqliteTable("topic", {
   id: text("id").primaryKey(),
   language: text("language", { enum: LANGUAGE_TYPE }).notNull().default("id"),
   title: text("title").notNull(),

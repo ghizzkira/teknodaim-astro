@@ -3,7 +3,7 @@ import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core"
 
 import { AD_POSITION, AD_TYPE } from "@/lib/validation/ad"
 
-export const ads = sqliteTable("ads", {
+export const ads = sqliteTable("ad", {
   id: text("id").primaryKey(),
   title: text("title").unique().notNull(),
   content: text("content").notNull(),

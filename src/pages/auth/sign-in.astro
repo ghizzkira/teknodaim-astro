@@ -17,6 +17,8 @@ if (session) {
   return Astro.redirect("/")
 }
 
+export const prerender = false
+
 ---
 
 <div
@@ -49,7 +51,7 @@ if (session) {
     </div>
     <Button asChild variant="outline">
       <SignIn
-        provider="github"
+        provider="google"
         class={cn(
           buttonVariants({ variant: "outline" }),
           "outline-none p-2 rounded-md font-500 w-full bg-dark",

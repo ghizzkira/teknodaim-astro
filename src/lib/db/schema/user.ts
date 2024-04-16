@@ -6,11 +6,11 @@ import { USER_ROLE } from "@/lib/validation/user"
 import { articleAuthors, articleEditors } from "./article"
 import { userLinks } from "./user-link"
 
-export const users = sqliteTable("users", {
+export const users = sqliteTable("user", {
   id: text("id").primaryKey(),
   name: text("name"),
   email: text("email").notNull(),
-  emailVerified: integer("email_verified", { mode: "timestamp_ms" }),
+  emailVerified: integer("emailVerified", { mode: "timestamp_ms" }),
   username: text("username").unique(),
   image: text("image"),
   phoneNumber: text("phone_number"),
@@ -21,14 +21,14 @@ export const users = sqliteTable("users", {
 })
 
 export const accounts = sqliteTable(
-  "accounts",
+  "account",
   {
-    userId: text("user_id")
+    userId: text("userId")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
     type: text("type").$type<AdapterAccount["type"]>().notNull(),
     provider: text("provider").notNull(),
-    providerAccountId: text("provider_account_id").notNull().unique(),
+    providerAccountId: text("providerAccountId").notNull(),
     refresh_token: text("refresh_token"),
     access_token: text("access_token"),
     expires_at: integer("expires_at"),
@@ -44,16 +44,16 @@ export const accounts = sqliteTable(
   }),
 )
 
-export const sessions = sqliteTable("sessions", {
-  sessionToken: text("session_token").notNull().primaryKey(),
-  userId: text("user_id")
+export const sessions = sqliteTable("session", {
+  sessionToken: text("sessionToken").notNull().primaryKey(),
+  userId: text("userId")
     .notNull()
-    .references(() => users.id),
+    .references(() => users.id, { onDelete: "cascade" }),
   expires: integer("expires", { mode: "timestamp_ms" }).notNull(),
 })
 
 export const verificationTokens = sqliteTable(
-  "verification_tokens",
+  "verificationToken",
   {
     identifier: text("identifier").notNull(),
     token: text("token").notNull(),
@@ -63,7 +63,6 @@ export const verificationTokens = sqliteTable(
     compoundKey: primaryKey({ columns: [vt.identifier, vt.token] }),
   }),
 )
-
 export const usersRelations = relations(users, ({ many }) => ({
   links: many(userLinks),
   articleAuthors: many(articleAuthors),
