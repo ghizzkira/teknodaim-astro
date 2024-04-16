@@ -212,6 +212,9 @@ dependencies:
   drizzle-orm:
     specifier: ^0.30.8
     version: 0.30.8(@libsql/client@0.6.0)(@types/react@18.2.78)(react@18.2.0)
+  html-to-react:
+    specifier: ^1.7.0
+    version: 1.7.0(react@18.2.0)
   nanoid:
     specifier: ^5.0.7
     version: 5.0.7
@@ -7261,6 +7264,17 @@ packages:
     resolution: {integrity: sha512-RuMffC89BOWQoY0WKGpIhn5gX3iI54O6nRA0yC124NYVtzjmFWBIiFd8M0x+ZdX0P9R4lADg1mgP8C7PxGOWuQ==}
     dev: false
 
+  /html-to-react@1.7.0(react@18.2.0):
+    resolution: {integrity: sha512-b5HTNaTGyOj5GGIMiWVr1k57egAZ/vGy0GGefnCQ1VW5hu9+eku8AXHtf2/DeD95cj/FKBKYa1J7SWBOX41yUQ==}
+    peerDependencies:
+      react: ^0.13.0 || ^0.14.0 || >=15
+    dependencies:
+      domhandler: 5.0.3
+      htmlparser2: 9.1.0
+      lodash.camelcase: 4.3.0
+      react: 18.2.0
+    dev: false
+
   /html-void-elements@3.0.0:
     resolution: {integrity: sha512-bEqo66MRXsUGxWHV5IP0PUiAWwoEjba4VCzg0LjFJBpchPaTfyfCKTG6bc5F8ucKec3q5y6qOdGyYTSBEvhCrg==}
     dev: false
@@ -7281,6 +7295,15 @@ packages:
       domhandler: 5.0.3
       domutils: 3.1.0
       entities: 4.5.0
+
+  /htmlparser2@9.1.0:
+    resolution: {integrity: sha512-5zfg6mHUoaer/97TxnGpxmbR7zJtPwIYFMZ/H5ucTlPZhKvtum05yiPK3Mgai3a0DyVxv7qYqoweaEd2nrYQzQ==}
+    dependencies:
+      domelementtype: 2.3.0
+      domhandler: 5.0.3
+      domutils: 3.1.0
+      entities: 4.5.0
+    dev: false
 
   /http-cache-semantics@4.1.1:
     resolution: {integrity: sha512-er295DKPVsV82j5kw1Gjt+ADA/XYHsajl82cGNQG2eyoPkvgUhX+nDIyelzhIWbbsXP39EHcI6l5tYs2FYqYXQ==}
@@ -7860,6 +7883,10 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       p-locate: 5.0.0
+
+  /lodash.camelcase@4.3.0:
+    resolution: {integrity: sha512-TwuEnCnxbc3rAvhf/LbG7tJUDzhqXyFnv3dtzLOPgCG/hODL7WFnsbwktkD7yUV0RrreP/l1PALq/YSg6VvjlA==}
+    dev: false
 
   /lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}

@@ -1,5 +1,3 @@
-"use client"
-
 import { mergeAttributes, Node, type Editor as TextEditor } from "@tiptap/core"
 import {
   NodeViewContent,

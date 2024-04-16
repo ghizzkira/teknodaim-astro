@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-"use client"
-
 import { Extension } from "@tiptap/core"
 import {
   Blockquote,
