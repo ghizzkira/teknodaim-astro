@@ -178,7 +178,7 @@ export default router({
     .mutation(async ({ ctx, input }) => {
       try {
         const isUser = await ctx.db.query.users.findFirst({
-          where: (users, { eq }) => eq(users.id, ctx.session.user.id),
+          where: (users, { eq }) => eq(users.id, ctx.session?.user?.id),
         })
 
         if (!isUser) {

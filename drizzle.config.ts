@@ -7,7 +7,7 @@ export default {
   dbCredentials: {
     url: "libsql://teknodaim-astro-dafundateam.turso.io",
     authToken:
-      "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3MTMwOTU2MDYsImlkIjoiNGY4N2E1ZDYtNTI4ZS00Y2MxLWE0OTYtOTNjODFhYWRhNjQ0In0.ji6-NjxoFuPhEaQweCh1u-S40EIOsXMa74JJvJe613KAoivcyLTtWa6QiWPbr8penym-_7Zuj_EXFIe0EEkMBg",
+      "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3MTMyNjM3ODksImlkIjoiNDQ0ZGJlZDktZmYyOS00NTFhLWJjNjctNDg5ZjYyZDkxZTFjIn0.8G5gtsYpsKT-lp6uyegBMo8EXfVz-AcY3sNkRj4Em5YOsqam5MEYlty7WC9eJBBMrzWFq25aXAVpFoiWfQCHAQ",
   },
   // dbCredentials: {
   //   url: import.meta.env.DATABASE_URL,

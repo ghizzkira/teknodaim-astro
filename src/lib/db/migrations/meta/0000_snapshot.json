@@ -1,11 +1,11 @@
 {
   "version": "5",
   "dialect": "sqlite",
-  "id": "2bdc42ef-c6ad-4964-94ba-cda4e9648517",
+  "id": "8e4d1a8b-ede6-4078-9bfa-838bf46b2b7a",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
-    "ads": {
-      "name": "ads",
+    "ad": {
+      "name": "ad",
       "columns": {
         "id": {
           "name": "id",
@@ -70,9 +70,11 @@
         }
       },
       "indexes": {
-        "ads_title_unique": {
-          "name": "ads_title_unique",
-          "columns": ["title"],
+        "ad_title_unique": {
+          "name": "ad_title_unique",
+          "columns": [
+            "title"
+          ],
           "isUnique": true
         }
       },
@@ -80,8 +82,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "article_comments": {
-      "name": "article_comments",
+    "article_comment": {
+      "name": "article_comment",
       "columns": {
         "id": {
           "name": "id",
@@ -137,21 +139,29 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "article_comments_article_id_articles_id_fk": {
-          "name": "article_comments_article_id_articles_id_fk",
-          "tableFrom": "article_comments",
-          "tableTo": "articles",
-          "columnsFrom": ["article_id"],
-          "columnsTo": ["id"],
+        "article_comment_article_id_article_id_fk": {
+          "name": "article_comment_article_id_article_id_fk",
+          "tableFrom": "article_comment",
+          "tableTo": "article",
+          "columnsFrom": [
+            "article_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "article_comments_author_id_users_id_fk": {
-          "name": "article_comments_author_id_users_id_fk",
-          "tableFrom": "article_comments",
-          "tableTo": "users",
-          "columnsFrom": ["author_id"],
-          "columnsTo": ["id"],
+        "article_comment_author_id_user_id_fk": {
+          "name": "article_comment_author_id_user_id_fk",
+          "tableFrom": "article_comment",
+          "tableTo": "user",
+          "columnsFrom": [
+            "author_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -159,8 +169,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "_article_authors": {
-      "name": "_article_authors",
+    "_article_author": {
+      "name": "_article_author",
       "columns": {
         "article_id": {
           "name": "article_id",
@@ -179,35 +189,46 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "_article_authors_article_id_articles_id_fk": {
-          "name": "_article_authors_article_id_articles_id_fk",
-          "tableFrom": "_article_authors",
-          "tableTo": "articles",
-          "columnsFrom": ["article_id"],
-          "columnsTo": ["id"],
+        "_article_author_article_id_article_id_fk": {
+          "name": "_article_author_article_id_article_id_fk",
+          "tableFrom": "_article_author",
+          "tableTo": "article",
+          "columnsFrom": [
+            "article_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "_article_authors_user_id_users_id_fk": {
-          "name": "_article_authors_user_id_users_id_fk",
-          "tableFrom": "_article_authors",
-          "tableTo": "users",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+        "_article_author_user_id_user_id_fk": {
+          "name": "_article_author_user_id_user_id_fk",
+          "tableFrom": "_article_author",
+          "tableTo": "user",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {
-        "_article_authors_article_id_user_id_pk": {
-          "columns": ["article_id", "user_id"],
-          "name": "_article_authors_article_id_user_id_pk"
+        "_article_author_article_id_user_id_pk": {
+          "columns": [
+            "article_id",
+            "user_id"
+          ],
+          "name": "_article_author_article_id_user_id_pk"
         }
       },
       "uniqueConstraints": {}
     },
-    "_article_editors": {
-      "name": "_article_editors",
+    "_article_editor": {
+      "name": "_article_editor",
       "columns": {
         "article_id": {
           "name": "article_id",
@@ -226,35 +247,46 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "_article_editors_article_id_articles_id_fk": {
-          "name": "_article_editors_article_id_articles_id_fk",
-          "tableFrom": "_article_editors",
-          "tableTo": "articles",
-          "columnsFrom": ["article_id"],
-          "columnsTo": ["id"],
+        "_article_editor_article_id_article_id_fk": {
+          "name": "_article_editor_article_id_article_id_fk",
+          "tableFrom": "_article_editor",
+          "tableTo": "article",
+          "columnsFrom": [
+            "article_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "_article_editors_userId_users_id_fk": {
-          "name": "_article_editors_userId_users_id_fk",
-          "tableFrom": "_article_editors",
-          "tableTo": "users",
-          "columnsFrom": ["userId"],
-          "columnsTo": ["id"],
+        "_article_editor_userId_user_id_fk": {
+          "name": "_article_editor_userId_user_id_fk",
+          "tableFrom": "_article_editor",
+          "tableTo": "user",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {
-        "_article_editors_article_id_userId_pk": {
-          "columns": ["article_id", "userId"],
-          "name": "_article_editors_article_id_userId_pk"
+        "_article_editor_article_id_userId_pk": {
+          "columns": [
+            "article_id",
+            "userId"
+          ],
+          "name": "_article_editor_article_id_userId_pk"
         }
       },
       "uniqueConstraints": {}
     },
-    "_article_topics": {
-      "name": "_article_topics",
+    "_article_topic": {
+      "name": "_article_topic",
       "columns": {
         "article_id": {
           "name": "article_id",
@@ -273,35 +305,46 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "_article_topics_article_id_articles_id_fk": {
-          "name": "_article_topics_article_id_articles_id_fk",
-          "tableFrom": "_article_topics",
-          "tableTo": "articles",
-          "columnsFrom": ["article_id"],
-          "columnsTo": ["id"],
+        "_article_topic_article_id_article_id_fk": {
+          "name": "_article_topic_article_id_article_id_fk",
+          "tableFrom": "_article_topic",
+          "tableTo": "article",
+          "columnsFrom": [
+            "article_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "_article_topics_topic_id_topics_id_fk": {
-          "name": "_article_topics_topic_id_topics_id_fk",
-          "tableFrom": "_article_topics",
-          "tableTo": "topics",
-          "columnsFrom": ["topic_id"],
-          "columnsTo": ["id"],
+        "_article_topic_topic_id_topic_id_fk": {
+          "name": "_article_topic_topic_id_topic_id_fk",
+          "tableFrom": "_article_topic",
+          "tableTo": "topic",
+          "columnsFrom": [
+            "topic_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {
-        "_article_topics_article_id_topic_id_pk": {
-          "columns": ["article_id", "topic_id"],
-          "name": "_article_topics_article_id_topic_id_pk"
+        "_article_topic_article_id_topic_id_pk": {
+          "columns": [
+            "article_id",
+            "topic_id"
+          ],
+          "name": "_article_topic_article_id_topic_id_pk"
         }
       },
       "uniqueConstraints": {}
     },
-    "article_translations": {
-      "name": "article_translations",
+    "article_translation": {
+      "name": "article_translation",
       "columns": {
         "id": {
           "name": "id",
@@ -332,8 +375,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "articles": {
-      "name": "articles",
+    "article": {
+      "name": "article",
       "columns": {
         "id": {
           "name": "id",
@@ -440,28 +483,38 @@
         }
       },
       "indexes": {
-        "articles_slug_unique": {
-          "name": "articles_slug_unique",
-          "columns": ["slug"],
+        "article_slug_unique": {
+          "name": "article_slug_unique",
+          "columns": [
+            "slug"
+          ],
           "isUnique": true
         }
       },
       "foreignKeys": {
-        "articles_article_translation_id_article_translations_id_fk": {
-          "name": "articles_article_translation_id_article_translations_id_fk",
-          "tableFrom": "articles",
-          "tableTo": "article_translations",
-          "columnsFrom": ["article_translation_id"],
-          "columnsTo": ["id"],
+        "article_article_translation_id_article_translation_id_fk": {
+          "name": "article_article_translation_id_article_translation_id_fk",
+          "tableFrom": "article",
+          "tableTo": "article_translation",
+          "columnsFrom": [
+            "article_translation_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "articles_featured_image_id_medias_id_fk": {
-          "name": "articles_featured_image_id_medias_id_fk",
-          "tableFrom": "articles",
-          "tableTo": "medias",
-          "columnsFrom": ["featured_image_id"],
-          "columnsTo": ["id"],
+        "article_featured_image_id_media_id_fk": {
+          "name": "article_featured_image_id_media_id_fk",
+          "tableFrom": "article",
+          "tableTo": "media",
+          "columnsFrom": [
+            "featured_image_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -469,8 +522,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "medias": {
-      "name": "medias",
+    "media": {
+      "name": "media",
       "columns": {
         "id": {
           "name": "id",
@@ -533,12 +586,16 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "medias_author_id_users_id_fk": {
-          "name": "medias_author_id_users_id_fk",
-          "tableFrom": "medias",
-          "tableTo": "users",
-          "columnsFrom": ["author_id"],
-          "columnsTo": ["id"],
+        "media_author_id_user_id_fk": {
+          "name": "media_author_id_user_id_fk",
+          "tableFrom": "media",
+          "tableTo": "user",
+          "columnsFrom": [
+            "author_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -546,8 +603,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "topic_translations": {
-      "name": "topic_translations",
+    "topic_translation": {
+      "name": "topic_translation",
       "columns": {
         "id": {
           "name": "id",
@@ -578,8 +635,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "topics": {
-      "name": "topics",
+    "topic": {
+      "name": "topic",
       "columns": {
         "id": {
           "name": "id",
@@ -687,28 +744,38 @@
         }
       },
       "indexes": {
-        "topics_slug_unique": {
-          "name": "topics_slug_unique",
-          "columns": ["slug"],
+        "topic_slug_unique": {
+          "name": "topic_slug_unique",
+          "columns": [
+            "slug"
+          ],
           "isUnique": true
         }
       },
       "foreignKeys": {
-        "topics_topic_translation_id_topic_translations_id_fk": {
-          "name": "topics_topic_translation_id_topic_translations_id_fk",
-          "tableFrom": "topics",
-          "tableTo": "topic_translations",
-          "columnsFrom": ["topic_translation_id"],
-          "columnsTo": ["id"],
+        "topic_topic_translation_id_topic_translation_id_fk": {
+          "name": "topic_topic_translation_id_topic_translation_id_fk",
+          "tableFrom": "topic",
+          "tableTo": "topic_translation",
+          "columnsFrom": [
+            "topic_translation_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "topics_featured_image_id_medias_id_fk": {
-          "name": "topics_featured_image_id_medias_id_fk",
-          "tableFrom": "topics",
-          "tableTo": "medias",
-          "columnsFrom": ["featured_image_id"],
-          "columnsTo": ["id"],
+        "topic_featured_image_id_media_id_fk": {
+          "name": "topic_featured_image_id_media_id_fk",
+          "tableFrom": "topic",
+          "tableTo": "media",
+          "columnsFrom": [
+            "featured_image_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -716,11 +783,11 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "accounts": {
-      "name": "accounts",
+    "account": {
+      "name": "account",
       "columns": {
-        "user_id": {
-          "name": "user_id",
+        "userId": {
+          "name": "userId",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -740,8 +807,8 @@
           "notNull": true,
           "autoincrement": false
         },
-        "provider_account_id": {
-          "name": "provider_account_id",
+        "providerAccountId": {
+          "name": "providerAccountId",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -797,44 +864,45 @@
           "autoincrement": false
         }
       },
-      "indexes": {
-        "accounts_provider_account_id_unique": {
-          "name": "accounts_provider_account_id_unique",
-          "columns": ["provider_account_id"],
-          "isUnique": true
-        }
-      },
+      "indexes": {},
       "foreignKeys": {
-        "accounts_user_id_users_id_fk": {
-          "name": "accounts_user_id_users_id_fk",
-          "tableFrom": "accounts",
-          "tableTo": "users",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+        "account_userId_user_id_fk": {
+          "name": "account_userId_user_id_fk",
+          "tableFrom": "account",
+          "tableTo": "user",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {
-        "accounts_provider_provider_account_id_pk": {
-          "columns": ["provider", "provider_account_id"],
-          "name": "accounts_provider_provider_account_id_pk"
+        "account_provider_providerAccountId_pk": {
+          "columns": [
+            "provider",
+            "providerAccountId"
+          ],
+          "name": "account_provider_providerAccountId_pk"
         }
       },
       "uniqueConstraints": {}
     },
-    "sessions": {
-      "name": "sessions",
+    "session": {
+      "name": "session",
       "columns": {
-        "session_token": {
-          "name": "session_token",
+        "sessionToken": {
+          "name": "sessionToken",
           "type": "text",
           "primaryKey": true,
           "notNull": true,
           "autoincrement": false
         },
-        "user_id": {
-          "name": "user_id",
+        "userId": {
+          "name": "userId",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -850,21 +918,25 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "sessions_user_id_users_id_fk": {
-          "name": "sessions_user_id_users_id_fk",
-          "tableFrom": "sessions",
-          "tableTo": "users",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
-          "onDelete": "no action",
+        "session_userId_user_id_fk": {
+          "name": "session_userId_user_id_fk",
+          "tableFrom": "session",
+          "tableTo": "user",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
           "onUpdate": "no action"
         }
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "users": {
-      "name": "users",
+    "user": {
+      "name": "user",
       "columns": {
         "id": {
           "name": "id",
@@ -887,8 +959,8 @@
           "notNull": true,
           "autoincrement": false
         },
-        "email_verified": {
-          "name": "email_verified",
+        "emailVerified": {
+          "name": "emailVerified",
           "type": "integer",
           "primaryKey": false,
           "notNull": false,
@@ -948,9 +1020,11 @@
         }
       },
       "indexes": {
-        "users_username_unique": {
-          "name": "users_username_unique",
-          "columns": ["username"],
+        "user_username_unique": {
+          "name": "user_username_unique",
+          "columns": [
+            "username"
+          ],
           "isUnique": true
         }
       },
@@ -958,8 +1032,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "verification_tokens": {
-      "name": "verification_tokens",
+    "verificationToken": {
+      "name": "verificationToken",
       "columns": {
         "identifier": {
           "name": "identifier",
@@ -986,15 +1060,18 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {
-        "verification_tokens_identifier_token_pk": {
-          "columns": ["identifier", "token"],
-          "name": "verification_tokens_identifier_token_pk"
+        "verificationToken_identifier_token_pk": {
+          "columns": [
+            "identifier",
+            "token"
+          ],
+          "name": "verificationToken_identifier_token_pk"
         }
       },
       "uniqueConstraints": {}
     },
-    "user_links": {
-      "name": "user_links",
+    "user_link": {
+      "name": "user_link",
       "columns": {
         "id": {
           "name": "id",
@@ -1043,12 +1120,16 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "user_links_user_id_users_id_fk": {
-          "name": "user_links_user_id_users_id_fk",
-          "tableFrom": "user_links",
-          "tableTo": "users",
-          "columnsFrom": ["user_id"],
-          "columnsTo": ["id"],
+        "user_link_user_id_user_id_fk": {
+          "name": "user_link_user_id_user_id_fk",
+          "tableFrom": "user_link",
+          "tableTo": "user",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
