@@ -8,5 +8,5 @@
     "jsx": "react-jsx",
     "jsxImportSource": "react"
   },
-    "include": ["env.d.ts", "global.d.ts", "**/*.ts", "**/*.tsx"]
+    "include": ["global.d.ts", "**/*.ts", "**/*.tsx"]
 }
