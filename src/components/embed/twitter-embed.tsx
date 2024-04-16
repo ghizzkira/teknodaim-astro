@@ -1,5 +1,3 @@
-"use client"
-
 import * as React from "react"
 import { XEmbed as TweetEmbed } from "react-social-media-embed"
 

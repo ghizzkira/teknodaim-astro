@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/prefer-optional-chain */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-"use client"
-
 import * as React from "react"
 import { Extension, type Range, type Editor as TextEditor } from "@tiptap/core"
 import { ReactRenderer } from "@tiptap/react"
