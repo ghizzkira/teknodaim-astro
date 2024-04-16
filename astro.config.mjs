@@ -9,16 +9,13 @@ export default defineConfig({
   output: "server",
   adapter: vercel(),
   integrations: [
-    auth(),
     tailwind({
       applyBaseStyles: false,
     }),
     react(),
+    auth(),
   ],
   vite: {
-    optimizeDeps: {
-      exclude: ["oslo"],
-    },
+    optimizeDeps: { exclude: ["auth:config"] },
   },
 })
-
