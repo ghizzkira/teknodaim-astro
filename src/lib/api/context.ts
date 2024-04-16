@@ -10,7 +10,7 @@ interface CreateInnerContextOptions
   session: Session | null
 }
 
-export async function createTRPCInnerContext(opts?: CreateInnerContextOptions) {
+export function createTRPCInnerContext(opts?: CreateInnerContextOptions) {
   return {
     db: db,
     session: opts?.session,
@@ -20,7 +20,7 @@ export async function createTRPCInnerContext(opts?: CreateInnerContextOptions) {
 export async function createContext(opts: FetchCreateContextFnOptions) {
   const session = await getSession(opts.req)
 
-  const contextInner = await createTRPCInnerContext({ session })
+  const contextInner = createTRPCInnerContext({ session })
 
   return {
     ...contextInner,
