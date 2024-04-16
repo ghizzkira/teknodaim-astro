@@ -1,9 +1,6 @@
 ---
-import MainLayout from "@/layouts/MainLayout.astro"
-
-import "@/styles/globals.css"
-
 import InfiniteScrollWpPost from "@/components/wp/infinite-scroll-wp-posts"
+import MainLayout from "@/layouts/MainLayout.astro"
 import { wpGetAllPostsAction } from "@/lib/wp/action/wp-post"
 
 const { posts, pageInfo } = await wpGetAllPostsAction("ID")
