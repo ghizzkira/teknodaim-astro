@@ -14,6 +14,7 @@ export function createTRPCInnerContext(opts?: CreateInnerContextOptions) {
   return {
     db: db,
     session: opts?.session,
+    user: opts?.session?.user,
   }
 }
 
