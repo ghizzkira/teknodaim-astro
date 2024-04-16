@@ -11,10 +11,8 @@ const checkAuth = t.middleware(async (opts) => {
   if (opts.ctx.session === null || opts.ctx.session === undefined)
     throw new TRPCError({ code: "UNAUTHORIZED" })
 
-  const data = await opts.ctx.prisma.user.findUnique({
-    where: {
-      email: opts.ctx.session.user?.email!,
-    },
+  const data = await opts.ctx.db.query.users.findFirst({
+    where: (users, { eq }) => eq(users.email, opts.ctx.session?.user?.email!),
   })
 
   return opts.next({
