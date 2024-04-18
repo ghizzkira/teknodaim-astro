@@ -5,7 +5,7 @@ import { ads } from "@/lib/db/schema/ad"
 import { cuid } from "@/lib/utils/id"
 import type { AdPosition, CreateAd, UpdateAd } from "@/lib/validation/ad"
 
-export const getAdDashboard = async ({
+export const getAdsDashboard = async ({
   page,
   perPage,
 }: {
@@ -27,14 +27,14 @@ export const getAdById = async (id: string) => {
   return data
 }
 
-export const getAdByPosition = async (position: AdPosition) => {
+export const getAdsByPosition = async (position: AdPosition) => {
   const data = await db.query.ads.findMany({
     where: (ads, { eq }) => eq(ads.position, position),
   })
   return data
 }
 
-export const getAdCount = async () => {
+export const getAdsCount = async () => {
   const data = await db.select({ value: count() }).from(ads)
   return data[0].value
 }
