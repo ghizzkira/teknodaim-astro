@@ -28,3 +28,6 @@ export const updateUserLinkSchema = z.object({
     invalid_type_error: "User Link ID must be a string",
   }),
 })
+
+export type CreateUserLink = z.infer<typeof createUserLinkSchema>
+export type UpdateUserLink = z.infer<typeof updateUserLinkSchema>

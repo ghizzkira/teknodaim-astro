@@ -1,9 +1,9 @@
 import { count, eq, sql } from "drizzle-orm"
 
 import { db } from "@/lib/db"
+import { medias } from "@/lib/db/schema/media"
 import { cuid } from "@/lib/utils/id"
 import type { UpdateMedia, UploadMedia } from "@/lib/validation/media"
-import { medias } from "../schema/media"
 
 export const getMediasDashboard = async ({
   page,

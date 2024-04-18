@@ -1,4 +1,4 @@
-import { and, count, eq, lt, sql } from "drizzle-orm"
+import { and, count, eq, sql } from "drizzle-orm"
 
 import { db } from "@/lib/db"
 import { articles } from "@/lib/db/schema/article"

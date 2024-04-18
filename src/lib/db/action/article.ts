@@ -8,6 +8,7 @@ import {
   articleTopics,
   articleTranslations,
 } from "@/lib/db/schema/article"
+import { medias } from "@/lib/db/schema/media"
 import { topics } from "@/lib/db/schema/topic"
 import { users } from "@/lib/db/schema/user"
 import { trimText } from "@/lib/utils/content"
@@ -19,7 +20,6 @@ import type {
   UpdateArticle,
 } from "@/lib/validation/article"
 import type { LanguageType } from "@/lib/validation/language"
-import { medias } from "../schema/media"
 
 export const getArticleTranslationById = async (id: string) => {
   const articleTranslationData = await db.query.articleTranslations.findFirst({
