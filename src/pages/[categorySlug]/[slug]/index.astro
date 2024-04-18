@@ -19,10 +19,11 @@ import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
 import { splitUriWP, wpPrimaryCategorySlug } from "@/lib/wp/helper"
 import MainLayout from "../../../layouts/MainLayout.astro"
 
-export function getStaticPaths() {
-  return [{ params: { categorySlug: undefined, slug: undefined } }]
-}
 export const prerender = false
+Astro.response.headers.set(
+  "Cache-Control",
+  "public, s-maxage=60, stale-while-revalidate=30",
+)
 
 const { categorySlug, slug } = Astro.params
 
@@ -30,6 +31,7 @@ const { posts } = await wpGetAllPostsAction("ID")
 const { post: main_post, other_lang_post } = await wpGetPostBySlugAction(
   slug as unknown as string,
 )
+const currentTime = new Date().toLocaleTimeString()
 
 // if (!main_post && !other_lang_post) {
 //   notFound()
@@ -93,12 +95,12 @@ let post = main_post
 //   per_page: 10,
 // })
 
-const regexId = new RegExp(import.meta.env.NEXT_PUBLIC_WP_DOMAIN, "g")
-const regexEn = new RegExp(import.meta.env.NEXT_PUBLIC_WP_EN_SUBDOMAIN, "g")
+const regexId = new RegExp(import.meta.env.PUBLIC_WP_DOMAIN, "g")
+const regexEn = new RegExp(import.meta.env.PUBLIC_WP_EN_SUBDOMAIN, "g")
 const postJsonLdString = post?.seo?.schema?.raw
 const postJsonLd = postJsonLdString
-  ?.replace(regexId, import.meta.env.NEXT_PUBLIC_DOMAIN)
-  ?.replace(regexEn, import.meta.env.NEXT_PUBLIC_EN_SUBDOMAIN)
+  ?.replace(regexId, import.meta.env.PUBLIC_DOMAIN)
+  ?.replace(regexEn, import.meta.env.PUBLIC_EN_SUBDOMAIN)
 
 let postData
 
@@ -204,6 +206,7 @@ const { posts: categoryPosts } = await wpGetPostsByCategorySlugAction(
     class="fade-up-element mx-auto flex w-full pt-5 md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]"
   >
     <section class="w-full lg:w-8/12">
+      <h1>The current time is: {currentTime}</h1>
       {
         postData && (
           <WpPostContent

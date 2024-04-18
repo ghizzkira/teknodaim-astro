@@ -95,11 +95,11 @@ let tag = main_tag
 // }
 
 const postJsonLdString = tag?.seo?.schema?.raw
-const regexId = new RegExp(import.meta.env.NEXT_PUBLIC_WP_DOMAIN, "g")
-const regexEn = new RegExp(import.meta.env.NEXT_PUBLIC_WP_EN_SUBDOMAIN, "g")
+const regexId = new RegExp(import.meta.env.PUBLIC_WP_DOMAIN, "g")
+const regexEn = new RegExp(import.meta.env.PUBLIC_WP_EN_SUBDOMAIN, "g")
 const postJsonLd = postJsonLdString
-  ?.replace(regexId, import.meta.env.NEXT_PUBLIC_DOMAIN)
-  ?.replace(regexEn, import.meta.env.NEXT_PUBLIC_EN_SUBDOMAIN)
+  ?.replace(regexId, import.meta.env.PUBLIC_DOMAIN)
+  ?.replace(regexEn, import.meta.env.PUBLIC_EN_SUBDOMAIN)
 
 const { posts, pageInfo } = await wpGetPostsByTagIdAction(tag.id)
 // const trendingPosts = await api.wpPopularPost.last7Days({

@@ -3,6 +3,7 @@ import * as React from "react"
 import { Icon } from "@/components/ui/icon"
 import { formatDateFromNow } from "@/lib/utils/date"
 import BadgeIcon from "../badge-icon"
+import Image from "../image"
 // import type { LanguageType } from "@/lib/validation/language"
 import WpPostView from "./wp-post-view"
 
@@ -34,6 +35,7 @@ interface WpPostCardProps {
   locale: string
   type?: "horizontal" | "vertical"
   categoryUri: string
+  srcSet?: string
 }
 
 const WpPostCard: React.FunctionComponent<WpPostCardProps> = React.memo(
@@ -53,6 +55,7 @@ const WpPostCard: React.FunctionComponent<WpPostCardProps> = React.memo(
       categoryName,
       categoryUri,
       type = "horizontal",
+      srcSet,
     } = props
 
     const stylesIcons = `md:right-unset absolute right-[5px] top-[5px] z-[5] h-[32px] w-[32px] rounded-full p-1.5 text-[13px] leading-[32px] md:left-[-10px] md:top-[-10px] md:h-[44px] md:w-[44px] md:p-3 md:text-[26px] md:leading-[44px]`
@@ -70,11 +73,12 @@ const WpPostCard: React.FunctionComponent<WpPostCardProps> = React.memo(
                   aria-label={`Go To ${title} Page`}
                   className="relative block h-full w-full"
                 >
-                  <img
+                  <Image
                     sizes="(max-width: 768px) 80vw, 60vw"
                     src={src}
                     alt={`Image ${alt}`}
                     className="!h-full !w-full overflow-hidden rounded-lg object-cover"
+                    srcSet={srcSet}
                   />
                 </a>
                 <BadgeIcon

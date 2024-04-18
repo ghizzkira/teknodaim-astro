@@ -1,0 +1,33 @@
+---
+import { Button } from "@/components/ui/button"
+
+import "@/styles/globals.css"
+---
+
+<html lang="en">
+  <body>
+    <section class="flex h-screen items-center justify-center bg-background">
+      <div class="mx-auto max-w-screen-xl px-4 py-8 lg:px-6 lg:py-16">
+        <div class="mx-auto max-w-screen-sm text-center">
+          <h1
+            class="mb-4 text-7xl font-extrabold tracking-tight text-primary lg:text-9xl"
+          >
+            404
+          </h1>
+          <p
+            class="mb-4 text-3xl font-bold tracking-tight text-foreground md:text-4xl"
+          >
+            Something&apos;s missing.
+          </p>
+          <p class="mb-4 text-lg font-light text-foreground">
+            Sorry, we can&apos;t find that page. You&apos;ll find lots to
+            explore on the home page.
+          </p>
+          <Button aria-label="Go To Homepage" asChild>
+            <a aria-label="Go To Homepage" href="/"> Back to Homepage </a>
+          </Button>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

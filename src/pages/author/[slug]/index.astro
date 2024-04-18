@@ -1,5 +1,6 @@
 ---
 import * as React from "react"
+import { getImage, Image, Picture } from "astro:assets"
 
 import ParseContent from "@/components/content/parse-content"
 import { Icon } from "@/components/ui/icon"
@@ -41,11 +42,11 @@ const { posts, pageInfo } = await wpGetPostsByAuthorSlugAction(
 const listPost = posts?.slice(0, posts?.length - 1)
 const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
 const postJsonLdString = user?.seo?.schema?.raw
-const regexId = new RegExp(import.meta.env.NEXT_PUBLIC_WP_DOMAIN, "g")
-const regexEn = new RegExp(import.meta.env.NEXT_PUBLIC_WP_EN_SUBDOMAIN, "g")
+const regexId = new RegExp(import.meta.env.PUBLIC_WP_DOMAIN, "g")
+const regexEn = new RegExp(import.meta.env.PUBLIC_WP_EN_SUBDOMAIN, "g")
 const postJsonLd = postJsonLdString
-  ?.replace(regexId, import.meta.env.NEXT_PUBLIC_DOMAIN)
-  ?.replace(regexEn, import.meta.env.NEXT_PUBLIC_EN_SUBDOMAIN)
+  ?.replace(regexId, import.meta.env.PUBLIC_DOMAIN)
+  ?.replace(regexEn, import.meta.env.PUBLIC_EN_SUBDOMAIN)
 
 // const adsBelowHeader = await api.ad.byPosition("topic_below_header")
 // const facebook = userData?.facebook ?? user.seo?.social?.facebook
@@ -71,6 +72,13 @@ const parsedDescription = ParseContent({
   htmlInput: user?.description!,
   title: user?.name!,
 })
+const optimizedBackground = await getImage({
+  src: user?.avatar.url,
+  format: "webp",
+  width: 400,
+  height: 100,
+})
+console.log(optimizedBackground)
 ---
 
 <MainLayout>
@@ -136,10 +144,15 @@ const parsedDescription = ParseContent({
               <div
                 class="relative mb-4 h-32 w-32 shrink-0 overflow-hidden rounded-full bg-gray-300"
               >
-                <img
+                <Picture
+                  inferSize
                   class="!h-32 !w-32"
                   alt={user.name}
                   src={user?.avatar.url}
+                  sizes=`(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 800px`
+                  densities={[1.5, 2]}
+                  loading="eager"
+                  fetchpriority="high"
                 />
               </div>
               <h1 class="text-xl font-bold">{user?.name}</h1>
