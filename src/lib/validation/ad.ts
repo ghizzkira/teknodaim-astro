@@ -64,5 +64,7 @@ export const updateAdSchema = z.object({
   ...updateAdInput,
 })
 
+export type CreateAd = z.infer<typeof createAdSchema>
+export type UpdateAd = z.infer<typeof updateAdSchema>
 export type AdType = z.infer<typeof adType>
 export type AdPosition = z.infer<typeof adPosition>
