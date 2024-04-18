@@ -119,7 +119,7 @@ const categoryJsonLd = categoryJsonLdString
   ?.replace(regexEn, import.meta.env.NEXT_PUBLIC_EN_SUBDOMAIN)
 
 const { posts, pageInfo } = await wpGetPostsByCategoryIdAction(
-  (category as WpCategoriesDataProps).id,
+  (category as WpCategoriesDataProps)?.id,
   "",
   "ID",
 )
