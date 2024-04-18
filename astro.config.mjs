@@ -1,12 +1,12 @@
 import { defineConfig } from "astro/config"
+import cloudflare from "@astrojs/cloudflare"
 import react from "@astrojs/react"
 import tailwind from "@astrojs/tailwind"
-import vercel from "@astrojs/vercel/serverless"
 
 // https://astro.build/config
 export default defineConfig({
   output: "hybrid",
-  adapter: vercel(),
+  adapter: cloudflare(),
   integrations: [
     tailwind({
       applyBaseStyles: false,
@@ -19,3 +19,4 @@ export default defineConfig({
     },
   },
 })
+
