@@ -21,6 +21,8 @@ export function getStaticPaths() {
   return [{ params: { slug: undefined } }]
 }
 const { slug } = Astro.params
+export const prerender = false
+
 const { user } = await wpGetUserBySlugAction(slug as unknown as string)
 
 // if (!user) {

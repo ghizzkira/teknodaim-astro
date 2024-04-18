@@ -3,6 +3,7 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
+  BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
 import { Icon } from "@/components/ui/icon"
 import InfiniteScrollWpPostsTag from "@/components/wp/infinite-scroll-wp-posts-tag"
@@ -20,6 +21,8 @@ import MainLayout from "../../../layouts/MainLayout.astro"
 export function getStaticPaths() {
   return [{ params: { tag_slug: undefined } }]
 }
+export const prerender = false
+
 const { tag_slug } = Astro.params
 
 const { tag: main_tag, other_lang_tag } = await wpGetTagBySlugAction(tag_slug)
@@ -127,14 +130,14 @@ const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
 ---
 
 <MainLayout>
-  <!-- {
+  {
     postJsonLd && (
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: postJsonLd }}
       />
     )
-  } -->
+  }
   <!-- {
     featuredCategories && Array.isArray(featuredCategories) && (
       <div class="block w-full sm:hidden">
@@ -154,26 +157,23 @@ const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
               return <Ad ad={ad} key={ad.id} />
             })
         } -->
-        <!-- <Breadcrumb
-          class="text-background"
-          separator={(
-            <Icon.ChevronRight
-              aria-label="Breadcrumb"
-              class="text-background"
-            />
-          )}
+        <Breadcrumb
+          className="text-background text-[12px] inline-flex items-center"
         >
           <BreadcrumbItem bold>
-            <BreadcrumbLink class="text-background" href="/">
+            <BreadcrumbLink className="text-background" href="/">
               Home
             </BreadcrumbLink>
           </BreadcrumbItem>
+          <BreadcrumbSeparator
+            className="inline-flex text-background list-none"
+          />
           <BreadcrumbItem currentPage>
-            <BreadcrumbLink class="text-background" href={`/${tag?.slug}`}>
+            <BreadcrumbLink className="text-background" href={`/${tag?.slug}`}>
               {tag?.name}
             </BreadcrumbLink>
           </BreadcrumbItem>
-        </Breadcrumb> -->
+        </Breadcrumb>
       </div>
       <div class="self-center">
         <h1 class="text-2xl text-background">{tag?.name}</h1>

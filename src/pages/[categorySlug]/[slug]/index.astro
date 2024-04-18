@@ -3,7 +3,7 @@ import React from "react"
 
 import ParseContent from "@/components/content/parse-content"
 // import InfiniteScrollWpSinglePost from "@/components/wp/infinite-scroll-wp-single-post"
-import WpFeaturedCategories from "@/components/wp/wp-featured-categories"
+// import WpFeaturedCategories from "@/components/wp/wp-featured-categories"
 import WpPostCardSide from "@/components/wp/wp-post-card-side"
 import WpPostContent from "@/components/wp/wp-post-content"
 // import { api } from "@/lib/trpc/server"
@@ -11,7 +11,7 @@ import { splitReactNodes } from "@/lib/utils/content"
 // import type { LanguageType } from "@/lib/validation/language"
 import {
   wpGetAllPostsAction,
-  wpGetAllPostsSlugAction,
+  // wpGetAllPostsSlugAction,
   wpGetPostBySlugAction,
   wpGetPostsByCategorySlugAction,
 } from "@/lib/wp/action/wp-post"
@@ -22,6 +22,7 @@ import MainLayout from "../../../layouts/MainLayout.astro"
 export function getStaticPaths() {
   return [{ params: { categorySlug: undefined, slug: undefined } }]
 }
+export const prerender = false
 
 const { categorySlug, slug } = Astro.params
 
@@ -168,18 +169,17 @@ const { posts: categoryPosts } = await wpGetPostsByCategorySlugAction(
 //     }
 //   }
 // }
-export const prerender = false
 ---
 
 <MainLayout>
-  <!-- {
+  {
     postJsonLd && (
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: postJsonLd }}
       />
     )
-  } -->
+  }
   <!-- {
     featuredCategories && Array.isArray(featuredCategories) && (
       <div class="block sm:hidden">
@@ -240,21 +240,25 @@ export const prerender = false
             <span class="block h-[36px] text-main">Trending</span>
           </div>
         </div>
-        <!-- <React.Suspense>
-          {
-            trendingPosts?.map((post) => {
-              return (
-                <WpPostCardSide
-                  key={post.id}
-                  src={post.thumbnail}
-                  alt={post.title}
-                  uri={`/${post.primary_category_slug}/${post.slug}`}
-                  title={post.title}
-                />
-              )
-            })
-          }
-        </React.Suspense> -->
+        {
+          posts?.map((post) => {
+            // const isWordIncluded = queriesFilter?.queries?.some((word) =>
+            //   post.title.toLowerCase().includes(word.toLowerCase()),
+            // )
+            // if (isWordIncluded === true) {
+            //   return null
+            // }
+            return (
+              <WpPostCardSide
+                key={post.id}
+                src={post.thumbnail}
+                alt={post.title}
+                uri={`/${post.primary_category_slug}/${post.slug}`}
+                title={post.title}
+              />
+            )
+          })
+        }
       </div>
     </aside>
   </div>
