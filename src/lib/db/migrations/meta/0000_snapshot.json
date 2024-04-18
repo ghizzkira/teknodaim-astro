@@ -1,11 +1,11 @@
 {
   "version": "5",
   "dialect": "sqlite",
-  "id": "8e4d1a8b-ede6-4078-9bfa-838bf46b2b7a",
+  "id": "890d7430-5e65-4b23-8197-2a93cc282799",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
-    "ad": {
-      "name": "ad",
+    "ads": {
+      "name": "ads",
       "columns": {
         "id": {
           "name": "id",
@@ -70,8 +70,8 @@
         }
       },
       "indexes": {
-        "ad_title_unique": {
-          "name": "ad_title_unique",
+        "ads_title_unique": {
+          "name": "ads_title_unique",
           "columns": [
             "title"
           ],
@@ -82,8 +82,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "article_comment": {
-      "name": "article_comment",
+    "article_comments": {
+      "name": "article_comments",
       "columns": {
         "id": {
           "name": "id",
@@ -139,10 +139,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "article_comment_article_id_article_id_fk": {
-          "name": "article_comment_article_id_article_id_fk",
-          "tableFrom": "article_comment",
-          "tableTo": "article",
+        "article_comments_article_id_articles_id_fk": {
+          "name": "article_comments_article_id_articles_id_fk",
+          "tableFrom": "article_comments",
+          "tableTo": "articles",
           "columnsFrom": [
             "article_id"
           ],
@@ -152,10 +152,10 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "article_comment_author_id_user_id_fk": {
-          "name": "article_comment_author_id_user_id_fk",
-          "tableFrom": "article_comment",
-          "tableTo": "user",
+        "article_comments_author_id_users_id_fk": {
+          "name": "article_comments_author_id_users_id_fk",
+          "tableFrom": "article_comments",
+          "tableTo": "users",
           "columnsFrom": [
             "author_id"
           ],
@@ -169,8 +169,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "_article_author": {
-      "name": "_article_author",
+    "_article_authors": {
+      "name": "_article_authors",
       "columns": {
         "article_id": {
           "name": "article_id",
@@ -189,10 +189,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "_article_author_article_id_article_id_fk": {
-          "name": "_article_author_article_id_article_id_fk",
-          "tableFrom": "_article_author",
-          "tableTo": "article",
+        "_article_authors_article_id_articles_id_fk": {
+          "name": "_article_authors_article_id_articles_id_fk",
+          "tableFrom": "_article_authors",
+          "tableTo": "articles",
           "columnsFrom": [
             "article_id"
           ],
@@ -202,10 +202,10 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "_article_author_user_id_user_id_fk": {
-          "name": "_article_author_user_id_user_id_fk",
-          "tableFrom": "_article_author",
-          "tableTo": "user",
+        "_article_authors_user_id_users_id_fk": {
+          "name": "_article_authors_user_id_users_id_fk",
+          "tableFrom": "_article_authors",
+          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],
@@ -217,18 +217,18 @@
         }
       },
       "compositePrimaryKeys": {
-        "_article_author_article_id_user_id_pk": {
+        "_article_authors_article_id_user_id_pk": {
           "columns": [
             "article_id",
             "user_id"
           ],
-          "name": "_article_author_article_id_user_id_pk"
+          "name": "_article_authors_article_id_user_id_pk"
         }
       },
       "uniqueConstraints": {}
     },
-    "_article_editor": {
-      "name": "_article_editor",
+    "_article_editors": {
+      "name": "_article_editors",
       "columns": {
         "article_id": {
           "name": "article_id",
@@ -247,10 +247,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "_article_editor_article_id_article_id_fk": {
-          "name": "_article_editor_article_id_article_id_fk",
-          "tableFrom": "_article_editor",
-          "tableTo": "article",
+        "_article_editors_article_id_articles_id_fk": {
+          "name": "_article_editors_article_id_articles_id_fk",
+          "tableFrom": "_article_editors",
+          "tableTo": "articles",
           "columnsFrom": [
             "article_id"
           ],
@@ -260,10 +260,10 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "_article_editor_userId_user_id_fk": {
-          "name": "_article_editor_userId_user_id_fk",
-          "tableFrom": "_article_editor",
-          "tableTo": "user",
+        "_article_editors_userId_users_id_fk": {
+          "name": "_article_editors_userId_users_id_fk",
+          "tableFrom": "_article_editors",
+          "tableTo": "users",
           "columnsFrom": [
             "userId"
           ],
@@ -275,18 +275,18 @@
         }
       },
       "compositePrimaryKeys": {
-        "_article_editor_article_id_userId_pk": {
+        "_article_editors_article_id_userId_pk": {
           "columns": [
             "article_id",
             "userId"
           ],
-          "name": "_article_editor_article_id_userId_pk"
+          "name": "_article_editors_article_id_userId_pk"
         }
       },
       "uniqueConstraints": {}
     },
-    "_article_topic": {
-      "name": "_article_topic",
+    "_article_topics": {
+      "name": "_article_topics",
       "columns": {
         "article_id": {
           "name": "article_id",
@@ -305,10 +305,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "_article_topic_article_id_article_id_fk": {
-          "name": "_article_topic_article_id_article_id_fk",
-          "tableFrom": "_article_topic",
-          "tableTo": "article",
+        "_article_topics_article_id_articles_id_fk": {
+          "name": "_article_topics_article_id_articles_id_fk",
+          "tableFrom": "_article_topics",
+          "tableTo": "articles",
           "columnsFrom": [
             "article_id"
           ],
@@ -318,10 +318,10 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "_article_topic_topic_id_topic_id_fk": {
-          "name": "_article_topic_topic_id_topic_id_fk",
-          "tableFrom": "_article_topic",
-          "tableTo": "topic",
+        "_article_topics_topic_id_topics_id_fk": {
+          "name": "_article_topics_topic_id_topics_id_fk",
+          "tableFrom": "_article_topics",
+          "tableTo": "topics",
           "columnsFrom": [
             "topic_id"
           ],
@@ -333,18 +333,18 @@
         }
       },
       "compositePrimaryKeys": {
-        "_article_topic_article_id_topic_id_pk": {
+        "_article_topics_article_id_topic_id_pk": {
           "columns": [
             "article_id",
             "topic_id"
           ],
-          "name": "_article_topic_article_id_topic_id_pk"
+          "name": "_article_topics_article_id_topic_id_pk"
         }
       },
       "uniqueConstraints": {}
     },
-    "article_translation": {
-      "name": "article_translation",
+    "article_translations": {
+      "name": "article_translations",
       "columns": {
         "id": {
           "name": "id",
@@ -375,8 +375,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "article": {
-      "name": "article",
+    "articles": {
+      "name": "articles",
       "columns": {
         "id": {
           "name": "id",
@@ -483,8 +483,8 @@
         }
       },
       "indexes": {
-        "article_slug_unique": {
-          "name": "article_slug_unique",
+        "articles_slug_unique": {
+          "name": "articles_slug_unique",
           "columns": [
             "slug"
           ],
@@ -492,10 +492,10 @@
         }
       },
       "foreignKeys": {
-        "article_article_translation_id_article_translation_id_fk": {
-          "name": "article_article_translation_id_article_translation_id_fk",
-          "tableFrom": "article",
-          "tableTo": "article_translation",
+        "articles_article_translation_id_article_translations_id_fk": {
+          "name": "articles_article_translation_id_article_translations_id_fk",
+          "tableFrom": "articles",
+          "tableTo": "article_translations",
           "columnsFrom": [
             "article_translation_id"
           ],
@@ -505,10 +505,10 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "article_featured_image_id_media_id_fk": {
-          "name": "article_featured_image_id_media_id_fk",
-          "tableFrom": "article",
-          "tableTo": "media",
+        "articles_featured_image_id_medias_id_fk": {
+          "name": "articles_featured_image_id_medias_id_fk",
+          "tableFrom": "articles",
+          "tableTo": "medias",
           "columnsFrom": [
             "featured_image_id"
           ],
@@ -522,8 +522,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "media": {
-      "name": "media",
+    "medias": {
+      "name": "medias",
       "columns": {
         "id": {
           "name": "id",
@@ -586,10 +586,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "media_author_id_user_id_fk": {
-          "name": "media_author_id_user_id_fk",
-          "tableFrom": "media",
-          "tableTo": "user",
+        "medias_author_id_users_id_fk": {
+          "name": "medias_author_id_users_id_fk",
+          "tableFrom": "medias",
+          "tableTo": "users",
           "columnsFrom": [
             "author_id"
           ],
@@ -603,8 +603,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "topic_translation": {
-      "name": "topic_translation",
+    "topic_translations": {
+      "name": "topic_translations",
       "columns": {
         "id": {
           "name": "id",
@@ -635,8 +635,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "topic": {
-      "name": "topic",
+    "topics": {
+      "name": "topics",
       "columns": {
         "id": {
           "name": "id",
@@ -744,8 +744,8 @@
         }
       },
       "indexes": {
-        "topic_slug_unique": {
-          "name": "topic_slug_unique",
+        "topics_slug_unique": {
+          "name": "topics_slug_unique",
           "columns": [
             "slug"
           ],
@@ -753,10 +753,10 @@
         }
       },
       "foreignKeys": {
-        "topic_topic_translation_id_topic_translation_id_fk": {
-          "name": "topic_topic_translation_id_topic_translation_id_fk",
-          "tableFrom": "topic",
-          "tableTo": "topic_translation",
+        "topics_topic_translation_id_topic_translations_id_fk": {
+          "name": "topics_topic_translation_id_topic_translations_id_fk",
+          "tableFrom": "topics",
+          "tableTo": "topic_translations",
           "columnsFrom": [
             "topic_translation_id"
           ],
@@ -766,10 +766,10 @@
           "onDelete": "no action",
           "onUpdate": "no action"
         },
-        "topic_featured_image_id_media_id_fk": {
-          "name": "topic_featured_image_id_media_id_fk",
-          "tableFrom": "topic",
-          "tableTo": "media",
+        "topics_featured_image_id_medias_id_fk": {
+          "name": "topics_featured_image_id_medias_id_fk",
+          "tableFrom": "topics",
+          "tableTo": "medias",
           "columnsFrom": [
             "featured_image_id"
           ],
@@ -783,23 +783,9 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "account": {
-      "name": "account",
+    "accounts": {
+      "name": "accounts",
       "columns": {
-        "userId": {
-          "name": "userId",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "type": {
-          "name": "type",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
         "provider": {
           "name": "provider",
           "type": "text",
@@ -807,123 +793,37 @@
           "notNull": true,
           "autoincrement": false
         },
-        "providerAccountId": {
-          "name": "providerAccountId",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "refresh_token": {
-          "name": "refresh_token",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "access_token": {
-          "name": "access_token",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "expires_at": {
-          "name": "expires_at",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "token_type": {
-          "name": "token_type",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "scope": {
-          "name": "scope",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "id_token": {
-          "name": "id_token",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "session_state": {
-          "name": "session_state",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "account_userId_user_id_fk": {
-          "name": "account_userId_user_id_fk",
-          "tableFrom": "account",
-          "tableTo": "user",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {
-        "account_provider_providerAccountId_pk": {
-          "columns": [
-            "provider",
-            "providerAccountId"
-          ],
-          "name": "account_provider_providerAccountId_pk"
-        }
-      },
-      "uniqueConstraints": {}
-    },
-    "session": {
-      "name": "session",
-      "columns": {
-        "sessionToken": {
-          "name": "sessionToken",
+        "provider_account_id": {
+          "name": "provider_account_id",
           "type": "text",
           "primaryKey": true,
           "notNull": true,
           "autoincrement": false
         },
-        "userId": {
-          "name": "userId",
+        "user_id": {
+          "name": "user_id",
           "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "expires": {
-          "name": "expires",
-          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         }
       },
-      "indexes": {},
+      "indexes": {
+        "accounts_provider_account_id_unique": {
+          "name": "accounts_provider_account_id_unique",
+          "columns": [
+            "provider_account_id"
+          ],
+          "isUnique": true
+        }
+      },
       "foreignKeys": {
-        "session_userId_user_id_fk": {
-          "name": "session_userId_user_id_fk",
-          "tableFrom": "session",
-          "tableTo": "user",
+        "accounts_user_id_users_id_fk": {
+          "name": "accounts_user_id_users_id_fk",
+          "tableFrom": "accounts",
+          "tableTo": "users",
           "columnsFrom": [
-            "userId"
+            "user_id"
           ],
           "columnsTo": [
             "id"
@@ -935,8 +835,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "user": {
-      "name": "user",
+    "sessions": {
+      "name": "sessions",
       "columns": {
         "id": {
           "name": "id",
@@ -945,23 +845,60 @@
           "notNull": true,
           "autoincrement": false
         },
-        "name": {
-          "name": "name",
+        "user_id": {
+          "name": "user_id",
           "type": "text",
           "primaryKey": false,
-          "notNull": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "expires_at": {
+          "name": "expires_at",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "sessions_user_id_users_id_fk": {
+          "name": "sessions_user_id_users_id_fk",
+          "tableFrom": "sessions",
+          "tableTo": "users",
+          "columnsFrom": [
+            "user_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "users": {
+      "name": "users",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
           "autoincrement": false
         },
         "email": {
           "name": "email",
           "type": "text",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
         },
-        "emailVerified": {
-          "name": "emailVerified",
-          "type": "integer",
+        "name": {
+          "name": "name",
+          "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -1020,8 +957,8 @@
         }
       },
       "indexes": {
-        "user_username_unique": {
-          "name": "user_username_unique",
+        "users_username_unique": {
+          "name": "users_username_unique",
           "columns": [
             "username"
           ],
@@ -1032,46 +969,8 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {}
     },
-    "verificationToken": {
-      "name": "verificationToken",
-      "columns": {
-        "identifier": {
-          "name": "identifier",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "token": {
-          "name": "token",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "expires": {
-          "name": "expires",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {
-        "verificationToken_identifier_token_pk": {
-          "columns": [
-            "identifier",
-            "token"
-          ],
-          "name": "verificationToken_identifier_token_pk"
-        }
-      },
-      "uniqueConstraints": {}
-    },
-    "user_link": {
-      "name": "user_link",
+    "user_links": {
+      "name": "user_links",
       "columns": {
         "id": {
           "name": "id",
@@ -1120,10 +1019,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "user_link_user_id_user_id_fk": {
-          "name": "user_link_user_id_user_id_fk",
-          "tableFrom": "user_link",
-          "tableTo": "user",
+        "user_links_user_id_users_id_fk": {
+          "name": "user_links_user_id_users_id_fk",
+          "tableFrom": "user_links",
+          "tableTo": "users",
           "columnsFrom": [
             "user_id"
           ],

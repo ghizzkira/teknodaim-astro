@@ -5,9 +5,9 @@ export default {
   out: "./src/lib/db/migrations",
   driver: "turso",
   dbCredentials: {
-    url: "libsql://teknodaim-astro-dafundateam.turso.io",
+    url: "libsql://teknodaim-new-dafundateam.turso.io",
     authToken:
-      "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3MTMyNjM3ODksImlkIjoiNDQ0ZGJlZDktZmYyOS00NTFhLWJjNjctNDg5ZjYyZDkxZTFjIn0.8G5gtsYpsKT-lp6uyegBMo8EXfVz-AcY3sNkRj4Em5YOsqam5MEYlty7WC9eJBBMrzWFq25aXAVpFoiWfQCHAQ",
+      "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3MTM0MTg3MDQsImlkIjoiMzExMDYwN2ItMDI0MS00YTNmLTk0ZDktODBlNzhmMmMxMTVhIn0.6dX_OQG3iZ71sRvE79oIXkIY0rUQrGnHoRn2fnqF8ALQZHUyo-yHmD3hBgTZZ2d_wBkZru-AWcvqgJySx8xMCw",
   },
   // dbCredentials: {
   //   url: import.meta.env.DATABASE_URL,

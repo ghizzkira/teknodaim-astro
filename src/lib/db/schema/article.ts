@@ -9,13 +9,13 @@ import { medias } from "./media"
 import { topics } from "./topic"
 import { users } from "./user"
 
-export const articleTranslations = sqliteTable("article_translation", {
+export const articleTranslations = sqliteTable("article_translations", {
   id: text("id").primaryKey(),
   createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
   updatedAt: text("updated_at").default(sql`CURRENT_TIMESTAMP`),
 })
 
-export const articles = sqliteTable("article", {
+export const articles = sqliteTable("articles", {
   id: text("id").primaryKey(),
   language: text("language", { enum: LANGUAGE_TYPE }).notNull().default("id"),
   title: text("title").notNull(),
@@ -61,7 +61,7 @@ export const articleTranslationsRelations = relations(
 )
 
 export const articleAuthors = sqliteTable(
-  "_article_author",
+  "_article_authors",
   {
     articleId: text("article_id")
       .notNull()
@@ -89,7 +89,7 @@ export const articleAuthorsRelations = relations(articleAuthors, ({ one }) => ({
 }))
 
 export const articleEditors = sqliteTable(
-  "_article_editor",
+  "_article_editors",
   {
     articleId: text("article_id")
       .notNull()
@@ -117,7 +117,7 @@ export const articleEditorsRelations = relations(articleEditors, ({ one }) => ({
 }))
 
 export const articleTopics = sqliteTable(
-  "_article_topic",
+  "_article_topics",
   {
     articleId: text("article_id")
       .notNull()
