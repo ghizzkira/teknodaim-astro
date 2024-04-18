@@ -112,3 +112,6 @@ export const updateArticleSchema = z.object({
 })
 
 export type ArticleVisibility = z.infer<typeof articleVisibility>
+export type CreateArticle = z.infer<typeof createArticleSchema>
+export type UpdateArticle = z.infer<typeof updateArticleSchema>
+export type TranslateArticle = z.infer<typeof translateArticleSchema>

@@ -1,6 +1,6 @@
 ---
 import * as React from "react"
-import { getImage, Image, Picture } from "astro:assets"
+import { Picture } from "astro:assets"
 
 import ParseContent from "@/components/content/parse-content"
 import { Icon } from "@/components/ui/icon"
@@ -72,13 +72,6 @@ const parsedDescription = ParseContent({
   htmlInput: user?.description!,
   title: user?.name!,
 })
-const optimizedBackground = await getImage({
-  src: user?.avatar.url,
-  format: "webp",
-  width: 400,
-  height: 100,
-})
-console.log(optimizedBackground)
 ---
 
 <MainLayout>

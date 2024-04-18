@@ -102,7 +102,8 @@ export const updateTopicSchema = z.object({
   ...updateTopicInput,
 })
 
-export type CreateTopicSchema = z.infer<typeof createTopicSchema>
-export type UpdateTopicSchema = z.infer<typeof updateTopicSchema>
+export type CreateTopic = z.infer<typeof createTopicSchema>
+export type UpdateTopic = z.infer<typeof updateTopicSchema>
+export type TranslateTopic = z.infer<typeof translateTopicSchema>
 export type TopicType = z.infer<typeof topicType>
 export type TopicVisibility = z.infer<typeof topicVisibility>

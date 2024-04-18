@@ -62,5 +62,5 @@ export const updateMediaSchema = z.object({
     .optional(),
 })
 
-export type UploadMediaSchema = z.infer<typeof uploadMediaSchema>
-export type UpdateMediaSchema = z.infer<typeof updateMediaSchema>
+export type UploadMedia = z.infer<typeof uploadMediaSchema>
+export type UpdateMedia = z.infer<typeof updateMediaSchema>

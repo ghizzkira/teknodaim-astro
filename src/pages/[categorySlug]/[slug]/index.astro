@@ -31,7 +31,6 @@ const { posts } = await wpGetAllPostsAction("ID")
 const { post: main_post, other_lang_post } = await wpGetPostBySlugAction(
   slug as unknown as string,
 )
-const currentTime = new Date().toLocaleTimeString()
 
 // if (!main_post && !other_lang_post) {
 //   notFound()
@@ -206,7 +205,6 @@ const { posts: categoryPosts } = await wpGetPostsByCategorySlugAction(
     class="fade-up-element mx-auto flex w-full pt-5 md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]"
   >
     <section class="w-full lg:w-8/12">
-      <h1>The current time is: {currentTime}</h1>
       {
         postData && (
           <WpPostContent

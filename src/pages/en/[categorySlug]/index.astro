@@ -1,0 +1,280 @@
+---
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import { Icon } from "@/components/ui/icon"
+import InfiniteScrollWpPost from "@/components/wp/infinite-scroll-wp-posts"
+import InfiniteScrollWpPostsCategory from "@/components/wp/infinite-scroll-wp-posts-category"
+import WpFeaturedCategories from "@/components/wp/wp-featured-categories"
+import WpListPost from "@/components/wp/wp-list-post"
+import WpListPostFeatured from "@/components/wp/wp-list-post-featured"
+import WpPostCardSide from "@/components/wp/wp-post-card-side"
+import MainLayout from "@/layouts/MainLayout.astro"
+import { cn } from "@/lib/utils/style"
+import {
+  wpGetAllCategoriesAction,
+  wpGetCategoryBySlugAction,
+} from "@/lib/wp/action/wp-category"
+import {
+  wpGetAllPostsAction,
+  wpGetPostsByCategoryIdAction,
+} from "@/lib/wp/action/wp-post"
+import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
+
+export function getStaticPaths() {
+  return [
+    { params: { categorySlug: undefined } },
+    { params: { categorySlug: "tips" } },
+  ]
+}
+const { categorySlug } = Astro.params
+export const prerender = false
+const { category: main_category, other_lang_category } =
+  await wpGetCategoryBySlugAction(categorySlug as unknown as string)
+
+// if (!main_category && !other_lang_category) {
+//   notFound()
+// }
+if (!main_category && !other_lang_category) {
+  return Astro.redirect('/404');
+}
+let category = main_category
+
+// if (locale === "id") {
+//   if (
+//     main_category &&
+//     categorySlug === main_category.slug &&
+//     main_category.language.slug.toLocaleLowerCase() === locale
+//   ) {
+//     category = main_category
+//   } else if (
+//     other_lang_category &&
+//     categorySlug === other_lang_category.slug &&
+//     other_lang_category.language.slug.toLocaleLowerCase() === locale
+//   ) {
+//     category = other_lang_category
+//   } else if (
+//     main_category &&
+//     categorySlug === main_category.slug &&
+//     main_category.language.slug.toLocaleLowerCase() !== locale
+//   ) {
+//     if (other_lang_category)
+//       redirect(`/${other_lang_category?.slug}`, RedirectType.replace)
+//   } else if (
+//     other_lang_category &&
+//     categorySlug === other_lang_category.slug &&
+//     other_lang_category.language.slug.toLocaleLowerCase() !== locale
+//   ) {
+//     if (main_category) {
+//       redirect(`/${main_category.slug}`, RedirectType.replace)
+//     }
+//   }
+// } else if (locale === "en") {
+//   if (
+//     main_category &&
+//     categorySlug === main_category.slug &&
+//     main_category.language.slug.toLocaleLowerCase() === locale
+//   ) {
+//     category = main_category
+//   } else if (
+//     other_lang_category &&
+//     categorySlug === other_lang_category.slug &&
+//     other_lang_category.language.slug.toLocaleLowerCase() === locale
+//   ) {
+//     category = other_lang_category
+//   } else if (
+//     main_category &&
+//     categorySlug === main_category.slug &&
+//     main_category.language.slug.toLocaleLowerCase() !== locale
+//   ) {
+//     if (other_lang_category) {
+//       redirect(`/${other_lang_category.slug}`, RedirectType.replace)
+//     }
+//   } else if (
+//     other_lang_category &&
+//     categorySlug === other_lang_category.slug &&
+//     other_lang_category.language.slug.toLocaleLowerCase() !== locale
+//   ) {
+//     if (main_category) {
+//       redirect(`/${main_category.slug}`, RedirectType.replace)
+//     }
+//   }
+// }
+
+// if (!category) {
+//   redirect("/", RedirectType.replace)
+// }
+
+// const trendingPosts = await api.wpPopularPost.last7Days({
+//   language: locale,
+//   page: 1,
+//   per_page: 10,
+// })
+const categoryJsonLdString = category?.seo?.schema?.raw
+const regexId = new RegExp(import.meta.env.PUBLIC_WP_DOMAIN, "g")
+const regexEn = new RegExp(import.meta.env.PUBLIC_WP_EN_SUBDOMAIN, "g")
+const categoryJsonLd = categoryJsonLdString
+  ?.replace(regexId, import.meta.env.PUBLIC_DOMAIN)
+  ?.replace(regexEn, import.meta.env.PUBLIC_EN_SUBDOMAIN)
+
+const { posts, pageInfo } = await wpGetPostsByCategoryIdAction(
+  (category as WpCategoriesDataProps)?.id,
+  "",
+  "ID",
+)
+const listPost = posts?.slice(0, posts?.length - 1)
+const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
+// const adsBelowHeader = await api.ad.byPosition("topic_below_header")
+// const hidePostsData = await api.setting.byKey("filter_post")
+
+// let queriesFilter: { queries: string[] } | undefined
+
+// if (hidePostsData) {
+//   const parsedData = JSON.parse(hidePostsData.value)
+//   queriesFilter = { ...parsedData }
+// }
+// const featuredPosts = await api.wpPopularPost.byPrimaryCategorySlug({
+//   page: 1,
+//   slug: categorySlug,
+//   per_page: 10,
+// })
+
+// const data = await api.setting.byKey("featured_categories")
+
+// let featuredCategories: WpCategoriesDataProps[] | undefined
+// if (data) {
+//   const parsedData = JSON.parse(data.value)
+//   featuredCategories =
+//     locale === "id" ? parsedData?.categories?.id : parsedData?.categories?.en
+// }
+
+// const filtered_featured_posts =
+//   queriesFilter?.queries &&
+//   featuredPosts?.filter((post) => {
+//     if (queriesFilter) {
+//       for (const word of queriesFilter?.queries) {
+//         if (post.title.toLowerCase().includes(word.toLocaleLowerCase())) {
+//           return false
+//         }
+//       }
+//     }
+//     return true
+//   })
+---
+
+<MainLayout>
+  <!-- {
+    categoryJsonLd && (
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: categoryJsonLd }}
+      />
+    )
+  } -->
+  <!-- {
+    featuredCategories && (
+      <div class="block sm:hidden">
+        <WpFeaturedCategories categories={featuredCategories} />
+      </div>
+    )
+  } -->
+  <section class="fade-up-element mt-5 flex w-full flex-col">
+    <div
+      class={cn(
+        "relative flex flex-col bg-gradient-to-r from-main/90 to-main py-10",
+      )}
+    >
+      <div class="absolute top-1 ml-4">
+        <Breadcrumb className="inline-flex items-center">
+          <BreadcrumbItem>
+            <BreadcrumbLink className="text-[12px] text-background" href="/">
+              Home
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator
+            className="inline-flex text-background list-none"
+          /><BreadcrumbItem currentPage>
+            <BreadcrumbLink className="text-[12px] text-background">
+              {category?.name}
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+        </Breadcrumb>
+      </div>
+      <div class="self-center">
+        <h1 class="text-[36px] font-bold text-background">
+          {category?.name}
+        </h1>
+      </div>
+    </div>
+    <!-- {
+      adsBelowHeader &&
+        adsBelowHeader.length > 0 &&
+        adsBelowHeader.map((ad) => {
+          return <Ad ad={ad} key={ad.id} />
+        })
+    } -->
+    <!-- {
+      filtered_featured_posts && filtered_featured_posts.length > 3 && (
+        <div class="fade-up-element mx-auto flex w-full flex-col px-4 py-5 md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]">
+          <div class="mb-[30px]">
+            <WpListPostFeatured
+              locale={locale}
+              posts={filtered_featured_posts}
+            />
+          </div>
+        </div>
+      )
+    } -->
+    <div
+      class="mx-auto mt-5 flex w-full flex-row md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] lg:mx-auto lg:px-4 min-[1200px]:max-w-[1170px]"
+    >
+      <div class="flex w-full flex-col px-4 lg:w-8/12">
+        {listPost && <WpListPost locale={"ID"} posts={listPost} />}
+        {
+          infinitePosts && category && pageInfo && (
+            <InfiniteScrollWpPostsCategory
+              posts={infinitePosts}
+              id={category.slug}
+              pageInfo={pageInfo}
+              language={"ID"}
+              client:load
+            />
+          )
+        }
+      </div>
+      <aside class="hidden w-4/12 px-4 lg:block">
+        <div class="sticky top-4 rounded-xl border border-border p-4">
+          <div class="relative mb-4">
+            <h4
+              class="block text-center after:absolute after:bottom-[-3px] after:left-1/2 after:right-[auto] after:top-[auto] after:ml-[-25px] after:h-[3px] after:w-[50px] after:border after:border-main after:bg-main"
+            >
+              <span class="block h-[36px] text-main">Trending</span>
+            </h4>
+          </div>
+          {
+            posts?.map((post) => {
+              // const isWordIncluded = queriesFilter?.queries?.some((word) =>
+              //   post.title.toLowerCase().includes(word.toLowerCase()),
+              // )
+              // if (isWordIncluded === true) {
+              //   return null
+              // }
+              return (
+                <WpPostCardSide
+                  key={post.id}
+                  src={post.thumbnail}
+                  alt={post.title}
+                  uri={`/${post.primary_category_slug}/${post.slug}`}
+                  title={post.title}
+                />
+              )
+            })
+          }
+        </div>
+      </aside>
+    </div>
+  </section>
+</MainLayout>

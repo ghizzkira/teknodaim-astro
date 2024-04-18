@@ -165,10 +165,11 @@ const WpPostCard: React.FunctionComponent<WpPostCardProps> = React.memo(
                 aria-label={`Go To ${title} Page`}
                 className="relative block h-full w-full"
               >
-                <img
+                <Image
                   src={src}
                   alt={`Image ${alt}`}
                   className="!h-full !w-full overflow-hidden rounded-lg object-cover"
+                  srcSet={srcSet}
                 />
               </a>
               <BadgeIcon
