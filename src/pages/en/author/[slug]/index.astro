@@ -7,6 +7,7 @@ import { Icon } from "@/components/ui/icon"
 import InfiniteScrollWpPostsAuthor from "@/components/wp/infinite-scroll-wp-posts-author"
 import WpFeaturedCategories from "@/components/wp/wp-featured-categories"
 import WpListPost from "@/components/wp/wp-list-post"
+import MainLayout from "@/layouts/MainLayout.astro"
 // import env from "@/env"
 // import { api } from "@/lib/trpc/server"
 // import type { LanguageType } from "@/lib/validation/language"
@@ -16,7 +17,6 @@ import {
   wpGetAllUsersAction,
   wpGetUserBySlugAction,
 } from "@/lib/wp/action/wp-user"
-import MainLayout from "../../../layouts/MainLayout.astro"
 
 export function getStaticPaths() {
   return [{ params: { slug: undefined } }]

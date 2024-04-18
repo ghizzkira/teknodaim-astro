@@ -89,6 +89,7 @@ const InfiniteScrollWpPostsAuthor: React.FunctionComponent<
               authorAvatarUrl={post.author.avatar.url}
               authorUri={`/author/${post.author.slug}`}
               date={post.date}
+              srcSet={post.featuredImage?.srcSet}
               categoryName={primaryCategory?.name as never as string}
               categoryUri={`/${primaryCategory?.slug as never as string}`}
             />
@@ -109,6 +110,7 @@ const InfiniteScrollWpPostsAuthor: React.FunctionComponent<
               authorAvatarUrl={post.author.avatar.url}
               authorUri={`/author/${post.author.slug}`}
               date={post.date}
+              srcSet={post.featuredImage?.srcSet}
               categoryName={primaryCategory?.name as never as string}
               categoryUri={`/${primaryCategory?.slug as never as string}`}
             />

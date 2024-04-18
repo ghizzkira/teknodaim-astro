@@ -48,18 +48,18 @@ const ParseContent: React.FunctionComponent<ParseContentProps> = (props) => {
         children: React.ReactNode[],
         index: number,
       ) {
-        const regexId = new RegExp(import.meta.env?.NEXT_PUBLIC_WP_DOMAIN ?? "")
+        const regexId = new RegExp(import.meta.env?.PUBLIC_WP_DOMAIN ?? "")
         const regexEn = new RegExp(
-          import.meta.env?.NEXT_PUBLIC_WP_EN_SUBDOMAIN ?? "",
+          import.meta.env?.PUBLIC_WP_EN_SUBDOMAIN ?? "",
         )
         return (
           <a
             href={
               node.attribs?.href
-                ?.replace(regexId, import.meta.env?.NEXT_PUBLIC_DOMAIN ?? "")
+                ?.replace(regexId, import.meta.env?.PUBLIC_DOMAIN ?? "")
                 ?.replace(
                   regexEn,
-                  import.meta.env?.NEXT_PUBLIC_EN_SUBDOMAIN ?? "",
+                  import.meta.env?.PUBLIC_EN_SUBDOMAIN ?? "",
                 ) ?? "#"
             }
             key={index + title + "a"}
