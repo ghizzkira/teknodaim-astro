@@ -5,7 +5,7 @@ import tailwind from "@astrojs/tailwind"
 
 // https://astro.build/config
 export default defineConfig({
-  site: process.env.PUBLIC_DOMAIN ?? "http://localhost:4321",
+  site: import.meta.env.PUBLIC_DOMAIN ?? "http://localhost:4321",
   output: "server",
   i18n: {
     defaultLocale: "id",
