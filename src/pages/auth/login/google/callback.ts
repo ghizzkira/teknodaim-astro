@@ -20,7 +20,7 @@ export async function GET(context: APIContext): Promise<Response> {
     !storedCodeVerifier ||
     state !== storedState
   ) {
-    return new Response("Invalid Requst", {
+    return new Response("Invalid Request", {
       status: 400,
     })
   }
@@ -98,7 +98,7 @@ export async function GET(context: APIContext): Promise<Response> {
         status: 400,
       })
     }
-    return new Response(null, {
+    return new Response(e, {
       status: 500,
     })
   }
