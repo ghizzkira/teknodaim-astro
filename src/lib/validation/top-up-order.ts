@@ -8,7 +8,7 @@ export const TOP_UP_STATUS_TYPE = [
   "failed",
   "error",
 ] as const
-export const TOPUP_PAYMENT_STATUS_TYPE = [
+export const TOP_UP_PAYMENT_STATUS_TYPE = [
   "unpaid",
   "paid",
   "failed",
@@ -20,7 +20,7 @@ export const TOPUP_PAYMENT_STATUS_TYPE = [
 export const paymentProviderType = z.enum(PAYMENT_PROVIDER_TYPE)
 export const topUpProviderType = z.enum(TOP_UP_PROVIDER_TYPE)
 export const topUpStatusType = z.enum(TOP_UP_STATUS_TYPE)
-export const topUpPaymentStatusType = z.enum(TOPUP_PAYMENT_STATUS_TYPE)
+export const topUpPaymentStatusType = z.enum(TOP_UP_PAYMENT_STATUS_TYPE)
 
 const topUpOrderInput = {
   invoiceId: z.string({
@@ -100,7 +100,7 @@ const topUpOrderStatusInput = {
     invalid_type_error:
       "your top up payment status type doesnt exist on available option.",
   }),
-  paymentStatus: z.enum(TOPUP_PAYMENT_STATUS_TYPE, {
+  paymentStatus: z.enum(TOP_UP_PAYMENT_STATUS_TYPE, {
     required_error: "Top Up Payment Status is required",
     invalid_type_error:
       "your top up payment status type doesnt exist on available option.",
