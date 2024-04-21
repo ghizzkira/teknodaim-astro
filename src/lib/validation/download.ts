@@ -168,3 +168,4 @@ export const updateDownloadSchema = z.object({
 export type DownloadType = z.infer<typeof downloadType>
 export type CreateDownload = z.infer<typeof createDownloadSchema>
 export type UpdateDownload = z.infer<typeof updateDownloadSchema>
+export type TranslateDownload = z.infer<typeof translateDownloadSchema>
