@@ -31,10 +31,10 @@ CREATE TABLE `_article_authors` (
 --> statement-breakpoint
 CREATE TABLE `_article_editors` (
 	`article_id` text NOT NULL,
-	`userId` text NOT NULL,
-	PRIMARY KEY(`article_id`, `userId`),
+	`user_id` text NOT NULL,
+	PRIMARY KEY(`article_id`, `user_id`),
 	FOREIGN KEY (`article_id`) REFERENCES `articles`(`id`) ON UPDATE no action ON DELETE no action,
-	FOREIGN KEY (`userId`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action
+	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
 CREATE TABLE `_article_topics` (
