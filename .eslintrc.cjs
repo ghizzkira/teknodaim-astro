@@ -23,7 +23,7 @@ const config = {
       },
       rules: {
         "astro/no-set-html-directive": "error",
-        "import/no-absolute-path": "off",
+        "import/no-absolute-path": 1,
       },
     },
   ],
@@ -46,12 +46,6 @@ const config = {
     "no-prototype-builtins": "off",
     "no-unsafe-optional-chaining": "off",
     "import/consistent-type-specifier-style": "off",
-    "import/no-unresolved": [
-      2,
-      {
-        ignore: ["@astrojs/image/components"],
-      },
-    ],
     "no-unused-vars": [
       "error",
       {
