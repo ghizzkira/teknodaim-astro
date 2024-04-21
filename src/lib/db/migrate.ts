@@ -9,7 +9,7 @@ async function main() {
       // authToken: import.meta.env.DATABASE_AUTH_TOKEN,
       url: "libsql://teknodaim-new-dafundateam.turso.io",
       authToken:
-        "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3MTM0MTg3MDQsImlkIjoiMzExMDYwN2ItMDI0MS00YTNmLTk0ZDktODBlNzhmMmMxMTVhIn0.6dX_OQG3iZ71sRvE79oIXkIY0rUQrGnHoRn2fnqF8ALQZHUyo-yHmD3hBgTZZ2d_wBkZru-AWcvqgJySx8xMCw",
+        "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3MTM3MDM0MzgsImlkIjoiMGQwY2RiNmEtODk4Ni00ZWNkLTk1YzctZTRkNmJjY2Q0MmY2In0.joqLZYxENKGJR0VbL2bIitHDXV9_TGQoqe-YFPv-pDM439Uwc6pmY_EclWnuVXN1r6hH-HOk4UPmsEjrdi82BA",
     }),
   )
 
