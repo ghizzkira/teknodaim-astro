@@ -32,10 +32,9 @@ const menuInput = {
     .min(1),
   link: z
     .string({
-      required_error: "Link is required",
       invalid_type_error: "Link must be a string",
     })
-    .min(2),
+    .optional(),
   position: z.enum(MENU_POSITION, {
     invalid_type_error: "your menu position doesnt exist on available option.",
   }),
@@ -45,6 +44,11 @@ const menuInput = {
     })
     .optional(),
   icon: z
+    .string({
+      invalid_type_error: "Icon must be a string",
+    })
+    .optional(),
+  iconDark: z
     .string({
       invalid_type_error: "Icon must be a string",
     })
