@@ -5,6 +5,21 @@ import { cn } from "@/lib/utils/style"
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
 
+export type InputSizes =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl"
+  | "5xl"
+
+export type InputElementSizes = Exclude<
+  InputSizes,
+  "md" | "2xl" | "3xl" | "4xl" | "5xl"
+>
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (props, ref) => {
     const { className, type, ...rest } = props

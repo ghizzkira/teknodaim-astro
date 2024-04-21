@@ -18,6 +18,7 @@ import {
   wpPrimaryCategorySlug,
   wpTagPathBySlug,
 } from "@/lib/wp/helper"
+import StaticShare from "../share/static-share"
 import WpPostBody from "./wp-post-body"
 import WpPostInfo from "./wp-post-info"
 import WpPostView from "./wp-post-view"
@@ -191,12 +192,12 @@ const WpPostContent: React.FunctionComponent<WpPostContentProps> = React.memo(
             </>
           )}
           <div className="mt-[10px] flex flex-col">
-            {/* <StaticShare
+            <StaticShare
               locale={locale}
               title={title}
               categorySlug={primaryData?.slug as never as string}
               postSlug={slug}
-            /> */}
+            />
             <WpPostBody className="wp-body w-full">
               <React.Fragment>
                 {/* {adsSingleArticleAbove &&

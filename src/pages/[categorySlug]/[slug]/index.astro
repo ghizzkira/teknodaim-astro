@@ -18,6 +18,7 @@ import {
 import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
 import { splitUriWP, wpPrimaryCategorySlug } from "@/lib/wp/helper"
 import MainLayout from "../../../layouts/MainLayout.astro"
+import InfiniteScrollWpSinglePost from "@/components/wp/infinite-scroll-wp-single-post"
 
 export const prerender = false
 Astro.response.headers.set(
@@ -32,9 +33,9 @@ const { post: main_post, other_lang_post } = await wpGetPostBySlugAction(
   slug as unknown as string,
 )
 
-// if (!main_post && !other_lang_post) {
-//   notFound()
-// }
+if (!main_post && !other_lang_post) {
+  return Astro.redirect('/404');
+}
 
 let post = main_post
 
@@ -136,7 +137,7 @@ const { posts: categoryPosts } = await wpGetPostsByCategorySlugAction(
   categorySlug,
   "",
   "ID",
-  post.id,
+  post?.id,
 )
 
 // const adsBelowHeader = await api.ad.byPosition("article_below_header")
@@ -213,24 +214,25 @@ const { posts: categoryPosts } = await wpGetPostsByCategorySlugAction(
             postData={postData}
             firstContent={firstContent as React.ReactNode}
             secondContent={secondContent as React.ReactNode}
-            locale={"ID"}
+            locale={"id"}
           />
         )
       }
-      <!-- {
+      {
         posts && post && (
           <InfiniteScrollWpSinglePost
             posts={posts}
             post={post}
-            locale={"ID"}
+            locale={"id"}
             adsBelowHeader={[]}
             adsSingleArticleAbove={[]}
             adsSingleArticleBelow={[]}
             adsSingleArticleInline={[]}
             adsSingleArticlePopUp={[]}
+            client:idle
           />
         )
-      } -->
+      }
     </section>
     <aside class="hidden w-4/12 px-4 lg:block">
       <div class="sticky top-4 rounded-xl border border-border p-4">
@@ -251,8 +253,7 @@ const { posts: categoryPosts } = await wpGetPostsByCategorySlugAction(
             // }
             return (
               <WpPostCardSide
-                key={post.id}
-                src={post.thumbnail}
+                src={post.featuredImage?.sourceUrl}
                 alt={post.title}
                 uri={`/${post.primary_category_slug}/${post.slug}`}
                 title={post.title}

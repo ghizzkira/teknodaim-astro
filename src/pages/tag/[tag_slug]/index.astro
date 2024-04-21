@@ -27,9 +27,9 @@ const { tag_slug } = Astro.params
 
 const { tag: main_tag, other_lang_tag } = await wpGetTagBySlugAction(tag_slug)
 
-// if (!main_tag && !other_lang_tag) {
-//   notFound()
-// }
+if (!main_tag && !other_lang_tag) {
+  return Astro.redirect('/404');
+}
 
 let tag = main_tag
 
@@ -206,25 +206,24 @@ const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
               </span>
             </h4>
           </div>
-          <!-- {
-            trendingPosts?.map((post) => {
-              const isWordIncluded = queriesFilter?.queries?.some((word) =>
-                post.title.toLowerCase().includes(word.toLowerCase()),
-              )
-              if (isWordIncluded === true) {
-                return null
-              }
+          {
+            posts?.map((post) => {
+              // const isWordIncluded = queriesFilter?.queries?.some((word) =>
+              //   post.title.toLowerCase().includes(word.toLowerCase()),
+              // )
+              // if (isWordIncluded === true) {
+              //   return null
+              // }
               return (
                 <WpPostCardSide
-                  key={post.id}
-                  src={post.thumbnail}
+                  src={post.featuredImage?.sourceUrl}
                   alt={post.title}
                   uri={`/${post.primary_category_slug}/${post.slug}`}
                   title={post.title}
                 />
               )
             })
-          } -->
+          }
         </div>
       </aside>
     </div>
