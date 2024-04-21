@@ -7,7 +7,7 @@ export const DOWNLOAD_TYPE = ["app", "game"] as const
 
 export const downloadType = z.enum(DOWNLOAD_TYPE)
 
-const DOWNLOAD_SCHEMA_JSON = [
+export const DOWNLOAD_SCHEMA_JSON = [
   "DownloadApp",
   "BusinessApp",
   "MultimediaApp",
@@ -101,10 +101,10 @@ const downloadInput = {
       invalid_type_error: "License must be a string",
     })
     .min(1),
-  officialWeb: z
+  officialWebsite: z
     .string({
-      required_error: "Official Web is required",
-      invalid_type_error: "Official Web must be a string",
+      required_error: "Official Website is required",
+      invalid_type_error: "Official Website must be a string",
     })
     .min(1),
   schemaType: z.enum(DOWNLOAD_SCHEMA_JSON, {
