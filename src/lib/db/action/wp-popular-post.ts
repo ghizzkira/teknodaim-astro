@@ -19,7 +19,7 @@ export const getWpPopularPosts = async ({
     where: (wpPopularPosts, { eq }) => eq(wpPopularPosts.language, language),
     limit: perPage,
     offset: (page - 1) * perPage,
-    orderBy: (wpPopularPosts, { desc }) => [desc(wpPopularPosts.createdAt)],
+    orderBy: (wpPopularPosts, { desc }) => [desc(wpPopularPosts.views)],
   })
   return data
 }
