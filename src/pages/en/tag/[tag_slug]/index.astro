@@ -10,13 +10,13 @@ import InfiniteScrollWpPostsTag from "@/components/wp/infinite-scroll-wp-posts-t
 import WpFeaturedCategories from "@/components/wp/wp-featured-categories"
 import WpListPost from "@/components/wp/wp-list-post"
 import WpPostCardSide from "@/components/wp/wp-post-card-side"
+import MainLayout from "@/layouts/MainLayout.astro"
 import { wpGetPostsByTagIdAction } from "@/lib/wp/action/wp-post"
 import {
   wpGetAllTagsAction,
   wpGetTagBySlugAction,
 } from "@/lib/wp/action/wp-tag"
 import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
-import MainLayout from "../../../layouts/MainLayout.astro"
 
 export function getStaticPaths() {
   return [{ params: { tag_slug: undefined } }]

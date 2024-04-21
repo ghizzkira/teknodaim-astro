@@ -20,7 +20,7 @@ const WpPostCardSide: React.FunctionComponent<WpPostCardSideProps> = React.memo(
               <img
                 src={src}
                 alt={`Image ${alt}`}
-                className="object-cover"
+                className="!h-full !w-full object-cover"
                 sizes="(max-width: 768px) 50px, 100px"
               />
             </div>

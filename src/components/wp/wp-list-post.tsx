@@ -1,13 +1,13 @@
 import * as React from "react"
 
-// import type { LanguageType } from "@/lib/validation/language"
+import type { LanguageType } from "@/lib/validation/language"
 import type { WpSinglePostDataProps } from "@/lib/wp/action/wp-types"
 import { splitUriWP, wpPrimaryCategorySlug } from "@/lib/wp/helper"
 import WpPostCard from "./wp-post-card"
 
 interface WpListPostProps extends React.HTMLAttributes<HTMLDivElement> {
   posts: WpSinglePostDataProps[]
-  locale: string
+  locale: LanguageType
   filteredQueries?: string[]
 }
 

@@ -6,25 +6,6 @@ import { wpGetAllPostsAction } from "@/lib/wp/action/wp-post"
 const { posts, pageInfo } = await wpGetAllPostsAction("EN")
 ---
 
-<!-- <script> -->
-<!--   import { trpc } from "@/utils" -->
-<!---->
-<!--   const publicValue = document.getElementById( -->
-<!--     "public-greeting-value", -->
-<!--   ) as HTMLElement -->
-<!--   const privateValue = document.getElementById( -->
-<!--     "private-greeting-value", -->
-<!--   ) as HTMLElement -->
-<!---->
-<!--   try { -->
-<!--     const dataPrivate = await trpc.example.private.query() -->
-<!--     privateValue.innerHTML = dataPrivate -->
-<!--   } catch (error) { -->
-<!--     const dataPublic = await trpc.example.public.query() -->
-<!--     publicValue.innerText = dataPublic -->
-<!--   } -->
-<!-- </script> -->
-
 <MainLayout>
   <div class="flex items-center justify-center min-h-screen">
     <div class="w-15em">

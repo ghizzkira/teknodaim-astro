@@ -9,6 +9,8 @@ import { Icon } from "@/components/ui/icon"
 import { Skeleton } from "@/components/ui/skeleton"
 import { cn } from "@/lib/utils/style"
 import type { LanguageType } from "@/lib/validation/language"
+import UserMenu from "../user/user-menu"
+import SearchTopNav from "./search-top-nav"
 
 // import SearchTopNav from "./search-top-nav"
 
@@ -60,7 +62,7 @@ const TopNav: React.FunctionComponent<TopNavProps> = (props) => {
                 headerType === "shorts" ? "hidden md:block" : "block",
               )}
             >
-              {/* <SearchTopNav locale={locale} /> */}
+              <SearchTopNav locale={locale} />
             </div>
             <div
               className={cn(
@@ -192,11 +194,7 @@ const TopNav: React.FunctionComponent<TopNavProps> = (props) => {
                   {/* <ThemeSwitcher /> */}
                 </div>
                 <div className="flex items-center">
-                  <React.Suspense
-                    fallback={<Skeleton className="h-5 w-5 rounded-full" />}
-                  >
-                    {/* <UserMenu /> */}
-                  </React.Suspense>
+                  <UserMenu />
                 </div>
               </div>
             </div>

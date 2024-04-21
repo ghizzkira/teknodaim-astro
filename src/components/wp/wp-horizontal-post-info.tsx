@@ -1,6 +1,6 @@
 import * as React from "react"
 
-// import type { LanguageType } from "@/lib/validation/language"
+import type { LanguageType } from "@/lib/validation/language"
 import { wpAuthorPathBySlug } from "@/lib/wp/helper"
 
 interface WpHorizontalPostInfoProps
@@ -9,7 +9,7 @@ interface WpHorizontalPostInfoProps
 
   authorSlug: string
   date: string
-  locale: string
+  locale: LanguageType
 }
 
 const WpHorizontalPostInfo: React.FunctionComponent<

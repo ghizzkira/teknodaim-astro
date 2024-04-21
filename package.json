@@ -6,7 +6,7 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
-    "preview": "astro preview",
+    "preview": "wrangler pages dev ./dist",
     "db:drop": "drizzle-kit drop",
     "db:pull": "drizzle-kit introspect:sqlite",
     "db:generate": "drizzle-kit generate:sqlite",
