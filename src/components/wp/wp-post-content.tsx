@@ -18,9 +18,11 @@ import {
   wpPrimaryCategorySlug,
   wpTagPathBySlug,
 } from "@/lib/wp/helper"
+import StaticShare from "../share/static-share"
 import WpPostBody from "./wp-post-body"
 import WpPostInfo from "./wp-post-info"
 import WpPostView from "./wp-post-view"
+import WpPostViewCounter from "./wp-post-view-counter"
 
 // import WpPostViewCounter from "./wp-post-view-counter"
 
@@ -106,22 +108,9 @@ const WpPostContent: React.FunctionComponent<WpPostContentProps> = React.memo(
     const primaryData = primaryCategory
 
     const stylesIcons = `z-[5] block md:h-[44px] md:w-[44px] rounded-full p-1.5 md:p-2 text-[13px] md:text-[26px] w-[32px] h-[32px] leading-[32px] md:leading-[44px]`
-
+    console.log(title)
     return (
       <>
-        {/* <WpPostViewCounter
-          title={title}
-          slug={slug}
-          excerpt={excerpt}
-          published_time={new Date(date).toISOString()}
-          thumbnail={featuredImageUrl}
-          primary_category={primaryCategory?.name!}
-          primary_category_slug={primaryCategory?.slug!}
-          author_name={authorName}
-          author_slug={authorUrl}
-          language={locale}
-          author_image={authorImg}
-        /> */}
         <article id={postData?.slug} className="article-divider px-4">
           <div className="flex justify-between">
             <div className="space-x-2">
@@ -191,12 +180,12 @@ const WpPostContent: React.FunctionComponent<WpPostContentProps> = React.memo(
             </>
           )}
           <div className="mt-[10px] flex flex-col">
-            {/* <StaticShare
+            <StaticShare
               locale={locale}
               title={title}
               categorySlug={primaryData?.slug as never as string}
               postSlug={slug}
-            /> */}
+            />
             <WpPostBody className="wp-body w-full">
               <React.Fragment>
                 {/* {adsSingleArticleAbove &&

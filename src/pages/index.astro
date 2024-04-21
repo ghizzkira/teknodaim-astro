@@ -1,53 +1,104 @@
 ---
 import InfiniteScrollWpPost from "@/components/wp/infinite-scroll-wp-posts"
+import WpPostCardSide from "@/components/wp/wp-post-card-side"
 import MainLayout from "@/layouts/MainLayout.astro"
+import { getWpPopularPosts } from "@/lib/db/action/wp-popular-post"
 import { wpGetAllPostsAction } from "@/lib/wp/action/wp-post"
 
 const { posts, pageInfo } = await wpGetAllPostsAction("ID")
+// FIX: to 7 days
+const trendingPosts = await getWpPopularPosts({
+  language: "id",
+  page: 1,
+  perPage: 10,
+})
+// const data = await apsi.setting.byKey("featured_posts")
+
+// let featured: WpPopularPostProps[] | undefined
+// if (data) {
+//   const parsedData = JSON.parse(data.value)
+//   featured = locale === "id" ? parsedData?.posts?.id : parsedData?.posts?.en
+// }
+
+// const filterPostDatas = await api.setting.byKey("filter_post")
+// let queriesFilter: { queries: string[] } | undefined
+
+// if (filterPostDatas) {
+//   const parsedData = JSON.parse(filterPostDatas.value)
+//   queriesFilter = { ...parsedData }
+// }
+
+// const hotPosts = await api.wpPopularPost.last1Day({
+//   language: locale,
+//   page: 1,
+//   per_page: 10,
+// })
+
+// const featured_posts = featured
+//   ? featured
+//   : trendingPosts && trendingPosts?.length > 3
+//     ? trendingPosts
+//     : hotPosts && hotPosts?.length > 3
+//       ? hotPosts
+//       : null
+// const filtered_featured_posts = queriesFilter?.queries
+//   ? featured_posts?.filter((post) => {
+//       if (queriesFilter?.queries) {
+//         for (const word of queriesFilter?.queries) {
+//           if (post.title.toLowerCase().includes(word.toLocaleLowerCase())) {
+//             return false
+//           }
+//         }
+//       }
+//       return true
+//     })
+//   : featured_posts
+
+// const carouselData = posts?.slice(0, 10)?.filter((post) => {
+//   if (queriesFilter?.queries) {
+//     for (const word of queriesFilter?.queries) {
+//       if (post.title.toLowerCase().includes(word.toLocaleLowerCase())) {
+//         return false
+//       }
+//     }
+//   }
+//   return true
+// })
+
+// const categories = await api.setting.byKey("featured_categories")
+
+// let featuredCategories: WpCategoriesDataProps[] | undefined
+// if (categories) {
+//   const parsedData = JSON.parse(categories.value)
+//   featuredCategories =
+//     locale === "id" ? parsedData?.categories?.id : parsedData?.categories?.en
+// }
 ---
 
-<!-- <script> -->
-<!--   import { trpc } from "@/utils" -->
-<!---->
-<!--   const publicValue = document.getElementById( -->
-<!--     "public-greeting-value", -->
-<!--   ) as HTMLElement -->
-<!--   const privateValue = document.getElementById( -->
-<!--     "private-greeting-value", -->
-<!--   ) as HTMLElement -->
-<!---->
-<!--   try { -->
-<!--     const dataPrivate = await trpc.example.private.query() -->
-<!--     privateValue.innerHTML = dataPrivate -->
-<!--   } catch (error) { -->
-<!--     const dataPublic = await trpc.example.public.query() -->
-<!--     publicValue.innerText = dataPublic -->
-<!--   } -->
-<!-- </script> -->
-
-<MainLayout>
+<MainLayout
+  seo={{
+    title: import.meta.env.PUBLIC_SITE_TITLE,
+    description: import.meta.env.PUBLIC_SITE_DESCRIPTION,
+    languageAlternates: [
+      { href: `${import.meta.env.PUBLIC_SITE_URL}/`, hrefLang: "id" },
+      { href: `${import.meta.env.NEXT_PUBLIC_EN_SITE_URL}/`, hrefLang: "en" },
+    ],
+    canonical: import.meta.env.PUBLIC_SITE_URL,
+    openGraph: {
+      basic: {
+        title: `${import.meta.env.PUBLIC_SITE_TITLE} | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: import.meta.env.PUBLIC_SITE_DESCRIPTION,
+        locale: "ID",
+      },
+    },
+  }}
+>
   <div class="flex items-center justify-center min-h-screen">
-    <div class="w-15em">
-      <!-- <Auth>
-        {
-          !user ? (
-            <div class="space-y-4">
-              <a href="/login/google">Sign in with Google</a>
-            </div>
-          ) : (
-            <div class="space-y-4">
-              <p
-                class="text-center text-xl font-600"
-                id="private-greeting-value"
-              />
-              <form method="post" action="/api/logout">
-                <button>Sign out</button>
-              </form>
-            </div>
-          )
-        }
-      </Auth> -->
-    </div>
     <div
       class="mx-auto flex w-full flex-row md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]"
     >
@@ -73,25 +124,24 @@ const { posts, pageInfo } = await wpGetAllPostsAction("ID")
               <span class="block h-[36px] text-main">Trending</span>
             </div>
           </div>
-          <!-- {
+          {
             trendingPosts?.map((post) => {
-              const isWordIncluded = queriesFilter?.queries?.some((word) =>
-                post.title.toLowerCase().includes(word.toLowerCase()),
-              )
-              if (isWordIncluded === true) {
-                return null
-              }
+              // const isWordIncluded = queriesFilter?.queries?.some((word) =>
+              //   post.title.toLowerCase().includes(word.toLowerCase()),
+              // )
+              // if (isWordIncluded === true) {
+              //   return null
+              // }
               return (
                 <WpPostCardSide
-                  key={post.id}
                   src={post.thumbnail}
                   alt={post.title}
-                  uri={`/${post.primary_category_slug}/${post.slug}`}
+                  uri={`/${post.primaryCategorySlug}/${post.slug}`}
                   title={post.title}
                 />
               )
             })
-          } -->
+          }
         </div>
       </aside>
     </div>

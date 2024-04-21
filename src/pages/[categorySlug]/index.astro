@@ -1,4 +1,5 @@
 ---
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -13,6 +14,7 @@ import WpListPost from "@/components/wp/wp-list-post"
 import WpListPostFeatured from "@/components/wp/wp-list-post-featured"
 import WpPostCardSide from "@/components/wp/wp-post-card-side"
 import MainLayout from "@/layouts/MainLayout.astro"
+import { getWpPopularPosts } from "@/lib/db/action/wp-popular-post"
 import { cn } from "@/lib/utils/style"
 import {
   wpGetAllCategoriesAction,
@@ -113,6 +115,12 @@ let category = main_category
 //   page: 1,
 //   per_page: 10,
 // })
+// FIX: to 7 days
+const trendingPosts = await getWpPopularPosts({
+  language: "id",
+  page: 1,
+  perPage: 10,
+})
 const categoryJsonLdString = category?.seo?.schema?.raw
 const regexId = new RegExp(import.meta.env.PUBLIC_WP_DOMAIN, "g")
 const regexEn = new RegExp(import.meta.env.PUBLIC_WP_EN_SUBDOMAIN, "g")
@@ -165,7 +173,34 @@ const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
 //   })
 ---
 
-<MainLayout>
+<MainLayout 
+seo={{
+  title: category?.name,
+  description: category?.description,
+  languageAlternates: [
+    {
+      href: `${import.meta.env.PUBLIC_SITE_URL}/${category?.slug}`,
+      hrefLang: "id",
+    },
+    {
+      href: `${import.meta.env.NEXT_PUBLIC_EN_SITE_URL}/${category?.slug}`,
+      hrefLang: "en",
+    },
+  ],
+  canonical: `${import.meta.env.PUBLIC_SITE_URL}/${category?.slug}`,
+  openGraph: {
+    basic: {
+      title: category?.name!,
+      url: `${import.meta.env.PUBLIC_SITE_URL}/${category?.slug}`,
+      type: "article",
+      image: "",
+    },
+    optional: {
+      description: category?.description,
+      locale: "ID",
+    },
+  },
+}}>
   <!-- {
     categoryJsonLd && (
       <script
@@ -232,7 +267,7 @@ const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
       class="mx-auto mt-5 flex w-full flex-row md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] lg:mx-auto lg:px-4 min-[1200px]:max-w-[1170px]"
     >
       <div class="flex w-full flex-col px-4 lg:w-8/12">
-        {listPost && <WpListPost locale={"ID"} posts={listPost} />}
+        {listPost && <WpListPost locale={"id"} posts={listPost} />}
         {
           infinitePosts && category && pageInfo && (
             <InfiniteScrollWpPostsCategory
@@ -255,7 +290,7 @@ const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
             </h4>
           </div>
           {
-            posts?.map((post) => {
+            trendingPosts?.map((post) => {
               // const isWordIncluded = queriesFilter?.queries?.some((word) =>
               //   post.title.toLowerCase().includes(word.toLowerCase()),
               // )
@@ -264,10 +299,9 @@ const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
               // }
               return (
                 <WpPostCardSide
-                  key={post.id}
-                  src={post.thumbnail}
+                   src={post.thumbnail}
                   alt={post.title}
-                  uri={`/${post.primary_category_slug}/${post.slug}`}
+                  uri={`/${post.primaryCategorySlug}/${post.slug}`}
                   title={post.title}
                 />
               )

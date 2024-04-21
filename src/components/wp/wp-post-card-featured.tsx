@@ -1,6 +1,8 @@
 import * as React from "react"
 
 import { Icon } from "@/components/ui/icon"
+import { formatDateFromNow } from "@/lib/utils/date"
+import type { LanguageType } from "@/lib/validation/language"
 import BadgeIcon from "../badge-icon"
 
 interface WpPostCardFeaturedProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -16,7 +18,7 @@ interface WpPostCardFeaturedProps extends React.HTMLAttributes<HTMLDivElement> {
     author_slug: string
     author_image: string
   }
-  locale: string
+  locale: LanguageType
 }
 
 const WpPostCardFeatured: React.FunctionComponent<WpPostCardFeaturedProps> = (
@@ -120,7 +122,7 @@ const WpPostCardFeatured: React.FunctionComponent<WpPostCardFeaturedProps> = (
                 dateTime={published_time as unknown as string}
                 suppressHydrationWarning={true}
               >
-                {published_time as unknown as string}
+                {formatDateFromNow(published_time, locale)}
               </time>
             </>
           )}

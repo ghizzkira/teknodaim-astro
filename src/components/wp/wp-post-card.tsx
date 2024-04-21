@@ -2,9 +2,9 @@ import * as React from "react"
 
 import { Icon } from "@/components/ui/icon"
 import { formatDateFromNow } from "@/lib/utils/date"
+import type { LanguageType } from "@/lib/validation/language"
 import BadgeIcon from "../badge-icon"
 import Image from "../image"
-// import type { LanguageType } from "@/lib/validation/language"
 import WpPostView from "./wp-post-view"
 
 // const DateWrapper = dynamic(
@@ -32,7 +32,7 @@ interface WpPostCardProps {
   authorAvatarUrl: string
   date: string
   categoryName: string
-  locale: string
+  locale: LanguageType
   type?: "horizontal" | "vertical"
   categoryUri: string
   srcSet?: string
