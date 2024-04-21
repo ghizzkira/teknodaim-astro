@@ -120,6 +120,7 @@ export interface WpCategoriesEdgesDataProps {
 }
 
 export interface WpSinglePostDataProps {
+  primary_category_slug: any
   language: {
     slug: WpLanguageType
   }

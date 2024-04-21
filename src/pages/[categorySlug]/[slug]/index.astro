@@ -173,7 +173,34 @@ const { posts: categoryPosts } = await wpGetPostsByCategorySlugAction(
 // }
 ---
 
-<MainLayout>
+<MainLayout 
+seo={{
+  title: post?.title,
+  description: post?.seo.metaDesc,
+  languageAlternates: [
+    {
+      href: `${import.meta.env.PUBLIC_SITE_URL}/${categorySlug}/${slug}`,
+      hrefLang: "id",
+    },
+    {
+      href: `${import.meta.env.NEXT_PUBLIC_EN_SITE_URL}/${post?.slug}`,
+      hrefLang: "en",
+    },
+  ],
+  canonical: `${import.meta.env.PUBLIC_SITE_URL}/${categorySlug}/${slug}`,
+  openGraph: {
+    basic: {
+      title: post?.title!,
+      url: `${import.meta.env.PUBLIC_SITE_URL}/${categorySlug}/${slug}`,
+      type: "article",
+      image: "",
+    },
+    optional: {
+      description: post?.seo.metaDesc,
+      locale: "ID",
+    },
+  },
+}}>
   {
     postJsonLd && (
       <script

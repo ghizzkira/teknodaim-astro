@@ -74,7 +74,29 @@ const { posts, pageInfo } = await wpGetAllPostsAction("ID")
 // }
 ---
 
-<MainLayout>
+<MainLayout
+  seo={{
+    title: import.meta.env.PUBLIC_SITE_TITLE,
+    description: import.meta.env.PUBLIC_SITE_DESCRIPTION,
+    languageAlternates: [
+      { href: `${import.meta.env.PUBLIC_SITE_URL}/`, hrefLang: "id" },
+      { href: `${import.meta.env.NEXT_PUBLIC_EN_SITE_URL}/`, hrefLang: "en" },
+    ],
+    canonical: import.meta.env.PUBLIC_SITE_URL,
+    openGraph: {
+      basic: {
+        title: `${import.meta.env.PUBLIC_SITE_TITLE} | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: import.meta.env.PUBLIC_SITE_DESCRIPTION,
+        locale: "ID",
+      },
+    },
+  }}
+>
   <div class="flex items-center justify-center min-h-screen">
     <div
       class="mx-auto flex w-full flex-row md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]"

@@ -74,7 +74,35 @@ const parsedDescription = ParseContent({
 })
 ---
 
-<MainLayout>
+<MainLayout
+  seo={{
+    title: user?.name,
+    description: user?.description,
+    languageAlternates: [
+      {
+        href: `${import.meta.env.PUBLIC_SITE_URL}/author/${user?.slug}`,
+        hrefLang: "id",
+      },
+      {
+        href: `${import.meta.env.NEXT_PUBLIC_EN_SITE_URL}/author/${user?.slug}`,
+        hrefLang: "en",
+      },
+    ],
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/author/${user?.slug}`,
+    openGraph: {
+      basic: {
+        title: user?.name!,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/author/${user?.slug}`,
+        type: "article",
+        image: "",
+      },
+      optional: {
+        description: user?.description,
+        locale: "ID",
+      },
+    },
+  }}
+>
   <!-- {
     featuredCategories && Array.isArray(featuredCategories) && (
       <div class="block w-full sm:hidden">

@@ -165,7 +165,34 @@ const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
 //   })
 ---
 
-<MainLayout>
+<MainLayout 
+seo={{
+  title: category?.name,
+  description: category?.description,
+  languageAlternates: [
+    {
+      href: `${import.meta.env.PUBLIC_SITE_URL}/${category?.slug}`,
+      hrefLang: "id",
+    },
+    {
+      href: `${import.meta.env.NEXT_PUBLIC_EN_SITE_URL}/${category?.slug}`,
+      hrefLang: "en",
+    },
+  ],
+  canonical: `${import.meta.env.PUBLIC_SITE_URL}/${category?.slug}`,
+  openGraph: {
+    basic: {
+      title: category?.name!,
+      url: `${import.meta.env.PUBLIC_SITE_URL}/${category?.slug}`,
+      type: "article",
+      image: "",
+    },
+    optional: {
+      description: category?.description,
+      locale: "ID",
+    },
+  },
+}}>
   <!-- {
     categoryJsonLd && (
       <script
@@ -264,8 +291,7 @@ const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
               // }
               return (
                 <WpPostCardSide
-                  key={post.id}
-                  src={post.thumbnail}
+                   src={post.thumbnail}
                   alt={post.title}
                   uri={`/${post.primary_category_slug}/${post.slug}`}
                   title={post.title}
