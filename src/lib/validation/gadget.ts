@@ -221,11 +221,10 @@ export const gadgetInput = {
         "only published, draft, rejected and in_review are accepted",
     })
     .optional(),
-  featuredImageId: z
-    .string({
-      invalid_type_error: "Featured Image must be a string",
-    })
-    .optional(),
+  featuredImageId: z.string({
+    required_error: "Featured Image is required",
+    invalid_type_error: "Featured Image must be a string",
+  }),
 }
 
 const updateGadgetInput = {

@@ -8,6 +8,7 @@ import {
   downloadTopics,
   downloadTranslations,
 } from "@/lib/db/schema/download"
+import { downloadFiles } from "@/lib/db/schema/download-file"
 import { medias } from "@/lib/db/schema/media"
 import { topics } from "@/lib/db/schema/topic"
 import { users } from "@/lib/db/schema/user"
@@ -21,7 +22,6 @@ import type {
   UpdateDownload,
 } from "@/lib/validation/download"
 import type { LanguageType } from "@/lib/validation/language"
-import { downloadFiles } from "../schema/download-file"
 
 export const getDownloadTranslationById = async (id: string) => {
   const downloadTranslationData = await db.query.downloadTranslations.findFirst(
