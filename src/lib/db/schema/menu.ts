@@ -3,7 +3,7 @@ import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core"
 
 import { MENU_POSITION } from "@/lib/validation/menu"
 
-export const ads = sqliteTable("ads", {
+export const menus = sqliteTable("menus", {
   id: text("id").primaryKey(),
   title: text("title").unique().notNull(),
   link: text("link"),
@@ -18,5 +18,5 @@ export const ads = sqliteTable("ads", {
   updatedAt: text("updated_at").default(sql`CURRENT_TIMESTAMP`),
 })
 
-export type InsertAd = typeof ads.$inferInsert
-export type SelectAd = typeof ads.$inferSelect
+export type InsertMenu = typeof menus.$inferInsert
+export type SelectMenu = typeof menus.$inferSelect
