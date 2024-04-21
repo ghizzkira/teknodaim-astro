@@ -3,7 +3,7 @@ import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core"
 
 import { LANGUAGE_TYPE } from "@/lib/validation/language"
 
-export const wpPopularPost = sqliteTable("wp_popular_posts", {
+export const wpPopularPosts = sqliteTable("wp_popular_posts", {
   id: text("id").primaryKey(),
   title: text("title").unique().notNull(),
   slug: text("slug").unique().notNull(),
@@ -21,5 +21,5 @@ export const wpPopularPost = sqliteTable("wp_popular_posts", {
   updatedAt: text("updated_at").default(sql`CURRENT_TIMESTAMP`),
 })
 
-export type InsertWpPopularPost = typeof wpPopularPost.$inferInsert
-export type SelectWpPopularPost = typeof wpPopularPost.$inferSelect
+export type InsertWpPopularPost = typeof wpPopularPosts.$inferInsert
+export type SelectWpPopularPost = typeof wpPopularPosts.$inferSelect
