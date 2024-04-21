@@ -11,6 +11,7 @@ import WpFeaturedCategories from "@/components/wp/wp-featured-categories"
 import WpListPost from "@/components/wp/wp-list-post"
 import WpPostCardSide from "@/components/wp/wp-post-card-side"
 import MainLayout from "@/layouts/MainLayout.astro"
+import { getWpPopularPosts } from "@/lib/db/action/wp-popular-post"
 import { wpGetPostsByTagIdAction } from "@/lib/wp/action/wp-post"
 import {
   wpGetAllTagsAction,
@@ -102,11 +103,13 @@ const postJsonLd = postJsonLdString
   ?.replace(regexEn, import.meta.env.PUBLIC_EN_SUBDOMAIN)
 
 const { posts, pageInfo } = await wpGetPostsByTagIdAction(tag.id)
-// const trendingPosts = await api.wpPopularPost.last7Days({
-//   language: locale,
-//   page: 1,
-//   per_page: 10,
-// })
+
+// FIX: to 7 days
+const trendingPosts = await getWpPopularPosts({
+  language: "id",
+  page: 1,
+  perPage: 10,
+})
 const listPost = posts?.slice(0, posts?.length - 1)
 const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
 // const adsBelowHeader = await api.ad.byPosition("topic_below_header")
@@ -204,7 +207,7 @@ const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
       class="mx-auto flex w-full flex-row md:mx-auto md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]"
     >
       <div class="flex w-full flex-col px-4 lg:w-8/12">
-        {listPost && <WpListPost locale={"ID"} posts={listPost} />}
+        {listPost && <WpListPost locale={"id"} posts={listPost} />}
         {
           infinitePosts && pageInfo && (
             <InfiniteScrollWpPostsTag
@@ -228,7 +231,7 @@ const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
             </h4>
           </div>
           {
-            posts?.map((post) => {
+            trendingPosts?.map((post) => {
               // const isWordIncluded = queriesFilter?.queries?.some((word) =>
               //   post.title.toLowerCase().includes(word.toLowerCase()),
               // )
@@ -237,9 +240,9 @@ const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
               // }
               return (
                 <WpPostCardSide
-                  src={post.featuredImage?.sourceUrl}
+                  src={post.thumbnail}
                   alt={post.title}
-                  uri={`/${post.primary_category_slug}/${post.slug}`}
+                  uri={`/${post.primaryCategorySlug}/${post.slug}`}
                   title={post.title}
                 />
               )

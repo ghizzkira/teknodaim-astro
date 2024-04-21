@@ -1,6 +1,6 @@
 import * as React from "react"
 
-// import type { LanguageType } from "@/lib/validation/language"
+import type { LanguageType } from "@/lib/validation/language"
 import WpPostCardFeatured from "./wp-post-card-featured"
 
 interface WpListPostFeaturedProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -15,7 +15,7 @@ interface WpListPostFeaturedProps extends React.HTMLAttributes<HTMLDivElement> {
     author_slug: string
     author_image: string
   }[]
-  locale: string
+  locale: LanguageType
 }
 
 export const WpListPostFeatured: React.FunctionComponent<

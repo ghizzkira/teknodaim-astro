@@ -2,16 +2,17 @@
 import InfiniteScrollWpPost from "@/components/wp/infinite-scroll-wp-posts"
 import WpPostCardSide from "@/components/wp/wp-post-card-side"
 import MainLayout from "@/layouts/MainLayout.astro"
+import { getWpPopularPosts } from "@/lib/db/action/wp-popular-post"
 import { wpGetAllPostsAction } from "@/lib/wp/action/wp-post"
 
 const { posts, pageInfo } = await wpGetAllPostsAction("ID")
-// const trendingPosts = await api.wpPopularPost.last7Days({
-//   language: locale,
-//   page: 1,
-//   per_page: 10,
-// })
-
-// const data = await api.setting.byKey("featured_posts")
+// FIX: to 7 days
+const trendingPosts = await getWpPopularPosts({
+  language: "id",
+  page: 1,
+  perPage: 10,
+})
+// const data = await apsi.setting.byKey("featured_posts")
 
 // let featured: WpPopularPostProps[] | undefined
 // if (data) {
@@ -124,7 +125,7 @@ const { posts, pageInfo } = await wpGetAllPostsAction("ID")
             </div>
           </div>
           {
-            posts?.map((post) => {
+            trendingPosts?.map((post) => {
               // const isWordIncluded = queriesFilter?.queries?.some((word) =>
               //   post.title.toLowerCase().includes(word.toLowerCase()),
               // )
@@ -133,9 +134,9 @@ const { posts, pageInfo } = await wpGetAllPostsAction("ID")
               // }
               return (
                 <WpPostCardSide
-                  src={post.featuredImage?.sourceUrl}
+                  src={post.thumbnail}
                   alt={post.title}
-                  uri={`/${post.primary_category_slug}/${post.slug}`}
+                  uri={`/${post.primaryCategorySlug}/${post.slug}`}
                   title={post.title}
                 />
               )

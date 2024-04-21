@@ -39,6 +39,7 @@ const { posts, pageInfo } = await wpGetPostsByAuthorSlugAction(
   "",
   "ID",
 )
+
 const listPost = posts?.slice(0, posts?.length - 1)
 const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
 const postJsonLdString = user?.seo?.schema?.raw
@@ -91,10 +92,10 @@ const parsedDescription = ParseContent({
     canonical: `${import.meta.env.PUBLIC_SITE_URL}/author/${user?.slug}`,
     openGraph: {
       basic: {
-        title: user?.name!,
+        title: user?.name ?? "",
         url: `${import.meta.env.PUBLIC_SITE_URL}/author/${user?.slug}`,
         type: "article",
-        image: "",
+        image: "dd",
       },
       optional: {
         description: user?.description,
@@ -143,7 +144,7 @@ const parsedDescription = ParseContent({
             Articles
           </h2>
         </div>
-        {listPost && <WpListPost locale={"ID"} posts={listPost} />}
+        {listPost && <WpListPost locale={"id"} posts={listPost} />}
         {
           infinitePosts && pageInfo && (
             <InfiniteScrollWpPostsAuthor
@@ -165,13 +166,11 @@ const parsedDescription = ParseContent({
               <div
                 class="relative mb-4 h-32 w-32 shrink-0 overflow-hidden rounded-full bg-gray-300"
               >
-                <Picture
-                  inferSize
+                <img
                   class="!h-32 !w-32"
-                  alt={user.name}
-                  src={user?.avatar.url}
+                  alt={user?.name ?? ""}
+                  src={user?.avatar.url!}
                   sizes=`(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 800px`
-                  densities={[1.5, 2]}
                   loading="eager"
                   fetchpriority="high"
                 />
