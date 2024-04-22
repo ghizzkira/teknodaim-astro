@@ -18,6 +18,7 @@ import {
   wpPrimaryCategorySlug,
   wpTagPathBySlug,
 } from "@/lib/wp/helper"
+import Image from "../image"
 import StaticShare from "../share/static-share"
 import WpPostBody from "./wp-post-body"
 import WpPostInfo from "./wp-post-info"
@@ -164,11 +165,13 @@ const WpPostContent: React.FunctionComponent<WpPostContentProps> = React.memo(
           {featuredImageUrl && (
             <>
               <div className="relative aspect-video w-full">
-                <img
+                <Image
                   // priority={true}
                   src={featuredImageUrl}
                   className="max-w-auto relative aspect-video w-full overflow-hidden rounded-xl object-cover"
                   alt={featuredImageAlt}
+                  width={"1200"}
+                  height={"800"}
                 />
               </div>
               {featuredImageCaption && (

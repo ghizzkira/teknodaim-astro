@@ -1,6 +1,5 @@
 ---
-import * as React from "react"
-import { Picture } from "astro:assets"
+import { Image } from "astro:assets"
 
 import ParseContent from "@/components/content/parse-content"
 import { Icon } from "@/components/ui/icon"
@@ -166,14 +165,28 @@ const parsedDescription = ParseContent({
               <div
                 class="relative mb-4 h-32 w-32 shrink-0 overflow-hidden rounded-full bg-gray-300"
               >
-                <img
+                {
+                  user?.avatar.url && (
+                    <Image
+                      alt={user?.name ?? ""}
+                      src={user?.avatar.url}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 800px"
+                      loading="eager"
+                      class="!h-32 !w-32"
+                      width={300}
+                      height={699}
+                    />
+                  )
+                }
+
+                <!-- <img
                   class="!h-32 !w-32"
                   alt={user?.name ?? ""}
                   src={user?.avatar.url!}
                   sizes=`(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 800px`
                   loading="eager"
                   fetchpriority="high"
-                />
+                /> -->
               </div>
               <h1 class="text-xl font-bold">{user?.name}</h1>
             </div>

@@ -37,6 +37,8 @@ const UserMenu: React.FunctionComponent<UserMenuProps> = () => {
                 src={session?.user?.image!}
                 alt={session?.user?.name!}
                 className="m-0"
+                width={"20"}
+                height={"20"}
               />
             </div>
           </PopoverTrigger>

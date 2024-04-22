@@ -34,6 +34,8 @@ const ArticleCardFeatured: React.FunctionComponent<ArticleCardFeaturedProps> = (
                 src={featured_image?.url!}
                 className="object-cover"
                 alt={title}
+                width={"300"}
+                height={"300"}
               />
             </div>
           </a>

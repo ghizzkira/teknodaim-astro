@@ -78,7 +78,8 @@ const WpPostCard: React.FunctionComponent<WpPostCardProps> = React.memo(
                     src={src}
                     alt={`Image ${alt}`}
                     className="!h-full !w-full overflow-hidden rounded-lg object-cover"
-                    srcSet={srcSet}
+                    width={"500"}
+                    height={"500"}
                   />
                 </a>
                 <BadgeIcon
@@ -169,7 +170,8 @@ const WpPostCard: React.FunctionComponent<WpPostCardProps> = React.memo(
                   src={src}
                   alt={`Image ${alt}`}
                   className="!h-full !w-full overflow-hidden rounded-lg object-cover"
-                  srcSet={srcSet}
+                  width={"500"}
+                  height={"500"}
                 />
               </a>
               <BadgeIcon

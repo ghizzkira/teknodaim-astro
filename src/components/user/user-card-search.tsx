@@ -33,7 +33,13 @@ const UserCardSearch: React.FunctionComponent<UserCardSearchProps> = (
       <div className="flex flex-row hover:bg-accent">
         <div className="relative aspect-[1/1] h-[50px] w-auto max-w-[unset] overflow-hidden rounded-md">
           {image ? (
-            <Image src={image} className="object-cover" alt={name!} />
+            <Image
+              src={image}
+              className="object-cover"
+              alt={name!}
+              width={"50"}
+              height={"50"}
+            />
           ) : (
             <Icon.User aria-label="User Image" />
           )}

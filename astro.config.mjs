@@ -22,13 +22,63 @@ export default defineConfig({
     i18nDomains: true,
   },
   adapter: cloudflare({
-    imageService: "passthrough",
+    imageService: "compile",
     // routes: {
     //   extend: {
     //     include: [{ pattern: "/en/*" }], // Route a prerended page to the SSR function for on-demand rendering
     //   },
     // },
   }),
+  image: {
+    domains: ["secure.gravatar.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+      },
+      {
+        protocol: "https",
+        hostname: "secure.gravatar.com",
+      },
+      {
+        protocol: "https",
+        hostname: "assets.tripay.co.id",
+      },
+      {
+        protocol: "https",
+        hostname: "i.ytimg.com",
+      },
+      {
+        protocol: "https",
+        hostname: "**.tiktokcdn.com",
+      },
+      {
+        protocol: "https",
+        hostname: "**.dafunda.com",
+      },
+      {
+        protocol: "https",
+        hostname: import.meta.env.PUBLIC_DOMAIN,
+      },
+      {
+        protocol: "https",
+        hostname: `*.${import.meta.env.PUBLIC_DOMAIN}`,
+      },
+      {
+        protocol: "https",
+        hostname: `media.${import.meta.env.PUBLIC_DOMAIN}`,
+      },
+      {
+        protocol: "https",
+        hostname: `cdn.${import.meta.env.PUBLIC_DOMAIN}`,
+      },
+    ],
+    // Example: Enable the Sharp-based image service with a custom config
+    // service: {
+    //   entrypoint: "./src/lib/utils/image",
+    // },
+  },
+
   integrations: [
     tailwind({
       applyBaseStyles: false,
