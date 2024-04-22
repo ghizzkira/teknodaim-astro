@@ -26,11 +26,11 @@ const addQueryParamToURL = ({
   try {
     const urlObject = new URL(url)
     const searchParams = new URLSearchParams(urlObject.search)
-    searchParams.set("height", height)
-    searchParams.set("width", width)
+    searchParams.set("h", height)
+    searchParams.set("w", width)
     searchParams.set("f", "webp")
     const searchParamsString = searchParams.toString()
-    const queryString = searchParamsString ? `?${searchParamsString}` : ""
+    const queryString = searchParamsString ? `&${searchParamsString}` : ""
     return `/_image?href=${encodeURIComponent(urlObject.href)}${queryString}`
   } catch (error) {
     console.error("URL tidak valid:", error)

@@ -22,7 +22,7 @@ export default defineConfig({
     i18nDomains: true,
   },
   adapter: cloudflare({
-    imageService: "compile",
+    imageService: "custom",
     // routes: {
     //   extend: {
     //     include: [{ pattern: "/en/*" }], // Route a prerended page to the SSR function for on-demand rendering
@@ -30,6 +30,7 @@ export default defineConfig({
     // },
   }),
   image: {
+    endpoint: "./src/lib/utils/image/image-endpoint",
     domains: ["secure.gravatar.com"],
     remotePatterns: [
       {
@@ -74,9 +75,9 @@ export default defineConfig({
       },
     ],
     // Example: Enable the Sharp-based image service with a custom config
-    // service: {
-    //   entrypoint: "./src/lib/utils/image",
-    // },
+    service: {
+      entrypoint: "./src/lib/utils/image/image",
+    },
   },
 
   integrations: [
@@ -88,6 +89,15 @@ export default defineConfig({
   vite: {
     optimizeDeps: {
       exclude: ["oslo"],
+    },
+    ssr: {
+      external: [
+        "node:crypto",
+        "node:url",
+        "node:path",
+        "node:fs",
+        "node:util",
+      ],
     },
   },
 })
