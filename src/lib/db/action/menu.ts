@@ -1,0 +1,68 @@
+import { count, eq, sql } from "drizzle-orm"
+
+import { db } from "@/lib/db"
+import { menus } from "@/lib/db/schema/menu"
+import { cuid } from "@/lib/utils/id"
+import type {
+  CreateMenu,
+  MenuPosition,
+  UpdateMenu,
+} from "@/lib/validation/menu"
+
+export const getMenus = async ({
+  page,
+  perPage,
+}: {
+  page: number
+  perPage: number
+}) => {
+  const data = await db.query.menus.findMany({
+    limit: perPage,
+    offset: (page - 1) * perPage,
+    orderBy: (menus, { desc }) => [desc(menus.createdAt)],
+  })
+  return data
+}
+
+export const getMenuById = async (id: string) => {
+  const data = await db.query.menus.findFirst({
+    where: (menus, { eq }) => eq(menus.id, id),
+  })
+  return data
+}
+
+export const getMenuByPosition = async (position: MenuPosition) => {
+  const data = await db.query.menus.findFirst({
+    where: (menus, { eq }) => eq(menus.position, position),
+  })
+  return data
+}
+
+export const getMenusCount = async () => {
+  const data = await db.select({ value: count() }).from(menus)
+  return data[0].value
+}
+
+export const createMenu = async (input: CreateMenu) => {
+  const data = await db.insert(menus).values({
+    id: cuid(),
+    ...input,
+  })
+  return data
+}
+
+export const updateMenu = async (input: UpdateMenu) => {
+  const data = await db
+    .update(menus)
+    .set({
+      ...input,
+      updatedAt: sql`CURRENT_TIMESTAMP`,
+    })
+    .where(eq(menus.id, input.id))
+  return data
+}
+
+export const deleteMenu = async (id: string) => {
+  const data = await db.delete(menus).where(eq(menus.id, id))
+  return data
+}
