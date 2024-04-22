@@ -74,7 +74,6 @@ export default defineConfig({
         hostname: `cdn.${import.meta.env.PUBLIC_DOMAIN}`,
       },
     ],
-    // Example: Enable the Sharp-based image service with a custom config
     service: {
       entrypoint: "./src/lib/utils/image/image",
     },
@@ -89,15 +88,6 @@ export default defineConfig({
   vite: {
     optimizeDeps: {
       exclude: ["oslo"],
-    },
-    ssr: {
-      external: [
-        "node:crypto",
-        "node:url",
-        "node:path",
-        "node:fs",
-        "node:util",
-      ],
     },
   },
 })
