@@ -2,7 +2,7 @@ import type { AstroConfig, ImageTransform, LocalImageService } from "astro"
 import sharp from "sharp"
 
 const service: LocalImageService = {
-  getURL(options: ImageTransform, imageConfig: AstroConfig["image"]) {
+  getURL(options: ImageTransform, _imageConfig: AstroConfig["image"]) {
     const searchParams = new URLSearchParams()
     searchParams.append(
       "href",
