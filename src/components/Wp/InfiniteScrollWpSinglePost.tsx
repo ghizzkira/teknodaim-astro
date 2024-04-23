@@ -1,8 +1,8 @@
 import * as React from "react"
 
-import ParseContent from "@/components/content/parse-content"
 // import type { AdProps } from "@/components/ad/ad"
-import LoadingProgress from "@/components/loading-progress"
+import LoadingProgress from "@/components/LoadingProgress"
+import ParseContent from "@/components/ParseContent"
 import { splitReactNodes } from "@/lib/utils/content"
 import type { LanguageType } from "@/lib/validation/language"
 import { wpGetInfiniteScollArticlesAction } from "@/lib/wp/action/wp-post"
@@ -11,7 +11,7 @@ import type {
   WpSinglePostDataProps,
 } from "@/lib/wp/action/wp-types"
 import { splitUriWP, wpPrimaryCategorySlug } from "@/lib/wp/helper"
-import WpPostScroll from "./wp-post-scroll"
+import WpPostScroll from "./WpPostScroll"
 
 interface ParsedContentProps {
   firstContent: React.ReactNode[]

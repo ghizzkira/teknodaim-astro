@@ -18,14 +18,14 @@ import {
   wpPrimaryCategorySlug,
   wpTagPathBySlug,
 } from "@/lib/wp/helper"
-import Image from "../image"
-import StaticShare from "../share/static-share"
-import WpPostBody from "./wp-post-body"
-import WpPostInfo from "./wp-post-info"
-import WpPostView from "./wp-post-view"
-import WpPostViewCounter from "./wp-post-view-counter"
+import Image from "../Image"
+import StaticShare from "../Share/StaticShare"
+import WpPostBody from "./WpPostBody"
+import WpPostInfo from "./WpPostInfo"
+import WpPostView from "./WpPostView"
+import WpPostViewCounter from "./WpPostViewCounter"
 
-// import WpPostViewCounter from "./wp-post-view-counter"
+// import WpPostViewCounter from "./WpPostViewCounter"
 
 // const Ad = React.lazy(async () => await import("@/components/ad"))
 // const WpComment = React.lazy(

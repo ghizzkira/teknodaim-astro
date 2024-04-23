@@ -2,8 +2,8 @@
 
 import * as React from "react"
 
-import ParseContent from "@/components/content/parse-content"
-import LoadingProgress from "@/components/loading-progress"
+import LoadingProgress from "@/components/LoadingProgress"
+import ParseContent from "@/components/ParseContent"
 import { type SelectArticle as ArticleProps } from "@/lib/db/schema/article"
 import { type SelectMedia as MediaProps } from "@/lib/db/schema/media"
 import { type SelectTopic as TopicProps } from "@/lib/db/schema/topic"

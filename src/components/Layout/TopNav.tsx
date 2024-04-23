@@ -1,4 +1,5 @@
 import * as React from "react"
+import type { User } from "lucia"
 
 //  import type { Topic as TopicProps } from "@prisma/client"
 
@@ -23,6 +24,7 @@ interface TopNavProps extends React.HTMLAttributes<HTMLDivElement> {
   headerType?: "default" | "video" | "shorts" | "video-content"
   // topics?: Partial<TopicProps>[]
   buttonMenu?: React.ReactNode
+  user?: User | null
 }
 
 const TopNav: React.FunctionComponent<TopNavProps> = (props) => {
@@ -36,6 +38,7 @@ const TopNav: React.FunctionComponent<TopNavProps> = (props) => {
     twitter_username,
     whatsapp_channel,
     youtube_channel,
+    user,
   } = props
 
   return (
@@ -189,7 +192,7 @@ const TopNav: React.FunctionComponent<TopNavProps> = (props) => {
                   {/* <ThemeSwitcher /> */}
                 </div>
                 <div className="flex items-center">
-                  <UserMenu />
+                  <UserMenu user={user} />
                 </div>
               </div>
             </div>

@@ -3,7 +3,7 @@ import * as React from "react"
 import { Icon } from "@/components/UI/Icon"
 import { formatDateFromNow } from "@/lib/utils/date"
 import type { LanguageType } from "@/lib/validation/language"
-import BadgeIcon from "../badge-icon"
+import BadgeIcon from "../BadgeIcon"
 
 interface WpPostCardFeaturedProps extends React.HTMLAttributes<HTMLDivElement> {
   index: number

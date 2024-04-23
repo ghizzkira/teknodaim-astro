@@ -3,9 +3,9 @@ import * as React from "react"
 import { Icon } from "@/components/UI/Icon"
 import { formatDateFromNow } from "@/lib/utils/date"
 import type { LanguageType } from "@/lib/validation/language"
-import BadgeIcon from "../badge-icon"
-import Image from "../image"
-import WpPostView from "./wp-post-view"
+import BadgeIcon from "../BadgeIcon"
+import Image from "../Image"
+import WpPostView from "./WpPostView"
 
 // const DateWrapper = dynamic(
 //   async () => {
