@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro"
 import { z } from "zod"
 
-import { getWpPopularPostsLast7Days } from "@/lib/db/action/wp-popular-post"
+import { getWpPopularPostsLast7Days } from "@/lib/action/wp-popular-post"
 import { languageType } from "@/lib/validation/language"
 
 const inputSchema = z.object({
