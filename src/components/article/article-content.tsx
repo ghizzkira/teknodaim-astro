@@ -113,6 +113,8 @@ export const ArticleContent: React.FunctionComponent<ArticleContentProps> = (
                 className="max-w-auto relative aspect-video w-full overflow-hidden rounded object-cover"
                 alt={featuredImageAlt}
                 sizes="(max-width: 768px) 300px, 500px"
+                width={"1200"}
+                height={"800"}
               />
             </div>
             {featuredImageCaption && (

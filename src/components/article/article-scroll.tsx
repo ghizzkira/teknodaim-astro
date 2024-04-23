@@ -111,6 +111,8 @@ const ArticleScroll = React.forwardRef<HTMLDivElement, ArticleScrollProps>(
               className="max-w-auto relative aspect-video w-full overflow-hidden rounded object-cover"
               alt={article.title!}
               sizes="(max-width: 768px) 300px, 500px"
+              width={"500"}
+              height={"500"}
             />
           </div>
           {article.title && (
