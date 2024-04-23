@@ -404,9 +404,15 @@ export const updateVideoEmbed = async (input: UpdateVideoEmbed) => {
 
 export const deleteVideoEmbed = async (id: string) => {
   const data = await db.transaction(async (tx) => {
-    await tx.delete(videoEmbedTopics).where(eq(videoEmbedTopics.videoEmbedId, id))
-    await tx.delete(videoEmbedAuthors).where(eq(videoEmbedAuthors.videoEmbedId, id))
-    const videoEmbed = await tx.delete(videoEmbeds).where(eq(videoEmbeds.id, id))
+    await tx
+      .delete(videoEmbedTopics)
+      .where(eq(videoEmbedTopics.videoEmbedId, id))
+    await tx
+      .delete(videoEmbedAuthors)
+      .where(eq(videoEmbedAuthors.videoEmbedId, id))
+    const videoEmbed = await tx
+      .delete(videoEmbeds)
+      .where(eq(videoEmbeds.id, id))
     return videoEmbed
   })
   return data
