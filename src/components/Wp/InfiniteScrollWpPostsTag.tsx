@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import PlaceholderPostCard from "@/components/placeholder/placeholder-post-card"
+import PlaceholderPostCard from "@/components/Placeholder/PlaceholderPostCard"
 // import type { LanguageType } from "@/lib/validation/language"
 import { wpGetPostsByTagSlugAction } from "@/lib/wp/action/wp-post"
 import type {
@@ -9,7 +9,7 @@ import type {
   WpSinglePostDataProps,
 } from "@/lib/wp/action/wp-types"
 import { splitUriWP, wpPrimaryCategorySlug } from "@/lib/wp/helper"
-import WpPostCard from "./wp-post-card"
+import WpPostCard from "./WpPostCard"
 
 interface InfiniteScrollWpPostsTagProps
   extends React.HTMLAttributes<HTMLDivElement> {

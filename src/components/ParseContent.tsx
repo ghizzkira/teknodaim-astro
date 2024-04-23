@@ -1,11 +1,11 @@
 import * as React from "react"
 import { Parser, ProcessNodeDefinitions } from "html-to-react"
 
-import FacebookEmbedWrapper from "@/components/embed/facebook-embed"
+import FacebookEmbedWrapper from "@/components/Embed/FacebookEmbed"
 import TwitterEmbed, {
   TwitterEmbedFromTipTap,
-} from "@/components/embed/twitter-embed"
-import YoutubeEmbed from "@/components/embed/youtube-embed"
+} from "@/components/Embed/TwitterEmbed"
+import YoutubeEmbed from "@/components/Embed/YoutubeEmbed"
 import { Button } from "@/components/UI/Button"
 import { cn } from "@/lib/utils/style"
 

@@ -1,4 +1,5 @@
 import * as React from "react"
+import type { User } from "lucia"
 
 // import type { Menu as MenuProps } from "@prisma/client"
 
@@ -39,6 +40,7 @@ interface MainContainerProps {
   //   | null
   type?: "default" | "video" | "shorts" | "video-content"
   settings?: Record<string, string>
+  user?: User | null
 }
 
 const MainContainer: React.FunctionComponent<MainContainerProps> = (props) => {
@@ -52,6 +54,7 @@ const MainContainer: React.FunctionComponent<MainContainerProps> = (props) => {
     // menusFooterByLang,
     children,
     type = "default",
+    user,
   } = props
 
   return (
@@ -66,6 +69,7 @@ const MainContainer: React.FunctionComponent<MainContainerProps> = (props) => {
         tiktok_username={settings?.tiktok_username}
         whatsapp_channel={settings?.whatsapp_channel}
         youtube_channel={settings?.youtube_channel}
+        user={user}
         buttonMenu={
           <>
             <label
