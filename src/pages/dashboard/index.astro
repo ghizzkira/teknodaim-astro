@@ -1,0 +1,13 @@
+---
+import MainLayout from "@/layouts/MainLayout.astro"
+const user = Astro.locals.user
+
+if (!user.role.includes("admin" || "author")) {
+  return Astro.redirect("/")
+}
+---
+
+<MainLayout>
+  <h1>Admin Dashboard</h1>
+  <p>Ini hanya untuk admin</p>
+</MainLayout>
