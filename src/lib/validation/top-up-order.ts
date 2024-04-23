@@ -128,3 +128,6 @@ export type TopUpOrderInputType = z.infer<typeof createTopUpOrderSchema>
 
 export type CreateTopUpOrder = z.infer<typeof createTopUpOrderSchema>
 export type UpdateTopUpOrder = z.infer<typeof updateTopUpOrderSchema>
+export type UpdateTopUpOrderStatus = z.infer<
+  typeof updateTopUpOrderStatusSchema
+>
