@@ -1,5 +1,6 @@
 import { defineConfig } from "astro/config"
 import cloudflare from "@astrojs/cloudflare"
+import partytown from "@astrojs/partytown"
 import react from "@astrojs/react"
 import tailwind from "@astrojs/tailwind"
 
@@ -78,12 +79,16 @@ export default defineConfig({
       entrypoint: "./src/lib/utils/image/image",
     },
   },
-
   integrations: [
     tailwind({
       applyBaseStyles: false,
     }),
     react(),
+    partytown({
+      config: {
+        forward: ["dataLayer.push"],
+      },
+    }),
   ],
   vite: {
     optimizeDeps: {
@@ -91,3 +96,4 @@ export default defineConfig({
     },
   },
 })
+

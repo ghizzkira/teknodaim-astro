@@ -1,22 +1,57 @@
 ---
+import { SEO, type Props as SeoProps } from "astro-seo"
 import { ViewTransitions } from "astro:transitions"
 
 import "@/styles/globals.css"
 
-type Props = {
-  title?: string
+interface Props {
+  seo?: SeoProps
 }
 
-const { title = "Astro" } = Astro.props
+const { seo } = Astro.props
+const title = seo?.title ?? import.meta.env.PUBLIC_SITE_TITLE
+const description = seo?.description ?? import.meta.env.PUBLIC_SITE_DESCRIPTION
+const titleTemplate =
+  seo?.titleTemplate ?? `%s | ${import.meta.env.PUBLIC_SITE_TITLE ?? ""}`
+const titleDefault = seo?.titleDefault ?? `${import.meta.env.PUBLIC_SITE_TITLE}`
 ---
 
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <SEO
+      {...seo}
+      title={title}
+      description={description}
+      titleTemplate={titleTemplate}
+      titleDefault={titleDefault}
+      charset="utf-8"
+    />
+    <link rel="icon" type="image/svg+xml" href="/icon/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <ViewTransitions fallback="swap" />
+    {
+      import.meta.env.APP_ENV = "production" && (
+        <>
+          <script
+            is:inline
+            type="text/partytown"
+            async
+            src=`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.PUBLIC_GA_MEASUREMENT_ID}`
+          ></script>
+          <script is:inline type="text/partytown">
+            {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag("js", new Date());
+          gtag("config", "${import.meta.env.PUBLIC_GA_MEASUREMENT_ID}");
+          `}
+          </script>
+        </>
+      )
+    }
   </head>
   <body class="antialiased font-400 font-sans">
     <slot />
