@@ -10,6 +10,7 @@ import { Icon } from "@/components/UI/Icon"
 import UserMenu from "@/components/User/UserMenu"
 import { cn } from "@/lib/utils/style"
 import type { LanguageType } from "@/lib/validation/language"
+import ThemeSwitcher from "../Theme/ThemeSwitcher"
 import SearchTopNav from "./SearchTopNav"
 
 interface TopNavProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -189,7 +190,7 @@ const TopNav: React.FunctionComponent<TopNavProps> = (props) => {
                   </Button>
                 )}
                 <div className="flex items-center">
-                  {/* <ThemeSwitcher /> */}
+                  <ThemeSwitcher />
                 </div>
                 <div className="flex items-center">
                   <UserMenu user={user} />

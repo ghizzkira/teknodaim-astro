@@ -9,4 +9,5 @@ export default {
     "./src/**/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}",
   ],
   presets: [baseConfig],
+  darkMode: ["class", '[data-theme="dark"]'],
 } satisfies Config
