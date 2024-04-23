@@ -109,7 +109,6 @@ const WpPostContent: React.FunctionComponent<WpPostContentProps> = React.memo(
     const primaryData = primaryCategory
 
     const stylesIcons = `z-[5] block md:h-[44px] md:w-[44px] rounded-full p-1.5 md:p-2 text-[13px] md:text-[26px] w-[32px] h-[32px] leading-[32px] md:leading-[44px]`
-    console.log(title)
     return (
       <>
         <article id={postData?.slug} className="article-divider px-4">
