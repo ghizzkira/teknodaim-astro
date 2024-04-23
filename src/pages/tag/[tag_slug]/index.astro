@@ -5,7 +5,7 @@ import {
   BreadcrumbLink,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
-import { Icon } from "@/components/ui/icon"
+import { Icon } from "@/components/UI/Icon"
 import InfiniteScrollWpPostsTag from "@/components/wp/infinite-scroll-wp-posts-tag"
 import WpFeaturedCategories from "@/components/wp/wp-featured-categories"
 import WpListPost from "@/components/wp/wp-list-post"
@@ -137,7 +137,7 @@ const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
     description: tag?.description,
   languageAlternates: [
     { href: `${import.meta.env.PUBLIC_SITE_URL}/tag/${tag?.slug}`, hrefLang: "id" },
-    { href: `${import.meta.env.NEXT_PUBLIC_EN_SITE_URL}/tag/${tag?.slug}`, hrefLang: "en" },
+    { href: `${import.meta.env.PUBLIC_EN_SITE_URL}/tag/${tag?.slug}`, hrefLang: "en" },
   ],
   canonical: `${import.meta.env.PUBLIC_SITE_URL}/tag/${tag?.slug}`,
   openGraph: {

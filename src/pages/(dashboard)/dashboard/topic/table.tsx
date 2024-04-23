@@ -13,7 +13,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { toast } from "@/components/ui/toast/use-toast"
+import { toast } from "@/components/UI/Toast/useToast"
 import type { SelectTopic } from "@/lib/db/schema/topic"
 import { useI18n, useScopedI18n } from "@/lib/locales/client"
 import { api } from "@/lib/trpc/react"

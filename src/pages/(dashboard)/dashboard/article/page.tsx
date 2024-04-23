@@ -26,12 +26,12 @@ export function generateMetadata({
     title: "Article Dashboard",
     description: "Article Dashboard",
     alternates: {
-      canonical: `${env.NEXT_PUBLIC_SITE_URL}/dashboard/topic/`,
+      canonical: `${env.PUBLIC_SITE_URL}/dashboard/topic/`,
     },
     openGraph: {
       title: "Article Dashboard",
       description: "Article Dashboard",
-      url: `${env.NEXT_PUBLIC_SITE_URL}/dashboard/topic/`,
+      url: `${env.PUBLIC_SITE_URL}/dashboard/topic/`,
       locale: locale,
     },
   }

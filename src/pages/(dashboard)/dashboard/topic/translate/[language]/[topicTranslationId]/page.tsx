@@ -38,12 +38,12 @@ export async function generateMetadata({
     title: "Translate Topic Dashboard",
     description: "Translate Topic Dashboard",
     alternates: {
-      canonical: `${env.NEXT_PUBLIC_SITE_URL}/dashboard/topic/translate/${language}/${topicTranslation?.id}/`,
+      canonical: `${env.PUBLIC_SITE_URL}/dashboard/topic/translate/${language}/${topicTranslation?.id}/`,
     },
     openGraph: {
       title: "Translate Topic Dashboard",
       description: "Translate Topic Dashboard",
-      url: `${env.NEXT_PUBLIC_SITE_URL}/dashboard/topic/translate/${language}/${topicTranslation?.id}`,
+      url: `${env.PUBLIC_SITE_URL}/dashboard/topic/translate/${language}/${topicTranslation?.id}`,
       locale: locale,
     },
   }

@@ -11,7 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { toast } from "@/components/ui/toast/use-toast"
+import { toast } from "@/components/UI/Toast/useToast"
 import type { SelectAd } from "@/lib/db/schema/ad"
 import { useI18n, useScopedI18n } from "@/lib/locales/client"
 import { api } from "@/lib/trpc/react"

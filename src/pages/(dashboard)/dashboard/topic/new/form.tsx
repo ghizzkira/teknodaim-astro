@@ -4,10 +4,10 @@ import * as React from "react"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 
-import Image from "@/components/image"
+import Image from "@/components/Image"
 import DeleteMediaButton from "@/components/media/delete-media-button"
 import SelectMediaDialog from "@/components/media/select-media-dialog"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/UI/Button"
 import {
   Form,
   FormControl,
@@ -16,7 +16,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+import { Input } from "@/components/UI/Input"
 import {
   Select,
   SelectContent,
@@ -25,7 +25,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { toast } from "@/components/ui/toast/use-toast"
+import { toast } from "@/components/UI/Toast/useToast"
 import { useI18n, useScopedI18n } from "@/lib/locales/client"
 import { api } from "@/lib/trpc/react"
 import type { LanguageType } from "@/lib/validation/language"

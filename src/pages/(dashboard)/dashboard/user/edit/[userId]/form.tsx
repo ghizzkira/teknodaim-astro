@@ -4,9 +4,9 @@ import * as React from "react"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 
-import Image from "@/components/image"
+import Image from "@/components/Image"
 import TextEditor from "@/components/text-editor/text-editor"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/UI/Button"
 import {
   Form,
   FormControl,
@@ -15,7 +15,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+import { Input } from "@/components/UI/Input"
 import {
   Select,
   SelectContent,
@@ -23,7 +23,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { toast } from "@/components/ui/toast/use-toast"
+import { toast } from "@/components/UI/Toast/useToast"
 import type { InsertUser } from "@/lib/db/schema/user"
 import { useI18n, useScopedI18n } from "@/lib/locales/client"
 import { api } from "@/lib/trpc/react"

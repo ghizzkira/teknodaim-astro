@@ -39,11 +39,11 @@ export async function generateMetadata({
     openGraph: {
       title: "Translate Article Dashboard",
       description: "Translate Article Dashboard",
-      url: `${env.NEXT_PUBLIC_SITE_URL}/dashboard/article/translate/${language}/${articleTranslation?.id}`,
+      url: `${env.PUBLIC_SITE_URL}/dashboard/article/translate/${language}/${articleTranslation?.id}`,
       locale: locale,
     },
     alternates: {
-      canonical: `${env.NEXT_PUBLIC_SITE_URL}/dashboard/article/translate/${language}/${articleTranslation?.id}/`,
+      canonical: `${env.PUBLIC_SITE_URL}/dashboard/article/translate/${language}/${articleTranslation?.id}/`,
     },
   }
 }

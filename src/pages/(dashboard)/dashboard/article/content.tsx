@@ -3,7 +3,7 @@
 import * as React from "react"
 import { useSearchParams } from "next/navigation"
 
-import { Icon } from "@/components/ui/icon"
+import { Icon } from "@/components/UI/Icon"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useScopedI18n } from "@/lib/locales/client"
 import { api } from "@/lib/trpc/react"

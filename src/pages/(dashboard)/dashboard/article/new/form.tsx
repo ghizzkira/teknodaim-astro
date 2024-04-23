@@ -8,11 +8,11 @@ import { useForm } from "react-hook-form"
 import DashboardAddAuthors from "@/components/dashboard/dashboard-add-authors"
 import DashboardAddEditors from "@/components/dashboard/dashboard-add-editors"
 import DashboardAddTopics from "@/components/dashboard/dashboard-add-topics"
-import Image from "@/components/image"
+import Image from "@/components/Image"
 import DeleteMediaButton from "@/components/media/delete-media-button"
 import SelectMediaDialog from "@/components/media/select-media-dialog"
 import TextEditorExtended from "@/components/text-editor/text-editor-extended"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/UI/Button"
 import {
   Form,
   FormControl,
@@ -21,8 +21,8 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { Icon } from "@/components/ui/icon"
-import { Input } from "@/components/ui/input"
+import { Icon } from "@/components/UI/Icon"
+import { Input } from "@/components/UI/Input"
 import {
   Select,
   SelectContent,
@@ -31,8 +31,8 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { toast } from "@/components/ui/toast/use-toast"
-import { useDisclosure } from "@/hooks/use-disclosure"
+import { toast } from "@/components/UI/Toast/useToast"
+import { useDisclosure } from "@/hooks/useDisclosure"
 import type { AuthSession } from "@/lib/auth/utils"
 import { useI18n, useScopedI18n } from "@/lib/locales/client"
 import { api } from "@/lib/trpc/react"

@@ -6,7 +6,7 @@ import {
   DashboardBoxDescription,
   DashboardBoxIconWrapper,
 } from "@/components/dashboard/dashboard-box"
-import { Icon } from "@/components/ui/icon"
+import { Icon } from "@/components/UI/Icon"
 import { getSession } from "@/lib/auth/utils"
 import { getI18n } from "@/lib/locales/server"
 import { api } from "@/lib/trpc/server"

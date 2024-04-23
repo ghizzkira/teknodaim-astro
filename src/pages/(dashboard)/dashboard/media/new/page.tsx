@@ -28,11 +28,11 @@ export function generateMetadata({
     openGraph: {
       title: "Upload Media Dashboard",
       description: "Upload Media Dashboard",
-      url: `${env.NEXT_PUBLIC_SITE_URL}/dashboard/media/new`,
+      url: `${env.PUBLIC_SITE_URL}/dashboard/media/new`,
       locale: locale,
     },
     alternates: {
-      canonical: `${env.NEXT_PUBLIC_SITE_URL}/dashboard/media/new/`,
+      canonical: `${env.PUBLIC_SITE_URL}/dashboard/media/new/`,
     },
   }
 }

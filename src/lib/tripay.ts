@@ -6,11 +6,11 @@ export const tripay = createTripayConfig({
       ? import.meta.env.TRIPAY_API_KEY_DEV!
       : import.meta.env.TRIPAY_API_KEY_PROD!,
   privateKey:
-    process.env.APP_ENV === "development"
+    import.meta.env.APP_ENV === "development"
       ? import.meta.env.TRIPAY_PRIVATE_KEY_DEV!
       : import.meta.env.TRIPAY_PRIVATE_KEY_PROD!,
   merchant_code:
-    process.env.APP_ENV === "development"
+    import.meta.env.APP_ENV === "development"
       ? import.meta.env.TRIPAY_MERCHANT_CODE_DEV!
       : import.meta.env.TRIPAY_MERCHANT_CODE_PROD!,
   isProduction: import.meta.env.APP_ENV === "development" ? false : true,

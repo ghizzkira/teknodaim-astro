@@ -32,12 +32,12 @@ export async function generateMetadata({
     openGraph: {
       title: "Edit Article Dashboard",
       description: "Edit Article Dashboard",
-      url: `${env.NEXT_PUBLIC_SITE_URL}/dashboard/article/edit/${article?.id}`,
+      url: `${env.PUBLIC_SITE_URL}/dashboard/article/edit/${article?.id}`,
 
       locale: locale,
     },
     alternates: {
-      canonical: `${env.NEXT_PUBLIC_SITE_URL}/dashboard/article/edit/${article?.id}/`,
+      canonical: `${env.PUBLIC_SITE_URL}/dashboard/article/edit/${article?.id}/`,
     },
   }
 }

@@ -4,8 +4,8 @@ import * as React from "react"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 
-import Image from "@/components/image"
-import { Button } from "@/components/ui/button"
+import Image from "@/components/Image"
+import { Button } from "@/components/UI/Button"
 import {
   Form,
   FormControl,
@@ -14,9 +14,9 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { Icon } from "@/components/ui/icon"
+import { Icon } from "@/components/UI/Icon"
 import { Textarea } from "@/components/ui/textarea"
-import { toast } from "@/components/ui/toast/use-toast"
+import { toast } from "@/components/UI/Toast/useToast"
 import type { InsertMedia } from "@/lib/db/schema/media"
 import { useI18n, useScopedI18n } from "@/lib/locales/client"
 import { api } from "@/lib/trpc/react"

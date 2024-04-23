@@ -6,7 +6,7 @@ import {
   BreadcrumbLink,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
-import { Icon } from "@/components/ui/icon"
+import { Icon } from "@/components/UI/Icon"
 import InfiniteScrollWpPost from "@/components/wp/infinite-scroll-wp-posts"
 import InfiniteScrollWpPostsCategory from "@/components/wp/infinite-scroll-wp-posts-category"
 import WpFeaturedCategories from "@/components/wp/wp-featured-categories"
@@ -183,7 +183,7 @@ seo={{
       hrefLang: "id",
     },
     {
-      href: `${import.meta.env.NEXT_PUBLIC_EN_SITE_URL}/${category?.slug}`,
+      href: `${import.meta.env.PUBLIC_EN_SITE_URL}/${category?.slug}`,
       hrefLang: "en",
     },
   ],

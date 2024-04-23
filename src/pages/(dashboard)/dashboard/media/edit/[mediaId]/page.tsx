@@ -30,12 +30,12 @@ export async function generateMetadata({
     title: "Edit Media Dashboard",
     description: "Edit Media Dashboard",
     alternates: {
-      canonical: `${env.NEXT_PUBLIC_SITE_URL}/dashboard/media/edit/${media?.id}/`,
+      canonical: `${env.PUBLIC_SITE_URL}/dashboard/media/edit/${media?.id}/`,
     },
     openGraph: {
       title: "Edit Media Dashboard",
       description: "Edit Media Dashboard",
-      url: `${env.NEXT_PUBLIC_SITE_URL}/dashboard/media/edit/${media?.id}`,
+      url: `${env.PUBLIC_SITE_URL}/dashboard/media/edit/${media?.id}`,
       locale: locale,
     },
   }
