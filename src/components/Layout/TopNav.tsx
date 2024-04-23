@@ -4,6 +4,7 @@ import type { User } from "lucia"
 //  import type { Topic as TopicProps } from "@prisma/client"
 
 import Logo from "@/components/Brand/Logo"
+import ThemeSwitcher from "@/components/Theme/ThemeSwitcher"
 // import ThemeSwitcher from "@/components/theme/theme-switcher"
 import { Button } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
@@ -189,7 +190,7 @@ const TopNav: React.FunctionComponent<TopNavProps> = (props) => {
                   </Button>
                 )}
                 <div className="flex items-center">
-                  {/* <ThemeSwitcher /> */}
+                  <ThemeSwitcher />
                 </div>
                 <div className="flex items-center">
                   <UserMenu user={user} />
