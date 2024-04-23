@@ -7,9 +7,17 @@ import { accounts, users } from "@/lib/db/schema"
 import { cuid, uniqueCharacter } from "@/lib/utils/id"
 import { slugify } from "@/lib/utils/slug"
 
+interface GoogleUser {
+  sub: string
+  email: string
+  name: string
+  picture: string
+}
+
 export async function GET(context: APIContext): Promise<Response> {
   const code = context.url.searchParams.get("code")
   const state = context.url.searchParams.get("state")
+
   const storedState = context.cookies.get("state")?.value ?? null
   const storedCodeVerifier = context.cookies.get("code_verifier")?.value ?? null
 
@@ -59,6 +67,7 @@ export async function GET(context: APIContext): Promise<Response> {
         sessionCookie.value,
         sessionCookie.attributes,
       )
+
       return context.redirect("/")
     }
 
@@ -72,6 +81,7 @@ export async function GET(context: APIContext): Promise<Response> {
         username: `${slugify(googleUser.name)}_${uniqueCharacter()}`,
         image: googleUser.picture,
       })
+
       await tx.insert(accounts).values({
         provider: "google",
         providerAccountId: googleUser.sub,
@@ -89,24 +99,18 @@ export async function GET(context: APIContext): Promise<Response> {
     )
 
     return context.redirect("/")
-  } catch (e) {
+  } catch (err) {
+    console.log(err)
     if (
-      e instanceof OAuth2RequestError &&
-      e.message === "bad_verification_code"
+      err instanceof OAuth2RequestError &&
+      err.message === "bad_verification_code"
     ) {
       return new Response(null, {
         status: 400,
       })
     }
-    return new Response(e, {
+    return new Response(err as unknown as string, {
       status: 500,
     })
   }
-}
-
-interface GoogleUser {
-  sub: string
-  email: string
-  name: string
-  picture: string
 }

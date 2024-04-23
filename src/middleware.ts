@@ -26,6 +26,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
   }
 
   const { session, user } = await auth.validateSession(sessionId)
+  // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
   if (session && session.fresh) {
     const sessionCookie = auth.createSessionCookie(session.id)
     context.cookies.set(

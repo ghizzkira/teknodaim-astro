@@ -19,7 +19,7 @@ export async function GET(context: APIContext): Promise<Response> {
     sameSite: "lax",
   })
 
-  context.cookies.set("code_verifier", {
+  context.cookies.set("code_verifier", codeVerifier, {
     path: "/",
     secure: import.meta.env.APP_ENV === "production",
     httpOnly: true,

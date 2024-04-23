@@ -6,7 +6,7 @@ import AuthLayout from "@/layouts/AuthLayout.astro"
 import { cn } from "@/lib/utils/style"
 
 if (Astro.locals.user) {
-	return Astro.redirect("/");
+  return Astro.redirect("/")
 }
 
 export const prerender = false
