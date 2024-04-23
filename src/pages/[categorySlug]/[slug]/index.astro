@@ -17,10 +17,10 @@ import {
 } from "@/lib/wp/action/wp-post"
 import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
 import { splitUriWP, wpPrimaryCategorySlug } from "@/lib/wp/helper"
-import MainLayout from "../../../layouts/MainLayout.astro"
+import MainLayout from "@/layouts/MainLayout.astro"
 import InfiniteScrollWpSinglePost from "@/components/Wp/InfiniteScrollWpSinglePost"
 import WpPostViewCounter from "@/components/Wp/WpPostViewCounter"
-import { getWpPopularPosts } from "@/lib/db/action/wp-popular-post"
+import { getWpPopularPosts } from "@/lib/action/wp-popular-post"
 
 export const prerender = false
 Astro.response.headers.set(
