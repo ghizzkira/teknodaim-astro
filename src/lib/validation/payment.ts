@@ -214,3 +214,11 @@ export type PaymentTripayOpenPaymentCodeType = z.infer<
 >
 
 export type PaymentStatus = z.infer<typeof paymentStatus>
+
+export type PaymentTripayCreateClosedTransaction = z.infer<
+  typeof paymentTripayCreateClosedTransactionSchema
+>
+
+export type PaymentTripayCreateOpenTransaction = z.infer<
+  typeof paymentTripayCreateOpenTransactionSchema
+>
