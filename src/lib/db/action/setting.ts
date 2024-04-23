@@ -1,3 +1,5 @@
+import { sql } from "drizzle-orm"
+
 import { db } from "@/lib/db"
 import { settings } from "@/lib/db/schema/setting"
 import { cuid } from "@/lib/utils/id"
@@ -26,7 +28,7 @@ export const upsertSetting = async (input: UpsertSetting) => {
     })
     .onConflictDoUpdate({
       target: settings.key,
-      set: { value: input.value },
+      set: { value: input.value, updatedAt: sql`CURRENT_TIMESTAMP` },
     })
 
   return setting

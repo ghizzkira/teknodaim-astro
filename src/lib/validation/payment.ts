@@ -197,6 +197,14 @@ export const paymentTripayCreateOpenTransactionSchema = z.object({
   ...paymentTripayCreateOpenTransactionInput,
 })
 
+export type PaymentTripayPaymentInstruction = z.infer<
+  typeof paymentTripayPaymentInstructionSchema
+>
+
+export type PaymentTripayFeeCalculator = z.infer<
+  typeof paymentTripayFeeCalculatorSchema
+>
+
 export type PaymentTripayClosedPaymentCodeType = z.infer<
   typeof paymentTripayClosedPaymentCodeType
 >
