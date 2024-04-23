@@ -11,9 +11,11 @@ export const topUpDigiflazzTransactionType = z.enum(
   TOPUP_DIGFLAZZ_TRANSACTION_TYPE,
 )
 
-export const TOPUP_DIGFLAZZ_PRICELIST_TYPE = ["prepaid", "pasca"] as const
+export const TOPUP_DIGIFLAZZ_PRICELIST_TYPE = ["prepaid", "pasca"] as const
 
-export const topUpDigiflazzPricelistType = z.enum(TOPUP_DIGFLAZZ_PRICELIST_TYPE)
+export const topUpDigiflazzPriceListType = z.enum(
+  TOPUP_DIGIFLAZZ_PRICELIST_TYPE,
+)
 
 const topUpDigiflazzDepositInput = {
   amount: z
@@ -116,6 +118,12 @@ export const topUpSavePriceListSchema = z.object({
 export type TopUpDigiflazzTransactionType = z.infer<
   typeof topUpDigiflazzTransactionType
 >
-export type TopUpDigiflazzPricelistType = z.infer<
-  typeof topUpDigiflazzPricelistType
+export type TopUpDigiflazzPriceListType = z.infer<
+  typeof topUpDigiflazzPriceListType
+>
+export type CreateTopUpDigiflazzDeposit = z.infer<
+  typeof topUpDigiflazzCreateDepositSchema
+>
+export type CreateTopUpDigiflazzTransaction = z.infer<
+  typeof topUpDigiflazzCreateTransactionSchema
 >
