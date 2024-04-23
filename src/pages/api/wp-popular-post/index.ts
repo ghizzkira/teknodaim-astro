@@ -1,7 +1,7 @@
 import type { APIRoute } from "astro"
 import { z } from "zod"
 
-import { upsertWpPopularPost } from "@/lib/db/action/wp-popular-post"
+import { upsertWpPopularPost } from "@/lib/action/wp-popular-post"
 import { upsertWpPopularPostSchema } from "@/lib/validation/wp-popular-post"
 
 export const POST: APIRoute = async ({ request }) => {

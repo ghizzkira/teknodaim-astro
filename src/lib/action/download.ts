@@ -744,12 +744,23 @@ export const updateDownload = async (input: UpdateDownload) => {
       .returning()
 
     await tx
+      .delete(downloadDownloadFiles)
+      .where(eq(downloadTopics.downloadId, input.id))
+
+    await tx
       .delete(downloadTopics)
       .where(eq(downloadTopics.downloadId, input.id))
 
     await tx
       .delete(downloadAuthors)
       .where(eq(downloadAuthors.downloadId, input.id))
+
+    const downloadFileValues = input.downloadFiles.map((downloadFile) => ({
+      downloadId: download[0].id,
+      downloadFileId: downloadFile,
+    }))
+
+    await tx.insert(downloadDownloadFiles).values(downloadFileValues)
 
     const topicValues = input.topics.map((topic) => ({
       downloadId: download[0].id,

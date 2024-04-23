@@ -2,6 +2,7 @@ import { relations, sql } from "drizzle-orm"
 import { primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core"
 
 import { STATUS_TYPE } from "@/lib/validation/status"
+import { VIDEO_EMBED_TYPE } from "@/lib/validation/video-embed"
 import { medias } from "./media"
 import { topics } from "./topic"
 import { users } from "./user"
@@ -16,9 +17,8 @@ export const videoEmbeds = sqliteTable("video_embeds", {
   metaTitle: text("meta_title"),
   metaDescription: text("meta_description"),
   status: text("status", { enum: STATUS_TYPE }).notNull().default("draft"),
-  featuredImageId: text("featured_image_id")
-    .notNull()
-    .references(() => medias.id),
+  featuredImageId: text("featured_image_id").references(() => medias.id),
+  type: text("type", { enum: VIDEO_EMBED_TYPE }).notNull().default("youtube"),
   createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
   updatedAt: text("updated_at").default(sql`CURRENT_TIMESTAMP`),
 })

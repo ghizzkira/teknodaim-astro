@@ -1,6 +1,6 @@
 import type {
-  CreateClosedTransactionProps,
   CreateClosedTransactionReturnProps,
+  CreateOpenTransactionReturnProps,
   FeeCalculatorReturnProps,
   InstructionReturnProps,
   OpenTransactionsReturnProps,
@@ -11,6 +11,8 @@ import type {
 import { tripay } from "@/lib/tripay"
 import { uniqueCharacter } from "@/lib/utils/id"
 import type {
+  PaymentTripayCreateClosedTransaction,
+  PaymentTripayCreateOpenTransaction,
   PaymentTripayFeeCalculator,
   PaymentTripayPaymentInstruction,
 } from "@/lib/validation/payment"
@@ -107,7 +109,7 @@ export const getPaymentTripayOpenTransactionList = async (uuid: string) => {
 }
 
 export const createPaymentTripayClosedTransaction = async (
-  input: CreateClosedTransactionProps,
+  input: PaymentTripayCreateClosedTransaction,
 ) => {
   const generatedMerchatRef = `trx_closed_${uniqueCharacter()}`
 
@@ -115,14 +117,53 @@ export const createPaymentTripayClosedTransaction = async (
     method: input.paymentMethod,
     merchant_ref: generatedMerchatRef,
     amount: input.amount,
-    customer_name: input.customer_name,
-    customer_email: input.customer_email,
-    customer_phone: input.customer_phone,
-    order_items: input.order_items,
-    callback_url: input.callback_url,
-    return_url: input.return_url,
-    expired_time: input.expired_time,
+    customer_name: input.customerName,
+    customer_email: input.customerEmail,
+    customer_phone: input.customerPhone,
+    //@ts-expect-error FIX: later
+    order_items: input.orderItems,
+    callback_url: input.callbackUrl,
+    return_url: input.returnUrl,
+    expired_time: input.expiredTime,
   })) as CreateClosedTransactionReturnProps
+
+  const { data } = res
+
+  return data
+}
+
+export const createPaymentTripayOpenTransaction = async (
+  input: PaymentTripayCreateOpenTransaction,
+) => {
+  const generatedMerchatRef = `trx_open_${uniqueCharacter()}`
+
+  const res = (await tripay.createOpenTransaction({
+    method: input.paymentMethod,
+    merchant_ref: generatedMerchatRef,
+    customer_name: input.customerName,
+  })) as CreateOpenTransactionReturnProps
+
+  const { data } = res
+
+  return data
+}
+
+export const getPaymentTripayClosedTransactionDetail = async (
+  reference: string,
+) => {
+  const res = (await tripay.closedTransactionDetail({
+    reference: reference,
+  })) as CreateClosedTransactionReturnProps
+
+  const { data } = res
+
+  return data
+}
+
+export const getPaymentTripayOpenTransactionDetail = async (uuid: string) => {
+  const res = (await tripay.openTransactionDetail({
+    uuid: uuid,
+  })) as CreateOpenTransactionReturnProps
 
   const { data } = res
 

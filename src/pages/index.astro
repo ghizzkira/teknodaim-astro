@@ -2,7 +2,7 @@
 import InfiniteScrollWpPost from "@/components/Wp/InfiniteScrollWpPosts"
 import WpPostCardSide from "@/components/Wp/WpPostCardSide"
 import MainLayout from "@/layouts/MainLayout.astro"
-import { getWpPopularPosts } from "@/lib/db/action/wp-popular-post"
+import { getWpPopularPosts } from "@/lib/action/wp-popular-post"
 import { wpGetAllPostsAction } from "@/lib/wp/action/wp-post"
 
 const { posts, pageInfo } = await wpGetAllPostsAction("ID")
