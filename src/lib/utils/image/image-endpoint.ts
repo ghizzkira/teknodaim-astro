@@ -11,12 +11,15 @@ function matchPattern(url: URL, remotePattern: URL) {
     matchPathname(url, remotePattern.pathname, true)
   )
 }
+
 function matchPort(url: { port: any }, port: any) {
   return !port || port === url.port
 }
+
 function matchProtocol(url: { protocol: string | any[] }, protocol: any) {
   return !protocol || protocol === url.protocol.slice(0, -1)
 }
+
 function matchHostname(
   url: URL,
   hostname: string,
@@ -41,6 +44,7 @@ function matchHostname(
   }
   return false
 }
+
 function matchPathname(
   url: { pathname: string },
   pathname: string,
@@ -65,6 +69,7 @@ function matchPathname(
   }
   return false
 }
+
 function isRemoteAllowed(src: string, { domains = [], remotePatterns = [] }) {
   if (!isRemotePath(src)) return false
   const url = new URL(src)
@@ -73,6 +78,7 @@ function isRemoteAllowed(src: string, { domains = [], remotePatterns = [] }) {
     remotePatterns.some((remotePattern) => matchPattern(url, remotePattern))
   )
 }
+
 export const fnv1a52 = (str: string) => {
   const len = str.length
   let i = 0,
@@ -115,9 +121,11 @@ export const etag = (payload: string, weak = false) => {
     prefix + fnv1a52(payload).toString(36) + payload.length.toString(36) + '"'
   )
 }
+
 function isRemotePath(src: string) {
   return /^(?:http|ftp|https|ws):?\/\//.test(src) || src.startsWith("data:")
 }
+
 async function loadRemoteImage(src: URL, headers: Headers) {
   try {
     const res = await fetch(src, {
