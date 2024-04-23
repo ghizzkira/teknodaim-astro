@@ -8,8 +8,8 @@ import type {
   WpSinglePostDataProps,
 } from "@/lib/wp/action/wp-types"
 import { splitUriWP, wpPrimaryCategorySlug } from "@/lib/wp/helper"
-import PlaceholderPostCard from "../placeholder/placeholder-post-card"
-import WpPostCard from "./wp-post-card"
+import PlaceholderPostCard from "../Placeholder/PlaceholderPostCard"
+import WpPostCard from "./WpPostCard"
 
 interface InfiniteScrollWpPostProps
   extends React.HTMLAttributes<HTMLDivElement> {

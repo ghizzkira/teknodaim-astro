@@ -1,7 +1,7 @@
 import * as React from "react"
 
-import LoadingProgress from "@/components/loading-progress"
-import PlaceholderPostCard from "@/components/placeholder/placeholder-post-card"
+import LoadingProgress from "@/components/LoadingProgress"
+import PlaceholderPostCard from "@/components/Placeholder/PlaceholderPostCard"
 // import { api } from "@/lib/trpc/react"
 import type { LanguageType } from "@/lib/validation/language"
 import ArticleCardHorizontal from "./article-card-horizontal"

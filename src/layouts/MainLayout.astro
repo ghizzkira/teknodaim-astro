@@ -2,15 +2,18 @@
 import { SEO, type Props as SeoProps } from "astro-seo"
 import { ViewTransitions } from "astro:transitions"
 
-import MainContainer from "@/components/layout/main-container"
-
 import "@/styles/globals.css"
+
+import MainContainer from "@/components/Layout/MainContainer"
+import type { LanguageType } from "@/lib/validation/language"
 
 interface Props {
   seo?: SeoProps
+  locale?: LanguageType
 }
+const user = Astro.locals.user
 
-const { seo } = Astro.props
+const { seo, locale } = Astro.props
 const title = seo?.title || import.meta.env.PUBLIC_SITE_TITLE
 const description = seo?.description || import.meta.env.PUBLIC_SITE_DESCRIPTION
 const titleTemplate =
@@ -32,14 +35,14 @@ const titleDefault = seo?.titleDefault || import.meta.env.PUBLIC_SITE_TITLE
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <ViewTransitions fallback="swap" />
     {
-      import.meta.env.APP_ENV = "production" && (
+      (import.meta.env.APP_ENV = "production" && (
         <>
           <script
             is:inline
             type="text/partytown"
             async
-            src=`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.PUBLIC_GA_MEASUREMENT_ID}`
-          ></script>
+            src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.PUBLIC_GA_MEASUREMENT_ID}`}
+          />
           <script is:inline type="text/partytown">
             {`
           window.dataLayer = window.dataLayer || [];
@@ -51,10 +54,12 @@ const titleDefault = seo?.titleDefault || import.meta.env.PUBLIC_SITE_TITLE
           `}
           </script>
         </>
-      )
+      ))
     }
   </head>
   <body class="antialiased font-400 font-sans">
-    <MainContainer><slot /></MainContainer>
+    <MainContainer user={user} locale={locale} client:load
+      ><slot /></MainContainer
+    >
   </body>
 </html>
