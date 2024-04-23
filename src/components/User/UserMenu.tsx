@@ -2,11 +2,15 @@ import * as React from "react"
 import type { User } from "lucia"
 
 import Image from "@/components/Image"
+import { buttonVariants } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/UI/Popover"
 // import { useSession } from "@/lib/auth/client"
 import { cn } from "@/lib/utils/style"
-import { buttonVariants } from "../UI/Button"
-import { Popover, PopoverContent, PopoverTrigger } from "../UI/Popover"
 import AuthModal from "./AuthDialog"
 import LogoutButton from "./LogoutButton"
 

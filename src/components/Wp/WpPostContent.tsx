@@ -18,8 +18,8 @@ import {
   wpPrimaryCategorySlug,
   wpTagPathBySlug,
 } from "@/lib/wp/helper"
-import Image from "../Image"
-import StaticShare from "../Share/StaticShare"
+import Image from "@/components/Image"
+import StaticShare from "@/components/Share/StaticShare"
 import WpPostBody from "./WpPostBody"
 import WpPostInfo from "./WpPostInfo"
 import WpPostView from "./WpPostView"

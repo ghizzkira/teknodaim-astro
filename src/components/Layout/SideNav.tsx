@@ -8,7 +8,7 @@ import { Button } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
 
 // import env from "@/env"
-// import ThemeSwitcher from "../theme/theme-switcher"
+// import ThemeSwitcher from "@/components/theme/theme-switcher"
 
 interface SideNavProps {
   isMain: boolean

@@ -1,10 +1,10 @@
 import * as React from "react"
 
+import BadgeIcon from "@/components/BadgeIcon"
+import Image from "@/components/Image"
 import { Icon } from "@/components/UI/Icon"
 import { formatDateFromNow } from "@/lib/utils/date"
 import type { LanguageType } from "@/lib/validation/language"
-import BadgeIcon from "../BadgeIcon"
-import Image from "../Image"
 import WpPostView from "./WpPostView"
 
 // const DateWrapper = dynamic(
