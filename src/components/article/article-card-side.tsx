@@ -27,6 +27,8 @@ const ArticleCardSide: React.FunctionComponent<ArticleCardSideProps> = (
               src={featured_image.url}
               alt={`Image ${title}`}
               sizes="(max-width: 768px) 50px, 100px"
+              width={"50"}
+              height={"50"}
             />
           </div>
 

@@ -31,6 +31,8 @@ const PostInfo: React.FunctionComponent<PostInfoProps> = (props) => {
                 className="overflow-hidden rounded-full"
                 alt={authorName}
                 sizes="(max-width: 768px) 50px, 50px"
+                width={"40"}
+                height={"40"}
               />
             </a>
           )}

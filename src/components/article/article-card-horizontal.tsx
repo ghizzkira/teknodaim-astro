@@ -50,6 +50,8 @@ const ArticleCardHorizontal: React.FunctionComponent<
                 src={featured_image.url}
                 alt={`Image ${title}`}
                 className="overflow-hidden rounded-lg object-cover"
+                width={"50"}
+                height={"50"}
               />
             </a>
             <BadgeIcon
@@ -91,6 +93,8 @@ const ArticleCardHorizontal: React.FunctionComponent<
                           className="overflow-hidden rounded-full object-cover"
                           alt={mainAuthor.name ?? title}
                           sizes="(max-width: 768px) 20px, 50px"
+                          width={"50"}
+                          height={"50"}
                         />
                       </div>
                     )}

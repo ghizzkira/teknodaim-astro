@@ -51,6 +51,8 @@ const ArticleCardVertical: React.FunctionComponent<ArticleCardVerticalProps> = (
                 sizes="(max-width: 768px) 80vw, 60vw"
                 alt={`Image ${title}`}
                 className="overflow-hidden rounded-lg object-cover"
+                width={"300"}
+                height={"300"}
               />
             </a>
             <BadgeIcon
@@ -88,6 +90,8 @@ const ArticleCardVertical: React.FunctionComponent<ArticleCardVerticalProps> = (
                           className="overflow-hidden rounded-full object-cover"
                           alt={mainAuthor.name ?? title}
                           sizes="(max-width: 768px) 20px, 50px"
+                          width={"300"}
+                          height={"300"}
                         />
                       </div>
                     )}

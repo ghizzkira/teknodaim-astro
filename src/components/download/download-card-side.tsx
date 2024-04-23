@@ -24,7 +24,8 @@ const DownloadCardSide: React.FunctionComponent<DownloadCardSideProps> = (
               src={src}
               alt={title}
               sizes="(max-width: 768px) 50px, 100px"
-              priority={true}
+              width={"100"}
+              height={"100"}
             />
           </div>
           <div className="flex w-full flex-col space-y-2 md:w-2/3">

@@ -37,6 +37,8 @@ const ArticleCardSearch: React.FunctionComponent<ArticleCardSearchProps> = (
             src={featured_image.url}
             className="object-cover"
             alt={title}
+            width={"50"}
+            height={"50"}
           />
         </div>
         <div className="ml-2 w-3/4">

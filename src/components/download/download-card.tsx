@@ -71,6 +71,8 @@ const DownloadCard: React.FunctionComponent<DownloadCardProps> = (props) => {
               src={featured_image?.url!}
               className="object-cover"
               alt={title!}
+              width={"50"}
+              height={"50"}
             />
           </div>
         </NextLink>

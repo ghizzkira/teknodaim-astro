@@ -22,13 +22,63 @@ export default defineConfig({
     i18nDomains: true,
   },
   adapter: cloudflare({
-    imageService: "passthrough",
+    imageService: "custom",
     // routes: {
     //   extend: {
     //     include: [{ pattern: "/en/*" }], // Route a prerended page to the SSR function for on-demand rendering
     //   },
     // },
   }),
+  image: {
+    endpoint: "./src/lib/utils/image/image-endpoint",
+    domains: ["secure.gravatar.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+      },
+      {
+        protocol: "https",
+        hostname: "secure.gravatar.com",
+      },
+      {
+        protocol: "https",
+        hostname: "assets.tripay.co.id",
+      },
+      {
+        protocol: "https",
+        hostname: "i.ytimg.com",
+      },
+      {
+        protocol: "https",
+        hostname: "**.tiktokcdn.com",
+      },
+      {
+        protocol: "https",
+        hostname: "**.dafunda.com",
+      },
+      {
+        protocol: "https",
+        hostname: import.meta.env.PUBLIC_DOMAIN,
+      },
+      {
+        protocol: "https",
+        hostname: `*.${import.meta.env.PUBLIC_DOMAIN}`,
+      },
+      {
+        protocol: "https",
+        hostname: `media.${import.meta.env.PUBLIC_DOMAIN}`,
+      },
+      {
+        protocol: "https",
+        hostname: `cdn.${import.meta.env.PUBLIC_DOMAIN}`,
+      },
+    ],
+    service: {
+      entrypoint: "./src/lib/utils/image/image",
+    },
+  },
+
   integrations: [
     tailwind({
       applyBaseStyles: false,
