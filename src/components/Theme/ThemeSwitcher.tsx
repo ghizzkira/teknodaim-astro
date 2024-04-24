@@ -6,15 +6,14 @@ import { Icon } from "@/components/UI/Icon"
 const ThemeSwitcher: React.FunctionComponent = () => {
   const [toggle, setToggle] = useState(() => {
     if (typeof window !== "undefined") {
-      return localStorage.getItem("theme") || "light"
+      return localStorage.getItem("theme") ?? "light"
     }
     return "light"
   })
-  console.log(toggle)
   const [isMounted, setIsMounted] = React.useState(false)
 
   const toggleTheme = () => {
-    let newTheme = toggle === "light" ? "dark" : "light"
+    const newTheme = toggle === "light" ? "dark" : "light"
     setToggle(newTheme)
     document.dispatchEvent(new CustomEvent("set-theme", { detail: toggle }))
   }

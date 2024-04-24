@@ -97,9 +97,10 @@ export const getArticleCommentsByArticleIdInfinite = async ({
 }
 
 export const getArticleCommentById = async (id: string) => {
-  const data = await db.query.articleComments.findMany({
+  const data = await db.query.articleComments.findFirst({
     where: (articleComments, { eq }) => eq(articleComments.id, id),
     with: {
+      author: true,
       replies: {
         with: {
           author: true,
