@@ -1,5 +1,5 @@
 import type { AstroConfig, ImageTransform, LocalImageService } from "astro"
-import sharp from "sharp"
+import * as photon from "@cf-wasm/photon"
 
 const service: LocalImageService = {
   getURL(options: ImageTransform, _imageConfig: AstroConfig["image"]) {
@@ -30,16 +30,13 @@ const service: LocalImageService = {
     options: { src: string; [key: string]: any },
     imageConfig,
   ): Promise<{ data: Uint8Array; format: string }> {
-    let image = sharp(Buffer.from(buffer))
-    if (options.width || options.height) {
-      image = image.resize(options.width)
-    }
-    if (options.format) {
-      image = image.toFormat(options.format)
-    }
-    const data = await image.toBuffer()
+    const inputImage = photon.PhotonImage.new_from_byteslice(buffer)
+
+    let image = photon.resize(inputImage, options.width, options.height, 1)
+    const outputBytes = image.get_bytes_webp()
+
     return {
-      data: new Uint8Array(data),
+      data: new Uint8Array(outputBytes),
       format: options.format,
     }
   },

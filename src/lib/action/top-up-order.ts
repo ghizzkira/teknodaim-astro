@@ -1,13 +1,13 @@
 import { count, eq, sql } from "drizzle-orm"
 
 import { db } from "@/lib/db"
+import { topUpOrders } from "@/lib/db/schema/top-up-order"
 import { cuid } from "@/lib/utils/id"
 import type {
   CreateTopUpOrder,
   UpdateTopUpOrder,
   UpdateTopUpOrderStatus,
 } from "@/lib/validation/top-up-order"
-import { topUpOrders } from "../schema/top-up-order"
 
 export const getTopUpOrders = async ({
   page,

@@ -28,10 +28,12 @@ const addQueryParamToURL = ({
     searchParams.set("f", "webp")
     const searchParamsString = searchParams.toString()
     const queryString = searchParamsString ? `&${searchParamsString}` : ""
-    return `/_image?href=${encodeURIComponent(urlObject.href)}${queryString}`
+    return import.meta.env.APP_ENV !== "depelopment"
+      ? `/_image?href=${encodeURIComponent(urlObject.href)}${queryString}`
+      : url
   } catch (error) {
     console.error("URL tidak valid:", error)
-    return ""
+    return url
   }
 }
 

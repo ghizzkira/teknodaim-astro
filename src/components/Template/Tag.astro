@@ -1,0 +1,122 @@
+---
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbSeparator,
+} from "@/components/UI/Breadcrumb"
+import InfiniteScrollWpPostsTag from "@/components/Wp/InfiniteScrollWpPostsTag"
+import WpListPost from "@/components/Wp/WpListPost"
+import WpPostCardSide from "@/components/Wp/WpPostCardSide"
+import type { LanguageType } from "@/lib/validation/language"
+import type { UpsertWpPopularPost } from "@/lib/validation/wp-popular-post"
+import type {
+  WPPageInfoProps,
+  WpSinglePostDataProps,
+  WpTagsDataProps,
+} from "@/lib/wp/action/wp-types"
+
+interface Props {
+  posts?: WpSinglePostDataProps[] | null
+  pageInfo?: WPPageInfoProps | null
+  locale?: LanguageType
+  trendingPosts?: Partial<UpsertWpPopularPost>[]
+  tag?: WpTagsDataProps
+}
+const { posts, pageInfo, locale, trendingPosts, tag } = Astro.props
+const listPost = posts?.slice(0, posts?.length - 1)
+const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
+---
+
+---
+
+<!-- {
+    featuredCategories && Array.isArray(featuredCategories) && (
+      <div class="block w-full sm:hidden">
+        <WpFeaturedCategories categories={featuredCategories} />
+      </div>
+    )
+  } -->
+<section class="fade-up-element flex w-full flex-col">
+  <div
+    class="relative mb-10 flex flex-col bg-gradient-to-r from-main to-main/80 py-10"
+  >
+    <div class="absolute top-1 ml-4">
+      <!-- {
+          adsBelowHeader &&
+            adsBelowHeader.length > 0 &&
+            adsBelowHeader.map((ad) => {
+              return <Ad ad={ad} key={ad.id} />
+            })
+        } -->
+      <Breadcrumb
+        className="text-background text-[12px] inline-flex items-center"
+      >
+        <BreadcrumbItem>
+          <BreadcrumbLink className="text-background" href="/">
+            Home
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator
+          className="inline-flex text-background list-none"
+        />
+        <BreadcrumbItem>
+          <BreadcrumbLink className="text-background" href={`/${tag?.slug}`}>
+            {tag?.name}
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+      </Breadcrumb>
+    </div>
+    <div class="self-center">
+      <h1 class="text-2xl text-background">{tag?.name}</h1>
+    </div>
+  </div>
+  <div
+    class="mx-auto flex w-full flex-row md:mx-auto md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]"
+  >
+    <div class="flex w-full flex-col px-4 lg:w-8/12">
+      {listPost && <WpListPost locale={"id"} posts={listPost} />}
+      {
+        infinitePosts && pageInfo && (
+          <InfiniteScrollWpPostsTag
+            posts={infinitePosts}
+            id={tag?.slug}
+            language={"ID"}
+            pageInfo={pageInfo}
+          />
+        )
+      }
+    </div>
+    <aside class="hidden w-4/12 px-4 lg:block">
+      <div class="sticky top-8 rounded-xl border border-border p-4">
+        <div class="mb-4">
+          <h4 class="text-transparent">
+            <span
+              class="after:absolute after:left-1/2 after:top-[40px] after:ml-[-25px] after:h-[3px] after:w-[50px] after:border after:border-main after:bg-main"
+            >
+              Trending
+            </span>
+          </h4>
+        </div>
+        {
+          trendingPosts?.map((post) => {
+            // const isWordIncluded = queriesFilter?.queries?.some((word) =>
+            //   post.title.toLowerCase().includes(word.toLowerCase()),
+            // )
+            // if (isWordIncluded === true) {
+            //   return null
+            // }
+            return (
+              <WpPostCardSide
+                src={post?.thumbnail!}
+                alt={post?.title!}
+                uri={`/${post.primaryCategorySlug}/${post.slug}`}
+                title={post?.title!}
+              />
+            )
+          })
+        }
+      </div>
+    </aside>
+  </div>
+</section>

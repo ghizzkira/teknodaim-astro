@@ -1,10 +1,9 @@
 ---
-import * as React from "react"
-import { Picture } from "astro:assets"
+import { Image } from "astro:assets"
 
 import ParseContent from "@/components/ParseContent"
 import { Icon } from "@/components/UI/Icon"
-import InfiniteScrollWpPostsAuthor from "@/components/Wp/InfiniteScrollWpPostAuthor"
+import InfiniteScrollWpPostsAuthor from "@/components/Wp/InfiniteScrollWpPostsAuthor"
 import WpFeaturedCategories from "@/components/wp/wp-featured-categories"
 import WpListPost from "@/components/Wp/WpListPost"
 import MainLayout from "@/layouts/MainLayout.astro"
@@ -39,6 +38,7 @@ const { posts, pageInfo } = await wpGetPostsByAuthorSlugAction(
   "",
   "ID",
 )
+
 const listPost = posts?.slice(0, posts?.length - 1)
 const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
 const postJsonLdString = user?.seo?.schema?.raw
@@ -74,7 +74,35 @@ const parsedDescription = ParseContent({
 })
 ---
 
-<MainLayout>
+<MainLayout
+  seo={{
+    title: user?.name,
+    description: user?.description,
+    languageAlternates: [
+      {
+        href: `${import.meta.env.PUBLIC_SITE_URL}/author/${user?.slug}`,
+        hrefLang: "id",
+      },
+      {
+        href: `${import.meta.env.PUBLIC_EN_SITE_URL}/author/${user?.slug}`,
+        hrefLang: "en",
+      },
+    ],
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/author/${user?.slug}`,
+    openGraph: {
+      basic: {
+        title: user?.name ?? "",
+        url: `${import.meta.env.PUBLIC_SITE_URL}/author/${user?.slug}`,
+        type: "article",
+        image: "dd",
+      },
+      optional: {
+        description: user?.description,
+        locale: "ID",
+      },
+    },
+  }}
+>
   <!-- {
     featuredCategories && Array.isArray(featuredCategories) && (
       <div class="block w-full sm:hidden">
@@ -115,7 +143,7 @@ const parsedDescription = ParseContent({
             Articles
           </h2>
         </div>
-        {listPost && <WpListPost locale={"ID"} posts={listPost} />}
+        {listPost && <WpListPost locale={"id"} posts={listPost} />}
         {
           infinitePosts && pageInfo && (
             <InfiniteScrollWpPostsAuthor
@@ -137,16 +165,28 @@ const parsedDescription = ParseContent({
               <div
                 class="relative mb-4 h-32 w-32 shrink-0 overflow-hidden rounded-full bg-gray-300"
               >
-                <Picture
-                  inferSize
+                {
+                  user?.avatar.url && (
+                    <Image
+                      alt={user?.name ?? ""}
+                      src={user?.avatar.url}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 800px"
+                      loading="eager"
+                      class="!h-32 !w-32"
+                      width={300}
+                      height={699}
+                    />
+                  )
+                }
+
+                <!-- <img
                   class="!h-32 !w-32"
-                  alt={user.name}
-                  src={user?.avatar.url}
+                  alt={user?.name ?? ""}
+                  src={user?.avatar.url!}
                   sizes=`(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 800px`
-                  densities={[1.5, 2]}
                   loading="eager"
                   fetchpriority="high"
-                />
+                /> -->
               </div>
               <h1 class="text-xl font-bold">{user?.name}</h1>
             </div>
