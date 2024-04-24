@@ -1,5 +1,5 @@
 import type { AstroConfig, ImageTransform, LocalImageService } from "astro"
-import { optimizeImage } from "wasm-image-optimization"
+import * as photon from "@cf-wasm/photon"
 
 const service: LocalImageService = {
   getURL(options: ImageTransform, _imageConfig: AstroConfig["image"]) {
@@ -30,15 +30,13 @@ const service: LocalImageService = {
     options: { src: string; [key: string]: any },
     imageConfig,
   ): Promise<{ data: Uint8Array; format: string }> {
-    let image = await optimizeImage({
-      image: Buffer.from(buffer),
-      format: options.format,
-      quality: options.quality,
-      width: options.width,
-      height: options.height,
-    })
+    const inputImage = photon.PhotonImage.new_from_byteslice(buffer)
+
+    let image = photon.resize(inputImage, options.width, options.height, 1)
+    const outputBytes = image.get_bytes_webp()
+
     return {
-      data: new Uint8Array(image!),
+      data: new Uint8Array(outputBytes),
       format: options.format,
     }
   },

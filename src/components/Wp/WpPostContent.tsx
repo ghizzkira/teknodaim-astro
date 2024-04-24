@@ -1,6 +1,8 @@
 import * as React from "react"
 
 import BadgeIcon from "@/components/BadgeIcon"
+import Image from "@/components/Image"
+import StaticShare from "@/components/Share/StaticShare"
 // import Image from "@/components/Image"
 // import StaticShare from "@/components/Share/StaticShare"
 import { Button } from "@/components/UI/Button"
@@ -18,8 +20,6 @@ import {
   wpPrimaryCategorySlug,
   wpTagPathBySlug,
 } from "@/lib/wp/helper"
-import Image from "@/components/Image"
-import StaticShare from "@/components/Share/StaticShare"
 import WpPostBody from "./WpPostBody"
 import WpPostInfo from "./WpPostInfo"
 import WpPostView from "./WpPostView"

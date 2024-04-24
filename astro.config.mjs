@@ -3,6 +3,9 @@ import cloudflare from "@astrojs/cloudflare"
 import partytown from "@astrojs/partytown"
 import react from "@astrojs/react"
 import tailwind from "@astrojs/tailwind"
+// import commonjs from "vite-plugin-commonjs"
+import topLevelAwait from "vite-plugin-top-level-await"
+import wasm from "vite-plugin-wasm"
 
 // https://astro.build/config
 export default defineConfig({
@@ -94,16 +97,22 @@ export default defineConfig({
     optimizeDeps: {
       exclude: ["oslo"],
     },
-    ssr: {
-      external: [
-        "node:buffer",
-        "node:util",
-        "node:path",
-        "node:child_process",
-        "node:stream",
-        "node:cripto",
-        "node:fs",
-      ],
+    build: {
+      rollupOptions: {
+        external: ["wasm-image-optimization", "@cf-wasm/photon"],
+      },
     },
+    plugins: [wasm(), topLevelAwait()],
+    // ssr: {
+    //   external: [
+    //     "node:buffer",
+    //     "node:util",
+    //     "node:path",
+    //     "node:child_process",
+    //     "node:stream",
+    //     "node:cripto",
+    //     "node:fs",
+    //   ],
+    // },
   },
 })
