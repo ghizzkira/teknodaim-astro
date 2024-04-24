@@ -101,9 +101,10 @@ export const getVideoEmbedCommentsByVideoEmbedIdInfinite = async ({
 }
 
 export const getVideoEmbedCommentById = async (id: string) => {
-  const data = await db.query.videoEmbedComments.findMany({
+  const data = await db.query.videoEmbedComments.findFirst({
     where: (videoEmbedComments, { eq }) => eq(videoEmbedComments.id, id),
     with: {
+      author: true,
       replies: {
         with: {
           author: true,

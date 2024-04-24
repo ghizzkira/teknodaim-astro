@@ -77,6 +77,27 @@ export const searchUsers = async (searchQuery: string) => {
   return data
 }
 
+export const searchUsersByRole = async ({
+  role,
+  searchQuery,
+}: {
+  role: UserRole
+  searchQuery: string
+}) => {
+  const data = await db.query.users.findMany({
+    where: (users, { eq, and, or, like }) =>
+      and(
+        eq(users.role, role),
+        or(
+          like(users.name, `%${searchQuery}%`),
+          like(users.username, `%${searchQuery}%`),
+        ),
+      ),
+    limit: 10,
+  })
+  return data
+}
+
 export const updateUser = async (input: UpdateUser) => {
   const data = await db
     .update(users)
