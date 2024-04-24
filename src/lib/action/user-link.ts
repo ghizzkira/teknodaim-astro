@@ -23,7 +23,11 @@ export const getUserLinksDashboard = async ({
 export const getUserLinkById = async (id: string) => {
   const data = await db.query.userLinks.findFirst({
     where: (userLinks, { eq }) => eq(userLinks.id, id),
+    with: {
+      user: true,
+    },
   })
+
   return data
 }
 
