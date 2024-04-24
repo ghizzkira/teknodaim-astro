@@ -1,13 +1,69 @@
 ---
+import DashboardBox from "@/components/Dashboard/DashboardBox.astro"
+import DashboardBoxCount from "@/components/Dashboard/DashboardBoxCount.astro"
+import DashboardBoxDescription from "@/components/Dashboard/DashboardBoxDescription.astro"
+import DashboardBoxIconWrapper from "@/components/Dashboard/DashboardBoxIconWrapper.astro"
+import { Icon } from "@/components/UI/Icon"
 import MainLayout from "@/layouts/MainLayout.astro"
+import { getAdsCount } from "@/lib/action/ad"
+import { getArticlesCount } from "@/lib/action/article"
+import { getMediasCount } from "@/lib/action/media"
+import { getTopicsCount } from "@/lib/action/topic"
+import { getUsersCount } from "@/lib/action/user"
+
 const user = Astro.locals.user
 
-if (!user.role.includes("admin" || "author")) {
+if (!user?.role.includes("admin" || "author")) {
   return Astro.redirect("/")
 }
+
+const articles = await getArticlesCount()
+const topics = await getTopicsCount()
+const medias = await getMediasCount()
+const ads = await getAdsCount()
+const users = await getUsersCount()
+
+
+//TODO: change layout
 ---
 
 <MainLayout>
-  <h1>Admin Dashboard</h1>
-  <p>Ini hanya untuk admin</p>
+  <h2 class="text-3xl">Statistics</h2>
+  <div class="my-8 grid grid-cols-2 gap-3 md:grid-cols-5">
+    <DashboardBox>
+      <DashboardBoxIconWrapper>
+        <Icon.Article />
+      </DashboardBoxIconWrapper>
+      <DashboardBoxCount>{articles}</DashboardBoxCount>
+      <DashboardBoxDescription>articles</DashboardBoxDescription>
+    </DashboardBox>
+    <DashboardBox>
+      <DashboardBoxIconWrapper>
+        <Icon.Topic />
+      </DashboardBoxIconWrapper>
+      <DashboardBoxCount>{topics}</DashboardBoxCount>
+      <DashboardBoxDescription>topics</DashboardBoxDescription>
+    </DashboardBox>
+    <DashboardBox>
+      <DashboardBoxIconWrapper>
+        <Icon.Media />
+      </DashboardBoxIconWrapper>
+      <DashboardBoxCount>{medias}</DashboardBoxCount>
+      <DashboardBoxDescription>medias</DashboardBoxDescription>
+    </DashboardBox>
+    <DashboardBox>
+      <DashboardBoxIconWrapper>
+        <Icon.Ads />
+      </DashboardBoxIconWrapper>
+      <DashboardBoxCount>{ads}</DashboardBoxCount>
+      <DashboardBoxDescription>ads</DashboardBoxDescription>
+    </DashboardBox>
+    <DashboardBox>
+      <DashboardBoxIconWrapper>
+        <Icon.User />
+      </DashboardBoxIconWrapper>
+      <DashboardBoxCount>{users}</DashboardBoxCount>
+      <DashboardBoxDescription>users</DashboardBoxDescription>
+    </DashboardBox>
+  </div>
 </MainLayout>
