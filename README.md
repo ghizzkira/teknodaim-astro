@@ -24,6 +24,16 @@ TODO:
       api.topic.videoEmbedsByTopicSlugInfinte, api.videoEmbed.byAuthorInfinite,
       api.media.dashboardInfinite, api.gadget.publishedInfinite,
       api.download.byLanguageInfinite, api.topic.downloadsByTopicSlugInfinite
-- [ ] comment fe: get, create, reply, delete, get count (article, download,wp)
+- [ ] comment fe: getArticleCommentsByArticleId,
+      ingetArticleCommentsByArticleIdInfinite,
+      getArticleCommentsCountByArticleId, createArticleComment,
+      updateArticleComment, deleteArticleComment,
+      getDownloadCommentsByDownloadId,getDownloadCommentsByDownloadIdInfinite,getDownloadCommentsCountByDownloadId,createDownloadComment,
+      updateDownloadComment,
+      deleteDownloadComment,getVideoEmbedCommentsByVideoEmbedId,
+      ingetVideoEmbedCommentsByVideoEmbedIdInfinite,
+      getVideoEmbedCommentsCountByVideoEmbedId, createVideoEmbedComment,
+      updateVideoEmbedComment,
+      deleteVideoEmbedComment,getWpCommentsByWpPostSlug,getWpCommentsByWpPostSlugInfinite,getWpCommentsCountByWpPostSlug,createWpComment,updateWpComment,deleteWpComment
 - [x] api api.wpPopularPost.bySlug,
 - [x] api.setting.byKey, api.voucher.byCode,

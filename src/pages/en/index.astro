@@ -1,80 +1,106 @@
 ---
-import InfiniteScrollWpPost from "@/components/Wp/InfiniteScrollWpPosts"
+import Homepage from "@/components/Template/Homepage.astro"
 import MainLayout from "@/layouts/MainLayout.astro"
+import { getWpPopularPosts } from "@/lib/action/wp-popular-post"
 import { wpGetAllPostsAction } from "@/lib/wp/action/wp-post"
 
-const { posts, pageInfo } = await wpGetAllPostsAction("EN")
+const { posts, pageInfo } = await wpGetAllPostsAction("ID")
+// FIX: to 7 days
+const trendingPosts = await getWpPopularPosts({
+  language: "id",
+  page: 1,
+  perPage: 10,
+})
+// const data = await apsi.setting.byKey("featured_posts")
+
+// let featured: WpPopularPostProps[] | undefined
+// if (data) {
+//   const parsedData = JSON.parse(data.value)
+//   featured = locale === "id" ? parsedData?.posts?.id : parsedData?.posts?.en
+// }
+
+// const filterPostDatas = await api.setting.byKey("filter_post")
+// let queriesFilter: { queries: string[] } | undefined
+
+// if (filterPostDatas) {
+//   const parsedData = JSON.parse(filterPostDatas.value)
+//   queriesFilter = { ...parsedData }
+// }
+
+// const hotPosts = await api.wpPopularPost.last1Day({
+//   language: locale,
+//   page: 1,
+//   per_page: 10,
+// })
+
+// const featured_posts = featured
+//   ? featured
+//   : trendingPosts && trendingPosts?.length > 3
+//     ? trendingPosts
+//     : hotPosts && hotPosts?.length > 3
+//       ? hotPosts
+//       : null
+// const filtered_featured_posts = queriesFilter?.queries
+//   ? featured_posts?.filter((post) => {
+//       if (queriesFilter?.queries) {
+//         for (const word of queriesFilter?.queries) {
+//           if (post.title.toLowerCase().includes(word.toLocaleLowerCase())) {
+//             return false
+//           }
+//         }
+//       }
+//       return true
+//     })
+//   : featured_posts
+
+// const carouselData = posts?.slice(0, 10)?.filter((post) => {
+//   if (queriesFilter?.queries) {
+//     for (const word of queriesFilter?.queries) {
+//       if (post.title.toLowerCase().includes(word.toLocaleLowerCase())) {
+//         return false
+//       }
+//     }
+//   }
+//   return true
+// })
+
+// const categories = await api.setting.byKey("featured_categories")
+
+// let featuredCategories: WpCategoriesDataProps[] | undefined
+// if (categories) {
+//   const parsedData = JSON.parse(categories.value)
+//   featuredCategories =
+//     locale === "id" ? parsedData?.categories?.id : parsedData?.categories?.en
+// }
 ---
 
-<MainLayout>
-  <div class="flex items-center justify-center min-h-screen">
-    <div class="w-15em">
-      <!-- <Auth>
-        {
-          !user ? (
-            <div class="space-y-4">
-              <a href="/login/google">Sign in with Google</a>
-            </div>
-          ) : (
-            <div class="space-y-4">
-              <p
-                class="text-center text-xl font-600"
-                id="private-greeting-value"
-              />
-              <form method="post" action="/api/logout">
-                <button>Sign out</button>
-              </form>
-            </div>
-          )
-        }
-      </Auth> -->
-    </div>
-    <div
-      class="mx-auto flex w-full flex-row md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]"
-    >
-      <div class="flex w-full flex-col px-4 lg:w-8/12">
-        <div class="mb-[25px] border-l-[3px] border-l-main px-3">
-          <div class="text-[18px] font-bold leading-[36px] text-main">
-            Teknodaim Latest
-          </div>
-        </div>
-        <InfiniteScrollWpPost
-          language={"id"}
-          posts={posts}
-          pageInfo={pageInfo}
-          client:idle
-        />
-      </div>
-      <aside class="hidden w-4/12 lg:block">
-        <div class="sticky top-4 rounded-xl border border-border p-4">
-          <div class="relative mb-4">
-            <div
-              class="block text-center after:absolute after:bottom-[-3px] after:left-1/2 after:right-[auto] after:top-[auto] after:ml-[-25px] after:h-[3px] after:w-[50px] after:border after:border-main after:bg-main"
-            >
-              <span class="block h-[36px] text-main">Trending</span>
-            </div>
-          </div>
-          <!-- {
-            trendingPosts?.map((post) => {
-              const isWordIncluded = queriesFilter?.queries?.some((word) =>
-                post.title.toLowerCase().includes(word.toLowerCase()),
-              )
-              if (isWordIncluded === true) {
-                return null
-              }
-              return (
-                <WpPostCardSide
-                  key={post.id}
-                  src={post.thumbnail}
-                  alt={post.title}
-                  uri={`/${post.primary_category_slug}/${post.slug}`}
-                  title={post.title}
-                />
-              )
-            })
-          } -->
-        </div>
-      </aside>
-    </div>
-  </div>
+<MainLayout
+  seo={{
+    title: import.meta.env.PUBLIC_SITE_TITLE,
+    description: import.meta.env.PUBLIC_SITE_DESCRIPTION,
+    languageAlternates: [
+      { href: `${import.meta.env.PUBLIC_SITE_URL}/`, hrefLang: "id" },
+      { href: `${import.meta.env.PUBLIC_EN_SITE_URL}/`, hrefLang: "en" },
+    ],
+    canonical: import.meta.env.PUBLIC_SITE_URL,
+    openGraph: {
+      basic: {
+        title: `${import.meta.env.PUBLIC_SITE_TITLE} | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: import.meta.env.PUBLIC_SITE_DESCRIPTION,
+        locale: "EN",
+      },
+    },
+  }}
+>
+  <Homepage
+    locale="en"
+    posts={posts}
+    pageInfo={pageInfo}
+    trendingPosts={trendingPosts}
+  />
 </MainLayout>
