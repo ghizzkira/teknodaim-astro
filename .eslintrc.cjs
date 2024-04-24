@@ -38,7 +38,7 @@ const config = {
   },
   plugins: ["@typescript-eslint", "import", "prettier"],
   rules: {
-    "prettier/prettier": "error",
+    "prettier/prettier": "warn",
     "import/no-unresolved": "off",
     "arrow-body-style": "off",
     "prefer-arrow-callback": "off",
