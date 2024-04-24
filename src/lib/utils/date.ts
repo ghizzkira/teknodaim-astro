@@ -56,3 +56,10 @@ function translateTimeAgo(timeAgo: string, locale: "en" | "id"): string {
     return timeAgo
   }
 }
+
+export const formatDateTimeDB = (date: Date) => {
+  return date
+    .toISOString()
+    .replace("T", " ")
+    .replace(/\.\d+Z$/, "")
+}

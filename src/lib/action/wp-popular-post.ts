@@ -5,6 +5,7 @@ import { wpPopularPosts } from "@/lib/db/schema/wp-popular-post"
 import { cuid } from "@/lib/utils/id"
 import type { LanguageType } from "@/lib/validation/language"
 import type { UpsertWpPopularPost } from "@/lib/validation/wp-popular-post"
+import { formatDateTimeDB } from "../utils/date"
 
 export const getWpPopularPosts = async ({
   language,
@@ -34,14 +35,14 @@ export const getWpPopularPostsLast30Days = async ({
   perPage: number
 }) => {
   const now = new Date()
-  const thirtyDaysAgo = now.setDate(now.getDate() - 30)
+  const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
 
   const data = await db.query.wpPopularPosts.findMany({
     where: (wpPopularPosts, { and, eq, gte, lte }) =>
       and(
         eq(wpPopularPosts.language, language),
-        gte(wpPopularPosts.updatedAt, JSON.stringify(thirtyDaysAgo)),
-        lte(wpPopularPosts.updatedAt, JSON.stringify(now)),
+        gte(wpPopularPosts.updatedAt, formatDateTimeDB(thirtyDaysAgo)),
+        lte(wpPopularPosts.updatedAt, formatDateTimeDB(now)),
       ),
     limit: perPage,
     offset: (page - 1) * perPage,
@@ -60,14 +61,14 @@ export const getWpPopularPostsLast30DaysInfinite = async ({
   cursor?: string
 }) => {
   const now = new Date()
-  const thirtyDaysAgo = now.setDate(now.getDate() - 30)
+  const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
 
   const data = await db.query.wpPopularPosts.findMany({
     where: (wpPopularPosts, { and, eq, lt, gte, lte }) =>
       and(
         eq(wpPopularPosts.language, language),
-        gte(wpPopularPosts.updatedAt, JSON.stringify(thirtyDaysAgo)),
-        lte(wpPopularPosts.updatedAt, JSON.stringify(now)),
+        gte(wpPopularPosts.updatedAt, formatDateTimeDB(thirtyDaysAgo)),
+        lte(wpPopularPosts.updatedAt, formatDateTimeDB(now)),
         cursor ? lt(wpPopularPosts.updatedAt, cursor) : undefined,
       ),
     limit: limit + 1,
@@ -99,14 +100,14 @@ export const getWpPopularPostsLast7Days = async ({
   perPage: number
 }) => {
   const now = new Date()
-  const sevenDaysAgo = now.setDate(now.getDate() - 7)
+  const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
 
   const data = await db.query.wpPopularPosts.findMany({
     where: (wpPopularPosts, { and, eq, gte, lte }) =>
       and(
         eq(wpPopularPosts.language, language),
-        gte(wpPopularPosts.updatedAt, JSON.stringify(sevenDaysAgo)),
-        lte(wpPopularPosts.updatedAt, JSON.stringify(now)),
+        gte(wpPopularPosts.updatedAt, formatDateTimeDB(sevenDaysAgo)),
+        lte(wpPopularPosts.updatedAt, formatDateTimeDB(now)),
       ),
     limit: perPage,
     offset: (page - 1) * perPage,
@@ -125,14 +126,14 @@ export const getWpPopularPostsLast7DaysInfinite = async ({
   cursor?: string
 }) => {
   const now = new Date()
-  const sevenDaysAgo = now.setDate(now.getDate() - 7)
+  const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
 
   const data = await db.query.wpPopularPosts.findMany({
     where: (wpPopularPosts, { and, eq, lt, gte, lte }) =>
       and(
         eq(wpPopularPosts.language, language),
-        gte(wpPopularPosts.updatedAt, JSON.stringify(sevenDaysAgo)),
-        lte(wpPopularPosts.updatedAt, JSON.stringify(now)),
+        gte(wpPopularPosts.updatedAt, formatDateTimeDB(sevenDaysAgo)),
+        lte(wpPopularPosts.updatedAt, formatDateTimeDB(now)),
         cursor ? lt(wpPopularPosts.updatedAt, cursor) : undefined,
       ),
     limit: limit + 1,
@@ -164,14 +165,14 @@ export const getWpPopularPostsLast1Day = async ({
   perPage: number
 }) => {
   const now = new Date()
-  const oneDayAgo = now.setDate(now.getDate() - 1)
+  const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000)
 
   const data = await db.query.wpPopularPosts.findMany({
     where: (wpPopularPosts, { and, eq, gte, lte }) =>
       and(
         eq(wpPopularPosts.language, language),
-        gte(wpPopularPosts.updatedAt, JSON.stringify(oneDayAgo)),
-        lte(wpPopularPosts.updatedAt, JSON.stringify(now)),
+        gte(wpPopularPosts.updatedAt, formatDateTimeDB(oneDayAgo)),
+        lte(wpPopularPosts.updatedAt, formatDateTimeDB(now)),
       ),
     limit: perPage,
     offset: (page - 1) * perPage,
@@ -190,14 +191,14 @@ export const getWpPopularPostsLast1DayInfinite = async ({
   cursor?: string
 }) => {
   const now = new Date()
-  const oneDayAgo = now.setDate(now.getDate() - 1)
+  const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000)
 
   const data = await db.query.wpPopularPosts.findMany({
     where: (wpPopularPosts, { and, eq, lt, gte, lte }) =>
       and(
         eq(wpPopularPosts.language, language),
-        gte(wpPopularPosts.updatedAt, JSON.stringify(oneDayAgo)),
-        lte(wpPopularPosts.updatedAt, JSON.stringify(now)),
+        gte(wpPopularPosts.updatedAt, formatDateTimeDB(oneDayAgo)),
+        lte(wpPopularPosts.updatedAt, formatDateTimeDB(now)),
         cursor ? lt(wpPopularPosts.updatedAt, cursor) : undefined,
       ),
     limit: limit + 1,
@@ -264,7 +265,7 @@ export const getWpPopularPostsCountLast30Days = async (
   language: LanguageType,
 ) => {
   const now = new Date()
-  const thirtyDaysAgo = now.setDate(now.getDate() - 30)
+  const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000)
 
   const data = await db
     .select({ values: count() })
@@ -272,8 +273,8 @@ export const getWpPopularPostsCountLast30Days = async (
     .where(
       and(
         eq(wpPopularPosts.language, language),
-        gte(wpPopularPosts.updatedAt, JSON.stringify(thirtyDaysAgo)),
-        lte(wpPopularPosts.updatedAt, JSON.stringify(now)),
+        gte(wpPopularPosts.updatedAt, formatDateTimeDB(thirtyDaysAgo)),
+        lte(wpPopularPosts.updatedAt, formatDateTimeDB(now)),
       ),
     )
 
@@ -284,7 +285,7 @@ export const getWpPopularPostsCountLast7Days = async (
   language: LanguageType,
 ) => {
   const now = new Date()
-  const sevenDaysAgo = now.setDate(now.getDate() - 7)
+  const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000)
 
   const data = await db
     .select({ values: count() })
@@ -292,8 +293,8 @@ export const getWpPopularPostsCountLast7Days = async (
     .where(
       and(
         eq(wpPopularPosts.language, language),
-        gte(wpPopularPosts.updatedAt, JSON.stringify(sevenDaysAgo)),
-        lte(wpPopularPosts.updatedAt, JSON.stringify(now)),
+        gte(wpPopularPosts.updatedAt, formatDateTimeDB(sevenDaysAgo)),
+        lte(wpPopularPosts.updatedAt, formatDateTimeDB(now)),
       ),
     )
 
@@ -304,7 +305,7 @@ export const getWpPopularPostsCountLast1Day = async (
   language: LanguageType,
 ) => {
   const now = new Date()
-  const oneDayAgo = now.setDate(now.getDate() - 1)
+  const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000)
 
   const data = await db
     .select({ values: count() })
@@ -312,8 +313,8 @@ export const getWpPopularPostsCountLast1Day = async (
     .where(
       and(
         eq(wpPopularPosts.language, language),
-        gte(wpPopularPosts.updatedAt, JSON.stringify(oneDayAgo)),
-        lte(wpPopularPosts.updatedAt, JSON.stringify(now)),
+        gte(wpPopularPosts.updatedAt, formatDateTimeDB(oneDayAgo)),
+        lte(wpPopularPosts.updatedAt, formatDateTimeDB(now)),
       ),
     )
 
