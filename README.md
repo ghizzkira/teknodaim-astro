@@ -13,7 +13,7 @@ TODO:
       voucher, setting upsert, voucher)
 - [ ] dashrboard: api translate (article, download, topic)
 - [ ] dashboard comment: edit, delete (article, download, wp)
-- [ ] search: (article, download, topic (search by type), video-embed, user,
+- [x] search: (article, download, topic (search by type), video-embed, user,
       media, download file, user expertixe)
 - [ ] shop: api.topUpOrder.create, api.payment.tripayCreateClosedTransaction,
       api.topUp.digiflazzCreateTransaction
