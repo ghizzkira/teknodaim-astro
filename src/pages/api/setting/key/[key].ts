@@ -1,13 +1,13 @@
 import type { APIRoute } from "astro"
 import { z } from "zod"
 
-import { getWpPopularPostBySlug } from "@/lib/action/wp-popular-post"
+import { getSettingByKey } from "@/lib/action/setting"
 
 export const GET: APIRoute = async ({ params }) => {
   try {
-    const slug = params.slug
-    const parsedInput = z.string().parse(slug)
-    const data = await getWpPopularPostBySlug(parsedInput)
+    const key = params.key
+    const parsedInput = z.string().parse(key)
+    const data = await getSettingByKey(parsedInput)
 
     if (!data) {
       return new Response(null, {

@@ -15,6 +15,12 @@ export const GET: APIRoute = async ({ request }) => {
     const parsedInput = inputSchema.parse(request.body)
     const data = await getWpPopularPostsLast30Days(parsedInput)
 
+    if (!data) {
+      return new Response(null, {
+        status: 404,
+      })
+    }
+
     return new Response(JSON.stringify(data), {
       status: 200,
       headers: { "Content-Type": "application/json" },

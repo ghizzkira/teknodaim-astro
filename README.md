@@ -26,4 +26,4 @@ TODO:
       api.download.byLanguageInfinite, api.topic.downloadsByTopicSlugInfinite
 - [ ] comment fe: get, create, reply, delete, get count (article, download,wp)
 - [x] api api.wpPopularPost.bySlug,
-- [ ] api.setting.byKey, api.voucher.byCode,
+- [x] api.setting.byKey, api.voucher.byCode,

@@ -27,7 +27,7 @@ export const getVoucherById = async (id: string) => {
   return data
 }
 
-export const getVouchersByCode = async (voucherCode: string) => {
+export const getVoucherByCode = async (voucherCode: string) => {
   const data = await db.query.vouchers.findMany({
     where: (vouchers, { eq }) => eq(vouchers.voucherCode, voucherCode),
   })

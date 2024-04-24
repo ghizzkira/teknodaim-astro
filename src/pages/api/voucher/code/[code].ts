@@ -1,13 +1,13 @@
 import type { APIRoute } from "astro"
 import { z } from "zod"
 
-import { getWpPopularPostBySlug } from "@/lib/action/wp-popular-post"
+import { getVoucherByCode } from "@/lib/action/voucher"
 
 export const GET: APIRoute = async ({ params }) => {
   try {
-    const slug = params.slug
-    const parsedInput = z.string().parse(slug)
-    const data = await getWpPopularPostBySlug(parsedInput)
+    const code = params.code
+    const parsedInput = z.string().parse(code)
+    const data = await getVoucherByCode(parsedInput)
 
     if (!data) {
       return new Response(null, {
@@ -22,7 +22,9 @@ export const GET: APIRoute = async ({ params }) => {
   } catch (error) {
     console.error(error)
     if (error instanceof z.ZodError) {
-      return new Response(error.errors[1].message, { status: 422 })
+      return new Response(error.errors[1].message, {
+        status: 422,
+      })
     }
     return new Response("Internal Server Error", { status: 501 })
   }
