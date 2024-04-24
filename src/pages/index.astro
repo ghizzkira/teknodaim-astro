@@ -1,12 +1,11 @@
 ---
 import Homepage from "@/components/Template/Homepage.astro"
 import MainLayout from "@/layouts/MainLayout.astro"
-import { getWpPopularPosts } from "@/lib/action/wp-popular-post"
+import { getWpPopularPostsLast7Days } from "@/lib/action/wp-popular-post"
 import { wpGetAllPostsAction } from "@/lib/wp/action/wp-post"
 
 const { posts, pageInfo } = await wpGetAllPostsAction("ID")
-// FIX: to 7 days
-const trendingPosts = await getWpPopularPosts({
+const trendingPosts = await getWpPopularPostsLast7Days({
   language: "id",
   page: 1,
   perPage: 10,

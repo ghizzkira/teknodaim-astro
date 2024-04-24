@@ -15,10 +15,6 @@ const userLinkCore = {
 
 export const createUserLinkSchema = z.object({
   ...userLinkCore,
-  userId: z.string({
-    required_error: "User ID is required",
-    invalid_type_error: "User ID must be a string",
-  }),
 })
 
 export const updateUserLinkSchema = z.object({
