@@ -1,11 +1,11 @@
 import * as React from "react"
 import { Parser, ProcessNodeDefinitions } from "html-to-react"
 
-import FacebookEmbedWrapper from "@/components/Embed/FacebookEmbed"
-import TwitterEmbed, {
-  TwitterEmbedFromTipTap,
-} from "@/components/Embed/TwitterEmbed"
-import YoutubeEmbed from "@/components/Embed/YoutubeEmbed"
+// import FacebookEmbedWrapper from "@/components/Embed/FacebookEmbed"
+// import TwitterEmbed, {
+//   TwitterEmbedFromTipTap,
+// } from "@/components/Embed/TwitterEmbed"
+// import YoutubeEmbed from "@/components/Embed/YoutubeEmbed"
 import { Button } from "@/components/UI/Button"
 import { cn } from "@/lib/utils/style"
 
@@ -112,59 +112,59 @@ const ParseContent: React.FunctionComponent<ParseContentProps> = (props) => {
         )
       },
     },
-    {
-      shouldProcessNode: function (node: Node) {
-        return node.name && node.name === "iframe"
-      },
-      processNode: function (node: Node, index: number) {
-        if (node.attribs) {
-          node.attribs.style = undefined
-        }
-        if (node.attribs?.src?.includes("youtube.com/embed")) {
-          const arr = node.attribs?.src?.split(
-            /(youtu.*be.*)\/(watch\?v=|embed\/|v|shorts|)(.*?((?=[&#?])|$))/gm,
-          )
+    // {
+    //   shouldProcessNode: function (node: Node) {
+    //     return node.name && node.name === "iframe"
+    //   },
+    //   processNode: function (node: Node, index: number) {
+    //     if (node.attribs) {
+    //       node.attribs.style = undefined
+    //     }
+    //     if (node.attribs?.src?.includes("youtube.com/embed")) {
+    //       const arr = node.attribs?.src?.split(
+    //         /(youtu.*be.*)\/(watch\?v=|embed\/|v|shorts|)(.*?((?=[&#?])|$))/gm,
+    //       )
 
-          return (
-            <YoutubeEmbed
-              key={index + title + "iframe"}
-              title={node.attribs?.title ?? title}
-              id={arr[3] ?? arr[0]!}
-              wrapperClass="yt-lite"
-            />
-          )
-        }
-        return (
-          <iframe
-            key={index + title + "iframe"}
-            title={title}
-            {...node.attribs}
-          />
-        )
-      },
-    },
+    //       return (
+    //         <YoutubeEmbed
+    //           key={index + title + "iframe"}
+    //           title={node.attribs?.title ?? title}
+    //           id={arr[3] ?? arr[0]!}
+    //           wrapperClass="yt-lite"
+    //         />
+    //       )
+    //     }
+    //     return (
+    //       <iframe
+    //         key={index + title + "iframe"}
+    //         title={title}
+    //         {...node.attribs}
+    //       />
+    //     )
+    //   },
+    // },
 
-    {
-      shouldProcessNode: function (node: Node) {
-        return node.name && node.name === "react-x-twitter"
-      },
-      processNode: function (node: Node) {
-        return <TwitterEmbedFromTipTap tweetUrl={node.attribs?.tweeturl!} />
-      },
-    },
-    {
-      shouldProcessNode: function (node: Node) {
-        return node.name && node.name === "react-facebook"
-      },
-      processNode: function (node: Node) {
-        return (
-          <FacebookEmbedWrapper
-            placeholderDisabled
-            url={node.attribs?.facebookurl!}
-          />
-        )
-      },
-    },
+    // {
+    //   shouldProcessNode: function (node: Node) {
+    //     return node.name && node.name === "react-x-twitter"
+    //   },
+    //   processNode: function (node: Node) {
+    //     return <TwitterEmbedFromTipTap tweetUrl={node.attribs?.tweeturl!} />
+    //   },
+    // },
+    // {
+    //   shouldProcessNode: function (node: Node) {
+    //     return node.name && node.name === "react-facebook"
+    //   },
+    //   processNode: function (node: Node) {
+    //     return (
+    //       <FacebookEmbedWrapper
+    //         placeholderDisabled
+    //         url={node.attribs?.facebookurl!}
+    //       />
+    //     )
+    //   },
+    // },
     {
       shouldProcessNode: function (node: Node) {
         return node.name && node.name === "react-button"
@@ -177,38 +177,38 @@ const ParseContent: React.FunctionComponent<ParseContentProps> = (props) => {
         )
       },
     },
-    {
-      shouldProcessNode: function (node: Node) {
-        return node.name && node.name === "blockquote"
-      },
-      processNode: function (
-        node: Node,
-        children: React.ReactNode[],
-        index: number,
-      ) {
-        if (node.attribs) {
-          node.attribs.style = undefined
-        }
-        if (node.attribs?.class?.includes("twitter-tweet")) {
-          return (
-            <TwitterEmbed key={index + title + "blockquote"}>
-              {children}
-            </TwitterEmbed>
-          )
-        }
-
-        return (
-          <blockquote
-            style={{ width: "auto", margin: "auto" }}
-            key={index + title + "blockquote"}
-            className={node.attribs?.class}
-          >
-            {children}
-          </blockquote>
-        )
-      },
-    },
     // {
+    //   shouldProcessNode: function (node: Node) {
+    //     return node.name && node.name === "blockquote"
+    //   },
+    //   processNode: function (
+    //     node: Node,
+    //     children: React.ReactNode[],
+    //     index: number,
+    //   ) {
+    //     if (node.attribs) {
+    //       node.attribs.style = undefined
+    //     }
+    //     if (node.attribs?.class?.includes("twitter-tweet")) {
+    //       return (
+    //         <TwitterEmbed key={index + title + "blockquote"}>
+    //           {children}
+    //         </TwitterEmbed>
+    //       )
+    //     }
+
+    //     return (
+    //       <blockquote
+    //         style={{ width: "auto", margin: "auto" }}
+    //         key={index + title + "blockquote"}
+    //         className={node.attribs?.class}
+    //       >
+    //         {children}
+    //       </blockquote>
+    //     )
+    //   },
+    // },
+    // // {
     //   shouldProcessNode: function (node: Node) {
     //     return node.name && node.name === "script"
     //   },

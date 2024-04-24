@@ -6,7 +6,7 @@ import tailwind from "@astrojs/tailwind"
 
 // https://astro.build/config
 export default defineConfig({
-  site: import.meta.env.PUBLIC_URL ?? "http://localhost:4321",
+  site: "http://localhost:8788",
   output: "server",
   i18n: {
     defaultLocale: "id",
@@ -15,8 +15,8 @@ export default defineConfig({
       prefixDefaultLocale: false,
     },
     domains: {
-      en: "http://global.localhost:4321",
-      id: `http://localhost:4321`,
+      en: "http://localhost:8788",
+      id: `http://localhost:8788`,
     },
   },
   experimental: {
@@ -94,6 +94,16 @@ export default defineConfig({
     optimizeDeps: {
       exclude: ["oslo"],
     },
+    ssr: {
+      external: [
+        "node:buffer",
+        "node:util",
+        "node:path",
+        "node:child_process",
+        "node:stream",
+        "node:cripto",
+        "node:fs",
+      ],
+    },
   },
 })
-

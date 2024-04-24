@@ -1,5 +1,5 @@
 import type { AstroConfig, ImageTransform, LocalImageService } from "astro"
-import sharp from "sharp"
+import { optimizeImage } from "wasm-image-optimization"
 
 const service: LocalImageService = {
   getURL(options: ImageTransform, _imageConfig: AstroConfig["image"]) {
@@ -30,16 +30,15 @@ const service: LocalImageService = {
     options: { src: string; [key: string]: any },
     imageConfig,
   ): Promise<{ data: Uint8Array; format: string }> {
-    let image = sharp(Buffer.from(buffer))
-    if (options.width || options.height) {
-      image = image.resize(options.width)
-    }
-    if (options.format) {
-      image = image.toFormat(options.format)
-    }
-    const data = await image.toBuffer()
+    let image = await optimizeImage({
+      image: Buffer.from(buffer),
+      format: options.format,
+      quality: options.quality,
+      width: options.width,
+      height: options.height,
+    })
     return {
-      data: new Uint8Array(data),
+      data: new Uint8Array(image!),
       format: options.format,
     }
   },
