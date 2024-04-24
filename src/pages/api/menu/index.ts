@@ -1,19 +1,22 @@
 import type { APIContext, APIRoute } from "astro"
 import { z } from "zod"
 
-import { createArticleComment } from "@/lib/action/article-comment"
-import { createArticleCommentSchema } from "@/lib/validation/article-comment"
+import { createMenu } from "@/lib/action/menu"
+import { createMenuSchema } from "@/lib/validation/menu"
 
 export const POST: APIRoute = async (context: APIContext) => {
   try {
     const user = context.locals.user
 
+    if (!user?.role.includes("admin")) {
+      return new Response(null, {
+        status: 401,
+      })
+    }
+
     const body = await context.request.json()
-    const parsedInput = createArticleCommentSchema.parse(body)
-    const data = await createArticleComment({
-      authorId: user?.id!,
-      ...parsedInput,
-    })
+    const parsedInput = createMenuSchema.parse(body)
+    const data = await createMenu(parsedInput)
 
     return new Response(JSON.stringify(data), {
       status: 200,

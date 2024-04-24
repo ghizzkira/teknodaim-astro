@@ -1,27 +1,15 @@
-import type { APIContext, APIRoute } from "astro"
+import type { APIRoute } from "astro"
 import { z } from "zod"
 
-import { searchUserLinks } from "@/lib/action/user-link"
+import { searchGadgets } from "@/lib/action/gadget"
 
-export const GET: APIRoute = async (context: APIContext) => {
+export const GET: APIRoute = async ({ params }) => {
   try {
-    const user = context.locals.user
-
-    if (!user) {
-      return new Response(null, {
-        status: 401,
-      })
-    }
-
-    const userId = user.id
-    const searchQuery = context.params.searchQuery
+    const searchQuery = params.searchQuery
 
     const parsedInput = z.string().parse(searchQuery)
 
-    const data = await searchUserLinks({
-      userId: userId,
-      searchQuery: parsedInput,
-    })
+    const data = await searchGadgets(parsedInput)
 
     if (!data) {
       return new Response(null, {

@@ -15,12 +15,6 @@ export const POST: APIRoute = async (context: APIContext) => {
       ...parsedInput,
     })
 
-    if (!data) {
-      return new Response(null, {
-        status: 404,
-      })
-    }
-
     return new Response(JSON.stringify(data), {
       status: 200,
       headers: { "Content-Type": "application/json" },
