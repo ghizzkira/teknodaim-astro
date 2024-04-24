@@ -14,7 +14,11 @@ export const GET: APIRoute = async ({ request }) => {
   try {
     const parsedInput = inputSchema.parse(request.body)
     const data = await getWpPopularPostsLast1Day(parsedInput)
-    return new Response(JSON.stringify(data))
+
+    return new Response(JSON.stringify(data), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    })
   } catch (error) {
     console.error(error)
     if (error instanceof z.ZodError) {

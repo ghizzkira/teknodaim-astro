@@ -9,7 +9,11 @@ export const POST: APIRoute = async ({ request }) => {
     const body = await request.json()
     const parsedInput = upsertWpPopularPostSchema.parse(body)
     const data = await upsertWpPopularPost(parsedInput)
-    return new Response(JSON.stringify(data))
+
+    return new Response(JSON.stringify(data), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    })
   } catch (error) {
     console.error(error)
     if (error instanceof z.ZodError) {
