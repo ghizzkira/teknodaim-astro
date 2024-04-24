@@ -27,6 +27,27 @@ export const getUserLinkById = async (id: string) => {
   return data
 }
 
+export const searchUserLinks = async ({
+  userId,
+  searchQuery,
+}: {
+  userId: string
+  searchQuery: string
+}) => {
+  const data = await db.query.userLinks.findMany({
+    where: (userLinks, { and, or, like }) =>
+      and(
+        eq(userLinks.userId, userId),
+        or(
+          like(userLinks.title, `%${searchQuery}%`),
+          like(userLinks.url, `%${searchQuery}%`),
+        ),
+      ),
+    limit: 10,
+  })
+  return data
+}
+
 export const createUserLink = async (
   input: CreateUserLink & { userId: string },
 ) => {
