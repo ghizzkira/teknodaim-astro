@@ -98,6 +98,7 @@ export const getWpCommentById = async (id: string) => {
   const data = await db.query.wpComments.findMany({
     where: (wpComments, { eq }) => eq(wpComments.id, id),
     with: {
+      author: true,
       replies: {
         with: {
           author: true,

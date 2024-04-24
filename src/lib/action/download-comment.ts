@@ -100,6 +100,7 @@ export const getDownloadCommentById = async (id: string) => {
   const data = await db.query.downloadComments.findMany({
     where: (downloadComments, { eq }) => eq(downloadComments.id, id),
     with: {
+      author: true,
       replies: {
         with: {
           author: true,
