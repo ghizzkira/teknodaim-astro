@@ -11,6 +11,7 @@ import wasm from "vite-plugin-wasm"
 export default defineConfig({
   site: "http://localhost:8788",
   output: "server",
+  trailingSlash: "always",
   i18n: {
     defaultLocale: "id",
     locales: ["id", "en"],
