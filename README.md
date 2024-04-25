@@ -8,11 +8,11 @@ TODO:
 - [ ] add sitemap
 - [ ] robots.txt
 - [ ] add feed and google news feed
-- [ ] dashboard api create update delete (ad, article, download, download-file,
+- [x] dashboard api create update delete (ad, article, download, download-file,
       gadget, topic, menu, settings, media, user-expertice, video-embed,
       voucher, setting upsert, voucher)
 - [ ] dashrboard: api translate (article, download, topic)
-- [ ] dashboard comment: edit, delete (article, download, wp)
+- [x] dashboard comment: edit, delete (article, download, wp)
 - [x] search: (article, download, topic (search by type), video-embed, user,
       media, download file, user expertixe)
 - [ ] shop: api.topUpOrder.create, api.payment.tripayCreateClosedTransaction,
@@ -25,9 +25,8 @@ TODO:
       api.media.dashboardInfinite, api.gadget.publishedInfinite,
       api.download.byLanguageInfinite, api.topic.downloadsByTopicSlugInfinite
 - [ ] comment fe: getArticleCommentsByArticleId,
-      ingetArticleCommentsByArticleIdInfinite,
-      getArticleCommentsCountByArticleId, createArticleComment,
-      updateArticleComment, deleteArticleComment,
+      getArticleCommentsByArticleIdInfinite, getArticleCommentsCountByArticleId,
+      createArticleComment, updateArticleComment, deleteArticleComment,
       getDownloadCommentsByDownloadId,getDownloadCommentsByDownloadIdInfinite,getDownloadCommentsCountByDownloadId,createDownloadComment,
       updateDownloadComment,
       deleteDownloadComment,getVideoEmbedCommentsByVideoEmbedId,
