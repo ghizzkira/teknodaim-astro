@@ -6,7 +6,7 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
-    "preview": "wrangler pages dev ./dist",
+    "preview": "astro build && wrangler pages dev",
     "db:drop": "drizzle-kit drop",
     "db:pull": "drizzle-kit introspect:sqlite",
     "db:generate": "drizzle-kit generate:sqlite",
@@ -16,6 +16,8 @@
     "db:check": "drizzle-kit check:sqlite",
     "format:fix": "prettier --write \"**/*.{ts,tsx,js,jsx,css,md,mdx,json,astro}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,css,md,mdx,json,astro}\"",
+    "deploy": "astro build && wrangler pages deploy",
+    "cf-typegen": "wrangler types",
     "astro": "astro"
   },
   "dependencies": {
@@ -109,6 +111,7 @@
     "zod": "^3.23.4"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240423.0",
     "@ianvs/prettier-plugin-sort-imports": "^4.2.1",
     "@tailwindcss/forms": "^0.5.7",
     "@types/eslint": "^8.56.10",
