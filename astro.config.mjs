@@ -27,12 +27,14 @@ export default defineConfig({
   },
   adapter: cloudflare({
     imageService: "custom",
+    wasmModuleImports: true,
     // routes: {
     //   extend: {
     //     include: [{ pattern: "/en/*" }], // Route a prerended page to the SSR function for on-demand rendering
     //   },
     // },
   }),
+
   image: {
     endpoint: "./src/lib/utils/image/image-endpoint",
     domains: ["secure.gravatar.com"],
@@ -95,24 +97,42 @@ export default defineConfig({
   ],
   vite: {
     optimizeDeps: {
-      exclude: ["oslo"],
+      exclude: [
+        "oslo",
+        "wasm-image-optimization/esm",
+        "@jsquash/avif",
+        "@jsquash/webp",
+        "@napi-rs/image-wasm32-wasi",
+        "@napi-rs/image",
+        "@syntect/wasm",
+      ],
     },
     build: {
       rollupOptions: {
-        external: ["wasm-image-optimization", "@cf-wasm/photon"],
+        external: [
+          "wasm-image-optimization/esm",
+          "@cf-wasm/photon",
+          "@jsquash/avif",
+          "@jsquash/webp",
+          "@napi-rs/image-wasm32-wasi",
+        ],
+        plugins: [wasmroll()],
       },
     },
     plugins: [wasm(), topLevelAwait()],
-    // ssr: {
-    //   external: [
-    //     "node:buffer",
-    //     "node:util",
-    //     "node:path",
-    //     "node:child_process",
-    //     "node:stream",
-    //     "node:cripto",
-    //     "node:fs",
-    //   ],
-    // },
+
+    ssr: {
+      external: [
+        "node:buffer",
+        "node:util",
+        "node:path",
+        "node:child_process",
+        "node:stream",
+        "node:cripto",
+        "node:fs",
+        "@napi-rs/image-wasm32-wasi",
+        "node:os",
+      ],
+    },
   },
 })

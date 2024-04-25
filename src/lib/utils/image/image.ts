@@ -31,9 +31,24 @@ const service: LocalImageService = {
     imageConfig,
   ): Promise<{ data: Uint8Array; format: string }> {
     const inputImage = photon.PhotonImage.new_from_byteslice(buffer)
-
-    let image = photon.resize(inputImage, options.width, options.height, 1)
-    const outputBytes = image.get_bytes_webp()
+    const aspectRatio = inputImage.get_width() / inputImage.get_height()
+    let targetWidth = options.width
+    let targetHeight = options.height
+    if (options.height && !options.width) {
+      targetWidth = Math.round(options.height * aspectRatio)
+    } else if (options.height && !options.width) {
+      targetWidth = Math.round(options.height * aspectRatio)
+    } else if (options.width && !options.height) {
+      targetHeight = Math.round(options.width / aspectRatio)
+    }
+    const image = photon
+      // to_image_data(inputImage)
+      .resize(inputImage, targetWidth, targetHeight, 1)
+    const outputBytes = image.get_bytes_jpeg(
+      options.quality ? parseInt(options.quality) : 50,
+    )
+    image.free()
+    inputImage.free()
 
     return {
       data: new Uint8Array(outputBytes),
