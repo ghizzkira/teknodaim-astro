@@ -57,6 +57,74 @@ export const getVideoEmbedsDashboard = async ({
   return data
 }
 
+export const getVideoEmbedsByTopicId = async ({
+  topicId,
+  page,
+  perPage,
+}: {
+  topicId: string
+  page: number
+  perPage: number
+}) => {
+  const videoEmbeds = await db.query.videoEmbeds.findMany({
+    where: (videoEmbeds, { eq }) => eq(videoEmbeds.status, "published"),
+    limit: perPage,
+    offset: (page - 1) * perPage,
+    orderBy: (videoEmbeds, { desc }) => [desc(videoEmbeds.updatedAt)],
+    with: {
+      featuredImage: true,
+      topics: true,
+    },
+  })
+
+  const data = videoEmbeds.filter((videoEmbed) =>
+    videoEmbed.topics.some((topic) => topic.topicId === topicId),
+  )
+
+  return data
+}
+
+export const getVideoEmbedsByTopicIdInfinite = async ({
+  topicId,
+  limit = 50,
+  cursor,
+}: {
+  topicId: string
+  limit?: number
+  cursor?: string
+}) => {
+  const videoEmbeds = await db.query.videoEmbeds.findMany({
+    where: (videoEmbeds, { eq, and, lt }) =>
+      and(
+        eq(videoEmbeds.status, "published"),
+        cursor ? lt(videoEmbeds.updatedAt, cursor) : undefined,
+      ),
+    limit: limit + 1,
+    with: {
+      featuredImage: true,
+      topics: true,
+    },
+  })
+
+  const data = videoEmbeds.filter((videoEmbed) =>
+    videoEmbed.topics.some((topic) => topic.topicId === topicId),
+  )
+
+  let nextCursor: string | undefined = undefined
+
+  if (data.length > limit) {
+    const nextItem = data.pop()
+    if (nextItem?.updatedAt) {
+      nextCursor = nextItem.updatedAt
+    }
+  }
+
+  return {
+    videoEmbeds: data,
+    nextCursor,
+  }
+}
+
 export const getRelatedVideoEmbedsInfinite = async ({
   topicId,
   currentVideoEmbedId,
@@ -124,7 +192,7 @@ export const getVideoEmbedsByType = async ({
   return data
 }
 
-export const getRelatedVideoEmbedsByTypeInfinite = async ({
+export const getVideoEmbedsByTypeInfinite = async ({
   type,
   limit = 50,
   cursor,
