@@ -27,6 +27,9 @@ export default defineConfig({
   },
   adapter: cloudflare({
     imageService: "custom",
+    platformProxy: {
+      enable: true,
+    },
     // routes: {
     //   extend: {
     //     include: [{ pattern: "/en/*" }], // Route a prerended page to the SSR function for on-demand rendering
