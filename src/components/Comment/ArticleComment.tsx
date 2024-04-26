@@ -14,13 +14,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import { Skeleton } from "@/components/ui/skeleton"
 import { Textarea } from "@/components/ui/textarea"
 import { toast } from "@/components/ui/toast/use-toast"
 import { useSession } from "@/lib/auth/client"
 import { api } from "@/lib/trpc/react"
 import type { LanguageType } from "@/lib/validation/language"
-import EditDownloadComment from "./edit-download-comment"
-import ReplyDownloadComment from "./reply-download-comment"
+import EditArticleComment from "./EditArticleComment"
+import ReplyArticleComment from "./ReplyArticleComment"
 
 const DateWrapper = dynamic(
   async () => {
@@ -30,15 +31,17 @@ const DateWrapper = dynamic(
   {
     ssr: false,
     loading: () => (
-      <span className="inline-block h-4 w-8 animate-pulse rounded-md bg-muted" />
+      <>
+        <Skeleton className="h-4 w-8" />
+      </>
     ),
   },
 )
 
 const AlertDelete = React.lazy(() => import("@/components/alert-delete"))
 
-interface DownloadCommentFormProps {
-  download_id: string
+interface ArticleCommentFormProps {
+  article_id: string
   locale: LanguageType
 }
 
@@ -47,9 +50,9 @@ interface FormValues {
   id: string
 }
 
-const DownloadComment: React.FunctionComponent<DownloadCommentFormProps> =
+const ArticleComment: React.FunctionComponent<ArticleCommentFormProps> =
   React.memo((props) => {
-    const { download_id, locale } = props
+    const { article_id, locale } = props
 
     const { data: session } = useSession()
 
@@ -58,15 +61,15 @@ const DownloadComment: React.FunctionComponent<DownloadCommentFormProps> =
     const [isLoading, setIsLoading] = React.useState(false)
 
     const { data: commentCount, refetch } =
-      api.downloadComment.countByDownloadId.useQuery(download_id)
+      api.articleComment.countByArticleId.useQuery(article_id)
     const {
       data,
       fetchNextPage,
       hasNextPage,
       refetch: updateComment,
-    } = api.downloadComment.byDownloadIdInfinite.useInfiniteQuery(
+    } = api.articleComment.byArticleIdInfinite.useInfiniteQuery(
       {
-        download_id: download_id,
+        article_id: article_id,
         limit: 10,
       },
       {
@@ -79,7 +82,7 @@ const DownloadComment: React.FunctionComponent<DownloadCommentFormProps> =
 
     const { register, handleSubmit, reset } = useForm<FormValues>()
 
-    const { mutate: createComment } = api.downloadComment.create.useMutation({
+    const { mutate: createComment } = api.articleComment.create.useMutation({
       onSuccess: () => {
         const textarea = document.querySelector("textarea")
         if (textarea) {
@@ -119,14 +122,15 @@ const DownloadComment: React.FunctionComponent<DownloadCommentFormProps> =
     const onSubmit: SubmitHandler<FormValues> = (values) => {
       setIsLoading(true)
       createComment({
-        download_id,
+        article_id,
         content: values.content,
       })
+
       setIsLoading(false)
     }
 
-    const { mutate: deleteDownloadCommentAction } =
-      api.downloadComment.delete.useMutation({
+    const { mutate: deleteArticleCommentAction } =
+      api.articleComment.delete.useMutation({
         onSuccess: () => {
           updateComment()
           refetch()
@@ -159,7 +163,7 @@ const DownloadComment: React.FunctionComponent<DownloadCommentFormProps> =
       })
 
     function handleDeleteComment(comment_id: string) {
-      deleteDownloadCommentAction(comment_id)
+      deleteArticleCommentAction(comment_id)
     }
 
     return (
@@ -185,7 +189,10 @@ const DownloadComment: React.FunctionComponent<DownloadCommentFormProps> =
                       className="h-10 w-10 object-cover"
                     />
                   ) : (
-                    <Icon.User aria-label="User" className="h-10 w-10" />
+                    <Icon.User
+                      aria-label="Create Comment"
+                      className="h-10 w-10"
+                    />
                   )}
                 </div>
                 <div className="ml-1 flex w-full flex-1 flex-col items-center">
@@ -238,7 +245,7 @@ const DownloadComment: React.FunctionComponent<DownloadCommentFormProps> =
           )}
           <ul className="mt-4 flex flex-col gap-3">
             {data?.pages.map((page) => {
-              return page?.downloadComments.map((comment) => {
+              return page?.articleComments.map((comment) => {
                 return (
                   <>
                     <li className="relative flex flex-col" key={comment.id}>
@@ -277,21 +284,21 @@ const DownloadComment: React.FunctionComponent<DownloadCommentFormProps> =
                               </span>
                               <div>
                                 <Button
-                                  aria-label="Reply Comment"
+                                  aria-label="Comment"
                                   onClick={() => setIsReplyied(comment.id!)}
                                   variant="ghost"
                                   className="h-8 w-8 rounded-full p-1 md:h-auto md:w-auto md:px-2 md:py-1"
                                 >
                                   <span className="block md:hidden">
-                                    <Icon.Comment aria-label="Reply Comment" />
+                                    <Icon.Comment aria-label="Comment" />
                                   </span>
                                   <span className="hidden md:block">Reply</span>
                                 </Button>
                               </div>
                               <div className="w-full">
                                 {isReplyied === comment?.id ? (
-                                  <ReplyDownloadComment
-                                    id={download_id ?? ""}
+                                  <ReplyArticleComment
+                                    id={article_id ?? ""}
                                     reply_to_id={comment?.id ?? ""}
                                     avatar={session?.user?.image}
                                     username={session?.user?.username}
@@ -306,7 +313,7 @@ const DownloadComment: React.FunctionComponent<DownloadCommentFormProps> =
                               </div>
                             </div>
                           ) : (
-                            <EditDownloadComment
+                            <EditArticleComment
                               id={comment.id}
                               onCancel={() => setIsEdited("")}
                               onSuccess={() => {
@@ -365,7 +372,7 @@ const DownloadComment: React.FunctionComponent<DownloadCommentFormProps> =
                           </Popover>
                         ) : null}
                         <AlertDelete
-                          id={comment.id!}
+                          id={comment.id}
                           className="max-w-[366px]"
                           onDelete={() => {
                             handleDeleteComment(comment.id!)
@@ -431,8 +438,8 @@ const DownloadComment: React.FunctionComponent<DownloadCommentFormProps> =
                                   </div>
                                   <div className="w-full">
                                     {isReplyied === reply?.id ? (
-                                      <ReplyDownloadComment
-                                        id={download_id ?? ""}
+                                      <ReplyArticleComment
+                                        id={article_id ?? ""}
                                         reply_to_id={comment?.id ?? ""}
                                         avatar={session?.user?.image}
                                         username={session?.user?.username}
@@ -447,7 +454,7 @@ const DownloadComment: React.FunctionComponent<DownloadCommentFormProps> =
                                   </div>
                                 </div>
                               ) : (
-                                <EditDownloadComment
+                                <EditArticleComment
                                   id={reply.id}
                                   onCancel={() => setIsEdited("")}
                                   onSuccess={() => {
@@ -506,14 +513,13 @@ const DownloadComment: React.FunctionComponent<DownloadCommentFormProps> =
                               </Popover>
                             ) : null}
                             <AlertDelete
-                              id={reply.id!}
+                              id={comment.id}
                               className="max-w-[366px]"
                               onDelete={() => {
                                 handleDeleteComment(reply.id!)
-
-                                handleCloseModal(reply.id!)
+                                handleCloseModal(comment.id!)
                               }}
-                              onClose={() => handleCloseModal(reply.id!)}
+                              onClose={() => handleCloseModal(comment.id!)}
                             />
                           </div>
                         </li>
@@ -541,4 +547,4 @@ const DownloadComment: React.FunctionComponent<DownloadCommentFormProps> =
     )
   })
 
-export default DownloadComment
+export default ArticleComment

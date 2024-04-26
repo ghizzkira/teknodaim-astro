@@ -22,8 +22,8 @@ import type { AuthSession } from "@/lib/auth/utils"
 import { api } from "@/lib/trpc/react"
 import { cn } from "@/lib/utils/style"
 import type { LanguageType } from "@/lib/validation/language"
-import EditVideoEmbedComment from "./edit-video-embed-comment"
-import ReplyVideoEmbedComment from "./reply-video-embed-comment"
+import EditVideoEmbedComment from "./EditVideoEmbedComment"
+import ReplyVideoEmbedComment from "./ReplyVideoEmbedComment"
 
 const DateWrapper = dynamic(
   async () => {

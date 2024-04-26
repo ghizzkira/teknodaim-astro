@@ -56,7 +56,6 @@ const MainContainer: React.FunctionComponent<MainContainerProps> = (props) => {
     type = "default",
     user,
   } = props
-
   return (
     <div>
       <CheckboxSidebar />

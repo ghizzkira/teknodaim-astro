@@ -6,7 +6,6 @@ import { auth } from "@/lib/auth"
 const excludedPaths = ["/api", "/auth", "/sitemap"]
 export const onRequest = defineMiddleware(async (context, next) => {
   const url = new URL(context.request.url)
-  console.log(url)
   if (context.request.method !== "GET") {
     const originHeader = context.request.headers.get("Origin")
     const hostHeader = context.request.headers.get("Host")
@@ -74,8 +73,3 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   return next()
 })
-
-export const config = {
-  // Only run the middleware on the marketing route
-  matcher: "/berita",
-}

@@ -11,9 +11,10 @@ import { AlertDelete } from "@/components/AlertDelete"
 import { Button } from "@/components/UI/Button"
 import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast/useToast"
+import { useSession } from "@/hooks/useSession"
 import type { LanguageType } from "@/lib/validation/language"
-import EditWPComment from "./edit-wp-comment"
-import ReplyWpComment from "./reply-wp-comment"
+import EditWPComment from "./EditWpComment"
+import ReplyWpComment from "./ReplyWpComment"
 
 interface WpCommentFormProps {
   wp_post_slug: string
@@ -29,7 +30,7 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
   (props) => {
     const { wp_post_slug, locale } = props
 
-    const { data: session } = useSession()
+    const { session } = useSession()
 
     const [isEdited, setIsEdited] = React.useState("")
     const [isReplyied, setIsReplyied] = React.useState("")
