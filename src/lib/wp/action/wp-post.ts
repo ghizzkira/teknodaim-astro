@@ -294,27 +294,27 @@ export async function wpGetPostBySlugAction(slug: string) {
     return {
       err: err instanceof Error ? err.message : "An error occurred",
       post: null,
-      other_lang_post: null,
+      OtherLangPost: null,
     }
   }
   if (res?.error) {
     return {
       err: res?.error.message,
       post: null,
-      other_lang_post: null,
+      OtherLangPost: null,
     }
   }
   if (!res?.data?.post) {
     return {
       err: "something wrong",
       post: null,
-      other_lang_post: null,
+      OtherLangPost: null,
     }
   }
   const post = wpMapPostData((res as WpResPostProps).data.post)
   const translations = post?.translations
 
-  return { err: null, post: post, other_lang_post: translations ?? null }
+  return { err: null, post: post, OtherLangPost: translations ?? null }
 }
 
 export async function wpGetPostsByAuthorSlugAction(

@@ -6,7 +6,7 @@ export function useSession() {
   const [session, setSession] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(false)
 
-  const handleSignIn = async () => {
+  const handleLogin = async () => {
     setIsLoading(true)
     try {
       const response = await fetch("/api/auth/session", { method: "GET" })
@@ -23,7 +23,7 @@ export function useSession() {
   }
 
   React.useEffect(() => {
-    handleSignIn()
+    handleLogin()
   }, [])
 
   return { session, isLoading }
