@@ -28,7 +28,6 @@
     "@astrojs/ts-plugin": "^1.6.1",
     "@auth/drizzle-adapter": "^1.0.1",
     "@aws-sdk/client-s3": "^3.563.0",
-    "@cf-wasm/photon": "^0.1.13",
     "@libsql/client": "^0.6.0",
     "@lucia-auth/adapter-drizzle": "^1.0.7",
     "@radix-ui/react-alert-dialog": "^1.0.5",
@@ -135,9 +134,6 @@
     "tailwindcss-animate": "^1.0.7",
     "tsx": "^4.7.3",
     "typescript": "^5.4.5",
-    "vite": "^5.2.10",
-    "vite-plugin-top-level-await": "^1.4.1",
-    "vite-plugin-wasm": "^3.3.0",
     "wrangler": "^3.52.0"
   }
 }

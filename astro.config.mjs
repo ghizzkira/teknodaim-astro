@@ -3,18 +3,12 @@ import cloudflare from "@astrojs/cloudflare"
 import partytown from "@astrojs/partytown"
 import react from "@astrojs/react"
 import tailwind from "@astrojs/tailwind"
-import { loadEnv } from "vite"
-// import commonjs from "vite-plugin-commonjs"
-import topLevelAwait from "vite-plugin-top-level-await"
-import wasm from "vite-plugin-wasm"
-
-const { SECRET_PASSWORD } = loadEnv(process.env.NODE_ENV, process.cwd(), "")
 
 // https://astro.build/config
 export default defineConfig({
-  site: "http://localhost:8788",
+  site: import.meta.env.PUBLIC_SITE_URL ?? "http://localhost:4321",
   output: "server",
-  trailingSlash: "always",
+  trailingSlash: "ignore",
   build: {
     format: "directory",
   },
@@ -25,15 +19,15 @@ export default defineConfig({
       prefixDefaultLocale: false,
     },
     domains: {
-      en: "http://localhost:8788",
-      id: `http://localhost:8788`,
+      en: import.meta.env.PUBLIC_SITE_URL ?? "http://localhost:4321",
+      id: import.meta.env.PUBLIC_EN_SITE_URL ?? "http://localhost:4321",
     },
   },
   experimental: {
     i18nDomains: true,
   },
   adapter: cloudflare({
-    imageService: "custom",
+    imageService: "passthrough",
     platformProxy: {
       enabled: true,
     },
@@ -45,7 +39,6 @@ export default defineConfig({
   }),
 
   image: {
-    endpoint: "./src/lib/utils/image/image-endpoint",
     domains: ["secure.gravatar.com"],
     remotePatterns: [
       {
@@ -89,9 +82,6 @@ export default defineConfig({
         hostname: `cdn.${import.meta.env.PUBLIC_DOMAIN}`,
       },
     ],
-    service: {
-      entrypoint: "./src/lib/utils/image/image",
-    },
   },
   integrations: [
     tailwind({
@@ -108,12 +98,6 @@ export default defineConfig({
     optimizeDeps: {
       exclude: ["oslo"],
     },
-    build: {
-      rollupOptions: {
-        external: ["@cf-wasm/photon"],
-      },
-    },
-    plugins: [wasm(), topLevelAwait()],
 
     ssr: {
       external: [
