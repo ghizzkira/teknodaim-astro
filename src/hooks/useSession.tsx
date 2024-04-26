@@ -14,6 +14,7 @@ export function useSession() {
       if (data?.id) {
         setSession(data)
       }
+      return data
     } catch (error) {
       console.error(error)
       toast({ description: "Invalid session, try again", variant: "warning" })
@@ -26,5 +27,5 @@ export function useSession() {
     handleLogin()
   }, [])
 
-  return { session, isLoading }
+  return { session, isLoading, handleLogin }
 }
