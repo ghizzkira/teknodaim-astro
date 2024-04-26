@@ -342,6 +342,9 @@ importers:
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
+      vite:
+        specifier: ^5.2.10
+        version: 5.2.10(@types/node@20.12.7)
       vite-plugin-top-level-await:
         specifier: ^1.4.1
         version: 1.4.1(rollup@4.16.4)(vite@5.2.10(@types/node@20.12.7))

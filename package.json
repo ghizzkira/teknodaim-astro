@@ -132,6 +132,7 @@
     "tailwindcss-animate": "^1.0.7",
     "tsx": "^4.7.2",
     "typescript": "^5.4.5",
+    "vite": "^5.2.10",
     "vite-plugin-top-level-await": "^1.4.1",
     "vite-plugin-wasm": "^3.3.0",
     "wrangler": "^3.52.0"

@@ -8,6 +8,10 @@ export const splitReactNodes = (elements: React.ReactNode[]) => {
   }
 }
 
+export const copyToClipboard = (value: string) => {
+  void navigator.clipboard.writeText(value)
+}
+
 export const trimText = (text: string, maxLength: number): string => {
   const strippedText = text.replace(/(<([^>]+)>)/gi, "")
 

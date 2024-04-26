@@ -3,14 +3,21 @@ import cloudflare from "@astrojs/cloudflare"
 import partytown from "@astrojs/partytown"
 import react from "@astrojs/react"
 import tailwind from "@astrojs/tailwind"
+import { loadEnv } from "vite"
 // import commonjs from "vite-plugin-commonjs"
 import topLevelAwait from "vite-plugin-top-level-await"
 import wasm from "vite-plugin-wasm"
+
+const { SECRET_PASSWORD } = loadEnv(process.env.NODE_ENV, process.cwd(), "")
 
 // https://astro.build/config
 export default defineConfig({
   site: "http://localhost:8788",
   output: "server",
+  trailingSlash: "always",
+  build: {
+    format: "directory",
+  },
   i18n: {
     defaultLocale: "id",
     locales: ["id", "en"],
@@ -27,7 +34,9 @@ export default defineConfig({
   },
   adapter: cloudflare({
     imageService: "custom",
-    wasmModuleImports: true,
+    platformProxy: {
+      enabled: true,
+    },
     // routes: {
     //   extend: {
     //     include: [{ pattern: "/en/*" }], // Route a prerended page to the SSR function for on-demand rendering
@@ -97,26 +106,11 @@ export default defineConfig({
   ],
   vite: {
     optimizeDeps: {
-      exclude: [
-        "oslo",
-        "wasm-image-optimization/esm",
-        "@jsquash/avif",
-        "@jsquash/webp",
-        "@napi-rs/image-wasm32-wasi",
-        "@napi-rs/image",
-        "@syntect/wasm",
-      ],
+      exclude: ["oslo"],
     },
     build: {
       rollupOptions: {
-        external: [
-          "wasm-image-optimization/esm",
-          "@cf-wasm/photon",
-          "@jsquash/avif",
-          "@jsquash/webp",
-          "@napi-rs/image-wasm32-wasi",
-        ],
-        plugins: [wasmroll()],
+        external: ["@cf-wasm/photon"],
       },
     },
     plugins: [wasm(), topLevelAwait()],
@@ -130,7 +124,6 @@ export default defineConfig({
         "node:stream",
         "node:cripto",
         "node:fs",
-        "@napi-rs/image-wasm32-wasi",
         "node:os",
       ],
     },
