@@ -17,11 +17,9 @@ export const GET = async (context: APIContext) => {
   const { params } = context
   const { slug, categorySlug, locale } = params
 
-  const { post: main_post, other_lang_post } = await wpGetPostBySlugAction(
-    slug!,
-  )
+  const { post: MainPost, OtherLangPost } = await wpGetPostBySlugAction(slug!)
 
-  if (!main_post && !other_lang_post) {
+  if (!MainPost && !OtherLangPost) {
     return new Response(null, {
       status: 404,
     })
@@ -31,43 +29,43 @@ export const GET = async (context: APIContext) => {
 
   if (locale === "id") {
     if (
-      main_post &&
-      slug === main_post.slug &&
-      main_post.language.slug.toLocaleLowerCase() === locale
+      MainPost &&
+      slug === MainPost.slug &&
+      MainPost.language.slug.toLocaleLowerCase() === locale
     ) {
-      post = main_post
+      post = MainPost
     } else if (
-      main_post &&
-      slug === main_post.slug &&
-      main_post.language.slug.toLocaleLowerCase() !== locale
+      MainPost &&
+      slug === MainPost.slug &&
+      MainPost.language.slug.toLocaleLowerCase() !== locale
     ) {
-      if (other_lang_post?.slug) {
+      if (OtherLangPost?.slug) {
         const { primaryCategory } = wpPrimaryCategorySlug(
-          other_lang_post?.categories as WpCategoriesDataProps[],
+          OtherLangPost?.categories as WpCategoriesDataProps[],
         )
         Response.redirect(
-          `/${primaryCategory?.slug}/${other_lang_post?.slug}/amp/`,
+          `/${primaryCategory?.slug}/${OtherLangPost?.slug}/amp/`,
         )
       }
     }
   } else if (locale === "en") {
     if (
-      main_post &&
-      slug === main_post.slug &&
-      main_post.language.slug.toLocaleLowerCase() === locale
+      MainPost &&
+      slug === MainPost.slug &&
+      MainPost.language.slug.toLocaleLowerCase() === locale
     ) {
-      post = main_post
+      post = MainPost
     } else if (
-      main_post &&
-      slug === main_post.slug &&
-      main_post.language.slug.toLocaleLowerCase() !== locale
+      MainPost &&
+      slug === MainPost.slug &&
+      MainPost.language.slug.toLocaleLowerCase() !== locale
     ) {
-      if (other_lang_post?.slug) {
+      if (OtherLangPost?.slug) {
         const { primaryCategory } = wpPrimaryCategorySlug(
-          other_lang_post?.categories as WpCategoriesDataProps[],
+          OtherLangPost?.categories as WpCategoriesDataProps[],
         )
         Response.redirect(
-          `/${primaryCategory?.slug}/${other_lang_post.slug}/amp/`,
+          `/${primaryCategory?.slug}/${OtherLangPost.slug}/amp/`,
         )
       }
     }

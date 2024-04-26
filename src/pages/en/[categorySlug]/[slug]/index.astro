@@ -28,56 +28,56 @@ Astro.response.headers.set(
 const { categorySlug, slug } = Astro.params
 
 const { posts } = await wpGetAllPostsAction("ID")
-const { post: main_post, other_lang_post } = await wpGetPostBySlugAction(
+const { post: MainPost, OtherLangPost } = await wpGetPostBySlugAction(
   slug as unknown as string,
 )
 
-// if (!main_post && !other_lang_post) {
+// if (!MainPost && !OtherLangPost) {
 //   notFound()
 // }
 
-let post = main_post
+let post = MainPost
 
 // if (locale === "id") {
 //   if (
-//     main_post &&
-//     slug === main_post.slug &&
-//     main_post.language.slug.toLocaleLowerCase() === locale
+//     MainPost &&
+//     slug === MainPost.slug &&
+//     MainPost.language.slug.toLocaleLowerCase() === locale
 //   ) {
-//     post = main_post
+//     post = MainPost
 //   } else if (
-//     main_post &&
-//     slug === main_post.slug &&
-//     main_post.language.slug.toLocaleLowerCase() !== locale
+//     MainPost &&
+//     slug === MainPost.slug &&
+//     MainPost.language.slug.toLocaleLowerCase() !== locale
 //   ) {
-//     if (other_lang_post?.slug) {
+//     if (OtherLangPost?.slug) {
 //       const { primaryCategory } = wpPrimaryCategorySlug(
-//         other_lang_post?.categories as WpCategoriesDataProps[],
+//         OtherLangPost?.categories as WpCategoriesDataProps[],
 //       )
 //       redirect(
-//         `/${primaryCategory?.slug}/${other_lang_post?.slug}`,
+//         `/${primaryCategory?.slug}/${OtherLangPost?.slug}`,
 //         RedirectType.replace,
 //       )
 //     }
 //   }
 // } else if (locale === "en") {
 //   if (
-//     main_post &&
-//     slug === main_post.slug &&
-//     main_post.language.slug.toLocaleLowerCase() === locale
+//     MainPost &&
+//     slug === MainPost.slug &&
+//     MainPost.language.slug.toLocaleLowerCase() === locale
 //   ) {
-//     post = main_post
+//     post = MainPost
 //   } else if (
-//     main_post &&
-//     slug === main_post.slug &&
-//     main_post.language.slug.toLocaleLowerCase() !== locale
+//     MainPost &&
+//     slug === MainPost.slug &&
+//     MainPost.language.slug.toLocaleLowerCase() !== locale
 //   ) {
-//     if (other_lang_post?.slug) {
+//     if (OtherLangPost?.slug) {
 //       const { primaryCategory } = wpPrimaryCategorySlug(
-//         other_lang_post?.categories as WpCategoriesDataProps[],
+//         OtherLangPost?.categories as WpCategoriesDataProps[],
 //       )
 //       redirect(
-//         `/${primaryCategory?.slug}/${other_lang_post.slug}`,
+//         `/${primaryCategory?.slug}/${OtherLangPost.slug}`,
 //         RedirectType.replace,
 //       )
 //     }
