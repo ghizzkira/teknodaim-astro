@@ -1,20 +1,29 @@
 import type { APIContext, APIRoute } from "astro"
 import { z } from "zod"
 
-import { deleteWpComment } from "@/lib/action/wp-comment"
+import { deleteWpComment, getWpCommentById } from "@/lib/action/wp-comment"
 
 export const DELETE: APIRoute = async (context: APIContext) => {
   try {
+    const body = await context.request.json()
+    const parsedInput = z.string().parse(body)
+
     const user = context.locals.user
 
-    if (!user?.role.includes("admin")) {
+    const wpComment = await getWpCommentById(parsedInput)
+
+    if (!user) {
       return new Response(null, {
         status: 401,
       })
     }
 
-    const body = await context.request.json()
-    const parsedInput = z.string().parse(body)
+    if (user?.id !== wpComment?.authorId) {
+      return new Response("You can only delete your comment", {
+        status: 401,
+      })
+    }
+
     const data = await deleteWpComment(parsedInput)
 
     if (!data) {
