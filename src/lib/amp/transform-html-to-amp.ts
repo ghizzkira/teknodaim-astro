@@ -114,16 +114,16 @@ export async function transformHtmlToAMP(post: WpSinglePostDataProps) {
         return { tagName, attribs } // Adjust this line based on your type definitions
       },
       a: function (tagName, attribs) {
-        const regexId = new RegExp(process?.env?.PUBLIC_WP_DOMAIN ?? "")
-        const regexEn = new RegExp(process?.env?.PUBLIC_WP_EN_SUBDOMAIN ?? "")
+        const regexId = new RegExp(import.meta.env.PUBLIC_WP_DOMAIN ?? "")
+        const regexEn = new RegExp(import.meta.env.PUBLIC_WP_EN_SUBDOMAIN ?? "")
         return {
           tagName,
           attribs: {
             ...attribs,
             href:
               attribs?.href
-                ?.replace(regexId, process?.env?.PUBLIC_DOMAIN ?? "")
-                ?.replace(regexEn, process?.env?.PUBLIC_EN_SUBDOMAIN ?? "") ??
+                ?.replace(regexId, import.meta.env.PUBLIC_DOMAIN ?? "")
+                ?.replace(regexEn, import.meta.env.PUBLIC_EN_SUBDOMAIN ?? "") ??
               "#",
           },
         }
@@ -153,16 +153,16 @@ export async function transformHtmlToAMP(post: WpSinglePostDataProps) {
         return { tagName, attribs } // Adjust this line based on your type definitions
       },
       a: function (tagName, attribs) {
-        const regexId = new RegExp(process?.env?.PUBLIC_WP_DOMAIN ?? "")
-        const regexEn = new RegExp(process?.env?.PUBLIC_WP_EN_SUBDOMAIN ?? "")
+        const regexId = new RegExp(import.meta.env.PUBLIC_WP_DOMAIN ?? "")
+        const regexEn = new RegExp(import.meta.env.PUBLIC_WP_EN_SUBDOMAIN ?? "")
         return {
           tagName,
           attribs: {
             ...attribs,
             href:
               attribs?.href
-                ?.replace(regexId, process?.env?.PUBLIC_DOMAIN ?? "")
-                ?.replace(regexEn, process?.env?.PUBLIC_EN_SUBDOMAIN ?? "") ??
+                ?.replace(regexId, import.meta.env.PUBLIC_DOMAIN ?? "")
+                ?.replace(regexEn, import.meta.env.PUBLIC_EN_SUBDOMAIN ?? "") ??
               "#",
           },
         }
