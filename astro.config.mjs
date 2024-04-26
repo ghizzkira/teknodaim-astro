@@ -11,7 +11,7 @@ import wasm from "vite-plugin-wasm"
 export default defineConfig({
   site: "http://localhost:8788",
   output: "server",
-  trailingSlash: "always",
+  trailingSlash: "ignore",
   build: {
     format: "directory",
   },

@@ -96,7 +96,7 @@ export const GET = async (context: APIContext) => {
   // const menus = await api.menu.byLocation("sidebar_all_amp")
   // const menusByLang = await api.menu.byLocation(
   //   locale === "id" ? "sidebar_all_id_amp" : "sidebar_all_en_amp",
-  )
+  // )
   // const menusFooterAll = await api.menu.byLocation("footer_all_amp")
   // const menusFooterByLang = await api.menu.byLocation(
   //   locale === "id" ? "footer_id_amp" : "footer_en_amp",
@@ -658,4 +658,3 @@ darkButton.addEventListener('click', () => {
 
   return new Response(layoutHtml, { headers: { "content-type": "text/html" } })
 }
-
