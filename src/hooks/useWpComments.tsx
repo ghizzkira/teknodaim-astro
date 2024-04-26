@@ -1,7 +1,10 @@
 import * as React from "react"
 
 import { toast } from "@/components/UI/Toast/useToast"
-import type { CreateWpComment } from "@/lib/validation/wp-comment"
+import type {
+  CreateWpComment,
+  UpdateWpComment,
+} from "@/lib/validation/wp-comment"
 
 export function useWpCreateComment(
   input: CreateWpComment & { authorId: string },
@@ -35,11 +38,11 @@ export function useWpCreateComment(
     handleCreateComment()
   }, [])
 
-  return { data, isLoading }
+  return { data, isLoading, handleCreateComment }
 }
 
 export function useWpUpdateComment(
-  input: CreateWpComment & { authorId: string },
+  input: UpdateWpComment & { authorId: string },
 ) {
   const [data, setData] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(false)
@@ -70,7 +73,7 @@ export function useWpUpdateComment(
     handleUpdateComment()
   }, [])
 
-  return { data, isLoading }
+  return { data, isLoading, handleUpdateComment }
 }
 export function useWpDeleteComment(input: string) {
   const [data, setData] = React.useState(null)
@@ -102,7 +105,7 @@ export function useWpDeleteComment(input: string) {
     handleDeleteComment()
   }, [])
 
-  return { data, isLoading }
+  return { data, isLoading, handleDeleteComment }
 }
 export function useGetWpCommentCountByWpSlug(slug: string) {
   const [data, setData] = React.useState(null)
