@@ -226,8 +226,6 @@ export const Icon = {
   Search: MdOutlineSearch,
   Shop: MdStore,
   ShoppingCart: MdAddShoppingCart,
-  SignIn: MdLogin,
-  SignOut: MdLogout,
   Spinner: LuLoader2,
   Smartphone: MdSmartphone,
   Star: BiStar,
