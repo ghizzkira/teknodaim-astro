@@ -4,7 +4,7 @@ interface TwitterAmpEmbedProps {
   children: React.ReactNode
 }
 
-const TwitterAmpEmbed = ({ children }: TwitterAmpEmbedProps) => {
+const TwitterAMPEmbed = ({ children }: TwitterAmpEmbedProps) => {
   const regex = /^https?:\/\/twitter\.com\/\w+\/status\/(\d+).*$/
   const modifiedChildren = React.Children.map(children, (child) => {
     if (
@@ -26,4 +26,4 @@ const TwitterAmpEmbed = ({ children }: TwitterAmpEmbedProps) => {
   return <>{modifiedChildren}</>
 }
 
-export default TwitterAmpEmbed
+export default TwitterAMPEmbed
