@@ -3,7 +3,7 @@ import { verifyRequestOrigin } from "lucia"
 
 import { auth } from "@/lib/auth"
 
-const excludedPaths = ["/api", "/auth", "/sitemap"]
+const excludedPaths = ["/api", "/auth/", "/sitemap", "/_image"]
 export const onRequest = defineMiddleware(async (context, next) => {
   const url = new URL(context.request.url)
   if (context.request.method !== "GET") {
