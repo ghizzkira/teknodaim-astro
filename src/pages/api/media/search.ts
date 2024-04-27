@@ -1,15 +1,17 @@
 import type { APIRoute } from "astro"
 import { z } from "zod"
 
-import { searchGadgets } from "@/lib/action/gadget"
+import { searchMedias } from "@/lib/action/media"
 
-export const GET: APIRoute = async ({ params }) => {
+export const GET: APIRoute = async ({ request }) => {
   try {
-    const searchQuery = params.searchQuery
+    const url = new URL(request.url)
+    const queryParams = new URLSearchParams(url.search)
+    const searchQuery = queryParams.get("searchQuery")
 
     const parsedInput = z.string().parse(searchQuery)
 
-    const data = await searchGadgets(parsedInput)
+    const data = await searchMedias(parsedInput)
 
     if (!data) {
       return new Response(null, {

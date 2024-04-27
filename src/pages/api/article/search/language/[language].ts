@@ -1,19 +1,22 @@
 import type { APIRoute } from "astro"
 import { z } from "zod"
 
-import { searchArticlesDashboard } from "@/lib/action/article"
+import { searchArticles } from "@/lib/action/article"
 import { languageType } from "@/lib/validation/language"
 
-export const GET: APIRoute = async ({ params }) => {
+export const GET: APIRoute = async ({ params, request }) => {
   try {
     const language = params.language
-    const searchQuery = params.searchQuery
+
+    const url = new URL(request.url)
+    const queryParams = new URLSearchParams(url.search)
+    const searchQuery = queryParams.get("searchQuery")
 
     const parsedInput = z
       .object({ language: languageType, searchQuery: z.string() })
       .parse({ language, searchQuery })
 
-    const data = await searchArticlesDashboard(parsedInput)
+    const data = await searchArticles(parsedInput)
 
     if (!data) {
       return new Response(null, {

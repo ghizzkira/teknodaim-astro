@@ -13,10 +13,18 @@ const inputSchema = z.object({
 export const GET: APIRoute = async ({ request, params }) => {
   try {
     const language = params.language
+
+    const url = new URL(request.url)
+    const queryParams = new URLSearchParams(url.search)
+    const limit = parseInt(queryParams.get("limit") ?? "50")
+    const cursor = queryParams.get("cursor")
+
     const parsedInput = inputSchema.parse({
       language,
-      ...request.body,
+      limit,
+      cursor,
     })
+
     const data = await getDownloadsByLanguageInfinite(parsedInput)
 
     if (!data) {

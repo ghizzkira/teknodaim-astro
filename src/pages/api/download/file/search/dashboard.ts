@@ -1,15 +1,17 @@
 import type { APIRoute } from "astro"
 import { z } from "zod"
 
-import { searchMedias } from "@/lib/action/media"
+import { searchDownloadFilesDashboard } from "@/lib/action/download-file"
 
-export const GET: APIRoute = async ({ params }) => {
+export const GET: APIRoute = async ({ request }) => {
   try {
-    const searchQuery = params.searchQuery
+    const url = new URL(request.url)
+    const queryParams = new URLSearchParams(url.search)
+    const searchQuery = queryParams.get("searchQuery")
 
     const parsedInput = z.string().parse(searchQuery)
 
-    const data = await searchMedias(parsedInput)
+    const data = await searchDownloadFilesDashboard(parsedInput)
 
     if (!data) {
       return new Response(null, {
