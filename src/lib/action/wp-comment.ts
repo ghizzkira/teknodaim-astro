@@ -66,7 +66,7 @@ export const getWpCommentsByWpPostSlugInfinite = async ({
       and(
         eq(wpComments.wpPostSlug, wpPostSlug),
         eq(wpComments.replyToId, ""),
-        cursor ? lt(wpComments.updatedAt, cursor) : undefined,
+        cursor ? lt(wpComments.createdAt, cursor) : undefined,
       ),
     limit: limit + 1,
     with: {
