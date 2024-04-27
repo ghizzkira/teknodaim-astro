@@ -1,7 +1,5 @@
 // TODO: handle arrow down
 
-"use client"
-
 import * as React from "react"
 import { useController } from "react-hook-form"
 

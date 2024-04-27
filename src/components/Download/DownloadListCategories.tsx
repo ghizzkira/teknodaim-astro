@@ -1,5 +1,3 @@
-"use client"
-
 import * as React from "react"
 import type { Media as MediaProps, Topic as TopicProps } from "@prisma/client"
 

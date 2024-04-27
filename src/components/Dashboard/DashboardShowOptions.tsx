@@ -1,5 +1,3 @@
-"use client"
-
 import type { UrlObject } from "url"
 import * as React from "react"
 

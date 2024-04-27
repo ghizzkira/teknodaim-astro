@@ -1,14 +1,12 @@
-"use client"
-
 import * as React from "react"
 import { useForm, type SubmitHandler } from "react-hook-form"
 
-import Image from "@/components/image"
+import Image from "@/components/Image"
 import { Button } from "@/components/UI/Button"
-import { Icon } from "@/components/ui/icon"
+import { Icon } from "@/components/UI/Icon"
 import { Textarea } from "@/components/UI/Textarea"
-import { toast } from "@/components/UI/Toast/UseToast"
-import { api } from "@/lib/trpc/react"
+import { toast } from "@/components/UI/Toast/useToast"
+import { useWpCreateComment } from "@/hooks/useWpComments"
 
 interface FormValues {
   content: string
@@ -33,7 +31,7 @@ const ReplyWpComment: React.FunctionComponent<ReplyWpCommentProps> = (
 
   const { register, handleSubmit, reset } = useForm<FormValues>()
 
-  const { mutate: createComment } = api.wpComment.create.useMutation({
+  const { handleCreateComment: createComment } = useWpCreateComment({
     onSuccess: () => {
       const textarea = document.querySelector("textarea")
       if (textarea) {
@@ -47,35 +45,14 @@ const ReplyWpComment: React.FunctionComponent<ReplyWpCommentProps> = (
         description: "Comment is successfully replied",
       })
     },
-    onError: (error) => {
-      const errorData = error?.data?.zodError?.fieldErrors
-
-      if (errorData) {
-        for (const field in errorData) {
-          if (errorData.hasOwnProperty(field)) {
-            errorData[field]?.forEach((errorMessage) => {
-              toast({
-                variant: "danger",
-                description: errorMessage,
-              })
-            })
-          }
-        }
-      } else {
-        toast({
-          variant: "danger",
-          description: "Failed to reply! Please try again later",
-        })
-      }
-    },
   })
 
   const onSubmit: SubmitHandler<FormValues> = (values) => {
     setIsLoading(true)
     createComment({
-      wp_post_slug: wp_post_slug,
+      wpPostSlug: wp_post_slug,
       content: values.content,
-      reply_to_id: reply_to_id,
+      replyToId: reply_to_id,
     })
     setIsLoading(false)
   }
@@ -88,7 +65,13 @@ const ReplyWpComment: React.FunctionComponent<ReplyWpCommentProps> = (
       <div className="flex">
         <div className="relative h-6 w-6 overflow-hidden rounded-full bg-muted md:h-10 md:w-10">
           {avatar ? (
-            <Image fill src={avatar} alt={username!} className="object-cover" />
+            <Image
+              src={avatar}
+              alt={username!}
+              className="object-cover"
+              width={"10"}
+              height={"10"}
+            />
           ) : (
             <Icon.User
               aria-label="User Comment"

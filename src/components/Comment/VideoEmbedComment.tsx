@@ -1,7 +1,5 @@
 //TODO: add delete option for user and admin
 
-"use client"
-
 import * as React from "react"
 import dynamic from "next/dynamic"
 import NextLink from "next/link"

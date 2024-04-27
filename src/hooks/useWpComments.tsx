@@ -246,36 +246,15 @@ export function useGetWpCommentByWpSlugInfinite({
       )
       const data = await response.json()
       if (data?.wpComments) {
-        if (isRefetch) {
-          setComments((prevComments) => {
-            const newComments = [...prevComments]
-            if (newComments.length > 0) {
-              newComments[0] = {
-                wpComments: data?.wpComments,
-                cursor: data?.wpComments[data?.wpComments.length - 1].createdAt,
-                page: 1,
-              }
-            } else {
-              newComments.push({
-                wpComments: data?.wpComments,
-                cursor: data?.wpComments[data?.wpComments.length - 1].createdAt,
-                page: 1,
-              })
-            }
-            return newComments
-          })
-          setPage(1)
-        } else {
-          setComments([
-            ...comments,
-            {
-              wpComments: data?.wpComments,
-              cursor: data?.nextCursor,
-              page: page + 1,
-            },
-          ])
-          setPage(page + 1)
-        }
+        setComments([
+          ...comments,
+          {
+            wpComments: data?.wpComments,
+            cursor: data?.nextCursor,
+            page: page + 1,
+          },
+        ])
+        setPage(page + 1)
       }
 
       if (data?.nextCursor) {
@@ -318,8 +297,71 @@ export function useGetWpCommentByWpSlugInfinite({
     }
   }, [handleObserver])
 
+  const fetchCommentsByPage = async (limit: number, cursor = "") => {
+    const response = await fetch(
+      `/api/wp-comment/wp-post-slug/${slug}/infinite`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          wpPostSlug: slug,
+          limit: limit,
+          cursor: cursor,
+        }),
+      },
+    )
+    const data = await response.json()
+    return data
+  }
+
+  const handleGetWpCommentsByWpSlugInfiniteRefetch = async (
+    totalPages: number,
+  ) => {
+    setIsLoading(true)
+    let cursor = ""
+    let allComments = [...comments]
+
+    for (let page = 1; page <= totalPages; page++) {
+      try {
+        const data = await fetchCommentsByPage(limit, cursor)
+        if (data?.wpComments) {
+          if (page <= allComments.length) {
+            // Update existing page
+            allComments[page - 1] = {
+              wpComments: data?.wpComments,
+              cursor: data?.nextCursor,
+              page: page,
+            }
+          } else {
+            // Add new page
+            allComments.push({
+              wpComments: data?.wpComments,
+              cursor: data?.nextCursor,
+              page: page,
+            })
+          }
+          cursor = data?.nextCursor
+        }
+        if (!data?.nextCursor) {
+          setHasNextPage(false)
+          break
+        }
+      } catch (error) {
+        console.error(error)
+        toast({
+          description: "Error when getting comment, try again",
+          variant: "warning",
+        })
+      }
+    }
+
+    setComments(allComments)
+    setPage(allComments.length)
+    setLastCursor(allComments[allComments.length - 1]?.cursor)
+    setIsLoading(false)
+  }
+
   const refetch = () => {
-    handleGetWpCommentsByWpSlugInfinite(lastCursor, true)
+    handleGetWpCommentsByWpSlugInfiniteRefetch(page + 1)
   }
 
   const fetchNextPage = () => {
