@@ -69,6 +69,7 @@ export const getWpCommentsByWpPostSlugInfinite = async ({
         cursor ? lt(wpComments.createdAt, cursor) : undefined,
       ),
     limit: limit + 1,
+    orderBy: (wpComments, { desc }) => [desc(wpComments.createdAt)],
     with: {
       author: true,
       replies: {
