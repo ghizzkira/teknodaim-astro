@@ -42,7 +42,6 @@ export function useWpCreateComment({
         setData(data)
         onSuccess && onSuccess()
       }
-      console.log(data)
       return data
     } catch (error) {
       console.error(error)
@@ -149,7 +148,6 @@ export function useGetWpCommentCountByWpSlug(slug: string) {
       if (data) {
         setData(data)
       }
-      console.log(data)
       return data
     } catch (error) {
       console.error(error)

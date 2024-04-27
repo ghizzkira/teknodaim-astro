@@ -57,8 +57,7 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
       slug: wp_post_slug,
       limit: 10,
     })
-    console.log(commentCount)
-    console.log(comments)
+
     const { register, handleSubmit, reset } = useForm<FormValues>()
 
     const { handleCreateComment: createComment } = useWpCreateComment({
