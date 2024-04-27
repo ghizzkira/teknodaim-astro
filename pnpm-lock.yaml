@@ -263,9 +263,6 @@ importers:
       tripay-sdk:
         specifier: ^0.1.4
         version: 0.1.4
-      vite-plugin-commonjs:
-        specifier: ^0.10.1
-        version: 0.10.1
       zod:
         specifier: ^3.23.4
         version: 3.23.4
@@ -5911,12 +5908,6 @@ packages:
 
   vfile@6.0.1:
     resolution: {integrity: sha512-1bYqc7pt6NIADBJ98UiG0Bn/CHIVOoZ/IyEkqIruLg0mE1BKzkOXY2D6CSqQIcKqgadppE5lrxgWXJmXd7zZJw==}
-
-  vite-plugin-commonjs@0.10.1:
-    resolution: {integrity: sha512-taP8R9kYGlCW5OzkVR0UIWRCnG6rSxeWWuA7tnU5b9t5MniibOnDY219NhisTeDhJAeGT8cEnrhVWZ9A5yD+vg==}
-
-  vite-plugin-dynamic-import@1.5.0:
-    resolution: {integrity: sha512-Qp85c+AVJmLa8MLni74U4BDiWpUeFNx7NJqbGZyR2XJOU7mgW0cb7nwlAMucFyM4arEd92Nfxp4j44xPi6Fu7g==}
 
   vite@5.2.10:
     resolution: {integrity: sha512-PAzgUZbP7msvQvqdSD+ErD5qGnSFiGOoWmV5yAKUEI0kdhjbH6nMWVyZQC/hSc4aXwc0oJ9aEdIiF9Oje0JFCw==}
@@ -12745,20 +12736,6 @@ snapshots:
       '@types/unist': 3.0.2
       unist-util-stringify-position: 4.0.0
       vfile-message: 4.0.2
-
-  vite-plugin-commonjs@0.10.1:
-    dependencies:
-      acorn: 8.11.3
-      fast-glob: 3.3.2
-      magic-string: 0.30.10
-      vite-plugin-dynamic-import: 1.5.0
-
-  vite-plugin-dynamic-import@1.5.0:
-    dependencies:
-      acorn: 8.11.3
-      es-module-lexer: 1.5.0
-      fast-glob: 3.3.2
-      magic-string: 0.30.10
 
   vite@5.2.10(@types/node@20.12.7):
     dependencies:
