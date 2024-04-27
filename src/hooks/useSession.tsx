@@ -1,9 +1,10 @@
 import * as React from "react"
+import type { User } from "lucia"
 
 import { toast } from "@/components/UI/Toast/useToast"
 
 export function useSession() {
-  const [session, setSession] = React.useState(null)
+  const [session, setSession] = React.useState<User | null>(null)
   const [isLoading, setIsLoading] = React.useState(false)
 
   const handleLogin = async () => {

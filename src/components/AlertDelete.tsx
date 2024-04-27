@@ -12,7 +12,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/UI/AlertDialog"
-import { useI18n } from "@/lib/locales/client"
+
+// import { useI18n } from "@/lib/locales/client"
 
 interface AlertDeleteProps extends React.HTMLAttributes<HTMLDivElement> {
   title?: string
@@ -57,4 +58,7 @@ export const AlertDelete: React.FunctionComponent<AlertDeleteProps> = (
       </AlertDialog>
     </div>
   )
+}
+function useI18n() {
+  throw new Error("Function not implemented.")
 }

@@ -21,6 +21,7 @@ import MainLayout from "@/layouts/MainLayout.astro"
 import InfiniteScrollWpSinglePost from "@/components/Wp/InfiniteScrollWpSinglePost"
 import WpPostViewCounter from "@/components/Wp/WpPostViewCounter"
 import { getWpPopularPosts } from "@/lib/action/wp-popular-post"
+import WpComment from "@/components/Comment/WpComment"
 
 export const prerender = false
 Astro.response.headers.set(
@@ -254,6 +255,8 @@ is:inline
     class="fade-up-element mx-auto flex w-full pt-5 md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]"
   >
     <section class="w-full lg:w-8/12">
+      <WpComment  wp_post_slug={slug!}
+      locale={"id"} client:load/>
       {
         postData && (
           <WpPostContent

@@ -9,12 +9,14 @@ const inputSchema = z.object({
   cursor: z.string().optional(),
 })
 
-export const GET: APIRoute = async ({ params, request }) => {
+export const POST: APIRoute = async ({ params, request }) => {
   try {
     const wpPostSlug = params.wpPostSlug
+    const body = await request.json()
+
     const parsedInput = inputSchema.parse({
       wpPostSlug,
-      ...request.body,
+      ...body,
     })
     const data = await getWpCommentsByWpPostSlugInfinite(parsedInput)
 

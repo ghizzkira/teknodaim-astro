@@ -6,7 +6,7 @@ import NextLink from "next/link"
 import { useForm, type SubmitHandler } from "react-hook-form"
 
 import Image from "@/components/image"
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/UI/Button"
 import { Icon } from "@/components/ui/icon"
 import { handleCloseModal, handleOpenModal } from "@/components/ui/modal"
 import {
@@ -14,8 +14,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
-import { Textarea } from "@/components/ui/textarea"
-import { toast } from "@/components/ui/toast/use-toast"
+import { Textarea } from "@/components/UI/Textarea"
+import { toast } from "@/components/UI/Toast/UseToast"
 import { useSession } from "@/lib/auth/client"
 import { api } from "@/lib/trpc/react"
 import type { LanguageType } from "@/lib/validation/language"

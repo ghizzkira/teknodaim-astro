@@ -83,9 +83,10 @@ export const getWpCommentsByWpPostSlugInfinite = async ({
   let nextCursor: string | undefined = undefined
 
   if (data.length > limit) {
-    const nextItem = data.pop()
+    const nextItem = data[data.length - 2]
     if (nextItem?.createdAt) {
       nextCursor = nextItem.createdAt
+      data.pop()
     }
   }
 

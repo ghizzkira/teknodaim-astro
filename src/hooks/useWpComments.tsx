@@ -1,30 +1,52 @@
 import * as React from "react"
 
 import { toast } from "@/components/UI/Toast/useToast"
+import type { SelectWpComment } from "@/lib/db/schema/wp-comment"
 import type {
   CreateWpComment,
   UpdateWpComment,
 } from "@/lib/validation/wp-comment"
 
-export function useWpCreateComment(
-  input: CreateWpComment & { authorId: string },
-) {
+export function useWpCreateComment({
+  onSuccess,
+  onError,
+}: {
+  input?: CreateWpComment & { authorId: string }
+  onSuccess?: () => void
+  onError?: () => void
+}) {
   const [data, setData] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(false)
 
-  const handleCreateComment = async () => {
+  const handleCreateComment = async ({
+    wpPostSlug,
+    content,
+    replyToId,
+  }: {
+    wpPostSlug: string
+    content: string
+    replyToId?: string | null | undefined
+  }) => {
     setIsLoading(true)
     try {
       const response = await fetch("/api/wp-comment/create", {
         method: "POST",
-        body: JSON.stringify(input),
+        body: JSON.stringify({
+          wpPostSlug,
+          content,
+          replyToId,
+        }),
       })
       const data = await response.json()
-      if (data?.id) {
+      if (data) {
         setData(data)
+        onSuccess && onSuccess()
       }
+      console.log(data)
+      return data
     } catch (error) {
       console.error(error)
+      onError && onError()
       toast({
         description: "Error when creating comment, try again",
         variant: "warning",
@@ -33,10 +55,6 @@ export function useWpCreateComment(
       setIsLoading(false)
     }
   }
-
-  React.useEffect(() => {
-    handleCreateComment()
-  }, [])
 
   return { data, isLoading, handleCreateComment }
 }
@@ -58,6 +76,7 @@ export function useWpUpdateComment(
       if (data?.id) {
         setData(data)
       }
+      return data
     } catch (error) {
       console.error(error)
       toast({
@@ -69,27 +88,37 @@ export function useWpUpdateComment(
     }
   }
 
-  React.useEffect(() => {
-    handleUpdateComment()
-  }, [])
-
   return { data, isLoading, handleUpdateComment }
 }
-export function useWpDeleteComment(input: string) {
+export function useWpDeleteComment({
+  onSuccess,
+  onError,
+}: {
+  input?: CreateWpComment & { authorId: string }
+  onSuccess?: () => void
+  onError?: () => void
+}) {
   const [data, setData] = React.useState(null)
   const [isLoading, setIsLoading] = React.useState(false)
 
-  const handleDeleteComment = async () => {
+  const handleDeleteComment = async (comment_id: string) => {
     setIsLoading(true)
     try {
       const response = await fetch("/api/wp-comment/delete", {
         method: "DELETE",
-        body: JSON.stringify(input),
+        body: JSON.stringify(comment_id),
       })
       const data = await response.json()
       if (data?.id) {
         setData(data)
       }
+      if (data) {
+        onSuccess && onSuccess()
+      } else {
+        onError && onError()
+      }
+
+      return data
     } catch (error) {
       console.error(error)
       toast({
@@ -100,10 +129,6 @@ export function useWpDeleteComment(input: string) {
       setIsLoading(false)
     }
   }
-
-  React.useEffect(() => {
-    handleDeleteComment()
-  }, [])
 
   return { data, isLoading, handleDeleteComment }
 }
@@ -121,9 +146,11 @@ export function useGetWpCommentCountByWpSlug(slug: string) {
         },
       )
       const data = await response.json()
-      if (data?.id) {
+      if (data) {
         setData(data)
       }
+      console.log(data)
+      return data
     } catch (error) {
       console.error(error)
       toast({
@@ -189,25 +216,27 @@ export function useGetWpCommentByWpSlugInfinite({
   limit: number
   currentCursor?: string
 }) {
-  const [comments, setComments] = React.useState([
-    { page: 0, cursor: "", data: null },
-  ])
+  const [comments, setComments] = React.useState<
+    { wpComments: SelectWpComment[]; cursor: string; page: number }[] | []
+  >([])
   const [isLoading, setIsLoading] = React.useState(false)
   const [lastCursor, setLastCursor] = React.useState<null | string | undefined>(
     "",
   )
   const [page, setPage] = React.useState(0)
   const loadMoreRef = React.useRef<HTMLDivElement>(null)
+  const [hasNextPage, setHasNextPage] = React.useState(true)
 
   const handleGetWpCommentsByWpSlugInfinite = async (
     nextCursor?: string | null,
+    isRefetch: boolean = false,
   ) => {
     setIsLoading(true)
     try {
       const response = await fetch(
         `/api/wp-comment/wp-post-slug/${slug}/infinite`,
         {
-          method: "GET",
+          method: "POST",
           body: JSON.stringify({
             wpPostSlug: slug,
             limit: limit,
@@ -217,20 +246,43 @@ export function useGetWpCommentByWpSlugInfinite({
       )
       const data = await response.json()
       if (data?.wpComments) {
-        setComments([
-          ...comments,
-          {
-            data: data?.wpComments,
-            cursor: data?.nextCursor,
-            page: page + 1,
-          },
-        ])
-        setPage(page + 1)
+        if (isRefetch) {
+          setComments((prevComments) => {
+            const newComments = [...prevComments]
+            if (newComments.length > 0) {
+              newComments[0] = {
+                wpComments: data?.wpComments,
+                cursor: data?.wpComments[data?.wpComments.length - 1].createdAt,
+                page: 1,
+              }
+            } else {
+              newComments.push({
+                wpComments: data?.wpComments,
+                cursor: data?.wpComments[data?.wpComments.length - 1].createdAt,
+                page: 1,
+              })
+            }
+            return newComments
+          })
+          setPage(1)
+        } else {
+          setComments([
+            ...comments,
+            {
+              wpComments: data?.wpComments,
+              cursor: data?.nextCursor,
+              page: page + 1,
+            },
+          ])
+          setPage(page + 1)
+        }
       }
+
       if (data?.nextCursor) {
         setLastCursor(data?.nextCursor)
       } else {
         setLastCursor(null)
+        setHasNextPage(false)
       }
     } catch (error) {
       console.error(error)
@@ -267,8 +319,9 @@ export function useGetWpCommentByWpSlugInfinite({
   }, [handleObserver])
 
   const refetch = () => {
-    handleGetWpCommentsByWpSlugInfinite(lastCursor)
+    handleGetWpCommentsByWpSlugInfinite(lastCursor, true)
   }
+
   const fetchNextPage = () => {
     handleGetWpCommentsByWpSlugInfinite(lastCursor)
   }
@@ -277,5 +330,12 @@ export function useGetWpCommentByWpSlugInfinite({
     handleGetWpCommentsByWpSlugInfinite("")
   }, [])
 
-  return { comments, isLoading, refetch, fetchNextPage, loadMoreRef }
+  return {
+    comments,
+    isLoading,
+    refetch,
+    fetchNextPage,
+    loadMoreRef,
+    hasNextPage,
+  }
 }

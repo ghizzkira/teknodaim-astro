@@ -3,9 +3,9 @@
 import * as React from "react"
 import { useForm, type SubmitHandler } from "react-hook-form"
 
-import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
-import { toast } from "@/components/ui/toast/use-toast"
+import { Button } from "@/components/UI/Button"
+import { Textarea } from "@/components/UI/Textarea"
+import { toast } from "@/components/UI/Toast/UseToast"
 import { api } from "@/lib/trpc/react"
 import { cn } from "@/lib/utils/style"
 

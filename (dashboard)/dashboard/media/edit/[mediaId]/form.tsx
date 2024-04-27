@@ -15,7 +15,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Icon } from "@/components/UI/Icon"
-import { Textarea } from "@/components/ui/textarea"
+import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast/useToast"
 import type { InsertMedia } from "@/lib/db/schema/media"
 import { useI18n, useScopedI18n } from "@/lib/locales/client"

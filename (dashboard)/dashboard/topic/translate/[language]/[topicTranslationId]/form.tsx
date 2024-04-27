@@ -17,7 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/UI/Input"
-import { Textarea } from "@/components/ui/textarea"
+import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast/useToast"
 import { useI18n, useScopedI18n } from "@/lib/locales/client"
 import { api } from "@/lib/trpc/react"
