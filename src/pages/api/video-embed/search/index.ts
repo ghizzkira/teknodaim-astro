@@ -1,15 +1,17 @@
 import type { APIRoute } from "astro"
 import { z } from "zod"
 
-import { searchUsers } from "@/lib/action/user"
+import { searchVideoEmbeds } from "@/lib/action/video-embed"
 
-export const GET: APIRoute = async ({ params }) => {
+export const GET: APIRoute = async ({ request }) => {
   try {
-    const searchQuery = params.searchQuery
+    const url = new URL(request.url)
+    const queryParams = new URLSearchParams(url.search)
+    const searchQuery = queryParams.get("searchQuery")
 
     const parsedInput = z.string().parse(searchQuery)
 
-    const data = await searchUsers(parsedInput)
+    const data = await searchVideoEmbeds(parsedInput)
 
     if (!data) {
       return new Response(null, {

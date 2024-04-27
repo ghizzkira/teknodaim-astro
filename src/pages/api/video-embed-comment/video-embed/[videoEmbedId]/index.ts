@@ -12,9 +12,16 @@ const inputSchema = z.object({
 export const GET: APIRoute = async ({ params, request }) => {
   try {
     const videoEmbedId = params.videoEmbedId
+
+    const url = new URL(request.url)
+    const queryParams = new URLSearchParams(url.search)
+    const page = parseInt(queryParams.get("page") ?? "1")
+    const perPage = parseInt(queryParams.get("perPage") ?? "10")
+
     const parsedInput = inputSchema.parse({
       videoEmbedId,
-      ...request.body,
+      page,
+      perPage,
     })
 
     const data = await getVideoEmbedCommentsByVideoEmbedId(parsedInput)

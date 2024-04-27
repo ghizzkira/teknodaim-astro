@@ -1,19 +1,17 @@
 import type { APIRoute } from "astro"
 import { z } from "zod"
 
-import { searchUsersByRole } from "@/lib/action/user"
-import { userRole } from "@/lib/validation/user"
+import { searchVideoEmbedsDashboard } from "@/lib/action/video-embed"
 
-export const GET: APIRoute = async ({ params }) => {
+export const GET: APIRoute = async ({ request }) => {
   try {
-    const role = params.role
-    const searchQuery = params.searchQuery
+    const url = new URL(request.url)
+    const queryParams = new URLSearchParams(url.search)
+    const searchQuery = queryParams.get("searchQuery")
 
-    const parsedInput = z
-      .object({ role: userRole, searchQuery: z.string() })
-      .parse({ role, searchQuery })
+    const parsedInput = z.string().parse(searchQuery)
 
-    const data = await searchUsersByRole(parsedInput)
+    const data = await searchVideoEmbedsDashboard(parsedInput)
 
     if (!data) {
       return new Response(null, {
