@@ -21,7 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Switch } from "@/components/ui/switch"
-import { Textarea } from "@/components/ui/textarea"
+import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast/useToast"
 import type { InsertAd } from "@/lib/db/schema/ad"
 import { useI18n, useScopedI18n } from "@/lib/locales/client"

@@ -1,5 +1,3 @@
-"use client"
-
 import * as React from "react"
 
 import {
@@ -12,7 +10,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/UI/AlertDialog"
-import { useI18n } from "@/lib/locales/client"
+
+// import { useI18n } from "@/lib/locales/client"
 
 interface AlertDeleteProps extends React.HTMLAttributes<HTMLDivElement> {
   title?: string
@@ -27,7 +26,7 @@ export const AlertDelete: React.FunctionComponent<AlertDeleteProps> = (
 ) => {
   const { description, isOpen, onClose, className, onDelete } = props
 
-  const t = useI18n()
+  // const t = useI18n()
 
   function handleDeleteAndClose() {
     onDelete()
@@ -42,15 +41,15 @@ export const AlertDelete: React.FunctionComponent<AlertDeleteProps> = (
             <AlertDialogTitle>Delete {description}</AlertDialogTitle>
             <AlertDialogDescription>
               {/* eslint-disable @typescript-eslint/restrict-template-expressions */}
-              {`${t("delete_prompt")} ${description}?`}
+              {/* {`${t("delete_prompt")} ${description}?`} */}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogAction onClick={handleDeleteAndClose} variant="danger">
-              {t("yes")}
+              {/* {t("yes")} */}
             </AlertDialogAction>
             <AlertDialogCancel onClick={onClose}>
-              {t("cancel")}
+              {/* {t("cancel")} */}
             </AlertDialogCancel>
           </AlertDialogFooter>
         </AlertDialogContent>

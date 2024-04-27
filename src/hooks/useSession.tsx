@@ -1,17 +1,18 @@
 import * as React from "react"
+import type { User } from "lucia"
 
 import { toast } from "@/components/UI/Toast/useToast"
 
 export function useSession() {
-  const [session, setSession] = React.useState(null)
+  const [session, setSession] = React.useState<{ user: User } | null>(null)
   const [isLoading, setIsLoading] = React.useState(false)
-
+  console.log(session)
   const handleLogin = async () => {
     setIsLoading(true)
     try {
       const response = await fetch("/api/auth/session", { method: "GET" })
       const data = await response.json()
-      if (data?.id) {
+      if (data?.user?.id) {
         setSession(data)
       }
       return data

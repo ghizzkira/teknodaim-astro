@@ -1,4 +1,5 @@
 ---
+import Tag from "@/components/Template/Tag.astro"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -132,7 +133,7 @@ const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
 // }
 ---
 
-<MainLayout  seo={{
+<MainLayout locale="id"  seo={{
   title: tag?.name,
     description: tag?.description,
   languageAlternates: [
@@ -162,5 +163,5 @@ const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
       />
     )
   }
-<Tag />
+<Tag posts={posts} pageInfo={pageInfo} category={category} locale="id" trendingPosts={trendingPosts} />
 </MainLayout>

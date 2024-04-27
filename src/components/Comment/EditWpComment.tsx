@@ -1,12 +1,10 @@
-"use client"
-
 import * as React from "react"
 import { useForm, type SubmitHandler } from "react-hook-form"
 
-import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
-import { toast } from "@/components/ui/toast/use-toast"
-import { api } from "@/lib/trpc/react"
+import { Button } from "@/components/UI/Button"
+import { Textarea } from "@/components/UI/Textarea"
+import { toast } from "@/components/UI/Toast/useToast"
+import { useWpCreateComment } from "@/hooks/useWpComments"
 import { cn } from "@/lib/utils/style"
 
 interface FormValues {
@@ -19,10 +17,18 @@ interface EditWpCommentProps {
   content: string
   type?: "default" | "dashboard"
   onCancel?: () => void
+  wp_post_slug: string
 }
 
 const EditWPComment: React.FunctionComponent<EditWpCommentProps> = (props) => {
-  const { id, onSuccess, content, type = "default", onCancel } = props
+  const {
+    id,
+    onSuccess,
+    content,
+    type = "default",
+    onCancel,
+    wp_post_slug,
+  } = props
 
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
@@ -32,7 +38,7 @@ const EditWPComment: React.FunctionComponent<EditWpCommentProps> = (props) => {
     },
   })
 
-  const { mutate: update } = api.wpComment.update.useMutation({
+  const { handleCreateComment: update } = useWpCreateComment({
     onSuccess: () => {
       const textarea = document.querySelector("textarea")
       if (textarea && type === "default") {
@@ -46,32 +52,11 @@ const EditWPComment: React.FunctionComponent<EditWpCommentProps> = (props) => {
         description: "Comment is successfully edited",
       })
     },
-    onError: (error) => {
-      const errorData = error?.data?.zodError?.fieldErrors
-
-      if (errorData) {
-        for (const field in errorData) {
-          if (errorData.hasOwnProperty(field)) {
-            errorData[field]?.forEach((errorMessage) => {
-              toast({
-                variant: "danger",
-                description: errorMessage,
-              })
-            })
-          }
-        }
-      } else {
-        toast({
-          variant: "danger",
-          description: "Failed to edit! Please try again later",
-        })
-      }
-    },
   })
 
   const onSubmit: SubmitHandler<FormValues> = (values) => {
     setIsLoading(true)
-    update({ id: id, content: values.content })
+    update({ replyToId: id, content: values.content, wpPostSlug: wp_post_slug })
     setIsLoading(false)
   }
 

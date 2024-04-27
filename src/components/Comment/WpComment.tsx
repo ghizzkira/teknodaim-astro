@@ -1,17 +1,25 @@
 import * as React from "react"
+import { useForm, type SubmitHandler } from "react-hook-form"
+
+import { AlertDelete } from "@/components/AlertDelete"
+import Image from "@/components/Image"
+import { Button } from "@/components/UI/Button"
+import { Icon } from "@/components/UI/Icon"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@radix-ui/react-popover"
-import { Icon } from "@radix-ui/react-select"
-import { useForm, type SubmitHandler } from "react-hook-form"
-
-import { AlertDelete } from "@/components/AlertDelete"
-import { Button } from "@/components/UI/Button"
+} from "@/components/UI/Popover"
 import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast/useToast"
 import { useSession } from "@/hooks/useSession"
+import {
+  useGetWpCommentByWpSlugInfinite,
+  useGetWpCommentCountByWpSlug,
+  useWpCreateComment,
+  useWpDeleteComment,
+} from "@/hooks/useWpComments"
+import { formatDateFromNow } from "@/lib/utils/date"
 import type { LanguageType } from "@/lib/validation/language"
 import EditWPComment from "./EditWpComment"
 import ReplyWpComment from "./ReplyWpComment"
@@ -31,34 +39,28 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
     const { wp_post_slug, locale } = props
 
     const { session } = useSession()
-
+    const [openDeleteModal, setOpenDeleteModal] = React.useState<string | null>(
+      null,
+    )
     const [isEdited, setIsEdited] = React.useState("")
     const [isReplyied, setIsReplyied] = React.useState("")
     const [isLoading, setIsLoading] = React.useState(false)
 
-    const { data: commentCount, refetch } =
-      api.wpComment.countByWpPostSlug.useQuery(wp_post_slug)
+    const { data: commentCount, refetch: refetchCount } =
+      useGetWpCommentCountByWpSlug(wp_post_slug)
     const {
-      data,
+      comments,
       fetchNextPage,
       hasNextPage,
       refetch: updateComment,
-    } = api.wpComment.byWpPostSlugInfinite.useInfiniteQuery(
-      {
-        wp_post_slug: wp_post_slug,
-        limit: 10,
-      },
-      {
-        getNextPageParam: (lastPage) => lastPage?.nextCursor,
-
-        refetchOnMount: false,
-        refetchOnWindowFocus: false,
-      },
-    )
+    } = useGetWpCommentByWpSlugInfinite({
+      slug: wp_post_slug,
+      limit: 10,
+    })
 
     const { register, handleSubmit, reset } = useForm<FormValues>()
 
-    const { mutate: createComment } = api.wpComment.create.useMutation({
+    const { handleCreateComment: createComment } = useWpCreateComment({
       onSuccess: () => {
         const textarea = document.querySelector("textarea")
         if (textarea) {
@@ -66,74 +68,33 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
         }
         updateComment()
         reset()
-        refetch()
+        refetchCount()
         toast({
           variant: "success",
           description: "Comment is successfully created",
         })
       },
-      onError: (error) => {
-        const errorData = error?.data?.zodError?.fieldErrors
-
-        if (errorData) {
-          for (const field in errorData) {
-            if (errorData.hasOwnProperty(field)) {
-              errorData[field]?.forEach((errorMessage) => {
-                toast({
-                  variant: "danger",
-                  description: errorMessage,
-                })
-              })
-            }
-          }
-        } else {
-          toast({
-            variant: "danger",
-            description: "Failed to create! Please try again later",
-          })
-        }
-      },
     })
 
     const onSubmit: SubmitHandler<FormValues> = (values) => {
       setIsLoading(true)
+      console.log(values)
       createComment({
-        wp_post_slug,
+        wpPostSlug: wp_post_slug,
         content: values.content,
       })
 
       setIsLoading(false)
     }
 
-    const { mutate: deleteWpCommentAction } = api.wpComment.delete.useMutation({
+    const { handleDeleteComment: deleteWpCommentAction } = useWpDeleteComment({
       onSuccess: () => {
         updateComment()
-        refetch()
+        refetchCount()
         toast({
           variant: "success",
           description: "Comment is successfully deleted",
         })
-      },
-      onError: (error) => {
-        const errorData = error?.data?.zodError?.fieldErrors
-
-        if (errorData) {
-          for (const field in errorData) {
-            if (errorData.hasOwnProperty(field)) {
-              errorData[field]?.forEach((errorMessage) => {
-                toast({
-                  variant: "danger",
-                  description: errorMessage,
-                })
-              })
-            }
-          }
-        } else {
-          toast({
-            variant: "danger",
-            description: "Failed to delete! Please try again later",
-          })
-        }
       },
     })
 
@@ -152,15 +113,16 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
               Comments ({commentCount ?? 0})
             </div>
           </div>
-          {session?.user ? (
+          {session ? (
             <form className="mb-5 mt-4" onSubmit={(e) => e.preventDefault()}>
               <div className="flex">
                 <div className="relative h-10 w-10 overflow-hidden rounded-full bg-muted">
                   {session?.user?.image ? (
                     <Image
-                      fill
                       src={session?.user?.image}
                       alt={session?.user?.name!}
+                      width="100"
+                      height="100"
                       className="h-10 w-10 object-cover"
                     />
                   ) : (
@@ -212,17 +174,17 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
           ) : (
             <div className="my-8 flex items-center justify-center">
               <Button asChild aria-label="You should sign in before comment">
-                <NextLink
+                <a
                   aria-label="You should sign in before comment"
                   href="/auth/login"
                 >
                   You should sign in before comment
-                </NextLink>
+                </a>
               </Button>
             </div>
           )}
           <ul className="mt-4 flex flex-col gap-3">
-            {data?.pages.map((page) => {
+            {comments?.map((page) => {
               return page?.wpComments.map((comment) => {
                 return (
                   <>
@@ -232,10 +194,11 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
                           <div className="relative h-10 w-10 overflow-hidden rounded-full bg-muted">
                             {comment?.author?.image ? (
                               <Image
-                                fill
                                 src={comment?.author?.image}
                                 alt={comment?.author?.name!}
                                 className="h-10 w-10 object-cover"
+                                width={"10"}
+                                height={"10"}
                               />
                             ) : (
                               <Icon.User
@@ -251,10 +214,7 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
                                   {comment?.author?.name}
                                 </div>
                                 <div className="text-xs text-foreground">
-                                  <DateWrapper
-                                    date={comment.createdAt}
-                                    language={locale}
-                                  />
+                                  {formatDateFromNow(comment.createdAt, locale)}
                                 </div>
                               </div>
                               <span className="text-[14px]">
@@ -281,7 +241,7 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
                                     avatar={session?.user?.image}
                                     username={session?.user?.username}
                                     onSuccess={() => {
-                                      refetch()
+                                      refetchCount()
                                       updateComment()
                                       setIsReplyied("")
                                     }}
@@ -293,6 +253,7 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
                           ) : (
                             <EditWPComment
                               id={comment.id}
+                              wp_post_slug={wp_post_slug ?? ""}
                               onCancel={() => setIsEdited("")}
                               onSuccess={() => {
                                 setIsEdited("")
@@ -304,16 +265,10 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
                         </figcaption>
                         {!isEdited && session?.user?.role === "admin" ? (
                           <Popover>
-                            <PopoverTrigger
-                              variant="ghost"
-                              className="cursor-pointer"
-                            >
+                            <PopoverTrigger className="cursor-pointer">
                               <Icon.MoreVert aria-label="Open Menu" />
                             </PopoverTrigger>
-                            <PopoverContent
-                              placement="left"
-                              className="flex w-[min-content] p-0"
-                            >
+                            <PopoverContent className="flex w-[min-content] p-0">
                               <div className="divide-y divide-muted/50">
                                 <div className="flex flex-col py-1 text-sm text-foreground">
                                   <Button
@@ -321,7 +276,7 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
                                     variant="ghost"
                                     className="h-auto"
                                     onClick={() => {
-                                      handleOpenModal(comment.id!)
+                                      setOpenDeleteModal(comment.id!)
                                     }}
                                   >
                                     <Icon.Delete
@@ -350,13 +305,13 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
                           </Popover>
                         ) : null}
                         <AlertDelete
-                          id={comment.id!}
+                          isOpen={openDeleteModal === comment.id!}
                           className="max-w-[366px]"
                           onDelete={() => {
                             handleDeleteComment(comment.id!)
-                            handleCloseModal(comment.id!)
+                            setOpenDeleteModal(null)
                           }}
-                          onClose={() => handleCloseModal(comment.id!)}
+                          onClose={() => setOpenDeleteModal(null)}
                         />
                       </div>
                     </li>
@@ -371,10 +326,11 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
                               <div className="relative h-6 w-6 overflow-hidden rounded-full bg-muted md:h-10 md:w-10">
                                 {reply?.author?.image ? (
                                   <Image
-                                    fill
                                     src={reply?.author?.image}
                                     alt={reply?.author?.name!}
                                     className="object-cover"
+                                    width={""}
+                                    height={""}
                                   />
                                 ) : (
                                   <Icon.User
@@ -390,10 +346,10 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
                                       {reply?.author?.name}
                                     </div>
                                     <div className="text-xs text-foreground">
-                                      <DateWrapper
-                                        date={comment.createdAt}
-                                        language={locale}
-                                      />
+                                      {formatDateFromNow(
+                                        comment.createdAt,
+                                        locale,
+                                      )}
                                     </div>
                                   </div>
                                   <span className="text-[14px]">
@@ -422,7 +378,7 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
                                         avatar={session?.user?.image}
                                         username={session?.user?.username}
                                         onSuccess={() => {
-                                          refetch()
+                                          refetch: refetchCount()
                                           updateComment()
                                           setIsReplyied("")
                                         }}
@@ -440,21 +396,16 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
                                     updateComment()
                                   }}
                                   content={reply.content ?? ""}
+                                  wp_post_slug={wp_post_slug}
                                 />
                               )}
                             </figcaption>
                             {!isEdited && session?.user?.role === "admin" ? (
                               <Popover>
-                                <PopoverTrigger
-                                  variant="ghost"
-                                  className="cursor-pointer"
-                                >
+                                <PopoverTrigger className="cursor-pointer">
                                   <Icon.MoreVert aria-label="Open Menu" />
                                 </PopoverTrigger>
-                                <PopoverContent
-                                  placement="left"
-                                  className="flex w-[min-content] p-0"
-                                >
+                                <PopoverContent className="flex w-[min-content] p-0">
                                   <div className="divide-y divide-muted/50">
                                     <div className="flex flex-col py-1 text-sm text-foreground">
                                       <Button
@@ -462,7 +413,7 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
                                         variant="ghost"
                                         className="h-auto"
                                         onClick={() => {
-                                          handleOpenModal(reply.id!)
+                                          setOpenDeleteModal(reply.id!)
                                         }}
                                       >
                                         <Icon.Delete
@@ -491,14 +442,14 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
                               </Popover>
                             ) : null}
                             <AlertDelete
-                              id={reply.id!}
+                              isOpen={openDeleteModal === reply.id!}
                               className="max-w-[366px]"
                               onDelete={() => {
                                 handleDeleteComment(reply.id!)
 
-                                handleCloseModal(reply.id!)
+                                setOpenDeleteModal(null)
                               }}
-                              onClose={() => handleCloseModal(reply.id!)}
+                              onClose={() => setOpenDeleteModal(null)}
                             />
                           </div>
                         </li>
@@ -509,7 +460,7 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
               })
             })}
           </ul>
-          {hasNextPage ? (
+          {session?.user && hasNextPage ? (
             <Button
               aria-label="Load More Comment"
               onClick={() => {

@@ -69,6 +69,7 @@ interface WpPostContentProps {
   secondContent: React.ReactNode | null
   locale: LanguageType
   relatedPosts?: WpSinglePostDataProps[] | null
+  CommentComponent?: React.ReactNode | null
   // gadgets?: GadgetDataProps[]
 }
 
@@ -84,6 +85,7 @@ const WpPostContent: React.FunctionComponent<WpPostContentProps> = React.memo(
       secondContent,
       locale,
       relatedPosts,
+      CommentComponent,
       // gadgets,
     } = props
 
@@ -258,15 +260,15 @@ const WpPostContent: React.FunctionComponent<WpPostContentProps> = React.memo(
             categorySlug={primaryData?.slug as never as string}
             postSlug={slug}
           /> */}
-          {/* <React.Suspense
+          <React.Suspense
             fallback={<Skeleton className="h-20 w-full rounded" />}
           >
             <section className="my-5" id="comment">
               <div className="mb-5 flex flex-col justify-center">
-                <WpComment locale={locale} wp_post_slug={slug} />
+                {CommentComponent}
               </div>
             </section>
-          </React.Suspense> */}
+          </React.Suspense>
           {/* {gadgets?.length && gadgets?.length > 0 ? (
             <div className="my-5">
               <h2 className="mb-2 border-b-4 text-primary">In This Article</h2>
