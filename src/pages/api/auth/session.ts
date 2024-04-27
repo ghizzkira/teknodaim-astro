@@ -7,12 +7,17 @@ export function GET(context: APIContext) {
         status: 401,
       })
     }
-    return new Response(JSON.stringify(context.locals.user), {
-      status: 200,
-      headers: {
-        "Content-Type": "application/json",
+    return new Response(
+      JSON.stringify({
+        user: context.locals.user,
+      }),
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "application/json",
+        },
       },
-    })
+    )
   } catch (error) {
     console.error(error)
     return new Response("Internal Server Error", { status: 500 })
