@@ -10,7 +10,7 @@ export const GET: APIRoute = async ({ params, request }) => {
 
     const url = new URL(request.url)
     const queryParams = new URLSearchParams(url.search)
-    const searchQuery = queryParams.get("searchQuery")
+    const searchQuery = queryParams.get("query")
 
     const parsedInput = z
       .object({ language: languageType, searchQuery: z.string() })

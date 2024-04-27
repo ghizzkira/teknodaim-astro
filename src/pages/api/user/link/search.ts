@@ -17,7 +17,7 @@ export const GET: APIRoute = async (context: APIContext) => {
 
     const url = new URL(context.request.url)
     const queryParams = new URLSearchParams(url.search)
-    const searchQuery = queryParams.get("searchQuery")
+    const searchQuery = queryParams.get("query")
 
     const parsedInput = z.string().parse(searchQuery)
 
