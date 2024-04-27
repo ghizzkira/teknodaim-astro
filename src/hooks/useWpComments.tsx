@@ -171,7 +171,7 @@ export function useGetWpCommentCountByWpSlug(slug: string) {
   }, [])
 
   // Menambahkan refetch ke return value
-  return { data, isLoading, refetch: refetchCount }
+  return { data, isLoading, refetch }
 }
 
 export function useGetWpCommentByWpSlug(slug: string) {
@@ -203,7 +203,6 @@ export function useGetWpCommentByWpSlug(slug: string) {
     handleGetWpCommentsByWpSlug()
   }, [])
 
-  // Menambahkan refetch ke return value
   return { data, isLoading, refetch }
 }
 
@@ -233,15 +232,15 @@ export function useGetWpCommentByWpSlugInfinite({
   ) => {
     setIsLoading(true)
     try {
+      const searchParams = new URLSearchParams()
+      searchParams.set("limit", limit)
+      searchParams.set("cursor", nextCursor ?? "")
+      searchParams.set("wpPostSlug", slug ?? "")
+
       const response = await fetch(
-        `/api/wp-comment/wp-post-slug/${slug}/infinite`,
+        `/api/wp-comment/wp-post-slug/${slug}/infinite?${searchParams.toString()}`,
         {
-          method: "POST",
-          body: JSON.stringify({
-            wpPostSlug: slug,
-            limit: limit,
-            cursor: nextCursor,
-          }),
+          method: "GEt",
         },
       )
       const data = await response.json()

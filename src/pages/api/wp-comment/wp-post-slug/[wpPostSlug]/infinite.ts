@@ -9,15 +9,21 @@ const inputSchema = z.object({
   cursor: z.string().optional(),
 })
 
-export const POST: APIRoute = async ({ params, request }) => {
+export const GET: APIRoute = async ({ params, request }) => {
   try {
     const wpPostSlug = params.wpPostSlug
-    const body = await request.json()
+
+    const url = new URL(request.url)
+    const queryParams = new URLSearchParams(url.search)
+    const limit = parseInt(queryParams.get("limit") ?? "50")
+    const cursor = queryParams.get("cursor")
 
     const parsedInput = inputSchema.parse({
       wpPostSlug,
-      ...body,
+      limit,
+      cursor,
     })
+
     const data = await getWpCommentsByWpPostSlugInfinite(parsedInput)
 
     if (!data) {

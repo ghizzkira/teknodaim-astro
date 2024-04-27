@@ -10,7 +10,13 @@ const inputSchema = z.object({
 
 export const GET: APIRoute = async ({ request }) => {
   try {
-    const parsedInput = inputSchema.parse(request.body)
+    const url = new URL(request.url)
+    const queryParams = new URLSearchParams(url.search)
+    const limit = parseInt(queryParams.get("limit") ?? "50")
+    const cursor = queryParams.get("cursor")
+
+    const parsedInput = inputSchema.parse({ limit, cursor })
+
     const data = await getGadgetsPublishedInfinite(parsedInput)
 
     if (!data) {

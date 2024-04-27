@@ -12,9 +12,16 @@ const inputSchema = z.object({
 export const GET: APIRoute = async ({ params, request }) => {
   try {
     const topicId = params.topicId
+
+    const url = new URL(request.url)
+    const queryParams = new URLSearchParams(url.search)
+    const limit = parseInt(queryParams.get("limit") ?? "50")
+    const cursor = queryParams.get("cursor")
+
     const parsedInput = inputSchema.parse({
       topicId,
-      ...request.body,
+      limit,
+      cursor,
     })
     const data = await getVideoEmbedsByTopicIdInfinite(parsedInput)
 

@@ -5,11 +5,14 @@ import { searchTopicsByType } from "@/lib/action/topic"
 import { languageType } from "@/lib/validation/language"
 import { topicType } from "@/lib/validation/topic"
 
-export const GET: APIRoute = async ({ params }) => {
+export const GET: APIRoute = async ({ params, request }) => {
   try {
-    const searchQuery = params.searchQuery
     const language = params.language
     const type = params.type
+
+    const url = new URL(request.url)
+    const queryParams = new URLSearchParams(url.search)
+    const searchQuery = queryParams.get("query")
 
     const parsedInput = z
       .object({

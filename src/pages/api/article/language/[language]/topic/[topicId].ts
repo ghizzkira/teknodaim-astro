@@ -15,10 +15,17 @@ export const GET: APIRoute = async ({ params, request }) => {
   try {
     const language = params.language
     const topicId = params.topicId
+
+    const url = new URL(request.url)
+    const queryParams = new URLSearchParams(url.search)
+    const page = parseInt(queryParams.get("page") ?? "1")
+    const perPage = parseInt(queryParams.get("perPage") ?? "10")
+
     const parsedInput = inputSchema.parse({
       language,
       topicId,
-      ...request.body,
+      page,
+      perPage,
     })
     const data = await getArticlesByTopicId(parsedInput)
 

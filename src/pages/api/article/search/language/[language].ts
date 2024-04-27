@@ -4,10 +4,13 @@ import { z } from "zod"
 import { searchArticles } from "@/lib/action/article"
 import { languageType } from "@/lib/validation/language"
 
-export const GET: APIRoute = async ({ params }) => {
+export const GET: APIRoute = async ({ params, request }) => {
   try {
     const language = params.language
-    const searchQuery = params.searchQuery
+
+    const url = new URL(request.url)
+    const queryParams = new URLSearchParams(url.search)
+    const searchQuery = queryParams.get("query")
 
     const parsedInput = z
       .object({ language: languageType, searchQuery: z.string() })

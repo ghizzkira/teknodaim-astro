@@ -1,19 +1,22 @@
 import type { APIRoute } from "astro"
 import { z } from "zod"
 
-import { searchDownloadsDashboard } from "@/lib/action/download"
-import { languageType } from "@/lib/validation/language"
+import { searchUsersByRole } from "@/lib/action/user"
+import { userRole } from "@/lib/validation/user"
 
-export const GET: APIRoute = async ({ params }) => {
+export const GET: APIRoute = async ({ params, request }) => {
   try {
-    const language = params.language
-    const searchQuery = params.searchQuery
+    const role = params.role
+
+    const url = new URL(request.url)
+    const queryParams = new URLSearchParams(url.search)
+    const searchQuery = queryParams.get("query")
 
     const parsedInput = z
-      .object({ language: languageType, searchQuery: z.string() })
-      .parse({ language, searchQuery })
+      .object({ role: userRole, searchQuery: z.string() })
+      .parse({ role, searchQuery })
 
-    const data = await searchDownloadsDashboard(parsedInput)
+    const data = await searchUsersByRole(parsedInput)
 
     if (!data) {
       return new Response(null, {

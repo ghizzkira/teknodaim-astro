@@ -3,9 +3,11 @@ import { z } from "zod"
 
 import { searchUsers } from "@/lib/action/user"
 
-export const GET: APIRoute = async ({ params }) => {
+export const GET: APIRoute = async ({ request }) => {
   try {
-    const searchQuery = params.searchQuery
+    const url = new URL(request.url)
+    const queryParams = new URLSearchParams(url.search)
+    const searchQuery = queryParams.get("query")
 
     const parsedInput = z.string().parse(searchQuery)
 
