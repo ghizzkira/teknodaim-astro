@@ -26,7 +26,7 @@ export const AlertDelete: React.FunctionComponent<AlertDeleteProps> = (
 ) => {
   const { description, isOpen, onClose, className, onDelete } = props
 
-  const t = useI18n()
+  // const t = useI18n()
 
   function handleDeleteAndClose() {
     onDelete()
@@ -41,22 +41,19 @@ export const AlertDelete: React.FunctionComponent<AlertDeleteProps> = (
             <AlertDialogTitle>Delete {description}</AlertDialogTitle>
             <AlertDialogDescription>
               {/* eslint-disable @typescript-eslint/restrict-template-expressions */}
-              {`${t("delete_prompt")} ${description}?`}
+              {/* {`${t("delete_prompt")} ${description}?`} */}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogAction onClick={handleDeleteAndClose} variant="danger">
-              {t("yes")}
+              {/* {t("yes")} */}
             </AlertDialogAction>
             <AlertDialogCancel onClick={onClose}>
-              {t("cancel")}
+              {/* {t("cancel")} */}
             </AlertDialogCancel>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
     </div>
   )
-}
-function useI18n() {
-  throw new Error("Function not implemented.")
 }

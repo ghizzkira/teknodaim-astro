@@ -181,6 +181,7 @@ const { primaryCategory } = wpPrimaryCategorySlug(
 ---
 
 <MainLayout 
+locale="id"
 seo={{
   title: post?.title,
   description: post?.seo.metaDesc,
@@ -255,8 +256,7 @@ is:inline
     class="fade-up-element mx-auto flex w-full pt-5 md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]"
   >
     <section class="w-full lg:w-8/12">
-      <WpComment  wp_post_slug={slug!}
-      locale={"id"} client:load/>
+     
       {
         postData && (
           <WpPostContent
@@ -266,7 +266,7 @@ is:inline
             firstContent={firstContent as React.ReactNode}
             secondContent={secondContent as React.ReactNode}
             locale={"id"}
-          />
+           ><div slot="CommentComponent"><WpComment locale={"id"} wp_post_slug={slug!} client:load /></div></WpPostContent>
         )
       }
       {

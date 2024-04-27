@@ -69,8 +69,8 @@ const ReplyWpComment: React.FunctionComponent<ReplyWpCommentProps> = (
               src={avatar}
               alt={username!}
               className="object-cover"
-              width={"10"}
-              height={"10"}
+              width={"100"}
+              height={"100"}
             />
           ) : (
             <Icon.User
