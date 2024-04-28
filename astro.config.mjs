@@ -27,6 +27,7 @@ export default defineConfig({
     i18nDomains: true,
   },
   adapter: cloudflare({
+    mode: "directory",
     imageService: "cloudflare",
     platformProxy: {
       enabled: true,
