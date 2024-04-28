@@ -37,6 +37,7 @@ import { ImBook } from "react-icons/im"
 import { IoGameController } from "react-icons/io5"
 import {
   LuChevronDown,
+  LuChevronUp,
   LuCircle,
   LuHeading1,
   LuHeading2,
@@ -154,6 +155,7 @@ export const Icon = {
   ChevronRight: MdChevronRight,
   ChevronsRight: BiChevronsRight,
   ChevronDown: LuChevronDown,
+  ChevronUp: LuChevronUp,
   Circle: LuCircle,
   Close: MdClose,
   Code: MdCode,
