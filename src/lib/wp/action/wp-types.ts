@@ -46,7 +46,7 @@ export interface WpCategoriesDataProps {
   parent?: { node: { id: string } }
   description?: string
   og: WpOgDataProps
-  translations: {
+  translations?: {
     language: {
       slug: WpLanguageType
     }

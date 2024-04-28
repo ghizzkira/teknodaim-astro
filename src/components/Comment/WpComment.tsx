@@ -78,7 +78,6 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
 
     const onSubmit: SubmitHandler<FormValues> = (values) => {
       setIsLoading(true)
-      console.log(values)
       createComment({
         wpPostSlug: wp_post_slug,
         content: values.content,

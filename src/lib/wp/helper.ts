@@ -3,12 +3,12 @@ import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
 export const splitUriWP = (uri: string, slug: string) => {
   let newString = uri
   const globalUri = new RegExp(
-    `https://${import.meta.env.WP_EN_SUBDOMAIN}/`,
+    `https://${import.meta.env.PUBLIC_WP_EN_SUBDOMAIN}/`,
     "g",
   )
   if (
     newString.includes(
-      `https://${import.meta.env.WP_EN_SUBDOMAIN}` ?? "en.teknodaim.com",
+      `https://${import.meta.env.PUBLIC_WP_EN_SUBDOMAIN}` ?? "en.teknodaim.com",
     )
   ) {
     newString = newString.replace(globalUri ?? "/", "/")

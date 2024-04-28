@@ -2,18 +2,21 @@ import * as React from "react"
 
 import { Button } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
+import { rewriteUrlLocale } from "@/lib/internationalization/route"
 import { cn } from "@/lib/utils/style"
+import type { LanguageType } from "@/lib/validation/language"
 import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
 
 interface WpFeaturedCategoriesProps
   extends React.HTMLAttributes<HTMLDivElement> {
   categories?: WpCategoriesDataProps[]
+  locale: LanguageType
 }
 
 const WpFeaturedCategories: React.FunctionComponent<
   WpFeaturedCategoriesProps
 > = (props) => {
-  const { categories } = props
+  const { categories, locale } = props
   const [showArrow, setShowArrow] = React.useState<boolean>(false)
   const [prevDisplay, setPrevDisplay] = React.useState<string>("hidden")
   const [nextDisplay, setNextDisplay] = React.useState<string>("flex")
@@ -136,7 +139,10 @@ const WpFeaturedCategories: React.FunctionComponent<
                 variant="outline"
                 asChild
               >
-                <a aria-label={topic.name} href={`/${topic.slug}`}>
+                <a
+                  aria-label={topic.name}
+                  href={rewriteUrlLocale(locale!, `/${topic.slug}`)}
+                >
                   {topic.name}
                 </a>
               </Button>

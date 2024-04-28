@@ -29,72 +29,78 @@ Astro.response.headers.set(
   "public, s-maxage=60, stale-while-revalidate=30",
 )
 
-const { categorySlug, slug } = Astro.params
+const { categorySlug, slug ,locale } = Astro.params
+const locales = ["id","en"]
 
-const { posts } = await wpGetAllPostsAction("ID")
-const { post: MainPost, OtherLangPost } = await wpGetPostBySlugAction(
+if(!locales.includes(locale!)){
+  return Astro.redirect('/404')
+}
+
+const { posts } = await wpGetAllPostsAction(locale?.toLocaleUpperCase())
+const { post: mainPost, otherLangPost } = await wpGetPostBySlugAction(
   slug as unknown as string,
 )
 
-if (!MainPost && !OtherLangPost) {
+if (!mainPost && !otherLangPost) {
   return Astro.redirect('/404');
 }
 
-let post = MainPost
+let post  
+ if (locale === "id") {
+  if (
+    mainPost &&
+    slug === mainPost.slug &&
+    mainPost.language.slug.toLocaleLowerCase() === locale
+  ) {
+    post = mainPost
+ 
+  } else if (
+    mainPost &&
+    slug === mainPost.slug &&
+    mainPost.language.slug.toLocaleLowerCase() !== locale
+  ) {
+    if (otherLangPost?.slug) {
+ 
+      const { primaryCategory } = wpPrimaryCategorySlug(
+        otherLangPost?.categories as WpCategoriesDataProps[],
+      )
+       return Astro.redirect(
+        `/id/${primaryCategory?.slug}/${otherLangPost?.slug}`
+      )
+    }
+  }
+} else if (locale === "en") {
+  if (
+    mainPost &&
+    slug === mainPost.slug &&
+    mainPost.language.slug.toLocaleLowerCase() === locale
+  ) {
+    post = mainPost
+ 
+  } else if (
+    mainPost &&
+    slug === mainPost.slug &&
+    mainPost.language.slug.toLocaleLowerCase() !== locale
+  ) {
+    if (otherLangPost?.slug) {
+ 
+      const { primaryCategory } = wpPrimaryCategorySlug(
+        otherLangPost?.categories as WpCategoriesDataProps[],
+      )
+       return Astro.redirect(
+        `/en/${primaryCategory?.slug}/${otherLangPost.slug}`
+      )
+    }
+  }
+}
 
-// if (locale === "id") {
-//   if (
-//     MainPost &&
-//     slug === MainPost.slug &&
-//     MainPost.language.slug.toLocaleLowerCase() === locale
-//   ) {
-//     post = MainPost
-//   } else if (
-//     MainPost &&
-//     slug === MainPost.slug &&
-//     MainPost.language.slug.toLocaleLowerCase() !== locale
-//   ) {
-//     if (OtherLangPost?.slug) {
-//       const { primaryCategory } = wpPrimaryCategorySlug(
-//         OtherLangPost?.categories as WpCategoriesDataProps[],
-//       )
-//       redirect(
-//         `/${primaryCategory?.slug}/${OtherLangPost?.slug}`,
-//         RedirectType.replace,
-//       )
-//     }
-//   }
-// } else if (locale === "en") {
-//   if (
-//     MainPost &&
-//     slug === MainPost.slug &&
-//     MainPost.language.slug.toLocaleLowerCase() === locale
-//   ) {
-//     post = MainPost
-//   } else if (
-//     MainPost &&
-//     slug === MainPost.slug &&
-//     MainPost.language.slug.toLocaleLowerCase() !== locale
-//   ) {
-//     if (OtherLangPost?.slug) {
-//       const { primaryCategory } = wpPrimaryCategorySlug(
-//         OtherLangPost?.categories as WpCategoriesDataProps[],
-//       )
-//       redirect(
-//         `/${primaryCategory?.slug}/${OtherLangPost.slug}`,
-//         RedirectType.replace,
-//       )
-//     }
-//   }
-// }
-
-// if (!post) {
-//   redirect("/", RedirectType.replace)
-// }
+if (!post) {
+   return Astro.redirect("/")
+}
 
 // FIX: to 7 days
 const trendingPosts = await getWpPopularPosts({
-  language: "id",
+  language: locale,
   page: 1,
   perPage: 10,
 })
@@ -129,7 +135,7 @@ if (post) {
 
 const parsedContent = ParseContent({
   htmlInput: post?.content!,
-  title: post?.title!,
+  title: post?.title!,locale:locale!
 })
 
 const { firstContent, secondContent } = splitReactNodes(
@@ -139,7 +145,7 @@ const { firstContent, secondContent } = splitReactNodes(
 const { posts: categoryPosts } = await wpGetPostsByCategorySlugAction(
   categorySlug!,
   "",
-  "ID",
+  locale?.toLocaleUpperCase(),
   post?.id,
 )
 
@@ -181,7 +187,7 @@ const { primaryCategory } = wpPrimaryCategorySlug(
 ---
 
 <MainLayout 
-locale="id"
+locale={locale}
 seo={{
   title: post?.title,
   description: post?.seo.metaDesc,
@@ -205,7 +211,7 @@ seo={{
     },
     optional: {
       description: post?.seo.metaDesc,
-      locale: "ID",
+      locale: locale,
     },
   },
 }}>
@@ -265,8 +271,8 @@ is:inline
             postData={postData}
             firstContent={firstContent as React.ReactNode}
             secondContent={secondContent as React.ReactNode}
-            locale={"id"}
-           ><div slot="CommentComponent"><WpComment locale={"id"} wp_post_slug={slug!} client:load /></div></WpPostContent>
+            locale={locale}
+           ><div slot="CommentComponent"><WpComment locale={locale} wp_post_slug={slug!} client:idle /></div></WpPostContent>
         )
       }
       {
@@ -274,13 +280,13 @@ is:inline
           <InfiniteScrollWpSinglePost
             posts={posts}
             post={post}
-            locale={"id"}
+            locale={locale}
             adsBelowHeader={[]}
             adsSingleArticleAbove={[]}
             adsSingleArticleBelow={[]}
             adsSingleArticleInline={[]}
             adsSingleArticlePopUp={[]}
-            client:idle
+            client:load
           />
         )
       }

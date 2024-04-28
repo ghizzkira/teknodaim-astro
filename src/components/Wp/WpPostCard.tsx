@@ -3,6 +3,7 @@ import * as React from "react"
 import BadgeIcon from "@/components/BadgeIcon"
 import Image from "@/components/Image"
 import { Icon } from "@/components/UI/Icon"
+import { rewriteUrlLocale } from "@/lib/internationalization/route"
 import { formatDateFromNow } from "@/lib/utils/date"
 import type { LanguageType } from "@/lib/validation/language"
 import WpPostView from "./WpPostView"
@@ -69,7 +70,7 @@ const WpPostCard: React.FunctionComponent<WpPostCardProps> = React.memo(
               <div className="relative aspect-[16/9] h-auto w-full">
                 <a
                   role="link"
-                  href={uri}
+                  href={rewriteUrlLocale(locale, uri)}
                   aria-label={`Go To ${title} Page`}
                   className="relative block h-full w-full"
                 >
@@ -91,14 +92,18 @@ const WpPostCard: React.FunctionComponent<WpPostCardProps> = React.memo(
                   role="link"
                   aria-label={categoryName}
                   className="absolute bottom-0 left-0 block bg-main px-1 py-0.5 text-white"
-                  href={categoryUri}
+                  href={rewriteUrlLocale(locale, categoryUri)}
                 >
                   {categoryName}
                 </a>
               </div>
             </div>
             <div className="mt-[15px] flex flex-col">
-              <a role="link" aria-label={`Go To ${title} Page`} href={uri}>
+              <a
+                role="link"
+                aria-label={`Go To ${title} Page`}
+                href={rewriteUrlLocale(locale, uri)}
+              >
                 <h2 className="line-clamp-3 text-[25px] font-bold leading-[1.35] hover:text-primary md:text-[1.55em] md:leading-8">
                   {title}
                 </h2>
@@ -118,7 +123,11 @@ const WpPostCard: React.FunctionComponent<WpPostCardProps> = React.memo(
                             />
                           </div>
                         )}
-                        <a role="link" aria-label={authorName} href={authorUri}>
+                        <a
+                          role="link"
+                          aria-label={authorName}
+                          href={rewriteUrlLocale(locale, authorUri)}
+                        >
                           <h3 className="ml-2 text-[12px]">{authorName}</h3>
                         </a>
                       </div>
@@ -161,7 +170,7 @@ const WpPostCard: React.FunctionComponent<WpPostCardProps> = React.memo(
           <div className="order-2 md:order-1">
             <div className="relative aspect-[4/3] h-auto w-[125px] md:w-[220px] lg:w-[270px]">
               <a
-                href={uri}
+                href={rewriteUrlLocale(locale, uri)}
                 role="link"
                 aria-label={`Go To ${title} Page`}
                 className="relative block h-full w-full"
@@ -186,13 +195,17 @@ const WpPostCard: React.FunctionComponent<WpPostCardProps> = React.memo(
               <a
                 role="link"
                 aria-label={categoryName}
-                href={categoryUri}
+                href={rewriteUrlLocale(locale, categoryUri)}
                 className="text-[12px] font-bold text-main"
               >
                 {categoryName}
               </a>
             </div>
-            <a role="link" aria-label={title} href={uri}>
+            <a
+              role="link"
+              aria-label={title}
+              href={rewriteUrlLocale(locale, uri)}
+            >
               <h2 className="line-clamp-4 text-[18px] font-bold leading-[20px] hover:text-primary md:text-xl md:leading-[27px] lg:text-2xl">
                 {title}
               </h2>
@@ -215,7 +228,11 @@ const WpPostCard: React.FunctionComponent<WpPostCardProps> = React.memo(
                         />
                       </div>
                     )}
-                    <a role="link" aria-label={authorName} href={authorUri}>
+                    <a
+                      role="link"
+                      aria-label={authorName}
+                      href={rewriteUrlLocale(locale, authorUri)}
+                    >
                       <h3 className="ml-2 text-[12px]">{authorName}</h3>
                     </a>
                   </div>

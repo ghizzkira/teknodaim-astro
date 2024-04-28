@@ -8,6 +8,7 @@ import StaticShare from "@/components/Share/StaticShare"
 import { Button } from "@/components/UI/Button"
 // import { ButtonGroup } from "@/components/UI/ButtonGroup"
 import { Skeleton } from "@/components/UI/Skeleton"
+import { rewriteUrlLocale } from "@/lib/internationalization/route"
 import { cn } from "@/lib/utils/style"
 import type { LanguageType } from "@/lib/validation/language"
 import type {
@@ -128,9 +129,9 @@ const WpPostContent: React.FunctionComponent<WpPostContentProps> = React.memo(
                       )}
                     >
                       <a
+                        href={rewriteUrlLocale(locale, `/${category.slug}`)}
                         aria-label={`Open ${category.name}`}
                         className="text-[11px] leading-[1]"
-                        href={`/${category.slug}`}
                       >
                         {category.name}
                       </a>
@@ -246,7 +247,7 @@ const WpPostContent: React.FunctionComponent<WpPostContentProps> = React.memo(
                 >
                   <a
                     aria-label={`Open ${tag.name}`}
-                    href={wpTagPathBySlug(tag.slug)}
+                    href={rewriteUrlLocale(locale, wpTagPathBySlug(tag.slug))}
                   >
                     {tag.name}
                   </a>
@@ -332,7 +333,10 @@ const WpPostContent: React.FunctionComponent<WpPostContentProps> = React.memo(
                       >
                         <a
                           aria-label={post.title}
-                          href={splitUriWP(post.uri, post.slug)}
+                          href={rewriteUrlLocale(
+                            locale,
+                            splitUriWP(post.uri, post.slug),
+                          )}
                         >
                           <p className="font-semibold hover:text-primary">
                             {post.title}

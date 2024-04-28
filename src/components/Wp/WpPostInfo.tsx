@@ -1,5 +1,6 @@
 import * as React from "react"
 
+import { rewriteUrlLocale } from "@/lib/internationalization/route"
 import { formatDateFromNow } from "@/lib/utils/date"
 import type { LanguageType } from "@/lib/validation/language"
 import { wpAuthorPathBySlug } from "@/lib/wp/helper"
@@ -30,7 +31,10 @@ const WpPostInfo: React.FunctionComponent<WpPostInfoProps> = (props) => {
             </div>
           )}
           <div className="flex flex-col">
-            <a aria-label={authorName} href={wpAuthorPathBySlug(authorSlug)}>
+            <a
+              aria-label={authorName}
+              href={rewriteUrlLocale(locale, wpAuthorPathBySlug(authorSlug))}
+            >
               <h2 className="text-base text-primary">{authorName}</h2>
             </a>
             {date && (

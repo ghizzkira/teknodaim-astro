@@ -1,5 +1,6 @@
 import * as React from "react"
 
+import { rewriteUrlLocale } from "@/lib/internationalization/route"
 import type { LanguageType } from "@/lib/validation/language"
 import { wpAuthorPathBySlug } from "@/lib/wp/helper"
 
@@ -24,7 +25,7 @@ const WpHorizontalPostInfo: React.FunctionComponent<
           <a
             className="mr-2"
             aria-label={authorName}
-            href={wpAuthorPathBySlug(authorSlug)}
+            href={rewriteUrlLocale(locale, wpAuthorPathBySlug(authorSlug))}
           >
             <h4 className="text-base text-primary">{authorName}</h4>
           </a>

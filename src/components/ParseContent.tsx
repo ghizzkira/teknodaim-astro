@@ -7,7 +7,9 @@ import { Parser, ProcessNodeDefinitions } from "html-to-react"
 // } from "@/components/Embed/TwitterEmbed"
 // import YoutubeEmbed from "@/components/Embed/YoutubeEmbed"
 import { Button } from "@/components/UI/Button"
+import { rewriteUrlLocale } from "@/lib/internationalization/route"
 import { cn } from "@/lib/utils/style"
+import type { LanguageType } from "@/lib/validation/language"
 
 const htmlToReactParser = Parser()
 
@@ -33,10 +35,11 @@ interface Node {
 interface ParseContentProps {
   htmlInput: string
   title: string
+  locale: LanguageType
 }
 
 const ParseContent: React.FunctionComponent<ParseContentProps> = (props) => {
-  const { htmlInput, title } = props
+  const { htmlInput, title, locale } = props
 
   const processingInstructions = [
     {
@@ -54,14 +57,15 @@ const ParseContent: React.FunctionComponent<ParseContentProps> = (props) => {
         )
         return (
           <a
-            href={
+            href={rewriteUrlLocale(
+              locale,
               node.attribs?.href
                 ?.replace(regexId, import.meta.env?.PUBLIC_DOMAIN ?? "")
                 ?.replace(
                   regexEn,
                   import.meta.env?.PUBLIC_EN_SUBDOMAIN ?? "",
-                ) ?? "#"
-            }
+                ) ?? "#",
+            )}
             key={index + title + "a"}
           >
             {children}

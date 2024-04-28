@@ -112,6 +112,7 @@ const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
                 alt={post?.title!}
                 uri={`/${post.primaryCategorySlug}/${post.slug}`}
                 title={post?.title!}
+                locale={locale}
               />
             )
           })

@@ -4,10 +4,16 @@ import MainLayout from "@/layouts/MainLayout.astro"
 import { getWpPopularPosts } from "@/lib/action/wp-popular-post"
 import { wpGetAllPostsAction } from "@/lib/wp/action/wp-post"
 
-const { posts, pageInfo } = await wpGetAllPostsAction("EN")
+const { locale } = Astro.params
+
+if(!["en","id"].includes(locale!)){
+  return Astro.redirect('/404')
+}
+
+const { posts, pageInfo } = await wpGetAllPostsAction(locale)
 // FIX: to 7 days
 const trendingPosts = await getWpPopularPosts({
-  language: "en",
+  language: locale!,
   page: 1,
   perPage: 10,
 })
@@ -75,6 +81,7 @@ const trendingPosts = await getWpPopularPosts({
 ---
 
 <MainLayout
+locale={locale!}
   seo={{
     title: import.meta.env.PUBLIC_SITE_TITLE,
     description: import.meta.env.PUBLIC_SITE_DESCRIPTION,
@@ -92,13 +99,13 @@ const trendingPosts = await getWpPopularPosts({
       },
       optional: {
         description: import.meta.env.PUBLIC_SITE_DESCRIPTION,
-        locale: "EN",
+        locale: locale,
       },
     },
   }}
 >
   <Homepage
-    locale="en"
+    locale={locale!}
     posts={posts}
     pageInfo={pageInfo}
     trendingPosts={trendingPosts}

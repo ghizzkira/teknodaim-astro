@@ -1,6 +1,7 @@
 import * as React from "react"
 
 import PlaceholderPostCard from "@/components/Placeholder/PlaceholderPostCard"
+import type { LanguageType } from "@/lib/validation/language"
 // import type { LanguageType } from "@/lib/validation/language"
 import { wpGetAllPostsLoadMoreAction } from "@/lib/wp/action/wp-post"
 import type {
@@ -15,7 +16,7 @@ interface InfiniteScrollWpPostProps
   extends React.HTMLAttributes<HTMLDivElement> {
   posts?: WpSinglePostDataProps[] | null
   pageInfo?: WPPageInfoProps | null
-  language: string
+  language: LanguageType
   filteredQueries?: string[]
 }
 

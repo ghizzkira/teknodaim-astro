@@ -1,5 +1,5 @@
 //@ts-ignore
-import Amperize from "amperize"
+// import Amperize from "amperize"
 import sanitizeHtml from "sanitize-html"
 
 import ParseAMPContent from "@/components/ParseAMPContent"
@@ -71,12 +71,12 @@ const allowedAMPClasses = {
 }
 const convertHtmlToAmp = (htmlStr: string) =>
   new Promise<string>((resolve, reject) => {
-    new Amperize().parse(htmlStr, (err: string | undefined, result: string) => {
-      if (err) {
-        return reject(new Error(err))
-      }
-      resolve(result)
-    })
+    // new Amperize().parse(htmlStr, (err: string | undefined, result: string) => {
+    //   if (err) {
+    //     return reject(new Error(err))
+    //   }
+    //   resolve(result)
+    // })
   })
 
 export async function transformHtmlToAMP(post: WpSinglePostDataProps) {

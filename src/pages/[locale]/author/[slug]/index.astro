@@ -6,6 +6,7 @@ import { Icon } from "@/components/UI/Icon"
 import InfiniteScrollWpPostsAuthor from "@/components/Wp/InfiniteScrollWpPostsAuthor"
 import WpFeaturedCategories from "@/components/wp/wp-featured-categories"
 import WpListPost from "@/components/Wp/WpListPost"
+import MainLayout from "@/layouts/MainLayout.astro"
 // import env from "@/env"
 // import { api } from "@/lib/trpc/server"
 // import type { LanguageType } from "@/lib/validation/language"
@@ -15,12 +16,15 @@ import {
   wpGetAllUsersAction,
   wpGetUserBySlugAction,
 } from "@/lib/wp/action/wp-user"
-import MainLayout from "../../../layouts/MainLayout.astro"
 
-export function getStaticPaths() {
-  return [{ params: { slug: undefined } }]
+ 
+const { slug , locale} = Astro.params
+const locales = ["id","en"]
+
+if(!locales.includes(locale!)){
+  return Astro.redirect('/404')
 }
-const { slug } = Astro.params
+
 export const prerender = false
 
 const { user } = await wpGetUserBySlugAction(slug as unknown as string)
@@ -36,7 +40,7 @@ const { user } = await wpGetUserBySlugAction(slug as unknown as string)
 const { posts, pageInfo } = await wpGetPostsByAuthorSlugAction(
   slug as unknown as string,
   "",
-  "ID",
+  locale?.toLocaleUpperCase(),
 )
 
 const listPost = posts?.slice(0, posts?.length - 1)
@@ -70,7 +74,7 @@ const postJsonLd = postJsonLdString
 // }
 const parsedDescription = ParseContent({
   htmlInput: user?.description!,
-  title: user?.name!,
+  title: user?.name!,locale:locale!
 })
 ---
 
@@ -98,7 +102,7 @@ const parsedDescription = ParseContent({
       },
       optional: {
         description: user?.description,
-        locale: "ID",
+        locale: locale,
       },
     },
   }}
@@ -113,6 +117,7 @@ const parsedDescription = ParseContent({
   {
     postJsonLd && (
       <script
+        is:inline
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: postJsonLd }}
       />
@@ -150,7 +155,7 @@ const parsedDescription = ParseContent({
               posts={infinitePosts}
               id={slug}
               pageInfo={pageInfo}
-              language={"ID"}
+              language={locale}
               client:load
             />
           )

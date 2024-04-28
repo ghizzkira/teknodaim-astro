@@ -12,13 +12,15 @@ import {
 } from "@/lib/wp/action/wp-post"
 import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
 
-export function getStaticPaths() {
-  return [
-    { params: { categorySlug: undefined } },
-    { params: { categorySlug: "tips" } },
-  ]
+ 
+const { categorySlug ,locale } = Astro.params
+const locales = ["id","en"]
+
+if(!locales.includes(locale!)){
+  return Astro.redirect('/404')
 }
-const { categorySlug } = Astro.params
+
+
 export const prerender = false
 const { category: main_category, other_lang_category } =
   await wpGetCategoryBySlugAction(categorySlug as unknown as string)
@@ -29,72 +31,56 @@ const { category: main_category, other_lang_category } =
 if (!main_category && !other_lang_category) {
   return Astro.redirect('/404');
 }
-let category = main_category
+let category 
 
-// if (locale === "id") {
-//   if (
-//     main_category &&
-//     categorySlug === main_category.slug &&
-//     main_category.language.slug.toLocaleLowerCase() === locale
-//   ) {
-//     category = main_category
-//   } else if (
-//     other_lang_category &&
-//     categorySlug === other_lang_category.slug &&
-//     other_lang_category.language.slug.toLocaleLowerCase() === locale
-//   ) {
-//     category = other_lang_category
-//   } else if (
-//     main_category &&
-//     categorySlug === main_category.slug &&
-//     main_category.language.slug.toLocaleLowerCase() !== locale
-//   ) {
-//     if (other_lang_category)
-//       redirect(`/${other_lang_category?.slug}`, RedirectType.replace)
-//   } else if (
-//     other_lang_category &&
-//     categorySlug === other_lang_category.slug &&
-//     other_lang_category.language.slug.toLocaleLowerCase() !== locale
-//   ) {
-//     if (main_category) {
-//       redirect(`/${main_category.slug}`, RedirectType.replace)
-//     }
-//   }
-// } else if (locale === "en") {
-//   if (
-//     main_category &&
-//     categorySlug === main_category.slug &&
-//     main_category.language.slug.toLocaleLowerCase() === locale
-//   ) {
-//     category = main_category
-//   } else if (
-//     other_lang_category &&
-//     categorySlug === other_lang_category.slug &&
-//     other_lang_category.language.slug.toLocaleLowerCase() === locale
-//   ) {
-//     category = other_lang_category
-//   } else if (
-//     main_category &&
-//     categorySlug === main_category.slug &&
-//     main_category.language.slug.toLocaleLowerCase() !== locale
-//   ) {
-//     if (other_lang_category) {
-//       redirect(`/${other_lang_category.slug}`, RedirectType.replace)
-//     }
-//   } else if (
-//     other_lang_category &&
-//     categorySlug === other_lang_category.slug &&
-//     other_lang_category.language.slug.toLocaleLowerCase() !== locale
-//   ) {
-//     if (main_category) {
-//       redirect(`/${main_category.slug}`, RedirectType.replace)
-//     }
-//   }
-// }
+if (locale === "id") {
+  if (
+    main_category &&
+    categorySlug === main_category.slug &&
+    main_category.language.slug.toLocaleLowerCase() === locale
+  ) {
+    category = main_category
+  } else if (
+    other_lang_category &&
+    categorySlug === other_lang_category.slug &&
+    other_lang_category.language.slug.toLocaleLowerCase() === locale
+  ) {
+    category = other_lang_category
+  } else if (
+    main_category &&
+    categorySlug === main_category.slug &&
+    main_category.language.slug.toLocaleLowerCase() !== locale
+  ) {
+    if (other_lang_category)
+      return Astro.redirect(`/id/${other_lang_category?.slug}`)
+  }  
+} else if (locale === "en") {
+  if (
+    main_category &&
+    categorySlug === main_category.slug &&
+    main_category.language.slug.toLocaleLowerCase() === locale
+  ) {
+    category = main_category
+  } else if (
+    other_lang_category &&
+    categorySlug === other_lang_category.slug &&
+    other_lang_category.language.slug.toLocaleLowerCase() === locale
+  ) {
+    category = other_lang_category
+  } else if (
+    main_category &&
+    categorySlug === main_category.slug &&
+    main_category.language.slug.toLocaleLowerCase() !== locale
+  ) {
+    if (other_lang_category) {
+      return Astro.redirect(`/en/${other_lang_category.slug}`)
+    }
+  } 
+}
 
-// if (!category) {
-//   redirect("/", RedirectType.replace)
-// }
+if (!category) {
+  return Astro.redirect("/")
+}
 
 // const trendingPosts = await api.wpPopularPost.last7Days({
 //   language: locale,
@@ -103,7 +89,7 @@ let category = main_category
 // })
 // FIX: to 7 days
 const trendingPosts = await getWpPopularPosts({
-  language: "id",
+  language: locale,
   page: 1,
   perPage: 10,
 })
@@ -117,7 +103,7 @@ const categoryJsonLd = categoryJsonLdString
 const { posts, pageInfo } = await wpGetPostsByCategoryIdAction(
   (category as WpCategoriesDataProps)?.id,
   "",
-  "ID",
+  locale?.toLocaleUpperCase(),
 )
 
 // const adsBelowHeader = await api.ad.byPosition("topic_below_header")
@@ -182,7 +168,7 @@ seo={{
     },
     optional: {
       description: category?.description,
-      locale: "ID",
+      locale: "EN",
     },
   },
 }}>
@@ -194,5 +180,5 @@ seo={{
       />
     )
   } -->
-  <Category posts={posts} pageInfo={pageInfo} category={category} locale="id" trendingPosts={trendingPosts} />
+  <Category posts={posts} pageInfo={pageInfo} category={category} locale="en" trendingPosts={trendingPosts} />
 </MainLayout>
