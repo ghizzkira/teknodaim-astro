@@ -16,14 +16,15 @@ import {
   wpGetAllUsersAction,
   wpGetUserBySlugAction,
 } from "@/lib/wp/action/wp-user"
+import { LANGUAGE_TYPE } from "@/lib/validation/language"
 
  
 const { slug , locale} = Astro.params
-const locales = ["id","en"]
 
-if(!locales.includes(locale!)){
+if(!LANGUAGE_TYPE.includes(locale!)){
   return Astro.redirect('/404')
 }
+
 
 export const prerender = false
 

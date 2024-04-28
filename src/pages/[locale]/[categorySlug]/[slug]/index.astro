@@ -22,6 +22,7 @@ import InfiniteScrollWpSinglePost from "@/components/Wp/InfiniteScrollWpSinglePo
 import WpPostViewCounter from "@/components/Wp/WpPostViewCounter"
 import { getWpPopularPosts } from "@/lib/action/wp-popular-post"
 import WpComment from "@/components/Comment/WpComment"
+import { LANGUAGE_TYPE } from "@/lib/validation/language"
 
 export const prerender = false
 Astro.response.headers.set(
@@ -30,9 +31,8 @@ Astro.response.headers.set(
 )
 
 const { categorySlug, slug ,locale } = Astro.params
-const locales = ["id","en"]
 
-if(!locales.includes(locale!)){
+if(!LANGUAGE_TYPE.includes(locale!)){
   return Astro.redirect('/404')
 }
 

@@ -2,11 +2,14 @@
 import Homepage from "@/components/Template/Homepage.astro"
 import MainLayout from "@/layouts/MainLayout.astro"
 import { getWpPopularPosts } from "@/lib/action/wp-popular-post"
+import { LANGUAGE_TYPE, type LanguageType } from "@/lib/validation/language"
 import { wpGetAllPostsAction } from "@/lib/wp/action/wp-post"
+
+
 
 const { locale } = Astro.params
 
-if(!["en","id"].includes(locale!)){
+if(!LANGUAGE_TYPE.includes(locale!)){
   return Astro.redirect('/404')
 }
 

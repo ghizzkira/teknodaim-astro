@@ -4,6 +4,7 @@ import Category from "@/components/Template/Category.astro"
  
 import MainLayout from "@/layouts/MainLayout.astro"
 import { getWpPopularPosts } from "@/lib/action/wp-popular-post"
+import { LANGUAGE_TYPE } from "@/lib/validation/language"
  import {
    wpGetCategoryBySlugAction,
 } from "@/lib/wp/action/wp-category"
@@ -14,11 +15,11 @@ import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
 
  
 const { categorySlug ,locale } = Astro.params
-const locales = ["id","en"]
 
-if(!locales.includes(locale!)){
+if(!LANGUAGE_TYPE.includes(locale!)){
   return Astro.redirect('/404')
 }
+
 
 
 export const prerender = false

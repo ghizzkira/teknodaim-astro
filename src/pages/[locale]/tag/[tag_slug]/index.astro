@@ -13,6 +13,7 @@ import WpListPost from "@/components/Wp/WpListPost"
 import WpPostCardSide from "@/components/Wp/WpPostCardSide"
 import MainLayout from "@/layouts/MainLayout.astro"
 import { getWpPopularPosts } from "@/lib/action/wp-popular-post"
+import { LANGUAGE_TYPE } from "@/lib/validation/language"
 import { wpGetPostsByTagIdAction } from "@/lib/wp/action/wp-post"
 import {
   wpGetAllTagsAction,
@@ -25,10 +26,10 @@ export const prerender = false
 
 const { tag_slug, locale } = Astro.params
 
-const locales= ["id","en"]
-if(!locales.includes(locale!)){
+if(!LANGUAGE_TYPE.includes(locale!)){
   return Astro.redirect('/404')
 }
+
 
 const { tag: main_tag, other_lang_tag } = await wpGetTagBySlugAction(tag_slug)
 
