@@ -1,4 +1,5 @@
 ---
+import Tag from "@/components/Template/Tag.astro"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -12,6 +13,7 @@ import WpListPost from "@/components/Wp/WpListPost"
 import WpPostCardSide from "@/components/Wp/WpPostCardSide"
 import MainLayout from "@/layouts/MainLayout.astro"
 import { getWpPopularPosts } from "@/lib/action/wp-popular-post"
+import { LANGUAGE_TYPE } from "@/lib/validation/language"
 import { wpGetPostsByTagIdAction } from "@/lib/wp/action/wp-post"
 import {
   wpGetAllTagsAction,
@@ -19,12 +21,15 @@ import {
 } from "@/lib/wp/action/wp-tag"
 import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
 
-export function getStaticPaths() {
-  return [{ params: { tag_slug: undefined } }]
-}
+ 
 export const prerender = false
 
-const { tag_slug } = Astro.params
+const { tag_slug, locale } = Astro.params
+
+if(!LANGUAGE_TYPE.includes(locale!)){
+  return Astro.redirect('/404')
+}
+
 
 const { tag: main_tag, other_lang_tag } = await wpGetTagBySlugAction(tag_slug)
 
@@ -32,69 +37,56 @@ if (!main_tag && !other_lang_tag) {
   return Astro.redirect('/404');
 }
 
-let tag = main_tag
+let tag 
 
-// if (locale === "id") {
-//   if (
-//     main_tag &&
-//     tag_slug === main_tag.slug &&
-//     main_tag.language.slug.toLocaleLowerCase() === locale
-//   ) {
-//     tag = main_tag
-//   } else if (
-//     other_lang_tag &&
-//     tag_slug === other_lang_tag.slug &&
-//     other_lang_tag.language.slug.toLocaleLowerCase() === locale
-//   ) {
-//     tag = other_lang_tag
-//   } else if (
-//     main_tag &&
-//     tag_slug === main_tag.slug &&
-//     main_tag.language.slug.toLocaleLowerCase() !== locale
-//   ) {
-//     if (other_lang_tag)
-//       redirect(`/tag/${other_lang_tag?.slug}`, RedirectType.replace)
-//   } else if (
-//     other_lang_tag &&
-//     tag_slug === other_lang_tag.slug &&
-//     other_lang_tag.language.slug.toLocaleLowerCase() !== locale
-//   ) {
-//     if (main_tag) {
-//       redirect(`/tag/${main_tag.slug}`, RedirectType.replace)
-//     }
-//   }
-// } else if (locale === "en") {
-//   if (
-//     main_tag &&
-//     tag_slug === main_tag.slug &&
-//     main_tag.language.slug.toLocaleLowerCase() === locale
-//   ) {
-//     tag = main_tag
-//   } else if (
-//     other_lang_tag &&
-//     tag_slug === other_lang_tag.slug &&
-//     other_lang_tag.language.slug.toLocaleLowerCase() === locale
-//   ) {
-//     tag = other_lang_tag
-//   } else if (
-//     main_tag &&
-//     tag_slug === main_tag.slug &&
-//     main_tag.language.slug.toLocaleLowerCase() !== locale
-//   ) {
-//     if (other_lang_tag) {
-//       redirect(`/tag/${other_lang_tag.slug}`, RedirectType.replace)
-//     }
-//   } else if (
-//     other_lang_tag &&
-//     tag_slug === other_lang_tag.slug &&
-//     other_lang_tag.language.slug.toLocaleLowerCase() !== locale
-//   ) {
-//     if (main_tag) {
-//       redirect(`/tag/${main_tag.slug}`, RedirectType.replace)
-//     }
-//   }
-// }
+if (locale === "id") {
+  if (
+    main_tag &&
+    tag_slug === main_tag.slug &&
+    main_tag.language.slug.toLocaleLowerCase() === locale
+  ) {
+    tag = main_tag
+  } else if (
+    other_lang_tag &&
+    tag_slug === other_lang_tag.slug &&
+    other_lang_tag.language.slug.toLocaleLowerCase() === locale
+  ) {
+    tag = other_lang_tag
+  } else if (
+    main_tag &&
+    tag_slug === main_tag.slug &&
+    main_tag.language.slug.toLocaleLowerCase() !== locale
+  ) {
+    if (other_lang_tag)
+      Astro.redirect(`/id/tag/${other_lang_tag?.slug}`)
+  } 
+} else if (locale === "en") {
+  if (
+    main_tag &&
+    tag_slug === main_tag.slug &&
+    main_tag.language.slug.toLocaleLowerCase() === locale
+  ) {
+    tag = main_tag
+  } else if (
+    other_lang_tag &&
+    tag_slug === other_lang_tag.slug &&
+    other_lang_tag.language.slug.toLocaleLowerCase() === locale
+  ) {
+    tag = other_lang_tag
+  } else if (
+    main_tag &&
+    tag_slug === main_tag.slug &&
+    main_tag.language.slug.toLocaleLowerCase() !== locale
+  ) {
+    if (other_lang_tag) {
+      Astro.redirect(`/en/tag/${other_lang_tag.slug}`)
+    }
+  } 
+}
 
+if (!tag){
+  return Astro.redirect("/")
+}
 const postJsonLdString = tag?.seo?.schema?.raw
 const regexId = new RegExp(import.meta.env.PUBLIC_WP_DOMAIN, "g")
 const regexEn = new RegExp(import.meta.env.PUBLIC_WP_EN_SUBDOMAIN, "g")
@@ -106,7 +98,7 @@ const { posts, pageInfo } = await wpGetPostsByTagIdAction(tag.id)
 
 // FIX: to 7 days
 const trendingPosts = await getWpPopularPosts({
-  language: "id",
+  language: locale,
   page: 1,
   perPage: 10,
 })
@@ -132,7 +124,7 @@ const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
 // }
 ---
 
-<MainLayout  seo={{
+<MainLayout locale={locale}  seo={{
   title: tag?.name,
     description: tag?.description,
   languageAlternates: [
@@ -149,7 +141,7 @@ const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
     },
     optional: {
       description: tag?.description,
-      locale: "ID",
+      locale: locale,
     },
   },
 }}
@@ -157,10 +149,11 @@ const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
   {
     postJsonLd && (
       <script
+      is:inline
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: postJsonLd }}
       />
     )
   }
-<Tag />
+<Tag posts={posts} pageInfo={pageInfo} category={category} locale="id" trendingPosts={trendingPosts} />
 </MainLayout>

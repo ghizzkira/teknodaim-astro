@@ -31,7 +31,7 @@ const { posts, pageInfo, locale, trendingPosts } = Astro.props
         language={locale}
         posts={posts}
         pageInfo={pageInfo}
-        client:idle
+        client:load
       />
     </div>
     <aside class="hidden w-4/12 lg:block">
@@ -57,6 +57,7 @@ const { posts, pageInfo, locale, trendingPosts } = Astro.props
                 alt={post?.title!}
                 uri={`/${post.primaryCategorySlug}/${post.slug}`}
                 title={post?.title!}
+                locale={locale}
               />
             )
           })

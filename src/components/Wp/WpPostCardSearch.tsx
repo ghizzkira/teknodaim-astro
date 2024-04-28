@@ -1,7 +1,9 @@
 import * as React from "react"
 
 import { Icon } from "@/components/UI/Icon"
+import { rewriteUrlLocale } from "@/lib/internationalization/route"
 import { formatDate } from "@/lib/utils/date"
+import type { LanguageType } from "@/lib/validation/language"
 
 interface WpPostCardSearchProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string
@@ -10,19 +12,20 @@ interface WpPostCardSearchProps extends React.HTMLAttributes<HTMLDivElement> {
   categorySlug: string
   categoryName: string
   date: string
+  locale: LanguageType
 }
 
 const WpPostCardSearch: React.FunctionComponent<WpPostCardSearchProps> = (
   props,
 ) => {
-  const { title, url, imgUrl, categorySlug, categoryName, date } = props
+  const { title, url, imgUrl, categorySlug, categoryName, date, locale } = props
 
   return (
     <div className="w-full">
       <div className="flex flex-row">
         <a
           aria-label={title}
-          href={url}
+          href={rewriteUrlLocale(locale, url)}
           className="relative block aspect-[1/1] h-[80px] w-auto max-w-[unset] overflow-hidden rounded-md"
         >
           <img

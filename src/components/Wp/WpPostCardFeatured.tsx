@@ -2,6 +2,7 @@ import * as React from "react"
 
 import BadgeIcon from "@/components/BadgeIcon"
 import { Icon } from "@/components/UI/Icon"
+import { rewriteUrlLocale } from "@/lib/internationalization/route"
 import { formatDateFromNow } from "@/lib/utils/date"
 import type { LanguageType } from "@/lib/validation/language"
 
@@ -51,7 +52,7 @@ const WpPostCardFeatured: React.FunctionComponent<WpPostCardFeaturedProps> = (
           role="link"
           aria-label={title}
           className="transition-all duration-300 after:absolute after:left-0 after:top-0 after:h-full after:w-full after:rounded-xl after:bg-gradient-to-t after:from-[#2828289c] after:to-transparent after:transition-all after:group-hover:from-[#282828e0]"
-          href={`/${primary_category_slug}/${slug}`}
+          href={rewriteUrlLocale(locale, `/${primary_category_slug}/${slug}`)}
         >
           <div className="relative box-border h-full w-full">
             <img
@@ -67,7 +68,7 @@ const WpPostCardFeatured: React.FunctionComponent<WpPostCardFeaturedProps> = (
         <a
           role="link"
           aria-label={title}
-          href={`/${primary_category_slug}/${slug}`}
+          href={rewriteUrlLocale(locale, `/${primary_category_slug}/${slug}`)}
         >
           <h3
             className={`${
@@ -102,7 +103,7 @@ const WpPostCardFeatured: React.FunctionComponent<WpPostCardFeaturedProps> = (
                 <a
                   role="link"
                   aria-label={author_name}
-                  href={`/author/${author_slug}`}
+                  href={rewriteUrlLocale(locale, `/author/${author_slug}`)}
                 >
                   <h4 className="ml-2 line-clamp-1 text-[10px] text-white md:text-[12px]">
                     {author_name}

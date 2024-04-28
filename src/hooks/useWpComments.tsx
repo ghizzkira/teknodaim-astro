@@ -238,7 +238,7 @@ export function useGetWpCommentByWpSlugInfinite({
       const response = await fetch(
         `/api/wp-comment/wp-post-slug/${slug}/infinite?${searchParams.toString()}`,
         {
-          method: "GEt",
+          method: "GET",
         },
       )
       const data = await response.json()

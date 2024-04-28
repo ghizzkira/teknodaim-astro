@@ -2,18 +2,21 @@ import * as React from "react"
 
 import { Button } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
+import { rewriteUrlLocale } from "@/lib/internationalization/route"
+import type { LanguageType } from "@/lib/validation/language"
 import type { WpSinglePostDataProps } from "@/lib/wp/action/wp-types"
 import { splitUriWP } from "@/lib/wp/helper"
 
 interface WpVerticalCarouselProps {
   articles: WpSinglePostDataProps[]
   filteredQueries?: string[]
+  locale?: LanguageType
 }
 
 const WpVerticalCarousel: React.FunctionComponent<WpVerticalCarouselProps> = (
   props,
 ) => {
-  const { articles, filteredQueries } = props
+  const { articles, filteredQueries, locale = "id" } = props
 
   const [currentArticleIndex, setCurrentArticleIndex] = React.useState(0)
 
@@ -55,7 +58,11 @@ const WpVerticalCarousel: React.FunctionComponent<WpVerticalCarouselProps> = (
             return null
           }
           return (
-            <a aria-label={article.title} key={index} href={newUri}>
+            <a
+              aria-label={article.title}
+              key={index}
+              href={rewriteUrlLocale(locale!, newUri)}
+            >
               <h1
                 className={`absolute left-0 top-0 line-clamp-1 w-full transform text-ellipsis bg-background text-[13px] text-primary opacity-100 ${
                   index === currentArticleIndex

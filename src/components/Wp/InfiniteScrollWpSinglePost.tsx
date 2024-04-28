@@ -66,6 +66,7 @@ const InfiniteScrollWpSinglePost: React.FunctionComponent<
         const parsedContent = ParseContent({
           htmlInput: data?.posts[0]?.content!,
           title: data?.posts[0]?.title!,
+          locale: locale!,
         })
 
         const { firstContent } = splitReactNodes(
