@@ -2,22 +2,14 @@
 import Homepage from "@/components/Template/Homepage.astro"
 import MainLayout from "@/layouts/MainLayout.astro"
 import { getWpPopularPosts } from "@/lib/action/wp-popular-post"
-import { LANGUAGE_TYPE, type LanguageType } from "@/lib/validation/language"
 import { wpGetAllPostsAction } from "@/lib/wp/action/wp-post"
 
-
-
 const DB = Astro.locals.runtime.env.DB
-const { locale } = Astro.params
 
-if(!LANGUAGE_TYPE.includes(locale!)){
-  return Astro.redirect('/404')
-}
-
-const { posts, pageInfo } = await wpGetAllPostsAction(locale)
+const { posts, pageInfo } = await wpGetAllPostsAction("EN")
 // FIX: to 7 days
 const trendingPosts = await getWpPopularPosts(DB, {
-  language: locale!,
+  language: "en",
   page: 1,
   perPage: 10,
 })
@@ -85,7 +77,7 @@ const trendingPosts = await getWpPopularPosts(DB, {
 ---
 
 <MainLayout
-locale={locale!}
+  locale={"en"}
   seo={{
     title: import.meta.env.PUBLIC_SITE_TITLE,
     description: import.meta.env.PUBLIC_SITE_DESCRIPTION,
@@ -103,13 +95,13 @@ locale={locale!}
       },
       optional: {
         description: import.meta.env.PUBLIC_SITE_DESCRIPTION,
-        locale: locale,
+        locale: "EN",
       },
     },
   }}
 >
   <Homepage
-    locale={locale!}
+    locale={"en"}
     posts={posts}
     pageInfo={pageInfo}
     trendingPosts={trendingPosts}

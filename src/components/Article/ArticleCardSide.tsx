@@ -1,24 +1,32 @@
 import * as React from "react"
 
 import Image from "@/components/Image"
+import Link from "@/components/Link"
 import { type SelectArticle as ArticleProps } from "@/lib/db/schema/article"
 import { type SelectMedia as MediaProps } from "@/lib/db/schema/media"
+import type { LanguageType } from "@/lib/validation/language"
 
 interface ArticleCardSideProps {
   article: Pick<ArticleProps, "title" | "slug"> & {
     featured_image: Pick<MediaProps, "url">
   }
+  locale: LanguageType
 }
 
 const ArticleCardSide: React.FunctionComponent<ArticleCardSideProps> = (
   props,
 ) => {
-  const { article } = props
+  const { article, locale } = props
 
   const { featured_image, slug, title } = article
 
   return (
-    <a role="link" aria-label={title} href={`/article/${slug}`}>
+    <Link
+      locale={locale}
+      role="link"
+      aria-label={title}
+      href={`/article/${slug}`}
+    >
       <article className="mb-4 flex w-full border-separate flex-col rounded-lg">
         <div className="relative flex max-w-xs flex-col space-y-3 md:max-w-3xl md:flex-row md:space-x-4 md:space-y-0">
           <div className="relative aspect-[1/1] h-[75px] w-auto">
@@ -39,7 +47,7 @@ const ArticleCardSide: React.FunctionComponent<ArticleCardSideProps> = (
           </div>
         </div>
       </article>
-    </a>
+    </Link>
   )
 }
 

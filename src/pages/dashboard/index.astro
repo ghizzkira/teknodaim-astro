@@ -4,7 +4,7 @@ import DashboardBoxCount from "@/components/Dashboard/DashboardBoxCount.astro"
 import DashboardBoxDescription from "@/components/Dashboard/DashboardBoxDescription.astro"
 import DashboardBoxIconWrapper from "@/components/Dashboard/DashboardBoxIconWrapper.astro"
 import { Icon } from "@/components/UI/Icon"
-import MainLayout from "@/layouts/MainLayout.astro"
+import DashboardLayout from "@/layouts/DashboardLayout.astro"
 import { getAdsCount } from "@/lib/action/ad"
 import { getArticlesCount } from "@/lib/action/article"
 import { getMediasCount } from "@/lib/action/media"
@@ -23,11 +23,33 @@ const medias = await getMediasCount()
 const ads = await getAdsCount()
 const users = await getUsersCount()
 
-
 //TODO: change layout
 ---
 
-<MainLayout>
+<DashboardLayout
+  locale="id"
+  seo={{
+    title: import.meta.env.PUBLIC_SITE_TITLE,
+    description: import.meta.env.PUBLIC_SITE_DESCRIPTION,
+    languageAlternates: [
+      { href: `${import.meta.env.PUBLIC_SITE_URL}/`, hrefLang: "id" },
+      { href: `${import.meta.env.PUBLIC_SITE_URL}/en`, hrefLang: "en" },
+    ],
+    canonical: import.meta.env.PUBLIC_SITE_URL,
+    openGraph: {
+      basic: {
+        title: `${import.meta.env.PUBLIC_SITE_TITLE} | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: import.meta.env.PUBLIC_SITE_DESCRIPTION,
+        locale: "ID",
+      },
+    },
+  }}
+>
   <h2 class="text-3xl">Statistics</h2>
   <div class="my-8 grid grid-cols-2 gap-3 md:grid-cols-5">
     <DashboardBox>
@@ -66,4 +88,4 @@ const users = await getUsersCount()
       <DashboardBoxDescription>users</DashboardBoxDescription>
     </DashboardBox>
   </div>
-</MainLayout>
+</DashboardLayout>

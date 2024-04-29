@@ -75,12 +75,13 @@ const trendingPosts = await getWpPopularPostsLast7Days(DB, {
 ---
 
 <MainLayout
+  locale="id"
   seo={{
     title: import.meta.env.PUBLIC_SITE_TITLE,
     description: import.meta.env.PUBLIC_SITE_DESCRIPTION,
     languageAlternates: [
       { href: `${import.meta.env.PUBLIC_SITE_URL}/`, hrefLang: "id" },
-      { href: `${import.meta.env.PUBLIC_EN_SITE_URL}/`, hrefLang: "en" },
+      { href: `${import.meta.env.PUBLIC_SITE_URL}/en`, hrefLang: "en" },
     ],
     canonical: import.meta.env.PUBLIC_SITE_URL,
     openGraph: {

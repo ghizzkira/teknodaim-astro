@@ -28,7 +28,7 @@ const SignOutButton = () => {
       onClick={handleSignOut}
       disabled={isLoading}
     >
-      <Icon.SignOut aria-label="Sign Out" className="mr-2" />
+      <Icon.Logout aria-label="Sign Out" className="mr-2" />
       Sign Out
     </Button>
   )

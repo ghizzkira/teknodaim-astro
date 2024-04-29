@@ -2,6 +2,7 @@ import * as React from "react"
 
 import BadgeIcon from "@/components/BadgeIcon"
 import Image from "@/components/Image"
+import Link from "@/components/Link"
 import { Icon } from "@/components/UI/Icon"
 import type { SelectArticle as ArticleProps } from "@/lib/db/schema/article"
 import type { SelectMedia as MediaProps } from "@/lib/db/schema/media"
@@ -39,7 +40,8 @@ const ArticleCardVertical: React.FunctionComponent<ArticleCardVerticalProps> = (
       <div className="relative flex w-full flex-col">
         <div className="w-full">
           <div className="relative aspect-[16/9] h-auto w-full">
-            <a
+            <Link
+              locale={locale}
               href={`/article/${slug}`}
               role="link"
               aria-label={title}
@@ -53,13 +55,15 @@ const ArticleCardVertical: React.FunctionComponent<ArticleCardVerticalProps> = (
                 width={"300"}
                 height={"300"}
               />
-            </a>
+            </Link>
             <BadgeIcon
               name={topics[0]?.title!}
               slug={topics[0]?.slug!}
               className={stylesIcons}
+              locale={locale}
             />
-            <a
+            <Link
+              locale={locale}
               role="link"
               aria-label={topics[0]?.title}
               className={cn(
@@ -68,15 +72,20 @@ const ArticleCardVertical: React.FunctionComponent<ArticleCardVerticalProps> = (
               href={`/topic/${topics[0]?.slug}`}
             >
               {topics[0]?.title}
-            </a>
+            </Link>
           </div>
         </div>
         <div className="mt-[15px] flex flex-col">
-          <a aria-label={title} role="link" href={`/article/${slug}`}>
+          <Link
+            locale={locale}
+            aria-label={title}
+            role="link"
+            href={`/article/${slug}`}
+          >
             <h2 className="line-clamp-3 text-[20px] font-bold leading-[1.35] hover:text-primary md:text-[1.55em] md:leading-7">
               {title}
             </h2>
-          </a>
+          </Link>
           <div className="flex-column mt-2.5 flex">
             <div className="flex flex-row items-center">
               {mainAuthor && (
@@ -94,13 +103,14 @@ const ArticleCardVertical: React.FunctionComponent<ArticleCardVerticalProps> = (
                         />
                       </div>
                     )}
-                    <a
+                    <Link
+                      locale={locale}
                       role="link"
                       aria-label={mainAuthor.name ?? undefined}
                       href={`/user/${mainAuthor.username as unknown as string}`}
                     >
                       <h3 className="ml-2 text-[12px]">{mainAuthor.name}</h3>
-                    </a>
+                    </Link>
                   </div>
                 </>
               )}

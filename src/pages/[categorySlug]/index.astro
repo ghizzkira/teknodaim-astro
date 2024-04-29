@@ -1,0 +1,163 @@
+---
+
+import Category from "@/components/Template/Category.astro"
+ 
+import MainLayout from "@/layouts/MainLayout.astro"
+import { getWpPopularPosts } from "@/lib/action/wp-popular-post"
+import { LANGUAGE_TYPE } from "@/lib/validation/language"
+ import {
+   wpGetCategoryBySlugAction,
+} from "@/lib/wp/action/wp-category"
+import {
+   wpGetPostsByCategoryIdAction,
+} from "@/lib/wp/action/wp-post"
+import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
+
+ 
+const DB = Astro.locals.runtime.env.DB
+const { categorySlug } = Astro.params
+
+ 
+
+
+
+export const prerender = false
+const { category: main_category, other_lang_category } =
+  await wpGetCategoryBySlugAction(categorySlug as unknown as string)
+
+ 
+if (!main_category && !other_lang_category) {
+  return Astro.redirect('/404');
+}
+let category 
+
+
+
+if (
+    main_category &&
+    categorySlug === main_category.slug &&
+    main_category.language.slug.toLocaleLowerCase() === "id"
+  ) {
+    category = main_category
+  } else if (
+    other_lang_category &&
+    categorySlug === other_lang_category.slug &&
+    other_lang_category.language.slug.toLocaleLowerCase() === "id"
+  ) {
+    category = other_lang_category
+  } else if (
+    main_category &&
+    categorySlug === main_category.slug &&
+    main_category.language.slug.toLocaleLowerCase() !== "id"
+  ) {
+    if (other_lang_category) {
+      return Astro.redirect(`/${other_lang_category.slug}`)
+    }
+  } 
+
+if (!category) {
+  return Astro.redirect("/")
+}
+
+// const trendingPosts = await api.wpPopularPost.last7Days({
+//   language: locale,
+//   page: 1,
+//   per_page: 10,
+// })
+// FIX: to 7 days
+const trendingPosts = await getWpPopularPosts(DB, {
+  language: "id",
+  page: 1,
+  perPage: 10,
+})
+const categoryJsonLdString = category?.seo?.schema?.raw
+const regexId = new RegExp(import.meta.env.PUBLIC_WP_DOMAIN, "g")
+const regexEn = new RegExp(import.meta.env.PUBLIC_WP_EN_SUBDOMAIN, "g")
+const categoryJsonLd = categoryJsonLdString
+  ?.replace(regexId, import.meta.env.PUBLIC_DOMAIN)
+  ?.replace(regexEn, import.meta.env.PUBLIC_EN_SUBDOMAIN)
+
+const { posts, pageInfo } = await wpGetPostsByCategoryIdAction(
+  (category as WpCategoriesDataProps)?.id,
+  "",
+  "ID",
+)
+
+// const adsBelowHeader = await api.ad.byPosition("topic_below_header")
+// const hidePostsData = await api.setting.byKey("filter_post")
+
+// let queriesFilter: { queries: string[] } | undefined
+
+// if (hidePostsData) {
+//   const parsedData = JSON.parse(hidePostsData.value)
+//   queriesFilter = { ...parsedData }
+// }
+// const featuredPosts = await api.wpPopularPost.byPrimaryCategorySlug({
+//   page: 1,
+//   slug: categorySlug,
+//   per_page: 10,
+// })
+
+// const data = await api.setting.byKey("featured_categories")
+
+// let featuredCategories: WpCategoriesDataProps[] | undefined
+// if (data) {
+//   const parsedData = JSON.parse(data.value)
+//   featuredCategories =
+//     locale === "id" ? parsedData?.categories?.id : parsedData?.categories?.en
+// }
+
+// const filtered_featured_posts =
+//   queriesFilter?.queries &&
+//   featuredPosts?.filter((post) => {
+//     if (queriesFilter) {
+//       for (const word of queriesFilter?.queries) {
+//         if (post.title.toLowerCase().includes(word.toLocaleLowerCase())) {
+//           return false
+//         }
+//       }
+//     }
+//     return true
+//   })
+---
+
+<MainLayout 
+locale="id"
+seo={{
+  title: category?.name,
+  description: category?.description,
+  languageAlternates: [
+    {
+      href: `${import.meta.env.PUBLIC_SITE_URL}/${main_category.language.slug.toLocaleLowerCase() ==="id"?main_category?.slug:other_lang_category?.slug}`,
+      hrefLang: "id",
+    },
+    {
+      href: `${import.meta.env.PUBLIC_EN_SITE_URL}/en/${main_category.language.slug.toLocaleLowerCase()==="en"?main_category?.slug:other_lang_category?.slug}`,
+      hrefLang: "en",
+    },
+  ],
+  canonical: `${import.meta.env.PUBLIC_SITE_URL}/${category?.slug}`,
+  openGraph: {
+    basic: {
+      title: category?.name!,
+      url: `${import.meta.env.PUBLIC_SITE_URL}/${category?.slug}`,
+      type: "article",
+      image: "",
+    },
+    optional: {
+      description: category?.description,
+      locale: "id",
+    },
+  },
+}}>
+  {
+    categoryJsonLd && (
+      <script
+      is:inline
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: categoryJsonLd }}
+      />
+    )
+  }
+  <Category posts={posts} pageInfo={pageInfo} category={category} locale="id" trendingPosts={trendingPosts} />
+</MainLayout>

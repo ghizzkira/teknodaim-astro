@@ -3,7 +3,7 @@
 
 import * as React from "react"
 
-import { useCallbackRef } from "./use-callback-ref"
+import { useCallbackRef } from "./useCallbackRef"
 
 export interface UseDisclosureProps {
   isOpen?: boolean

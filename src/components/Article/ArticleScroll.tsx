@@ -2,6 +2,7 @@ import * as React from "react"
 
 import Ad from "@/components/Ad"
 import Image from "@/components/Image"
+import Link from "@/components/Link"
 import PostInfo from "@/components/PostInfo"
 import StaticShare from "@/components/Share/StaticShare"
 import { Button } from "@/components/UI/Button"
@@ -80,13 +81,14 @@ const ArticleScroll = React.forwardRef<HTMLDivElement, ArticleScrollProps>(
                     className="mb-2 rounded-full px-3 py-1 uppercase"
                     asChild
                   >
-                    <a
+                    <Link
+                      locale={locale}
                       aria-label={category.title}
                       className="text-[11px]"
                       href={`/article/topic/${category.slug}`}
                     >
                       {category.title}
-                    </a>
+                    </Link>
                   </Button>
                 )
               }
@@ -148,11 +150,15 @@ const ArticleScroll = React.forwardRef<HTMLDivElement, ArticleScrollProps>(
                 })}
             </section>
             <div className="relative my-4 flex justify-center from-60% to-40% before:absolute before:bottom-[99%] before:right-0 before:block before:h-[150px] before:w-full before:bg-gradient-to-t before:from-background  before:to-transparent">
-              <a aria-label="Read more" href={`/article/${article.slug}`}>
-                <Button aria-label="Read more" type="button">
+              <Button aria-label="Read more" type="button" asChild>
+                <Link
+                  locale={locale}
+                  aria-label="Read more"
+                  href={`/article/${article.slug}`}
+                >
                   Read more
-                </Button>
-              </a>
+                </Link>
+              </Button>
             </div>
           </div>
         </article>

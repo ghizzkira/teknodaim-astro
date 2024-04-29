@@ -1,0 +1,199 @@
+---
+import { Image } from "astro:assets"
+
+import type { LanguageType } from "@/lib/validation/language"
+import type { UpsertWpPopularPost } from "@/lib/validation/wp-popular-post"
+import type {
+  WpAuthorsDataProps,
+  WPPageInfoProps,
+  WpSinglePostDataProps,
+  WpTagsDataProps,
+} from "@/lib/wp/action/wp-types"
+import ParseContent from "../ParseContent"
+import InfiniteScrollWpPostsAuthor from "../Wp/InfiniteScrollWpPostsAuthor"
+import WpListPost from "../Wp/WpListPost"
+
+interface Props {
+  posts?: WpSinglePostDataProps[] | null
+  pageInfo?: WPPageInfoProps | null
+  locale?: LanguageType
+  user: WpAuthorsDataProps
+  slug: string
+}
+
+const { posts, pageInfo, locale, user, slug } = Astro.props
+
+const listPost = posts?.slice(0, posts?.length - 1)
+const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
+const parsedDescription = ParseContent({
+  htmlInput: user?.description!,
+  title: user?.name!,
+  locale: locale!,
+})
+---
+
+<!-- {
+    featuredCategories && Array.isArray(featuredCategories) && (
+      <div class="block w-full sm:hidden">
+        <WpFeaturedCategories categories={featuredCategories} />
+      </div>
+    )
+  } -->
+<section class="fade-up-element flex w-full flex-col pt-5">
+  <section
+    class="mx-auto flex w-full flex-col md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] lg:flex-row lg:px-4 min-[1200px]:max-w-[1170px]"
+  >
+    <!-- {
+        adsBelowHeader &&
+          adsBelowHeader.length > 0 &&
+          adsBelowHeader.map((ad) => {
+            return <Ad ad={ad} key={ad.id} />
+          })
+      } -->
+    <div class="order-2 flex w-full flex-col px-4 lg:order-1 lg:w-8/12">
+      <div class="mb-10 flex w-full flex-col px-4">
+        <div class="space-y-1 text-center md:text-left">
+          <h2 class="text-[30px] font-bold">{"About"}</h2>
+          <span class="block text-[19px] leading-[1.5]">
+            {parsedDescription}
+          </span>
+        </div>
+      </div>
+      <div class="mb-[25px] border-l-[3px] border-l-main px-3">
+        <h2 class="text-[18px] font-bold leading-[36px] text-main">Articles</h2>
+      </div>
+      {listPost && <WpListPost locale={locale!} posts={listPost} />}
+      {
+        infinitePosts && pageInfo && (
+          <InfiniteScrollWpPostsAuthor
+            posts={infinitePosts}
+            id={slug}
+            pageInfo={pageInfo}
+            language={locale!}
+            client:load
+          />
+        )
+      }
+    </div>
+    <aside
+      class="order-1 mb-[30px] w-full bg-muted px-4 lg:order-2 lg:block lg:w-4/12"
+    >
+      <div class="sticky top-[60px] py-4">
+        <div class="mx-auto max-w-[340px]">
+          <div class="mb-[30px] flex flex-col items-center">
+            <div
+              class="relative mb-4 h-32 w-32 shrink-0 overflow-hidden rounded-full bg-gray-300"
+            >
+              {
+                user?.avatar.url && (
+                  <Image
+                    alt={user?.name ?? ""}
+                    src={user?.avatar.url}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 800px"
+                    loading="eager"
+                    class="!h-32 !w-32"
+                    width={300}
+                    height={699}
+                  />
+                )
+              }
+
+              <!-- <img
+                  class="!h-32 !w-32"
+                  alt={user?.name ?? ""}
+                  src={user?.avatar.url!}
+                  sizes=`(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 800px`
+                  loading="eager"
+                  fetchpriority="high"
+                /> -->
+            </div>
+            <h1 class="text-xl font-bold">{user?.name}</h1>
+          </div>
+          <div class="flex flex-col space-y-[30px]">
+            <!-- {
+                userData?.company && (
+                  <div>
+                    <h2 class="mb-[10px] text-[20px] font-bold">Company</h2>
+                    <p class="text-foreground">{userData?.company}</p>
+                  </div>
+                )
+              } -->
+            <!-- {
+                (facebook ?? hidePostsData) && (
+                  <div>
+                    <h2 class="mb-[10px] text-[20px] font-bold">Follow</h2>
+                    <ul>
+                      {facebook && (
+                        <li class="mb-2">
+                          <NextLink
+                            aria-label="Open Facebook"
+                            class="flex items-center gap-2"
+                            href={facebook}
+                          >
+                            <span>
+                              <Icon.Facebook aria-label="Facebook" />
+                            </span>
+                            <p class="text-foreground">Facebook</p>
+                          </NextLink>
+                        </li>
+                      )}
+                      {hidePostsData && (
+                        <li class="mb-2">
+                          <NextLink
+                            aria-label="Open Twitter"
+                            class="flex items-center gap-2"
+                            href={hidePostsData}
+                          >
+                            <Icon.Twitter aria-label="Twitter" />
+                            <p class="text-foreground">X</p>
+                          </NextLink>
+                        </li>
+                      )}
+                    </ul>
+                  </div>
+                )
+              } -->
+            <!-- {
+                userData?.education && userData?.education_link && (
+                  <div>
+                    <h2 class="mb-[10px] text-[20px] font-bold">Education</h2>
+                    <NextLink
+                      aria-label={`Open ${userData?.education}`}
+                      href={userData?.education_link}
+                    >
+                      <p class="text-foreground">{userData?.education}</p>
+                    </NextLink>
+                  </div>
+                )
+              }
+              {
+                userData?.user_expertises?.length &&
+                  userData?.user_expertises?.length > 0 && (
+                    <div>
+                      <h2 class="mb-[10px] text-[20px] font-bold">Expertise</h2>
+                      <ul class="flex max-w-sm flex-wrap gap-3">
+                        {userData?.user_expertises?.map((expert) => {
+                          return (
+                            <li
+                              key={expert.id}
+                              class="relative select-none rounded-lg bg-gray-100 px-2 py-1 hover:shadow hover:outline hover:outline-main md:text-lg"
+                            >
+                              <NextLink
+                                aria-label={`Open ${expert.title}`}
+                                href={expert.link ?? "/"}
+                              >
+                                {expert.title}
+                              </NextLink>
+                            </li>
+                          )
+                        })}
+                      </ul>
+                    </div>
+                  )
+              } -->
+          </div>
+        </div>
+      </div>
+    </aside>
+  </section>
+</section>

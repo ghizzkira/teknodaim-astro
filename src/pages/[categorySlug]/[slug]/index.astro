@@ -1,0 +1,183 @@
+---
+import SinglePost from "@/components/Template/SinglePost.astro"
+
+import {
+  wpGetAllPostsAction,
+  // wpGetAllPostsSlugAction,
+  wpGetPostBySlugAction,
+  wpGetPostsByCategorySlugAction,
+} from "@/lib/wp/action/wp-post"
+import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
+import {  wpPrimaryCategorySlug } from "@/lib/wp/helper"
+import MainLayout from "@/layouts/MainLayout.astro"
+import WpPostViewCounter from "@/components/Wp/WpPostViewCounter"
+import { getWpPopularPosts } from "@/lib/action/wp-popular-post"
+
+export const prerender = false
+Astro.response.headers.set(
+  "Cache-Control",
+  "public, s-maxage=60, stale-while-revalidate=30",
+)
+
+const { categorySlug, slug } = Astro.params
+
+const DB = Astro.locals.runtime.env.DB
+
+
+const { posts } = await wpGetAllPostsAction("ID")
+const { post: mainPost, otherLangPost } = await wpGetPostBySlugAction(
+  slug as unknown as string,
+)
+
+if (!mainPost && !otherLangPost) {
+  return Astro.redirect('/404');
+}
+
+let post  
+
+if (
+    mainPost &&
+    slug === mainPost.slug &&
+    mainPost.language.slug.toLocaleLowerCase() === "id"
+  ) {
+    post = mainPost
+ 
+  } else if (
+    mainPost &&
+    slug === mainPost.slug &&
+    mainPost.language.slug.toLocaleLowerCase() !== "id"
+  ) {
+    if (otherLangPost?.slug) {
+ 
+      const { primaryCategory } = wpPrimaryCategorySlug(
+        otherLangPost?.categories as WpCategoriesDataProps[],
+      )
+       return Astro.redirect(
+        `/${primaryCategory?.slug}/${otherLangPost.slug}`
+      )
+    }
+  }
+
+if (!post) {
+   return Astro.redirect("/")
+}
+
+// FIX: to 7 days
+const trendingPosts = await getWpPopularPosts(DB,{
+  language: "id",
+  page: 1,
+  perPage: 10,
+})
+const regexId = new RegExp(import.meta.env.PUBLIC_WP_DOMAIN, "g")
+const regexEn = new RegExp(import.meta.env.PUBLIC_WP_EN_SUBDOMAIN, "g")
+const postJsonLdString = post?.seo?.schema?.raw
+const postJsonLd = postJsonLdString
+  ?.replace(regexId, import.meta.env.PUBLIC_DOMAIN)
+  ?.replace(regexEn, import.meta.env.PUBLIC_EN_SUBDOMAIN)
+
+
+  const { posts: categoryPosts } = await wpGetPostsByCategorySlugAction(
+  categorySlug!,
+  "",
+  "ID",
+  post?.id,
+)
+ 
+
+// const adsBelowHeader = await api.ad.byPosition("article_below_header")
+// const adsSingleArticleAbove = await api.ad.byPosition(
+//   "single_article_above_content",
+// )
+// const adsSingleArticleBelow = await api.ad.byPosition(
+//   "single_article_below_content",
+// )
+// const adsSingleArticleInline = await api.ad.byPosition(
+//   "single_article_middle_content",
+// )
+// const adsSingleArticlePopUp = await api.ad.byPosition("single_article_pop_up")
+// const data = await api.setting.byKey("featured_categories")
+
+// let featuredCategories: WpCategoriesDataProps[] | undefined
+// if (data) {
+//   const parsedData = JSON.parse(data.value)
+//   featuredCategories =
+//     locale === "id" ? parsedData?.categories?.id : parsedData?.categories?.en
+// }
+
+// let gadgetData
+// const gadgetByCategory = await api.gadget.byWpCategorySlug(categorySlug)
+// gadgetData = gadgetByCategory
+// if (!gadgetData || gadgetData.length < 1) {
+//   for (const tag of post.tags) {
+//     const gadgetByTag = await api.gadget.byWpTagSlug(tag.slug)
+//     if (gadgetByTag && gadgetByTag.length > 0) {
+//       gadgetData = gadgetByTag
+//     }
+//   }
+// }
+
+const { primaryCategory } = wpPrimaryCategorySlug(
+      post.categories as WpCategoriesDataProps[],
+    )
+
+---
+
+<MainLayout 
+locale={"id"}
+seo={{
+  title: post?.title,
+  description: post?.seo.metaDesc,
+  languageAlternates: [
+    {
+      href: `${import.meta.env.PUBLIC_SITE_URL}/${categorySlug}/${mainPost.language.slug.toLocaleLowerCase() === "id" ? mainPost.slug: otherLangPost?.slug}`,
+      hrefLang: "id",
+    },
+    {
+      href: `${import.meta.env.PUBLIC_SITE_URL}/en/${mainPost.language.slug.toLocaleLowerCase() === "en" ? mainPost.slug: otherLangPost?.slug}`,
+      hrefLang: "en",
+    },
+  ],
+  canonical: `${import.meta.env.PUBLIC_SITE_URL}/${categorySlug}/${slug}`,
+  openGraph: {
+    basic: {
+      title: post?.title!,
+      url: `${import.meta.env.PUBLIC_SITE_URL}/${categorySlug}/${slug}`,
+      type: "article",
+      image: "",
+    },
+    optional: {
+      description: post?.seo.metaDesc,
+      locale: "id",
+    },
+  },
+}}>
+    <WpPostViewCounter
+    title={post.title}
+    slug={post.slug}
+    excerpt={post.excerpt}
+    publishedTime={new Date(post.date).toISOString()}
+    thumbnail={post.featuredImage.sourceUrl}
+    primaryCategory={primaryCategory?.name!}
+    primaryCategorySlug={primaryCategory?.slug!}
+    authorName={post.author.name}
+    authorSlug={post.author.slug}
+    language={"id"}
+    authorImage={post.author.avatar.url}
+    client:load
+  />
+  {
+    postJsonLd && (
+      <script
+        is:inline
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: postJsonLd }}
+      />
+    )
+  }
+<SinglePost  posts={posts!}
+post={post}
+trendingPosts={trendingPosts}
+categoryPosts={categoryPosts!}
+slug={slug!}
+locale={"id"} />
+</MainLayout>

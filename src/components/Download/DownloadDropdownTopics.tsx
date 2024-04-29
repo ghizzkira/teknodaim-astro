@@ -1,17 +1,20 @@
 import * as React from "react"
 import type { Topic as TopicProps } from "@prisma/client"
 
+import Link from "@/components/Link"
 import { Icon } from "@/components/UI/Icon"
+import type { LanguageType } from "@/lib/validation/language"
 
 interface DownloadDropdownTopicsProps {
   title: string
   topics: Partial<TopicProps>[] | null
+  locale: LanguageType
 }
 
 const DownloadDropdownTopics: React.FunctionComponent<
   DownloadDropdownTopicsProps
 > = (props) => {
-  const { topics, title } = props
+  const { topics, title, locale } = props
 
   return (
     <details className="popover relative inline-block text-left">
@@ -28,14 +31,15 @@ const DownloadDropdownTopics: React.FunctionComponent<
       <div className="absolute right-0 z-[2] mt-2 w-[auto] origin-bottom rounded-md bg-background shadow-lg ring-1 ring-black ring-opacity-5">
         <div className="py-1">
           {topics?.map((topic) => (
-            <a
+            <Link
+              locale={locale}
               key={topic.id}
               aria-label={topic.title}
               href={`/download/topic/${topic.slug}`}
               className="block px-4 py-2 hover:bg-muted/10"
             >
               {topic.title}
-            </a>
+            </Link>
           ))}
         </div>
       </div>

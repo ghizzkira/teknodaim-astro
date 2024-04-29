@@ -2,6 +2,7 @@ import * as React from "react"
 import type { User } from "lucia"
 
 import Image from "@/components/Image"
+import Link from "@/components/Link"
 import { buttonVariants } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
 import {
@@ -11,15 +12,17 @@ import {
 } from "@/components/UI/Popover"
 // import { useSession } from "@/lib/auth/client"
 import { cn } from "@/lib/utils/style"
+import type { LanguageType } from "@/lib/validation/language"
 import AuthModal from "./AuthDialog"
 import LogoutButton from "./LogoutButton"
 
 interface UserMenuProps extends React.HTMLAttributes<HTMLDivElement> {
   user?: User | null
+  locale: LanguageType
 }
 
 const UserMenu: React.FunctionComponent<UserMenuProps> = (props) => {
-  const { user } = props
+  const { user, locale } = props
   return (
     <>
       {user ? (
@@ -36,24 +39,27 @@ const UserMenu: React.FunctionComponent<UserMenuProps> = (props) => {
             </div>
           </PopoverTrigger>
           <PopoverContent className="flex w-[min-content] flex-1 flex-col items-start">
-            <a
+            <Link
+              locale={locale}
               aria-label="Profile"
               href={`/user/${user?.username}`}
               className={cn(buttonVariants({ variant: "ghost" }))}
             >
               <Icon.User aria-label="Profile" className="mr-2 h-5 w-5" />
               Profile
-            </a>
-            <a
+            </Link>
+            <Link
+              locale={locale}
               aria-label="Setting"
               href="/setting/user/profile"
               className={cn(buttonVariants({ variant: "ghost" }))}
             >
               <Icon.Settings aria-label="Setting" className="mr-2 h-5 w-5" />
               Setting
-            </a>
+            </Link>
             {user?.role?.includes("admin" || "author") && (
-              <a
+              <Link
+                locale={locale}
                 aria-label="Dashboard"
                 href="/dashboard"
                 className={cn(buttonVariants({ variant: "ghost" }))}
@@ -63,7 +69,7 @@ const UserMenu: React.FunctionComponent<UserMenuProps> = (props) => {
                   className="mr-2 h-5 w-5"
                 />
                 Dashboard
-              </a>
+              </Link>
             )}
             <LogoutButton />
           </PopoverContent>

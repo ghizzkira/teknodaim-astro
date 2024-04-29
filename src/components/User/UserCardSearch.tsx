@@ -3,6 +3,7 @@ import * as React from "react"
 //  import type { User as UserProps } from "@prisma/client"
 
 import Image from "@/components/Image"
+import Link from "@/components/Link"
 import { Icon } from "@/components/UI/Icon"
 import type { LanguageType } from "@/lib/validation/language"
 
@@ -21,7 +22,8 @@ const UserCardSearch: React.FunctionComponent<UserCardSearchProps> = (
   const { name, username, image } = user
 
   return (
-    <a
+    <Link
+      locale={locale}
       aria-label={username}
       href={
         locale === "id"
@@ -48,7 +50,7 @@ const UserCardSearch: React.FunctionComponent<UserCardSearchProps> = (
           <h3 className="mb-2 text-lg font-medium">{name}</h3>
         </div>
       </div>
-    </a>
+    </Link>
   )
 }
 

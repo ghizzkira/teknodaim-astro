@@ -6,9 +6,11 @@ import type {
 } from "@prisma/client"
 
 import Image from "@/components/Image"
+import Link from "@/components/Link"
 import { Button } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
 import { cn } from "@/lib/utils/style"
+import type { LanguageType } from "@/lib/validation/language"
 
 function getIconOperatingSystem(operatingSystem: string) {
   switch (operatingSystem) {
@@ -39,10 +41,11 @@ interface DownloadCardProps extends React.HTMLAttributes<HTMLDivElement> {
     download_files?: Partial<DownloadFileProps>[]
   }
   className?: string
+  locale: LanguageType
 }
 
 const DownloadCard: React.FunctionComponent<DownloadCardProps> = (props) => {
-  const { download, className } = props
+  const { download, className, locale } = props
 
   const {
     operating_system,
@@ -64,7 +67,11 @@ const DownloadCard: React.FunctionComponent<DownloadCardProps> = (props) => {
       )}
     >
       <div className="relative">
-        <a aria-label={title} href={`/download/${type}/${slug}`}>
+        <Link
+          locale={locale}
+          aria-label={title}
+          href={`/download/${type}/${slug}`}
+        >
           <div className="relative aspect-[4/3] w-full">
             <Image
               src={featured_image?.url!}
@@ -74,7 +81,7 @@ const DownloadCard: React.FunctionComponent<DownloadCardProps> = (props) => {
               height={"50"}
             />
           </div>
-        </a>
+        </Link>
         <Button
           size={null}
           variant="outline"
@@ -84,11 +91,15 @@ const DownloadCard: React.FunctionComponent<DownloadCardProps> = (props) => {
           {icon}
         </Button>
       </div>
-      <a aria-label={title} href={`/download/${type}/${slug}`}>
+      <Link
+        locale={locale}
+        aria-label={title}
+        href={`/download/${type}/${slug}`}
+      >
         <h3 className="mt-3 line-clamp-4 whitespace-normal px-3 text-base">
           {title}
         </h3>
-      </a>
+      </Link>
       <div className="mb-3 mt-6 flex justify-between px-3">
         {download_files && (
           <>

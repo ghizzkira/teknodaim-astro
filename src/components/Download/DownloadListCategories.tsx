@@ -2,8 +2,10 @@ import * as React from "react"
 import type { Media as MediaProps, Topic as TopicProps } from "@prisma/client"
 
 import Image from "@/components/Image"
+import Link from "@/components/Link"
 import { Button } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
+import type { LanguageType } from "@/lib/validation/language"
 
 type TopicDataProps = Partial<TopicProps> & {
   featured_image: Pick<MediaProps, "url"> | null
@@ -12,12 +14,13 @@ type TopicDataProps = Partial<TopicProps> & {
 interface DownloadListCategoriesProps
   extends React.HTMLAttributes<HTMLDivElement> {
   categories: TopicDataProps[]
+  locale: LanguageType
 }
 
 const DownloadListCategories: React.FunctionComponent<
   DownloadListCategoriesProps
 > = (props) => {
-  const { categories } = props
+  const { categories, locale } = props
 
   const [prevDisplay, setPrevDisplay] = React.useState<string>("md:hidden")
   const [nextDisplay, setNextDisplay] = React.useState<string>("md:flex")
@@ -105,11 +108,15 @@ const DownloadListCategories: React.FunctionComponent<
                 />
               )}
               <div className="flex w-[inherit] flex-col items-center justify-center">
-                <a aria-label={category.title} href={`/topic/${category.slug}`}>
+                <Link
+                  locale={locale}
+                  aria-label={category.title}
+                  href={`/topic/${category.slug}`}
+                >
                   <h3 className="mt-3 whitespace-normal px-3 text-base">
                     {category.title}
                   </h3>
-                </a>
+                </Link>
                 <div className="mb-3 px-3">
                   <p className="text-[14px]">{category?.description}</p>
                 </div>

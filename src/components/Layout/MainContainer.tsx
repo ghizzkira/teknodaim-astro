@@ -103,6 +103,7 @@ const MainContainer: React.FunctionComponent<MainContainerProps> = (props) => {
           // menuSideBarAll={menus}
           // menuSideBarByLang={menusByLang}
           isMain={true}
+          locale={locale}
         />
       </div>
       <div

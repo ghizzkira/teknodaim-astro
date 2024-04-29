@@ -1,0 +1,196 @@
+---
+import React from "react"
+
+import WpComment from "@/components/Comment/WpComment"
+import ParseContent from "@/components/ParseContent"
+import InfiniteScrollWpSinglePost from "@/components/Wp/InfiniteScrollWpSinglePost"
+// import InfiniteScrollWpSinglePost from "@/components/Wp/InfiniteScrollWpSinglePost"
+// import WpFeaturedCategories from "@/components/wp/wp-featured-categories"
+import WpPostCardSide from "@/components/Wp/WpPostCardSide"
+import WpPostContent from "@/components/Wp/WpPostContent"
+import WpPostViewCounter from "@/components/Wp/WpPostViewCounter"
+import MainLayout from "@/layouts/MainLayout.astro"
+import { getWpPopularPosts } from "@/lib/action/wp-popular-post"
+// import { api } from "@/lib/trpc/server"
+import { splitReactNodes } from "@/lib/utils/content"
+import { LANGUAGE_TYPE, type LanguageType } from "@/lib/validation/language"
+import type { UpsertWpPopularPost } from "@/lib/validation/wp-popular-post"
+// import type { LanguageType } from "@/lib/validation/language"
+import {
+  wpGetAllPostsAction,
+  // wpGetAllPostsSlugAction,
+  wpGetPostBySlugAction,
+  wpGetPostsByCategorySlugAction,
+} from "@/lib/wp/action/wp-post"
+import type {
+  WpCategoriesDataProps,
+  WpSinglePostDataProps,
+} from "@/lib/wp/action/wp-types"
+import { splitUriWP, wpPrimaryCategorySlug } from "@/lib/wp/helper"
+
+interface Props {
+  posts: WpSinglePostDataProps[]
+  post: WpSinglePostDataProps
+  trendingPosts: Partial<UpsertWpPopularPost>[]
+  categoryPosts: WpSinglePostDataProps[]
+  slug: string
+  locale: LanguageType
+}
+const { posts, locale, post, trendingPosts, categoryPosts, slug } = Astro.props
+
+let postData
+
+if (post) {
+  postData = {
+    id: post.id,
+    postId: post.postId,
+    content: post.content,
+    excerpt: post.excerpt,
+    title: post.title,
+    authorName: post.author.name,
+    authorUrl: post.author.slug,
+    authorImg: post.author.avatar.url,
+    categories: post.categories,
+    featuredImageUrl: post.featuredImage.sourceUrl,
+    featuredImageAlt: post.featuredImage.altText,
+    featuredImageCaption: post.featuredImage.caption,
+    date: post.date,
+    slug: post.slug,
+    tags: post.tags,
+  }
+}
+
+const parsedContent = ParseContent({
+  htmlInput: post?.content!,
+  title: post?.title!,
+  locale: locale!,
+})
+
+const { firstContent, secondContent } = splitReactNodes(
+  React.Children.toArray(parsedContent),
+)
+
+// const adsBelowHeader = await api.ad.byPosition("article_below_header")
+// const adsSingleArticleAbove = await api.ad.byPosition(
+//   "single_article_above_content",
+// )
+// const adsSingleArticleBelow = await api.ad.byPosition(
+//   "single_article_below_content",
+// )
+// const adsSingleArticleInline = await api.ad.byPosition(
+//   "single_article_middle_content",
+// )
+// const adsSingleArticlePopUp = await api.ad.byPosition("single_article_pop_up")
+// const data = await api.setting.byKey("featured_categories")
+
+// let featuredCategories: WpCategoriesDataProps[] | undefined
+// if (data) {
+//   const parsedData = JSON.parse(data.value)
+//   featuredCategories =
+//     locale === "id" ? parsedData?.categories?.id : parsedData?.categories?.en
+// }
+
+// let gadgetData
+// const gadgetByCategory = await api.gadget.byWpCategorySlug(categorySlug)
+// gadgetData = gadgetByCategory
+// if (!gadgetData || gadgetData.length < 1) {
+//   for (const tag of post.tags) {
+//     const gadgetByTag = await api.gadget.byWpTagSlug(tag.slug)
+//     if (gadgetByTag && gadgetByTag.length > 0) {
+//       gadgetData = gadgetByTag
+//     }
+//   }
+// }
+
+const { primaryCategory } = wpPrimaryCategorySlug(
+  post.categories as WpCategoriesDataProps[],
+)
+---
+
+<!-- {
+    featuredCategories && Array.isArray(featuredCategories) && (
+      <div class="block sm:hidden">
+        <WpFeaturedCategories categories={featuredCategories} />
+      </div>
+    )
+  } -->
+<div
+  class="mx-auto flex w-full pt-5 md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]"
+>
+  <!-- <React.Suspense>
+      {
+        adsBelowHeader &&
+          adsBelowHeader.length > 0 &&
+          adsBelowHeader.map((ad) => {
+            return <Ad ad={ad} key={ad.id} />
+          })
+      }
+    </React.Suspense> -->
+</div>
+<div
+  class="fade-up-element mx-auto flex w-full pt-5 md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]"
+>
+  <section class="w-full lg:w-8/12">
+    {
+      postData && (
+        <WpPostContent
+          isMain={true}
+          relatedPosts={categoryPosts}
+          postData={postData}
+          firstContent={firstContent as React.ReactNode}
+          secondContent={secondContent as React.ReactNode}
+          locale={locale}
+        >
+          <div slot="CommentComponent">
+            <WpComment locale={locale} wp_post_slug={slug!} client:idle />
+          </div>
+        </WpPostContent>
+      )
+    }
+    {
+      posts && post && (
+        <InfiniteScrollWpSinglePost
+          posts={posts}
+          post={post}
+          locale={"id"}
+          adsBelowHeader={[]}
+          adsSingleArticleAbove={[]}
+          adsSingleArticleBelow={[]}
+          adsSingleArticleInline={[]}
+          adsSingleArticlePopUp={[]}
+          client:load
+        />
+      )
+    }
+  </section>
+  <aside class="hidden w-4/12 px-4 lg:block">
+    <div class="sticky top-4 rounded-xl border border-border p-4">
+      <div class="relative mb-4">
+        <div
+          class="block text-center after:absolute after:bottom-[-3px] after:left-1/2 after:right-[auto] after:top-[auto] after:ml-[-25px] after:h-[3px] after:w-[50px] after:border after:border-main after:bg-main"
+        >
+          <span class="block h-[36px] text-main">Trending</span>
+        </div>
+      </div>
+      {
+        trendingPosts?.map((post) => {
+          // const isWordIncluded = queriesFilter?.queries?.some((word) =>
+          //   post.title.toLowerCase().includes(word.toLowerCase()),
+          // )
+          // if (isWordIncluded === true) {
+          //   return null
+          // }
+          return (
+            <WpPostCardSide
+              src={post.thumbnail!}
+              alt={post.title!}
+              uri={`/${post.primaryCategorySlug}/${post.slug}`}
+              title={post.title!}
+              locale={locale!}
+            />
+          )
+        })
+      }
+    </div>
+  </aside>
+</div>

@@ -3,6 +3,7 @@ import { useForm, type SubmitHandler } from "react-hook-form"
 
 import { AlertDelete } from "@/components/AlertDelete"
 import Image from "@/components/Image"
+import Link from "@/components/Link"
 import { Button } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
 import {
@@ -173,12 +174,13 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
           ) : (
             <div className="my-8 flex items-center justify-center">
               <Button asChild aria-label="You should sign in before comment">
-                <a
+                <Link
+                  locale={locale}
                   aria-label="You should sign in before comment"
                   href="/auth/login"
                 >
                   You should sign in before comment
-                </a>
+                </Link>
               </Button>
             </div>
           )}

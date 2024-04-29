@@ -1,20 +1,23 @@
 import * as React from "react"
 
 import Image from "@/components/Image"
+import Link from "@/components/Link"
+import type { LanguageType } from "@/lib/validation/language"
 
 interface DownloadCardSideProps {
   title: string
   slug: string
   src: string
+  locale: LanguageType
 }
 
 const DownloadCardSide: React.FunctionComponent<DownloadCardSideProps> = (
   props,
 ) => {
-  const { src, slug, title } = props
+  const { src, slug, title, locale } = props
 
   return (
-    <a aria-label={title} href={slug}>
+    <Link locale={locale} aria-label={title} href={slug}>
       <article className="mb-4 flex w-full border-separate flex-col rounded-lg">
         <div className="relative flex max-w-xs flex-col space-y-3 md:max-w-3xl md:flex-row md:space-x-4 md:space-y-0">
           <div className="relative aspect-[1/1] h-[75px] w-auto max-w-[unset] overflow-hidden rounded-md">
@@ -34,7 +37,7 @@ const DownloadCardSide: React.FunctionComponent<DownloadCardSideProps> = (
           </div>
         </div>
       </article>
-    </a>
+    </Link>
   )
 }
 

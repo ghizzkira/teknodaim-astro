@@ -1,6 +1,6 @@
 import * as React from "react"
 
-import { rewriteUrlLocale } from "@/lib/internationalization/route"
+import Link from "@/components/Link"
 import type { LanguageType } from "@/lib/validation/language"
 import { wpAuthorPathBySlug } from "@/lib/wp/helper"
 
@@ -22,13 +22,14 @@ const WpHorizontalPostInfo: React.FunctionComponent<
     <div className="flex-column flex">
       <div className="flex flex-row items-center gap-2">
         <div className="flex flex-row items-center">
-          <a
+          <Link
+            locale={locale}
             className="mr-2"
             aria-label={authorName}
-            href={rewriteUrlLocale(locale, wpAuthorPathBySlug(authorSlug))}
+            href={wpAuthorPathBySlug(authorSlug)}
           >
             <h4 className="text-base text-primary">{authorName}</h4>
-          </a>
+          </Link>
           <div className="flex flex-col">
             {date && (
               <div className="text-foreground/80 before:mr-2 before:content-['-']">

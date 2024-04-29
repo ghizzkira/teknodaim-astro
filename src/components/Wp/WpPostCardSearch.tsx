@@ -1,7 +1,10 @@
 import * as React from "react"
 
+import Link from "@/components/Link"
 import { Icon } from "@/components/UI/Icon"
-import { rewriteUrlLocale } from "@/lib/internationalization/route"
+
+import "@/lib/internationalization/route"
+
 import { formatDate } from "@/lib/utils/date"
 import type { LanguageType } from "@/lib/validation/language"
 
@@ -23,9 +26,10 @@ const WpPostCardSearch: React.FunctionComponent<WpPostCardSearchProps> = (
   return (
     <div className="w-full">
       <div className="flex flex-row">
-        <a
+        <Link
+          locale={locale}
           aria-label={title}
-          href={rewriteUrlLocale(locale, url)}
+          href={url}
           className="relative block aspect-[1/1] h-[80px] w-auto max-w-[unset] overflow-hidden rounded-md"
         >
           <img
@@ -33,22 +37,23 @@ const WpPostCardSearch: React.FunctionComponent<WpPostCardSearchProps> = (
             className="!h-[80px] !w-auto object-cover"
             alt={title}
           />
-        </a>
+        </Link>
         <div className="ml-2 w-3/4">
           <div className="hidden md:block">
-            <a
+            <Link
+              locale={locale}
               aria-label={categoryName}
               href={`/${categorySlug}`}
               className="text-[12px] font-bold text-main"
             >
               {categoryName}
-            </a>
+            </Link>
           </div>
-          <a aria-label={title} href={url}>
+          <Link locale={locale} aria-label={title} href={url}>
             <h3 className="mb-2 text-lg font-medium leading-[1.2] hover:text-main">
               {title}
             </h3>
-          </a>
+          </Link>
           {date && (
             <div className="flex items-center">
               <Icon.AccessTime

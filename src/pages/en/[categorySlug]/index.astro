@@ -14,13 +14,9 @@ import {
 import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
 
  
+const { categorySlug } = Astro.params
+
 const DB = Astro.locals.runtime.env.DB
-const { categorySlug ,locale } = Astro.params
-
-if(!LANGUAGE_TYPE.includes(locale!)){
-  return Astro.redirect('/404')
-}
-
 
 
 export const prerender = false
@@ -35,50 +31,72 @@ if (!main_category && !other_lang_category) {
 }
 let category 
 
-if (locale === "id") {
-  if (
+// if (locale === "id") {
+//   if (
+//     main_category &&
+//     categorySlug === main_category.slug &&
+//     main_category.language.slug.toLocaleLowerCase() === locale
+//   ) {
+//     category = main_category
+//   } else if (
+//     other_lang_category &&
+//     categorySlug === other_lang_category.slug &&
+//     other_lang_category.language.slug.toLocaleLowerCase() === locale
+//   ) {
+//     category = other_lang_category
+//   } else if (
+//     main_category &&
+//     categorySlug === main_category.slug &&
+//     main_category.language.slug.toLocaleLowerCase() !== locale
+//   ) {
+//     if (other_lang_category)
+//       return Astro.redirect(`/id/${other_lang_category?.slug}`)
+//   }  
+// } else if (locale === "en") {
+//   if (
+//     main_category &&
+//     categorySlug === main_category.slug &&
+//     main_category.language.slug.toLocaleLowerCase() === locale
+//   ) {
+//     category = main_category
+//   } else if (
+//     other_lang_category &&
+//     categorySlug === other_lang_category.slug &&
+//     other_lang_category.language.slug.toLocaleLowerCase() === locale
+//   ) {
+//     category = other_lang_category
+//   } else if (
+//     main_category &&
+//     categorySlug === main_category.slug &&
+//     main_category.language.slug.toLocaleLowerCase() !== locale
+//   ) {
+//     if (other_lang_category) {
+//       return Astro.redirect(`/en/${other_lang_category.slug}`)
+//     }
+//   } 
+// }
+
+if (
     main_category &&
     categorySlug === main_category.slug &&
-    main_category.language.slug.toLocaleLowerCase() === locale
+    main_category.language.slug.toLocaleLowerCase() === "en"
   ) {
     category = main_category
   } else if (
     other_lang_category &&
     categorySlug === other_lang_category.slug &&
-    other_lang_category.language.slug.toLocaleLowerCase() === locale
+    other_lang_category.language.slug.toLocaleLowerCase() === "en"
   ) {
     category = other_lang_category
   } else if (
     main_category &&
     categorySlug === main_category.slug &&
-    main_category.language.slug.toLocaleLowerCase() !== locale
-  ) {
-    if (other_lang_category)
-      return Astro.redirect(`/id/${other_lang_category?.slug}`)
-  }  
-} else if (locale === "en") {
-  if (
-    main_category &&
-    categorySlug === main_category.slug &&
-    main_category.language.slug.toLocaleLowerCase() === locale
-  ) {
-    category = main_category
-  } else if (
-    other_lang_category &&
-    categorySlug === other_lang_category.slug &&
-    other_lang_category.language.slug.toLocaleLowerCase() === locale
-  ) {
-    category = other_lang_category
-  } else if (
-    main_category &&
-    categorySlug === main_category.slug &&
-    main_category.language.slug.toLocaleLowerCase() !== locale
+    main_category.language.slug.toLocaleLowerCase() !== "en"
   ) {
     if (other_lang_category) {
       return Astro.redirect(`/en/${other_lang_category.slug}`)
     }
   } 
-}
 
 if (!category) {
   return Astro.redirect("/")
@@ -90,8 +108,8 @@ if (!category) {
 //   per_page: 10,
 // })
 // FIX: to 7 days
-const trendingPosts = await getWpPopularPosts(DB, {
-  language: locale,
+const trendingPosts = await getWpPopularPosts(DB,{
+  language: "en",
   page: 1,
   perPage: 10,
 })
@@ -105,7 +123,7 @@ const categoryJsonLd = categoryJsonLdString
 const { posts, pageInfo } = await wpGetPostsByCategoryIdAction(
   (category as WpCategoriesDataProps)?.id,
   "",
-  locale?.toLocaleUpperCase(),
+  "en",
 )
 
 // const adsBelowHeader = await api.ad.byPosition("topic_below_header")
@@ -147,16 +165,17 @@ const { posts, pageInfo } = await wpGetPostsByCategoryIdAction(
 ---
 
 <MainLayout 
+locale="en"
 seo={{
   title: category?.name,
   description: category?.description,
   languageAlternates: [
-    {
-      href: `${import.meta.env.PUBLIC_SITE_URL}/${category?.slug}`,
+  {
+      href: `${import.meta.env.PUBLIC_SITE_URL}/${main_category.language.slug.toLocaleLowerCase() ==="id"?main_category?.slug:other_lang_category?.slug}`,
       hrefLang: "id",
     },
     {
-      href: `${import.meta.env.PUBLIC_EN_SITE_URL}/${category?.slug}`,
+      href: `${import.meta.env.PUBLIC_EN_SITE_URL}/en/${main_category.language.slug.toLocaleLowerCase()==="en"?main_category?.slug:other_lang_category?.slug}`,
       hrefLang: "en",
     },
   ],
