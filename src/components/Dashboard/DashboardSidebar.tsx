@@ -7,8 +7,8 @@ import ThemeSwitcher from "@/components/Theme/ThemeSwitcher"
 import { Button } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
 import { useOnClickOutside } from "@/hooks/useOnClickOutside"
-import { logout } from "@/lib/auth/utils"
-import { useI18n } from "@/lib/locales/client"
+// import { logout } from "@/lib/auth/utils"
+// import { useI18n } from "@/lib/locales/client"
 import type { LanguageType } from "@/lib/validation/language"
 
 interface DashboardSidebarProps
@@ -28,6 +28,17 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = (props) => {
 
   const t = useI18n()
 
+  const handleSignOut = async () => {
+    try {
+      const response = await fetch("/api/auth/logout", { method: "POST" })
+      if (!response.ok) {
+        throw new Error("Sign out failed")
+      }
+      window.location.reload()
+    } catch (error) {
+      console.error(error)
+    }
+  }
   return (
     <>
       <Button
@@ -74,14 +85,12 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = (props) => {
           <ThemeSwitcher />
           <Button asChild variant="ghost">
             <a href="/dashboard/setting">
-              <Icon.Setting />
+              <Icon.Settings />
             </a>
           </Button>
-          <form action={logout}>
-            <Button variant="ghost" size="icon">
-              <Icon.Logout />
-            </Button>
-          </form>
+          <Button onClick={handleSignOut} variant="ghost" size="icon">
+            <Icon.Logout />
+          </Button>
         </div>
       </Sidebar>
       {isOpen && (
