@@ -1,43 +1,17 @@
-// import { DrizzleSQLiteAdapter } from "@lucia-auth/adapter-drizzle"
-import { D1Adapter } from "@lucia-auth/adapter-sqlite"
+import { DrizzleSQLiteAdapter } from "@lucia-auth/adapter-drizzle"
 import { Google } from "arctic"
 import { Lucia } from "lucia"
 
-// import { initializeDBWithoutSchema } from "@/lib/db"
-// import { sessions, users } from "@/lib/db/schema"
+import { initializeDBWithoutSchema } from "@/lib/db"
+import { sessions, users } from "@/lib/db/schema"
 import type { UserRole } from "@/lib/validation/user"
 
-// const adapter = new DrizzleSQLiteAdapter(
-//   initializeDBWithoutSchema(DB),
-//   sessions,
-//   users,
-// )
-
-// export const auth = new Lucia(adapter, {
-//   sessionCookie: {
-//     expires: false,
-//     attributes: {
-//       secure: import.meta.env.APP_ENV === "production",
-//     },
-//   },
-//   getUserAttributes: (attributes) => {
-//     return {
-//       name: attributes.name,
-//       username: attributes.username,
-//       email: attributes.email,
-//       image: attributes.image,
-//       phoneNumber: attributes.phoneNumber,
-//       about: attributes.about,
-//       role: attributes.role,
-//     }
-//   },
-// })
-
 export function initializeAuth(D1: D1Database) {
-  const adapter = new D1Adapter(D1, {
-    user: "users",
-    session: "sessions",
-  })
+  const adapter = new DrizzleSQLiteAdapter(
+    initializeDBWithoutSchema(D1),
+    sessions,
+    users,
+  )
 
   return new Lucia(adapter, {
     sessionCookie: {
