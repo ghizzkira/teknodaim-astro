@@ -6,6 +6,7 @@ import { updateVoucherSchema } from "@/lib/validation/voucher"
 
 export const PUT: APIRoute = async (context: APIContext) => {
   try {
+    const DB = context.locals.runtime.env.DB
     const user = context.locals.user
 
     if (!user?.role.includes("admin")) {
@@ -16,7 +17,7 @@ export const PUT: APIRoute = async (context: APIContext) => {
 
     const body = await context.request.json()
     const parsedInput = updateVoucherSchema.parse(body)
-    const data = await updateVoucher(parsedInput)
+    const data = await updateVoucher(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

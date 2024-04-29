@@ -9,9 +9,10 @@ const inputSchema = z.object({
   cursor: z.string().optional(),
 })
 
-export const GET: APIRoute = async ({ params, request }) => {
+export const GET: APIRoute = async ({ locals, params, request }) => {
   try {
     const topicId = params.topicId
+    const DB = locals.runtime.env.DB
 
     const url = new URL(request.url)
     const queryParams = new URLSearchParams(url.search)
@@ -23,7 +24,7 @@ export const GET: APIRoute = async ({ params, request }) => {
       limit,
       cursor,
     })
-    const data = await getVideoEmbedsByTopicIdInfinite(parsedInput)
+    const data = await getVideoEmbedsByTopicIdInfinite(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

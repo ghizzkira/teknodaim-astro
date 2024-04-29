@@ -6,6 +6,7 @@ import { updateUserSchema } from "@/lib/validation/user"
 
 export const PUT: APIRoute = async (context: APIContext) => {
   try {
+    const DB = context.locals.runtime.env.DB
     const body = await context.request.json()
     const parsedInput = updateUserSchema.parse(body)
 
@@ -17,7 +18,7 @@ export const PUT: APIRoute = async (context: APIContext) => {
       })
     }
 
-    const data = await updateUser(parsedInput)
+    const data = await updateUser(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

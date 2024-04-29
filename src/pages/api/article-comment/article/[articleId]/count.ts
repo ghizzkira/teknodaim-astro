@@ -3,12 +3,13 @@ import { z } from "zod"
 
 import { getArticleCommentsCountByArticleId } from "@/lib/action/article-comment"
 
-export const GET: APIRoute = async ({ params }) => {
+export const GET: APIRoute = async ({ params, locals }) => {
   try {
+    const DB = locals.runtime.env.DB
     const articleId = params.articleId
     const parsedInput = z.string().parse(articleId)
 
-    const data = await getArticleCommentsCountByArticleId(parsedInput)
+    const data = await getArticleCommentsCountByArticleId(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

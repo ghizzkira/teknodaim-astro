@@ -1,6 +1,6 @@
 import { and, count, eq, sql } from "drizzle-orm"
 
-import { db } from "@/lib/db"
+import { initializeDB } from "@/lib/db"
 import { videoEmbeds } from "@/lib/db/schema/video-embed"
 import { videoEmbedComments } from "@/lib/db/schema/video-embed-comment"
 import { cuid } from "@/lib/utils/id"
@@ -9,13 +9,17 @@ import type {
   UpdateVideoEmbedComment,
 } from "@/lib/validation/video-embed-comment"
 
-export const getVideoEmbedCommentsDashboard = async ({
-  page,
-  perPage,
-}: {
-  page: number
-  perPage: number
-}) => {
+export const getVideoEmbedCommentsDashboard = async (
+  DB: D1Database,
+  input: {
+    page: number
+    perPage: number
+  },
+) => {
+  const { page, perPage } = input
+
+  const db = initializeDB(DB)
+
   const data = await db.query.videoEmbedComments.findMany({
     limit: perPage,
     offset: (page - 1) * perPage,
@@ -29,15 +33,18 @@ export const getVideoEmbedCommentsDashboard = async ({
   return data
 }
 
-export const getVideoEmbedCommentsByVideoEmbedId = async ({
-  videoEmbedId,
-  page,
-  perPage,
-}: {
-  videoEmbedId: string
-  page: number
-  perPage: number
-}) => {
+export const getVideoEmbedCommentsByVideoEmbedId = async (
+  DB: D1Database,
+  input: {
+    videoEmbedId: string
+    page: number
+    perPage: number
+  },
+) => {
+  const { videoEmbedId, page, perPage } = input
+
+  const db = initializeDB(DB)
+
   const data = await db.query.videoEmbedComments.findMany({
     where: (videoEmbedComments, { eq }) =>
       eq(videoEmbedComments.videoEmbedId, videoEmbedId),
@@ -58,15 +65,18 @@ export const getVideoEmbedCommentsByVideoEmbedId = async ({
   return data
 }
 
-export const getVideoEmbedCommentsByVideoEmbedIdInfinite = async ({
-  videoEmbedId,
-  limit = 50,
-  cursor,
-}: {
-  videoEmbedId: string
-  limit?: number
-  cursor?: string
-}) => {
+export const getVideoEmbedCommentsByVideoEmbedIdInfinite = async (
+  DB: D1Database,
+  input: {
+    videoEmbedId: string
+    limit?: number
+    cursor?: string
+  },
+) => {
+  const { videoEmbedId, limit = 10, cursor } = input
+
+  const db = initializeDB(DB)
+
   const data = await db.query.videoEmbedComments.findMany({
     where: (videoEmbedComments, { eq, and, lt }) =>
       and(
@@ -100,9 +110,13 @@ export const getVideoEmbedCommentsByVideoEmbedIdInfinite = async ({
   }
 }
 
-export const getVideoEmbedCommentById = async (id: string) => {
+export const getVideoEmbedCommentById = async (
+  DB: D1Database,
+  input: string,
+) => {
+  const db = initializeDB(DB)
   const data = await db.query.videoEmbedComments.findFirst({
-    where: (videoEmbedComments, { eq }) => eq(videoEmbedComments.id, id),
+    where: (videoEmbedComments, { eq }) => eq(videoEmbedComments.id, input),
     with: {
       author: true,
       replies: {
@@ -115,29 +129,29 @@ export const getVideoEmbedCommentById = async (id: string) => {
   return data
 }
 
-export const getVideoEmbedCommentsCount = async () => {
+export const getVideoEmbedCommentsCount = async (DB: D1Database) => {
+  const db = initializeDB(DB)
   const data = await db.select({ value: count() }).from(videoEmbedComments)
   return data[0].value
 }
 
 export const getVideoEmbedCommentsCountByVideoEmbedId = async (
-  videoEmbedId: string,
+  DB: D1Database,
+  input: string,
 ) => {
+  const db = initializeDB(DB)
   const data = await db
     .select({ value: count() })
     .from(videoEmbedComments)
-    .where(
-      and(
-        eq(videoEmbeds.id, videoEmbedId),
-        eq(videoEmbedComments.replyToId, ""),
-      ),
-    )
+    .where(and(eq(videoEmbeds.id, input), eq(videoEmbedComments.replyToId, "")))
   return data[0].value
 }
 
 export const createVideoEmbedComment = async (
+  DB: D1Database,
   input: CreateVideoEmbedComment & { authorId: string },
 ) => {
+  const db = initializeDB(DB)
   const data = await db.insert(videoEmbedComments).values({
     id: cuid(),
     videoEmbedId: input.videoEmbedId,
@@ -149,8 +163,10 @@ export const createVideoEmbedComment = async (
 }
 
 export const updateVideoEmbedComment = async (
+  DB: D1Database,
   input: UpdateVideoEmbedComment,
 ) => {
+  const db = initializeDB(DB)
   const data = await db
     .update(videoEmbedComments)
     .set({
@@ -162,9 +178,13 @@ export const updateVideoEmbedComment = async (
   return data
 }
 
-export const deleteVideoEmbedComment = async (id: string) => {
+export const deleteVideoEmbedComment = async (
+  DB: D1Database,
+  input: string,
+) => {
+  const db = initializeDB(DB)
   const data = await db
     .delete(videoEmbedComments)
-    .where(eq(videoEmbedComments.id, id))
+    .where(eq(videoEmbedComments.id, input))
   return data
 }

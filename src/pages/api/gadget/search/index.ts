@@ -3,15 +3,17 @@ import { z } from "zod"
 
 import { searchGadgets } from "@/lib/action/gadget"
 
-export const GET: APIRoute = async ({ request }) => {
+export const GET: APIRoute = async ({ locals, request }) => {
   try {
+    const DB = locals.runtime.env.DB
+
     const url = new URL(request.url)
     const queryParams = new URLSearchParams(url.search)
     const searchQuery = queryParams.get("query")
 
     const parsedInput = z.string().parse(searchQuery)
 
-    const data = await searchGadgets(parsedInput)
+    const data = await searchGadgets(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

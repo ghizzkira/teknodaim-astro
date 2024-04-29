@@ -3,15 +3,17 @@ import { z } from "zod"
 
 import { searchMedias } from "@/lib/action/media"
 
-export const GET: APIRoute = async ({ request }) => {
+export const GET: APIRoute = async ({ locals, request }) => {
   try {
+    const DB = locals.runtime.env.DB
+
     const url = new URL(request.url)
     const queryParams = new URLSearchParams(url.search)
     const searchQuery = queryParams.get("query")
 
     const parsedInput = z.string().parse(searchQuery)
 
-    const data = await searchMedias(parsedInput)
+    const data = await searchMedias(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

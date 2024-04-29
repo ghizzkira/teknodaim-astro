@@ -7,10 +7,11 @@ import { createArticleCommentSchema } from "@/lib/validation/article-comment"
 export const POST: APIRoute = async (context: APIContext) => {
   try {
     const user = context.locals.user
+    const DB = context.locals.runtime.env.DB
 
     const body = await context.request.json()
     const parsedInput = createArticleCommentSchema.parse(body)
-    const data = await createArticleComment({
+    const data = await createArticleComment(DB, {
       authorId: user?.id!,
       ...parsedInput,
     })

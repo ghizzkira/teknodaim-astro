@@ -2,3 +2,8 @@ name = "teknodaim"
 compatibility_date = "2024-04-19"
 pages_build_output_dir = "./dist"
 
+[[d1_databases]]
+binding = "DB"
+database_name = "teknodaim"
+database_id = "8efaeebd-8999-415d-a7fd-fb9abb402f68"
+migrations_dir = "./src/lib/db/migrations"

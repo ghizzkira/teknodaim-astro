@@ -9,9 +9,10 @@ const inputSchema = z.object({
   perPage: z.number(),
 })
 
-export const GET: APIRoute = async ({ params, request }) => {
+export const GET: APIRoute = async ({ locals, params, request }) => {
   try {
     const downloadId = params.downloadId
+    const DB = locals.runtime.env.DB
 
     const url = new URL(request.url)
     const queryParams = new URLSearchParams(url.search)
@@ -24,7 +25,7 @@ export const GET: APIRoute = async ({ params, request }) => {
       perPage,
     })
 
-    const data = await getDownloadCommentsByDownloadId(parsedInput)
+    const data = await getDownloadCommentsByDownloadId(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

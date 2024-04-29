@@ -14,9 +14,10 @@ export const POST: APIRoute = async (context: APIContext) => {
       })
     }
 
+    const DB = context.locals.runtime.env.DB
     const body = await context.request.json()
     const parsedInput = createGadgetSchema.parse(body)
-    const data = await createGadget(parsedInput)
+    const data = await createGadget(DB, parsedInput)
 
     return new Response(JSON.stringify(data), {
       status: 200,

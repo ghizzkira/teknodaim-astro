@@ -11,7 +11,7 @@ const inputSchema = z.object({
   perPage: z.number(),
 })
 
-export const GET: APIRoute = async ({ params, request }) => {
+export const GET: APIRoute = async ({ locals, params, request }) => {
   try {
     const language = params.language
     const topicId = params.topicId
@@ -21,13 +21,15 @@ export const GET: APIRoute = async ({ params, request }) => {
     const page = parseInt(queryParams.get("page") ?? "1")
     const perPage = parseInt(queryParams.get("perPage") ?? "10")
 
+    const DB = locals.runtime.env.DB
+
     const parsedInput = inputSchema.parse({
       language,
       topicId,
       page,
       perPage,
     })
-    const data = await getArticlesByTopicId(parsedInput)
+    const data = await getArticlesByTopicId(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

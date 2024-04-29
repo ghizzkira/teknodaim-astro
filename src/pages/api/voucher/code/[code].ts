@@ -3,11 +3,12 @@ import { z } from "zod"
 
 import { getVoucherByCode } from "@/lib/action/voucher"
 
-export const GET: APIRoute = async ({ params }) => {
+export const GET: APIRoute = async ({ locals, params }) => {
   try {
+    const DB = locals.runtime.env.DB
     const code = params.code
     const parsedInput = z.string().parse(code)
-    const data = await getVoucherByCode(parsedInput)
+    const data = await getVoucherByCode(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

@@ -11,8 +11,9 @@ const inputSchema = z.object({
   perPage: z.number(),
 })
 
-export const GET: APIRoute = async ({ params, request }) => {
+export const GET: APIRoute = async ({ locals, params, request }) => {
   try {
+    const DB = locals.runtime.env.DB
     const language = params.language
     const topicId = params.topicId
 
@@ -28,7 +29,7 @@ export const GET: APIRoute = async ({ params, request }) => {
       perPage,
     })
 
-    const data = await getDownloadsByTopicId(parsedInput)
+    const data = await getDownloadsByTopicId(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

@@ -10,10 +10,11 @@ const inputSchema = z.object({
   perPage: z.number(),
 })
 
-export const GET: APIRoute = async ({ request }) => {
+export const GET: APIRoute = async ({ locals, request }) => {
   try {
+    const DB = locals.runtime.env.DB
     const parsedInput = inputSchema.parse(request.body)
-    const data = await getWpPopularPostsLast1Day(parsedInput)
+    const data = await getWpPopularPostsLast1Day(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

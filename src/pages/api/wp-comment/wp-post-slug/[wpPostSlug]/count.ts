@@ -3,12 +3,13 @@ import { z } from "zod"
 
 import { getWpCommentsCountByWpPostSlug } from "@/lib/action/wp-comment"
 
-export const GET: APIRoute = async ({ params }) => {
+export const GET: APIRoute = async ({ locals, params }) => {
   try {
+    const DB = locals.runtime.env.DB
     const wpPostSlug = params.wpPostSlug
     const parsedInput = z.string().parse(wpPostSlug)
 
-    const data = await getWpCommentsCountByWpPostSlug(parsedInput)
+    const data = await getWpCommentsCountByWpPostSlug(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

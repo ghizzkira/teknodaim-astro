@@ -7,6 +7,7 @@ import { updateAdSchema } from "@/lib/validation/ad"
 export const PUT: APIRoute = async (context: APIContext) => {
   try {
     const user = context.locals.user
+    const DB = context.locals.runtime.env.DB
 
     if (!user?.role.includes("admin")) {
       return new Response(null, {
@@ -16,7 +17,7 @@ export const PUT: APIRoute = async (context: APIContext) => {
 
     const body = await context.request.json()
     const parsedInput = updateAdSchema.parse(body)
-    const data = await updateAd(parsedInput)
+    const data = await updateAd(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

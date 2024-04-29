@@ -1,14 +1,12 @@
-import "dotenv/config"
-
 import type { Config } from "drizzle-kit"
 
 export default {
   schema: "./src/lib/db/schema",
   out: "./src/lib/db/migrations",
-  driver: "turso",
+  driver: "d1",
   dbCredentials: {
-    url: process.env.VITE_DATABASE_URL!,
-    authToken: process.env.VITE_DATABASE_AUTH_TOKEN,
+    wranglerConfigPath: `${process.cwd()}/wrangler.toml`,
+    dbName: "teknodaim",
   },
   verbose: true,
   strict: true,

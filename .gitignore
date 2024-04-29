@@ -4,6 +4,7 @@ dist/
 .astro/
 .vercel
 .wrangler/
+data
 # dependencies
 node_modules/
 

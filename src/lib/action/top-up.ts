@@ -53,6 +53,7 @@ export const getDigiflazzCheckBalance = async () => {
 }
 
 export const getDigiflazzPriceList = async (
+  DB: D1Database,
   input: TopUpDigiflazzPriceListType,
 ) => {
   const digiflazzPriceList = (await digiflazz.daftarHarga(input)) as
@@ -60,13 +61,14 @@ export const getDigiflazzPriceList = async (
     | DaftarHargaPostPaidReturnProps
 
   if (Array.isArray(digiflazzPriceList.data)) {
-    await upsertSetting({
+    await upsertSetting(DB, {
       key: `digiflazz_top_up_price_list_${input}`,
       value: JSON.stringify(digiflazzPriceList.data),
     })
   }
 
   const priceList = await getSettingByKey(
+    DB,
     `digiflazz_top_up_price_list_${input}`,
   )
 
@@ -81,7 +83,10 @@ export const getDigiflazzPriceList = async (
   return data
 }
 
-export const getDigiflazzProductsByBrand = async (brand: string) => {
+export const getDigiflazzProductsByBrand = async (
+  DB: D1Database,
+  input: string,
+) => {
   const digiflazzPriceListPrePaid = (await digiflazz.daftarHarga(
     "prepaid",
   )) as DaftarHargaPrePaidReturnProps
@@ -90,24 +95,26 @@ export const getDigiflazzProductsByBrand = async (brand: string) => {
   )) as DaftarHargaPostPaidReturnProps
 
   if (Array.isArray(digiflazzPriceListPrePaid.data)) {
-    await upsertSetting({
+    await upsertSetting(DB, {
       key: `digiflazz_top_up_price_list_prepaid`,
       value: JSON.stringify(digiflazzPriceListPrePaid.data),
     })
   }
 
   if (Array.isArray(digiflazzPriceListPostPaid.data)) {
-    await upsertSetting({
+    await upsertSetting(DB, {
       key: `digiflazz_top_up_price_list_pasca`,
       value: JSON.stringify(digiflazzPriceListPostPaid.data),
     })
   }
 
   const priceListPrePaid = await getSettingByKey(
+    DB,
     "digiflazz_top_up_price_list_prepaid",
   )
 
   const priceListPostPaid = await getSettingByKey(
+    DB,
     "digiflazz_top_up_price_list_pasca",
   )
 
@@ -136,13 +143,16 @@ export const getDigiflazzProductsByBrand = async (brand: string) => {
     DigiflazzPriceListPrePaidResponse)[]
 
   const filteredProduct = allPrices?.filter(
-    (product) => product?.brand === brand,
+    (product) => product?.brand === input,
   )
 
   return filteredProduct ?? null
 }
 
-export const getDigiflazzPriceListBySlug = async (slug: string) => {
+export const getDigiflazzPriceListBySlug = async (
+  DB: D1Database,
+  input: string,
+) => {
   const digiflazzPriceListPrePaid = (await digiflazz.daftarHarga(
     "prepaid",
   )) as DaftarHargaPrePaidReturnProps
@@ -151,24 +161,26 @@ export const getDigiflazzPriceListBySlug = async (slug: string) => {
   )) as DaftarHargaPostPaidReturnProps
 
   if (Array.isArray(digiflazzPriceListPrePaid.data)) {
-    await upsertSetting({
+    await upsertSetting(DB, {
       key: `digiflazz_top_up_price_list_prepaid`,
       value: JSON.stringify(digiflazzPriceListPrePaid.data),
     })
   }
 
   if (Array.isArray(digiflazzPriceListPostPaid.data)) {
-    await upsertSetting({
+    await upsertSetting(DB, {
       key: `digiflazz_top_up_price_list_pasca`,
       value: JSON.stringify(digiflazzPriceListPostPaid.data),
     })
   }
 
   const priceListPrePaid = await getSettingByKey(
+    DB,
     "digiflazz_top_up_price_list_prepaid",
   )
 
   const priceListPostPaid = await getSettingByKey(
+    DB,
     "digiflazz_top_up_price_list_pasca",
   )
 
@@ -196,13 +208,13 @@ export const getDigiflazzPriceListBySlug = async (slug: string) => {
 
   const priceBySlugDatas = allPrices.find((price) => {
     const brand = typeof price.brand === "string" && slugify(price.brand)
-    return typeof brand === "string" && brand.includes(slug)
+    return typeof brand === "string" && brand.includes(input)
   })
 
   return priceBySlugDatas ?? null
 }
 
-export const getDigiflazzBrands = async () => {
+export const getDigiflazzBrands = async (DB: D1Database) => {
   const digiflazzPriceListPrePaid = (await digiflazz.daftarHarga(
     "prepaid",
   )) as DaftarHargaPrePaidReturnProps
@@ -211,24 +223,26 @@ export const getDigiflazzBrands = async () => {
   )) as DaftarHargaPostPaidReturnProps
 
   if (Array.isArray(digiflazzPriceListPrePaid.data)) {
-    await upsertSetting({
+    await upsertSetting(DB, {
       key: `digiflazz_top_up_price_list_prepaid`,
       value: JSON.stringify(digiflazzPriceListPrePaid.data),
     })
   }
 
   if (Array.isArray(digiflazzPriceListPostPaid.data)) {
-    await upsertSetting({
+    await upsertSetting(DB, {
       key: `digiflazz_top_up_price_list_pasca`,
       value: JSON.stringify(digiflazzPriceListPostPaid.data),
     })
   }
 
   const priceListPrePaid = await getSettingByKey(
+    DB,
     "digiflazz_top_up_price_list_prepaid",
   )
 
   const priceListPostPaid = await getSettingByKey(
+    DB,
     "digiflazz_top_up_price_list_pasca",
   )
 
@@ -275,8 +289,11 @@ export const getDigiflazzBrands = async () => {
   return brandPrices ?? null
 }
 
-export const getDigiflazzTopUpProductsByBrand = async (brand: string) => {
-  const products = await getSettingByKey("digiflazz_top_up_products")
+export const getDigiflazzTopUpProductsByBrand = async (
+  DB: D1Database,
+  input: string,
+) => {
+  const products = await getSettingByKey(DB, "digiflazz_top_up_products")
 
   if (!products?.value || typeof products?.value !== "string") {
     return null
@@ -307,7 +324,7 @@ export const getDigiflazzTopUpProductsByBrand = async (brand: string) => {
   const filteredPrices = getPricesbyBrand.map(addPricesProperties)
 
   const getDataBySlug = filteredPrices.find(
-    (price) => price.slug.toLocaleLowerCase() === brand,
+    (price) => price.slug.toLocaleLowerCase() === input,
   )
 
   return getDataBySlug
@@ -325,7 +342,9 @@ export const createDigiflazzDeposit = async (
   return data
 }
 
-export const createDigiflazzTopUpTransaction = async (input: CreateTopUpDigiflazzTransaction) => {
+export const createDigiflazzTopUpTransaction = async (
+  input: CreateTopUpDigiflazzTransaction,
+) => {
   const res = (await digiflazz.transaksi({
     sku: input.sku,
     customerNo: input.customerNo,

@@ -32,7 +32,7 @@ export const getPaymentTripayInstruction = async (
   return data
 }
 
-export const getPaymentTripayPaymentChannel = async () => {
+export const getPaymentTripayPaymentChannel = async (DB: D1Database) => {
   const paymentChannel =
     (await tripay.paymentChannel()) as PaymentChannelReturnProps
 
@@ -49,13 +49,13 @@ export const getPaymentTripayPaymentChannel = async () => {
       data.group.includes("Convenience Store"),
     )
 
-    await upsertSetting({
+    await upsertSetting(DB, {
       key: "tripay_payment_channel",
       value: JSON.stringify({ eWallet, virtualAccount, convenienceShop }),
     })
   }
 
-  const data = await getSettingByKey("tripay_payment_channel")
+  const data = await getSettingByKey(DB, "tripay_payment_channel")
 
   let parsedData
 

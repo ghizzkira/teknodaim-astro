@@ -6,6 +6,7 @@ import { createDownloadSchema } from "@/lib/validation/download"
 
 export const POST: APIRoute = async (context: APIContext) => {
   try {
+    const DB = context.locals.runtime.env.DB
     const user = context.locals.user
 
     if (!user?.role.includes("admin" || "author")) {
@@ -16,7 +17,7 @@ export const POST: APIRoute = async (context: APIContext) => {
 
     const body = await context.request.json()
     const parsedInput = createDownloadSchema.parse(body)
-    const data = await createDownload(parsedInput)
+    const data = await createDownload(DB, parsedInput)
 
     return new Response(JSON.stringify(data), {
       status: 200,

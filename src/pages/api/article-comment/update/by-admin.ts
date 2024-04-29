@@ -6,6 +6,7 @@ import { updateArticleCommentSchema } from "@/lib/validation/article-comment"
 
 export const PUT: APIRoute = async (context: APIContext) => {
   try {
+    const DB = context.locals.runtime.env.DB
     const body = await context.request.json()
     const parsedInput = updateArticleCommentSchema.parse(body)
 
@@ -17,7 +18,7 @@ export const PUT: APIRoute = async (context: APIContext) => {
       })
     }
 
-    const data = await updateArticleComment(parsedInput)
+    const data = await updateArticleComment(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

@@ -4,10 +4,11 @@ import { z } from "zod"
 import { searchDownloadsDashboard } from "@/lib/action/download"
 import { languageType } from "@/lib/validation/language"
 
-export const GET: APIRoute = async ({ params, request }) => {
+export const GET: APIRoute = async ({ locals, params, request }) => {
   try {
     const language = params.language
 
+    const DB = locals.runtime.env.DB
     const url = new URL(request.url)
     const queryParams = new URLSearchParams(url.search)
     const searchQuery = queryParams.get("query")
@@ -16,7 +17,7 @@ export const GET: APIRoute = async ({ params, request }) => {
       .object({ language: languageType, searchQuery: z.string() })
       .parse({ language, searchQuery })
 
-    const data = await searchDownloadsDashboard(parsedInput)
+    const data = await searchDownloadsDashboard(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

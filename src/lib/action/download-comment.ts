@@ -1,6 +1,6 @@
 import { and, count, eq, sql } from "drizzle-orm"
 
-import { db } from "@/lib/db"
+import { initializeDB } from "@/lib/db"
 import { downloads } from "@/lib/db/schema/download"
 import { downloadComments } from "@/lib/db/schema/download-comment"
 import { cuid } from "@/lib/utils/id"
@@ -9,13 +9,17 @@ import type {
   UpdateDownloadComment,
 } from "@/lib/validation/download-comment"
 
-export const getDownloadCommentsDashboard = async ({
-  page,
-  perPage,
-}: {
-  page: number
-  perPage: number
-}) => {
+export const getDownloadCommentsDashboard = async (
+  DB: D1Database,
+  input: {
+    page: number
+    perPage: number
+  },
+) => {
+  const { page, perPage } = input
+
+  const db = initializeDB(DB)
+
   const data = await db.query.downloadComments.findMany({
     limit: perPage,
     offset: (page - 1) * perPage,
@@ -27,15 +31,18 @@ export const getDownloadCommentsDashboard = async ({
   return data
 }
 
-export const getDownloadCommentsByDownloadId = async ({
-  downloadId,
-  page,
-  perPage,
-}: {
-  downloadId: string
-  page: number
-  perPage: number
-}) => {
+export const getDownloadCommentsByDownloadId = async (
+  DB: D1Database,
+  input: {
+    downloadId: string
+    page: number
+    perPage: number
+  },
+) => {
+  const { downloadId, page, perPage } = input
+
+  const db = initializeDB(DB)
+
   const data = await db.query.downloadComments.findMany({
     where: (downloadComments, { eq }) =>
       eq(downloadComments.downloadId, downloadId),
@@ -54,15 +61,18 @@ export const getDownloadCommentsByDownloadId = async ({
   return data
 }
 
-export const getDownloadCommentsByDownloadIdInfinite = async ({
-  downloadId,
-  limit = 50,
-  cursor,
-}: {
-  downloadId: string
-  limit?: number
-  cursor?: string
-}) => {
+export const getDownloadCommentsByDownloadIdInfinite = async (
+  DB: D1Database,
+  input: {
+    downloadId: string
+    limit?: number
+    cursor?: string
+  },
+) => {
+  const { downloadId, limit = 10, cursor } = input
+
+  const db = initializeDB(DB)
+
   const data = await db.query.downloadComments.findMany({
     where: (downloadComments, { eq, and, lt }) =>
       and(
@@ -96,9 +106,11 @@ export const getDownloadCommentsByDownloadIdInfinite = async ({
   }
 }
 
-export const getDownloadCommentById = async (id: string) => {
+export const getDownloadCommentById = async (DB: D1Database, input: string) => {
+  const db = initializeDB(DB)
+
   const data = await db.query.downloadComments.findFirst({
-    where: (downloadComments, { eq }) => eq(downloadComments.id, id),
+    where: (downloadComments, { eq }) => eq(downloadComments.id, input),
     with: {
       author: true,
       replies: {
@@ -111,26 +123,29 @@ export const getDownloadCommentById = async (id: string) => {
   return data
 }
 
-export const getDownloadCommentsCount = async () => {
+export const getDownloadCommentsCount = async (DB: D1Database) => {
+  const db = initializeDB(DB)
   const data = await db.select({ value: count() }).from(downloadComments)
   return data[0].value
 }
 
 export const getDownloadCommentsCountByDownloadId = async (
-  downloadId: string,
+  DB: D1Database,
+  input: string,
 ) => {
+  const db = initializeDB(DB)
   const data = await db
     .select({ value: count() })
     .from(downloadComments)
-    .where(
-      and(eq(downloads.id, downloadId), eq(downloadComments.replyToId, "")),
-    )
+    .where(and(eq(downloads.id, input), eq(downloadComments.replyToId, "")))
   return data[0].value
 }
 
 export const createDownloadComment = async (
+  DB: D1Database,
   input: CreateDownloadComment & { authorId: string },
 ) => {
+  const db = initializeDB(DB)
   const data = await db.insert(downloadComments).values({
     id: cuid(),
     downloadId: input.downloadId,
@@ -141,7 +156,11 @@ export const createDownloadComment = async (
   return data
 }
 
-export const updateDownloadComment = async (input: UpdateDownloadComment) => {
+export const updateDownloadComment = async (
+  DB: D1Database,
+  input: UpdateDownloadComment,
+) => {
+  const db = initializeDB(DB)
   const data = await db
     .update(downloadComments)
     .set({
@@ -153,9 +172,10 @@ export const updateDownloadComment = async (input: UpdateDownloadComment) => {
   return data
 }
 
-export const deleteDownloadComment = async (id: string) => {
+export const deleteDownloadComment = async (DB: D1Database, input: string) => {
+  const db = initializeDB(DB)
   const data = await db
     .delete(downloadComments)
-    .where(eq(downloadComments.id, id))
+    .where(eq(downloadComments.id, input))
   return data
 }

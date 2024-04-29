@@ -1,6 +1,6 @@
 import { and, count, eq, sql } from "drizzle-orm"
 
-import { db } from "@/lib/db"
+import { initializeDB } from "@/lib/db"
 import { articles } from "@/lib/db/schema/article"
 import { articleComments } from "@/lib/db/schema/article-comment"
 import { cuid } from "@/lib/utils/id"
@@ -9,13 +9,17 @@ import type {
   UpdateArticleComment,
 } from "@/lib/validation/article-comment"
 
-export const getArticleCommentsDashboard = async ({
-  page,
-  perPage,
-}: {
-  page: number
-  perPage: number
-}) => {
+export const getArticleCommentsDashboard = async (
+  DB: D1Database,
+  input: {
+    page: number
+    perPage: number
+  },
+) => {
+  const { page, perPage } = input
+
+  const db = initializeDB(DB)
+
   const data = await db.query.articleComments.findMany({
     limit: perPage,
     offset: (page - 1) * perPage,
@@ -24,18 +28,22 @@ export const getArticleCommentsDashboard = async ({
       article: true,
     },
   })
+
   return data
 }
 
-export const getArticleCommentsByArticleId = async ({
-  articleId,
-  page,
-  perPage,
-}: {
-  articleId: string
-  page: number
-  perPage: number
-}) => {
+export const getArticleCommentsByArticleId = async (
+  DB: D1Database,
+  input: {
+    articleId: string
+    page: number
+    perPage: number
+  },
+) => {
+  const { articleId, page, perPage } = input
+
+  const db = initializeDB(DB)
+
   const data = await db.query.articleComments.findMany({
     where: (articleComments, { eq }) =>
       eq(articleComments.articleId, articleId),
@@ -51,18 +59,22 @@ export const getArticleCommentsByArticleId = async ({
       },
     },
   })
+
   return data
 }
 
-export const getArticleCommentsByArticleIdInfinite = async ({
-  articleId,
-  limit = 50,
-  cursor,
-}: {
-  articleId: string
-  limit?: number
-  cursor?: string
-}) => {
+export const getArticleCommentsByArticleIdInfinite = async (
+  DB: D1Database,
+  input: {
+    articleId: string
+    limit?: number
+    cursor?: string
+  },
+) => {
+  const { articleId, limit = 10, cursor } = input
+
+  const db = initializeDB(DB)
+
   const data = await db.query.articleComments.findMany({
     where: (articleComments, { eq, and, lt }) =>
       and(
@@ -96,9 +108,10 @@ export const getArticleCommentsByArticleIdInfinite = async ({
   }
 }
 
-export const getArticleCommentById = async (id: string) => {
+export const getArticleCommentById = async (DB: D1Database, input: string) => {
+  const db = initializeDB(DB)
   const data = await db.query.articleComments.findFirst({
-    where: (articleComments, { eq }) => eq(articleComments.id, id),
+    where: (articleComments, { eq }) => eq(articleComments.id, input),
     with: {
       author: true,
       replies: {
@@ -111,22 +124,29 @@ export const getArticleCommentById = async (id: string) => {
   return data
 }
 
-export const getArticleCommentsCount = async () => {
+export const getArticleCommentsCount = async (DB: D1Database) => {
+  const db = initializeDB(DB)
   const data = await db.select({ value: count() }).from(articleComments)
   return data[0].value
 }
 
-export const getArticleCommentsCountByArticleId = async (articleId: string) => {
+export const getArticleCommentsCountByArticleId = async (
+  DB: D1Database,
+  input: string,
+) => {
+  const db = initializeDB(DB)
   const data = await db
     .select({ value: count() })
     .from(articleComments)
-    .where(and(eq(articles.id, articleId), eq(articleComments.replyToId, "")))
+    .where(and(eq(articles.id, input), eq(articleComments.replyToId, "")))
   return data[0].value
 }
 
 export const createArticleComment = async (
+  DB: D1Database,
   input: CreateArticleComment & { authorId: string },
 ) => {
+  const db = initializeDB(DB)
   const data = await db.insert(articleComments).values({
     id: cuid(),
     articleId: input.articleId,
@@ -137,7 +157,11 @@ export const createArticleComment = async (
   return data
 }
 
-export const updateArticleComment = async (input: UpdateArticleComment) => {
+export const updateArticleComment = async (
+  DB: D1Database,
+  input: UpdateArticleComment,
+) => {
+  const db = initializeDB(DB)
   const data = await db
     .update(articleComments)
     .set({
@@ -145,13 +169,13 @@ export const updateArticleComment = async (input: UpdateArticleComment) => {
       updatedAt: sql`CURRENT_TIMESTAMP`,
     })
     .where(eq(articleComments.id, input.id))
-
   return data
 }
 
-export const deleteArticleComment = async (id: string) => {
+export const deleteArticleComment = async (DB: D1Database, input: string) => {
+  const db = initializeDB(DB)
   const data = await db
     .delete(articleComments)
-    .where(eq(articleComments.id, id))
+    .where(eq(articleComments.id, input))
   return data
 }

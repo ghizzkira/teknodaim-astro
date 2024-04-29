@@ -12,8 +12,9 @@ export const DELETE: APIRoute = async (context: APIContext) => {
     const parsedInput = z.string().parse(body)
 
     const user = context.locals.user
+    const DB = context.locals.runtime.env.DB
 
-    const articleComment = await getArticleCommentById(parsedInput)
+    const articleComment = await getArticleCommentById(DB, parsedInput)
 
     if (!user) {
       return new Response(null, {
@@ -27,7 +28,7 @@ export const DELETE: APIRoute = async (context: APIContext) => {
       })
     }
 
-    const data = await deleteArticleComment(parsedInput)
+    const data = await deleteArticleComment(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

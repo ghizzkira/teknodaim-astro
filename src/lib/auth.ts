@@ -2,11 +2,15 @@ import { DrizzleSQLiteAdapter } from "@lucia-auth/adapter-drizzle"
 import { Google } from "arctic"
 import { Lucia } from "lucia"
 
-import { initializeDB } from "@/lib/db"
+import { initializeDBWithoutSchema } from "@/lib/db"
 import { sessions, users } from "@/lib/db/schema"
 import type { UserRole } from "@/lib/validation/user"
 
-const adapter = new DrizzleSQLiteAdapter(initializeDB, sessions, users)
+const adapter = new DrizzleSQLiteAdapter(
+  initializeDBWithoutSchema,
+  sessions,
+  users,
+)
 
 export const auth = new Lucia(adapter, {
   sessionCookie: {

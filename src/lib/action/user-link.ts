@@ -1,17 +1,19 @@
 import { eq, sql } from "drizzle-orm"
 
-import { db } from "@/lib/db"
+import { initializeDB } from "@/lib/db"
 import { userLinks } from "@/lib/db/schema/user-link"
 import { cuid } from "@/lib/utils/id"
 import type { CreateUserLink, UpdateUserLink } from "@/lib/validation/user-link"
 
-export const getUserLinksDashboard = async ({
-  page,
-  perPage,
-}: {
-  page: number
-  perPage: number
-}) => {
+export const getUserLinksDashboard = async (
+  DB: D1Database,
+  input: {
+    page: number
+    perPage: number
+  },
+) => {
+  const { page, perPage } = input
+  const db = initializeDB(DB)
   const data = await db.query.userLinks.findMany({
     limit: perPage,
     offset: (page - 1) * perPage,
@@ -20,9 +22,10 @@ export const getUserLinksDashboard = async ({
   return data
 }
 
-export const getUserLinkById = async (id: string) => {
+export const getUserLinkById = async (DB: D1Database, input: string) => {
+  const db = initializeDB(DB)
   const data = await db.query.userLinks.findFirst({
-    where: (userLinks, { eq }) => eq(userLinks.id, id),
+    where: (userLinks, { eq }) => eq(userLinks.id, input),
     with: {
       user: true,
     },
@@ -31,13 +34,15 @@ export const getUserLinkById = async (id: string) => {
   return data
 }
 
-export const searchUserLinks = async ({
-  userId,
-  searchQuery,
-}: {
-  userId: string
-  searchQuery: string
-}) => {
+export const searchUserLinks = async (
+  DB: D1Database,
+  input: {
+    userId: string
+    searchQuery: string
+  },
+) => {
+  const { userId, searchQuery } = input
+  const db = initializeDB(DB)
   const data = await db.query.userLinks.findMany({
     where: (userLinks, { and, or, like }) =>
       and(
@@ -53,8 +58,10 @@ export const searchUserLinks = async ({
 }
 
 export const createUserLink = async (
+  DB: D1Database,
   input: CreateUserLink & { userId: string },
 ) => {
+  const db = initializeDB(DB)
   const data = await db.insert(userLinks).values({
     id: cuid(),
     title: input.title,
@@ -64,7 +71,8 @@ export const createUserLink = async (
   return data
 }
 
-export const updateUserLink = async (input: UpdateUserLink) => {
+export const updateUserLink = async (DB: D1Database, input: UpdateUserLink) => {
+  const db = initializeDB(DB)
   const data = await db
     .update(userLinks)
     .set({
@@ -75,7 +83,8 @@ export const updateUserLink = async (input: UpdateUserLink) => {
   return data
 }
 
-export const deleteUserLink = async (id: string) => {
-  const data = await db.delete(userLinks).where(eq(userLinks.id, id))
+export const deleteUserLink = async (DB: D1Database, input: string) => {
+  const db = initializeDB(DB)
+  const data = await db.delete(userLinks).where(eq(userLinks.id, input))
   return data
 }

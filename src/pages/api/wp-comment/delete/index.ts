@@ -5,12 +5,13 @@ import { deleteWpComment, getWpCommentById } from "@/lib/action/wp-comment"
 
 export const DELETE: APIRoute = async (context: APIContext) => {
   try {
+    const DB = context.locals.runtime.env.DB
     const body = await context.request.json()
     const parsedInput = z.string().parse(body)
 
     const user = context.locals.user
 
-    const wpComment = await getWpCommentById(parsedInput)
+    const wpComment = await getWpCommentById(DB, parsedInput)
 
     if (!user) {
       return new Response(null, {
@@ -24,7 +25,7 @@ export const DELETE: APIRoute = async (context: APIContext) => {
       })
     }
 
-    const data = await deleteWpComment(parsedInput)
+    const data = await deleteWpComment(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

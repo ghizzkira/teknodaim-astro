@@ -9,6 +9,7 @@ import { slugifyFile } from "@/lib/utils/slug"
 export const POST: APIRoute = async (context: APIContext) => {
   try {
     const user = context.locals.user
+    const DB = context.locals.runtime.env.DB
 
     if (!user?.role.includes("admin" || "author")) {
       return new Response(null, {
@@ -44,7 +45,7 @@ export const POST: APIRoute = async (context: APIContext) => {
       contentType: defaultFileType,
     })
 
-    const data = await createMedia({
+    const data = await createMedia(DB, {
       name: uniqueFileName,
       url: "https://" + import.meta.env.R2_DOMAIN + "/" + uniqueFileName,
       type: defaultFileType,

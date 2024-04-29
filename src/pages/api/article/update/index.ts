@@ -6,6 +6,7 @@ import { updateArticleSchema } from "@/lib/validation/article"
 
 export const PUT: APIRoute = async (context: APIContext) => {
   try {
+    const DB = context.locals.runtime.env.DB
     const user = context.locals.user
 
     if (!user?.role.includes("admin")) {
@@ -16,7 +17,7 @@ export const PUT: APIRoute = async (context: APIContext) => {
 
     const body = await context.request.json()
     const parsedInput = updateArticleSchema.parse(body)
-    const data = await updateArticle(parsedInput)
+    const data = await updateArticle(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

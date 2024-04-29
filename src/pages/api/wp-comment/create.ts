@@ -6,11 +6,12 @@ import { createWpCommentSchema } from "@/lib/validation/wp-comment"
 
 export const POST: APIRoute = async (context: APIContext) => {
   try {
+    const DB = context.locals.runtime.env.DB
     const user = context.locals.user
 
     const body = await context.request.json()
     const parsedInput = createWpCommentSchema.parse(body)
-    const data = await createWpComment({
+    const data = await createWpComment(DB, {
       authorId: user?.id!,
       ...parsedInput,
     })
