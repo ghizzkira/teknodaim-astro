@@ -1,0 +1,107 @@
+---
+ 
+import Author from "@/components/Template/Author.astro"
+import MainLayout from "@/layouts/MainLayout.astro"
+ 
+import { wpGetPostsByAuthorSlugAction } from "@/lib/wp/action/wp-post"
+import {
+ wpGetUserBySlugAction,
+ } from "@/lib/wp/action/wp-user"
+
+const { slug } = Astro.params
+
+export const prerender = false
+
+const { user } = await wpGetUserBySlugAction(slug as unknown as string)
+
+if (!user) {
+return Astro.redirect("/404")
+}
+// const userData = await api.user.byUsername({
+//   username: slug,
+//   language: locale,
+// })
+
+const { posts, pageInfo } = await wpGetPostsByAuthorSlugAction(
+  slug as unknown as string,
+  "",
+  `EN`,
+)
+
+const postJsonLdString = user?.seo?.schema?.raw
+const regexId = new RegExp(import.meta.env.PUBLIC_WP_DOMAIN, "g")
+const regexEn = new RegExp(import.meta.env.PUBLIC_WP_EN_SUBDOMAIN, "g")
+const postJsonLd = postJsonLdString
+  ?.replace(regexId, import.meta.env.PUBLIC_DOMAIN)
+  ?.replace(regexEn, import.meta.env.PUBLIC_EN_SUBDOMAIN)
+
+// const adsBelowHeader = await api.ad.byPosition("topic_below_header")
+// const facebook = userData?.facebook ?? user.seo?.social?.facebook
+// const hidePostsData = userData?.x ?? user.seo?.social?.twitter
+// const queriesDatas = await api.setting.byKey("filter_post")
+
+// let queriesFilter: { queries: string[] } | undefined
+
+// if (queriesDatas) {
+//   const parsedData = JSON.parse(queriesDatas.value)
+//   queriesFilter = { ...parsedData }
+// }
+
+// const data = await api.setting.byKey("featured_categories")
+
+// let featuredCategories: WpCategoriesDataProps[] | undefined
+// if (data) {
+//   const parsedData = JSON.parse(data.value)
+//   featuredCategories =
+//     locale === "id" ? parsedData?.categories?.id : parsedData?.categories?.en
+// }
+---
+
+<MainLayout
+  locale="en"
+  seo={{
+    title: user?.name,
+    description: user?.description,
+    languageAlternates: [
+      {
+        href: `${import.meta.env.PUBLIC_SITE_URL}/author/${user?.slug}`,
+        hrefLang: "id",
+      },
+      {
+        href: `${import.meta.env.PUBLIC_EN_SITE_URL}/author/${user?.slug}`,
+        hrefLang: "en",
+      },
+    ],
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/author/${user?.slug}`,
+    openGraph: {
+      basic: {
+        title: user?.name ?? "",
+        url: `${import.meta.env.PUBLIC_SITE_URL}/author/${user?.slug}`,
+        type: "article",
+        image: "dd",
+      },
+      optional: {
+        description: user?.description,
+        locale: "en",
+      },
+    },
+  }}
+>
+  {
+    postJsonLd && (
+      <script
+        is:inline
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: postJsonLd }}
+      />
+    )
+  }
+  <Author
+  posts={posts}
+  pageInfo={pageInfo}  
+  locale={"en"}
+  user={user}
+  slug={slug!}
+
+  />
+</MainLayout>

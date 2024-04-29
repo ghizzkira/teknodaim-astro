@@ -1,6 +1,9 @@
 import * as React from "react"
 
-import { rewriteUrlLocale } from "@/lib/internationalization/route"
+import Link from "@/components/Link"
+
+import "@/lib/internationalization/route"
+
 import type { LanguageType } from "@/lib/validation/language"
 
 interface WpPostCardSideProps {
@@ -17,10 +20,11 @@ const WpPostCardSide: React.FunctionComponent<WpPostCardSideProps> = React.memo(
     const { src, alt, uri, title, locale } = props
 
     return (
-      <a
+      <Link
+        locale={locale}
         aria-label={`Go To ${title} Page`}
         role="link"
-        href={rewriteUrlLocale(locale, uri)}
+        href={uri}
       >
         <article className="mb-4 flex w-full border-separate flex-col rounded-lg">
           <div className="relative flex max-w-xs flex-col space-y-3 md:max-w-3xl md:flex-row md:space-x-4 md:space-y-0">
@@ -40,7 +44,7 @@ const WpPostCardSide: React.FunctionComponent<WpPostCardSideProps> = React.memo(
             </div>
           </div>
         </article>
-      </a>
+      </Link>
     )
   },
 )

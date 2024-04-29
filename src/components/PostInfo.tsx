@@ -4,6 +4,7 @@ import Image from "@/components/Image"
 import { Icon } from "@/components/UI/Icon"
 import { formatDateFromNow } from "@/lib/utils/date"
 import type { LanguageType } from "@/lib/validation/language"
+import Link from "./Link"
 
 interface PostInfoProps extends React.HTMLAttributes<HTMLDivElement> {
   authorName: string
@@ -21,7 +22,8 @@ const PostInfo: React.FunctionComponent<PostInfoProps> = (props) => {
       <div className="my-2 flex flex-row items-center gap-2">
         <div className="flex flex-row items-center">
           {authorAvatarUrl && (
-            <a
+            <Link
+              locale={locale}
               aria-label={authorName}
               href={`/video/author/${authorSlug}`}
               className="relative block h-[40px] w-[40px] "
@@ -34,12 +36,16 @@ const PostInfo: React.FunctionComponent<PostInfoProps> = (props) => {
                 width={"40"}
                 height={"40"}
               />
-            </a>
+            </Link>
           )}
           <div className="ml-[5px] flex flex-col">
-            <a aria-label={authorName} href={`/video/author/${authorSlug}`}>
+            <Link
+              locale={locale}
+              aria-label={authorName}
+              href={`/video/author/${authorSlug}`}
+            >
               <h2 className="ml-2 !text-base">{authorName}</h2>
-            </a>
+            </Link>
             {date && (
               <div>
                 <Icon.AccessTime

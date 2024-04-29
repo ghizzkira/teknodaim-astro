@@ -1,6 +1,7 @@
 import * as React from "react"
 
 import Image from "@/components/Image"
+import Link from "@/components/Link"
 import type { SelectDownload as DownloadProps } from "@/lib/db/schema/download"
 import type { SelectMedia as MediaProps } from "@/lib/db/schema/media"
 import type { LanguageType } from "@/lib/validation/language"
@@ -22,7 +23,8 @@ const DownloadCardSearch: React.FunctionComponent<DownloadCardSearchProps> = (
   const { title, slug, featured_image } = download
 
   return (
-    <a
+    <Link
+      locale={locale}
       aria-label={title}
       href={
         locale === "id"
@@ -45,7 +47,7 @@ const DownloadCardSearch: React.FunctionComponent<DownloadCardSearchProps> = (
           <h3 className="mb-2 text-lg font-medium">{title}</h3>
         </div>
       </div>
-    </a>
+    </Link>
   )
 }
 

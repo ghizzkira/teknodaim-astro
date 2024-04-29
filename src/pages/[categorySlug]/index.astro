@@ -14,11 +14,7 @@ import {
 import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
 
  
-const { categorySlug ,locale } = Astro.params
-
-if(!LANGUAGE_TYPE.includes(locale!)){
-  return Astro.redirect('/404')
-}
+const { categorySlug } = Astro.params
 
 
 
@@ -26,58 +22,35 @@ export const prerender = false
 const { category: main_category, other_lang_category } =
   await wpGetCategoryBySlugAction(categorySlug as unknown as string)
 
-// if (!main_category && !other_lang_category) {
-//   notFound()
-// }
+ 
 if (!main_category && !other_lang_category) {
   return Astro.redirect('/404');
 }
 let category 
 
-if (locale === "id") {
-  if (
+
+
+if (
     main_category &&
     categorySlug === main_category.slug &&
-    main_category.language.slug.toLocaleLowerCase() === locale
+    main_category.language.slug.toLocaleLowerCase() === "id"
   ) {
     category = main_category
   } else if (
     other_lang_category &&
     categorySlug === other_lang_category.slug &&
-    other_lang_category.language.slug.toLocaleLowerCase() === locale
+    other_lang_category.language.slug.toLocaleLowerCase() === "id"
   ) {
     category = other_lang_category
   } else if (
     main_category &&
     categorySlug === main_category.slug &&
-    main_category.language.slug.toLocaleLowerCase() !== locale
-  ) {
-    if (other_lang_category)
-      return Astro.redirect(`/id/${other_lang_category?.slug}`)
-  }  
-} else if (locale === "en") {
-  if (
-    main_category &&
-    categorySlug === main_category.slug &&
-    main_category.language.slug.toLocaleLowerCase() === locale
-  ) {
-    category = main_category
-  } else if (
-    other_lang_category &&
-    categorySlug === other_lang_category.slug &&
-    other_lang_category.language.slug.toLocaleLowerCase() === locale
-  ) {
-    category = other_lang_category
-  } else if (
-    main_category &&
-    categorySlug === main_category.slug &&
-    main_category.language.slug.toLocaleLowerCase() !== locale
+    main_category.language.slug.toLocaleLowerCase() !== "id"
   ) {
     if (other_lang_category) {
-      return Astro.redirect(`/en/${other_lang_category.slug}`)
+      return Astro.redirect(`/${other_lang_category.slug}`)
     }
   } 
-}
 
 if (!category) {
   return Astro.redirect("/")
@@ -90,7 +63,7 @@ if (!category) {
 // })
 // FIX: to 7 days
 const trendingPosts = await getWpPopularPosts({
-  language: locale,
+  language: "id",
   page: 1,
   perPage: 10,
 })
@@ -104,7 +77,7 @@ const categoryJsonLd = categoryJsonLdString
 const { posts, pageInfo } = await wpGetPostsByCategoryIdAction(
   (category as WpCategoriesDataProps)?.id,
   "",
-  locale?.toLocaleUpperCase(),
+  "ID",
 )
 
 // const adsBelowHeader = await api.ad.byPosition("topic_below_header")
@@ -146,6 +119,7 @@ const { posts, pageInfo } = await wpGetPostsByCategoryIdAction(
 ---
 
 <MainLayout 
+locale="id"
 seo={{
   title: category?.name,
   description: category?.description,
@@ -169,17 +143,18 @@ seo={{
     },
     optional: {
       description: category?.description,
-      locale: "EN",
+      locale: "id",
     },
   },
 }}>
-  <!-- {
+  {
     categoryJsonLd && (
       <script
+      is:inline
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: categoryJsonLd }}
       />
     )
-  } -->
-  <Category posts={posts} pageInfo={pageInfo} category={category} locale="en" trendingPosts={trendingPosts} />
+  }
+  <Category posts={posts} pageInfo={pageInfo} category={category} locale="id" trendingPosts={trendingPosts} />
 </MainLayout>

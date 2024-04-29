@@ -31,14 +31,14 @@ const titleDefault = seo?.titleDefault ?? `${import.meta.env.PUBLIC_SITE_TITLE}`
     <title>{title}</title>
     <ViewTransitions fallback="swap" />
     {
-      import.meta.env.APP_ENV = "production" && (
+      (import.meta.env.APP_ENV = "production" && (
         <>
           <script
             is:inline
             type="text/partytown"
             async
-            src=`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.PUBLIC_GA_MEASUREMENT_ID}`
-          ></script>
+            src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.PUBLIC_GA_MEASUREMENT_ID}`}
+          />
           <script is:inline type="text/partytown">
             {`
           window.dataLayer = window.dataLayer || [];
@@ -50,7 +50,7 @@ const titleDefault = seo?.titleDefault ?? `${import.meta.env.PUBLIC_SITE_TITLE}`
           `}
           </script>
         </>
-      )
+      ))
     }
   </head>
   <body class="antialiased font-400 font-sans">

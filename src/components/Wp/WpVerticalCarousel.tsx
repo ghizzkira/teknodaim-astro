@@ -1,8 +1,11 @@
 import * as React from "react"
 
+import Link from "@/components/Link"
 import { Button } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
-import { rewriteUrlLocale } from "@/lib/internationalization/route"
+
+import "@/lib/internationalization/route"
+
 import type { LanguageType } from "@/lib/validation/language"
 import type { WpSinglePostDataProps } from "@/lib/wp/action/wp-types"
 import { splitUriWP } from "@/lib/wp/helper"
@@ -58,10 +61,11 @@ const WpVerticalCarousel: React.FunctionComponent<WpVerticalCarouselProps> = (
             return null
           }
           return (
-            <a
+            <Link
+              locale={locale}
               aria-label={article.title}
               key={index}
-              href={rewriteUrlLocale(locale!, newUri)}
+              href={newUri}
             >
               <h1
                 className={`absolute left-0 top-0 line-clamp-1 w-full transform text-ellipsis bg-background text-[13px] text-primary opacity-100 ${
@@ -75,7 +79,7 @@ const WpVerticalCarousel: React.FunctionComponent<WpVerticalCarouselProps> = (
               >
                 {article.title}
               </h1>
-            </a>
+            </Link>
           )
         })}
       </div>

@@ -1,11 +1,13 @@
 import * as React from "react"
 
+import Link from "@/components/Link"
 //  import { type Menu as MenuProps } from "@prisma/client"
 
 // import Image from "@/components/Image"
 // import LanguageSwitcher from "@/components/language-switcher"
 import { Button } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
+import type { LanguageType } from "@/lib/validation/language"
 
 // import env from "@/env"
 // import ThemeSwitcher from "@/components/theme/theme-switcher"
@@ -38,6 +40,7 @@ interface SideNavProps {
   //   | null
   type?: "default" | "video" | "shorts" | "video-content"
   toggleSideNav?: () => void
+  locale: LanguageType
 }
 
 const SideNav: React.FunctionComponent<SideNavProps> = (props) => {
@@ -48,6 +51,7 @@ const SideNav: React.FunctionComponent<SideNavProps> = (props) => {
     // menuSideBarShopAll,
     // menuSideBarShopByLang,
     type = "default",
+    locale,
     toggleSideNav,
   } = props
 
@@ -265,7 +269,8 @@ const SideNav: React.FunctionComponent<SideNavProps> = (props) => {
       </div>
       <ul className="flex flex-col space-y-3 border-b border-border p-4">
         <li>
-          <a
+          <Link
+            locale={locale}
             role="link"
             aria-label="Go To Download Page"
             href="/download"
@@ -278,10 +283,11 @@ const SideNav: React.FunctionComponent<SideNavProps> = (props) => {
               />
               Download
             </p>
-          </a>
+          </Link>
         </li>
         <li>
-          <a
+          <Link
+            locale={locale}
             role="link"
             aria-label="Go To Video Page"
             href="/video"
@@ -294,10 +300,11 @@ const SideNav: React.FunctionComponent<SideNavProps> = (props) => {
               />
               Video
             </p>
-          </a>
+          </Link>
         </li>
         <li>
-          <a
+          <Link
+            locale={locale}
             role="link"
             aria-label="Go To Shop Page"
             href="/shop"
@@ -307,12 +314,13 @@ const SideNav: React.FunctionComponent<SideNavProps> = (props) => {
               <Icon.Shop aria-label="Go To Shop Page" className={stylesIcons} />
               Shop
             </p>
-          </a>
+          </Link>
         </li>
       </ul>
       <ul className="flex flex-col space-y-3 border-b border-muted p-4">
         <li>
-          <a
+          <Link
+            locale={locale}
             aria-label="About Us"
             href="/about"
             role="link"
@@ -321,10 +329,11 @@ const SideNav: React.FunctionComponent<SideNavProps> = (props) => {
             <p className="inline-flex items-center font-bold hover:text-primary">
               About Us
             </p>
-          </a>
+          </Link>
         </li>
         <li>
-          <a
+          <Link
+            locale={locale}
             aria-label="Contact"
             href="/contact"
             role="link"
@@ -333,10 +342,11 @@ const SideNav: React.FunctionComponent<SideNavProps> = (props) => {
             <p className="inline-flex items-center font-bold hover:text-primary">
               Contact
             </p>
-          </a>
+          </Link>
         </li>
         <li>
-          <a
+          <Link
+            locale={locale}
             aria-label="Privacy"
             href="/privacy"
             role="link"
@@ -345,7 +355,7 @@ const SideNav: React.FunctionComponent<SideNavProps> = (props) => {
             <p className="inline-flex items-center font-bold hover:text-primary">
               Privacy Policy
             </p>
-          </a>
+          </Link>
         </li>
       </ul>
     </nav>

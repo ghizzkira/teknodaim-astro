@@ -87,14 +87,14 @@ const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
     class="mx-auto mt-5 flex w-full flex-row md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] lg:mx-auto lg:px-4 min-[1200px]:max-w-[1170px]"
   >
     <div class="flex w-full flex-col px-4 lg:w-8/12">
-      {listPost && <WpListPost locale={"id"} posts={listPost} />}
+      {listPost && <WpListPost locale={locale!} posts={listPost} />}
       {
         infinitePosts && category && pageInfo && (
           <InfiniteScrollWpPostsCategory
             posts={infinitePosts}
             id={category.slug}
             pageInfo={pageInfo}
-            language={"ID"}
+            language={locale!}
             client:load
           />
         )
@@ -123,7 +123,7 @@ const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
                 alt={post?.title!}
                 uri={`/${post.primaryCategorySlug}/${post.slug}`}
                 title={post?.title!}
-                locale={locale}
+                locale={locale!}
               />
             )
           })

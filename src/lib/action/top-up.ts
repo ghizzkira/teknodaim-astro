@@ -325,7 +325,9 @@ export const createDigiflazzDeposit = async (
   return data
 }
 
-export const createDigiflazzTopUpTransaction = async (input: CreateTopUpDigiflazzTransaction) => {
+export const createDigiflazzTopUpTransaction = async (
+  input: CreateTopUpDigiflazzTransaction,
+) => {
   const res = (await digiflazz.transaksi({
     sku: input.sku,
     customerNo: input.customerNo,

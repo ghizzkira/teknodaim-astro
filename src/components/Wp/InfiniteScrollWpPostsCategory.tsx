@@ -1,6 +1,7 @@
 import * as React from "react"
 
 import PlaceholderPostCard from "@/components/Placeholder/PlaceholderPostCard"
+import type { LanguageType } from "@/lib/validation/language"
 // import type { LanguageType } from "@/lib/validation/language"
 import { wpGetPostsByCategorySlugAction } from "@/lib/wp/action/wp-post"
 import type {
@@ -16,7 +17,7 @@ interface InfiniteScrollWpPostsCategoryProps
   id?: string
   posts: WpSinglePostDataProps[]
   pageInfo: WPPageInfoProps
-  language: string
+  language: LanguageType
   filteredQueries?: string[]
 }
 

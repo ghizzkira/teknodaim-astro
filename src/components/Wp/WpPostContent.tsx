@@ -2,13 +2,16 @@ import * as React from "react"
 
 import BadgeIcon from "@/components/BadgeIcon"
 import Image from "@/components/Image"
+import Link from "@/components/Link"
 import StaticShare from "@/components/Share/StaticShare"
 // import Image from "@/components/Image"
 // import StaticShare from "@/components/Share/StaticShare"
 import { Button } from "@/components/UI/Button"
 // import { ButtonGroup } from "@/components/UI/ButtonGroup"
 import { Skeleton } from "@/components/UI/Skeleton"
-import { rewriteUrlLocale } from "@/lib/internationalization/route"
+
+import "@/lib/internationalization/route"
+
 import { cn } from "@/lib/utils/style"
 import type { LanguageType } from "@/lib/validation/language"
 import type {
@@ -128,13 +131,14 @@ const WpPostContent: React.FunctionComponent<WpPostContentProps> = React.memo(
                         "mb-2 h-auto rounded-full bg-muted !px-[9px] !py-[5px] uppercase text-foreground transition-all duration-300 ease-in-out hover:bg-main hover:text-white",
                       )}
                     >
-                      <a
-                        href={rewriteUrlLocale(locale, `/${category.slug}`)}
+                      <Link
+                        locale={locale}
+                        href={`/${category.slug}`}
                         aria-label={`Open ${category.name}`}
                         className="text-[11px] leading-[1]"
                       >
                         {category.name}
-                      </a>
+                      </Link>
                     </Button>
                   )
                 }
@@ -245,12 +249,13 @@ const WpPostContent: React.FunctionComponent<WpPostContentProps> = React.memo(
                     "h-auto rounded-md bg-main !px-[9px] !py-[5px] text-[11px] uppercase text-info-foreground hover:bg-main",
                   )}
                 >
-                  <a
+                  <Link
+                    locale={locale}
                     aria-label={`Open ${tag.name}`}
-                    href={rewriteUrlLocale(locale, wpTagPathBySlug(tag.slug))}
+                    href={wpTagPathBySlug(tag.slug)}
                   >
                     {tag.name}
-                  </a>
+                  </Link>
                 </Button>
               )
             })}
@@ -331,17 +336,15 @@ const WpPostContent: React.FunctionComponent<WpPostContentProps> = React.memo(
                         className="border-b-2 border-border"
                         key={post.title}
                       >
-                        <a
+                        <Link
+                          locale={locale}
                           aria-label={post.title}
-                          href={rewriteUrlLocale(
-                            locale,
-                            splitUriWP(post.uri, post.slug),
-                          )}
+                          href={splitUriWP(post.uri, post.slug)}
                         >
                           <p className="font-semibold hover:text-primary">
                             {post.title}
                           </p>
-                        </a>
+                        </Link>
                       </article>
                     )
                   })}

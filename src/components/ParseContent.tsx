@@ -7,9 +7,9 @@ import { Parser, ProcessNodeDefinitions } from "html-to-react"
 // } from "@/components/Embed/TwitterEmbed"
 // import YoutubeEmbed from "@/components/Embed/YoutubeEmbed"
 import { Button } from "@/components/UI/Button"
-import { rewriteUrlLocale } from "@/lib/internationalization/route"
 import { cn } from "@/lib/utils/style"
 import type { LanguageType } from "@/lib/validation/language"
+import Link from "./Link"
 
 const htmlToReactParser = Parser()
 
@@ -56,20 +56,20 @@ const ParseContent: React.FunctionComponent<ParseContentProps> = (props) => {
           import.meta.env?.PUBLIC_WP_EN_SUBDOMAIN ?? "",
         )
         return (
-          <a
-            href={rewriteUrlLocale(
-              locale,
+          <Link
+            locale={locale}
+            href={
               node.attribs?.href
                 ?.replace(regexId, import.meta.env?.PUBLIC_DOMAIN ?? "")
                 ?.replace(
                   regexEn,
                   import.meta.env?.PUBLIC_EN_SUBDOMAIN ?? "",
-                ) ?? "#",
-            )}
+                ) ?? "#"
+            }
             key={index + title + "a"}
           >
             {children}
-          </a>
+          </Link>
         )
       },
     },

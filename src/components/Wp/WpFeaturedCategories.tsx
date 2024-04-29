@@ -1,8 +1,8 @@
 import * as React from "react"
 
+import Link from "@/components/Link"
 import { Button } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
-import { rewriteUrlLocale } from "@/lib/internationalization/route"
 import { cn } from "@/lib/utils/style"
 import type { LanguageType } from "@/lib/validation/language"
 import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
@@ -139,12 +139,13 @@ const WpFeaturedCategories: React.FunctionComponent<
                 variant="outline"
                 asChild
               >
-                <a
+                <Link
+                  locale={locale}
                   aria-label={topic.name}
-                  href={rewriteUrlLocale(locale!, `/${topic.slug}`)}
+                  href={`/${topic.slug}`}
                 >
                   {topic.name}
-                </a>
+                </Link>
               </Button>
             </li>
           )

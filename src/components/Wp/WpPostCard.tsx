@@ -2,8 +2,11 @@ import * as React from "react"
 
 import BadgeIcon from "@/components/BadgeIcon"
 import Image from "@/components/Image"
+import Link from "@/components/Link"
 import { Icon } from "@/components/UI/Icon"
-import { rewriteUrlLocale } from "@/lib/internationalization/route"
+
+import "@/lib/internationalization/route"
+
 import { formatDateFromNow } from "@/lib/utils/date"
 import type { LanguageType } from "@/lib/validation/language"
 import WpPostView from "./WpPostView"
@@ -68,9 +71,10 @@ const WpPostCard: React.FunctionComponent<WpPostCardProps> = React.memo(
           <div className="relative flex w-full flex-col">
             <div className="w-full">
               <div className="relative aspect-[16/9] h-auto w-full">
-                <a
+                <Link
+                  locale={locale}
                   role="link"
-                  href={rewriteUrlLocale(locale, uri)}
+                  href={uri}
                   aria-label={`Go To ${title} Page`}
                   className="relative block h-full w-full"
                 >
@@ -82,32 +86,35 @@ const WpPostCard: React.FunctionComponent<WpPostCardProps> = React.memo(
                     width={"500"}
                     height={"500"}
                   />
-                </a>
+                </Link>
                 <BadgeIcon
                   name={categoryName}
                   slug={categoryUri}
                   className={stylesIcons}
+                  locale={locale}
                 />
-                <a
+                <Link
+                  locale={locale}
                   role="link"
                   aria-label={categoryName}
                   className="absolute bottom-0 left-0 block bg-main px-1 py-0.5 text-white"
-                  href={rewriteUrlLocale(locale, categoryUri)}
+                  href={categoryUri}
                 >
                   {categoryName}
-                </a>
+                </Link>
               </div>
             </div>
             <div className="mt-[15px] flex flex-col">
-              <a
+              <Link
+                locale={locale}
                 role="link"
                 aria-label={`Go To ${title} Page`}
-                href={rewriteUrlLocale(locale, uri)}
+                href={uri}
               >
                 <h2 className="line-clamp-3 text-[25px] font-bold leading-[1.35] hover:text-primary md:text-[1.55em] md:leading-8">
                   {title}
                 </h2>
-              </a>
+              </Link>
               <div className="flex-column mt-2.5 flex">
                 <div className="flex flex-row items-center">
                   {authorName && (
@@ -123,13 +130,14 @@ const WpPostCard: React.FunctionComponent<WpPostCardProps> = React.memo(
                             />
                           </div>
                         )}
-                        <a
+                        <Link
+                          locale={locale}
                           role="link"
                           aria-label={authorName}
-                          href={rewriteUrlLocale(locale, authorUri)}
+                          href={authorUri}
                         >
                           <h3 className="ml-2 text-[12px]">{authorName}</h3>
-                        </a>
+                        </Link>
                       </div>
                     </>
                   )}
@@ -169,8 +177,9 @@ const WpPostCard: React.FunctionComponent<WpPostCardProps> = React.memo(
         <div className="relative flex w-full flex-row justify-between lg:justify-start">
           <div className="order-2 md:order-1">
             <div className="relative aspect-[4/3] h-auto w-[125px] md:w-[220px] lg:w-[270px]">
-              <a
-                href={rewriteUrlLocale(locale, uri)}
+              <Link
+                locale={locale}
+                href={uri}
                 role="link"
                 aria-label={`Go To ${title} Page`}
                 className="relative block h-full w-full"
@@ -182,30 +191,28 @@ const WpPostCard: React.FunctionComponent<WpPostCardProps> = React.memo(
                   width={"500"}
                   height={"500"}
                 />
-              </a>
+              </Link>
               <BadgeIcon
                 name={categoryName}
                 slug={categoryUri}
                 className={stylesIcons}
+                locale={locale}
               />
             </div>
           </div>
           <div className="order-1 mr-3 flex flex-col md:order-2 md:ml-[30px] md:mr-[unset]">
             <div className="hidden md:block">
-              <a
+              <Link
+                locale={locale}
                 role="link"
                 aria-label={categoryName}
-                href={rewriteUrlLocale(locale, categoryUri)}
+                href={categoryUri}
                 className="text-[12px] font-bold text-main"
               >
                 {categoryName}
-              </a>
+              </Link>
             </div>
-            <a
-              role="link"
-              aria-label={title}
-              href={rewriteUrlLocale(locale, uri)}
-            >
+            <Link locale={locale} role="link" aria-label={title} href={uri}>
               <h2 className="line-clamp-4 text-[18px] font-bold leading-[20px] hover:text-primary md:text-xl md:leading-[27px] lg:text-2xl">
                 {title}
               </h2>
@@ -213,7 +220,7 @@ const WpPostCard: React.FunctionComponent<WpPostCardProps> = React.memo(
                 className="text-muted-900 hidden text-[15px] md:my-2.5 md:line-clamp-2 lg:line-clamp-4"
                 dangerouslySetInnerHTML={{ __html: excerpt }}
               />
-            </a>
+            </Link>
             <div className="flex flex-row items-center  max-md:mt-[10px]">
               {authorName && (
                 <>
@@ -228,13 +235,14 @@ const WpPostCard: React.FunctionComponent<WpPostCardProps> = React.memo(
                         />
                       </div>
                     )}
-                    <a
+                    <Link
+                      locale={locale}
                       role="link"
                       aria-label={authorName}
-                      href={rewriteUrlLocale(locale, authorUri)}
+                      href={authorUri}
                     >
                       <h3 className="ml-2 text-[12px]">{authorName}</h3>
-                    </a>
+                    </Link>
                   </div>
                 </>
               )}

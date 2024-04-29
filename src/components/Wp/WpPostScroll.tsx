@@ -2,6 +2,7 @@ import * as React from "react"
 
 // import type { AdProps } from "@/components/ad/ad"
 import Image from "@/components/Image"
+import Link from "@/components/Link"
 import PostInfo from "@/components/PostInfo"
 import StaticShare from "@/components/Share/StaticShare"
 import { Button } from "@/components/UI/Button"
@@ -91,13 +92,14 @@ const WpPostScroll = React.memo(
                   )}
                   asChild
                 >
-                  <a
+                  <Link
+                    locale={locale}
                     aria-label={category.name}
                     className="text-[11px] leading-[1]"
                     href={`/${category.slug}`}
                   >
                     {category.name}
-                  </a>
+                  </Link>
                 </Button>
               )
             }
@@ -163,9 +165,13 @@ const WpPostScroll = React.memo(
           </section>
           <div className="relative my-4 flex justify-center from-60% to-40% before:absolute before:bottom-[99%] before:right-0 before:block before:h-[150px] before:w-full before:bg-gradient-to-t before:from-background  before:to-transparent">
             <Button asChild aria-label="Read more" type="button">
-              <a aria-label="Read more" href={`/${primaryData?.slug}/${slug}`}>
+              <Link
+                locale={locale}
+                aria-label="Read more"
+                href={`/${primaryData?.slug}/${slug}`}
+              >
                 Read more
-              </a>
+              </Link>
             </Button>
           </div>
         </div>

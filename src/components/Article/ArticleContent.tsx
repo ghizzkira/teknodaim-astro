@@ -2,6 +2,7 @@ import * as React from "react"
 
 import Ad from "@/components/Ad"
 import Image from "@/components/Image"
+import Link from "@/components/Link"
 import StaticShare from "@/components/Share/StaticShare"
 import { Button } from "@/components/UI/Button"
 import { ButtonGroup } from "@/components/UI/ButtonGroup"
@@ -84,13 +85,14 @@ export const ArticleContent: React.FunctionComponent<ArticleContentProps> = (
                   )}
                   asChild
                 >
-                  <a
+                  <Link
+                    locale={locale}
                     aria-label={category.title}
                     className="text-[11px]"
                     href={`/article/topic/${category.slug}`}
                   >
                     {category.title}
-                  </a>
+                  </Link>
                 </Button>
               )
             }
@@ -172,11 +174,15 @@ export const ArticleContent: React.FunctionComponent<ArticleContentProps> = (
                       className="border-b-2 border-border"
                       key={post.title}
                     >
-                      <a aria-label={post.title} href={"/article/" + post.slug}>
+                      <Link
+                        locale={locale}
+                        aria-label={post.title}
+                        href={"/article/" + post.slug}
+                      >
                         <p className="font-semibold hover:text-primary">
                           {post.title}
                         </p>
-                      </a>
+                      </Link>
                     </article>
                   )
                 })}

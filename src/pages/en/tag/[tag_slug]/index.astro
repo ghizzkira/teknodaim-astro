@@ -1,35 +1,19 @@
 ---
 import Tag from "@/components/Template/Tag.astro"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbSeparator,
-} from "@/components/UI/Breadcrumb"
-import { Icon } from "@/components/UI/Icon"
-import InfiniteScrollWpPostsTag from "@/components/Wp/InfiniteScrollWpPostsTag"
-import WpFeaturedCategories from "@/components/wp/wp-featured-categories"
-import WpListPost from "@/components/Wp/WpListPost"
-import WpPostCardSide from "@/components/Wp/WpPostCardSide"
+ 
 import MainLayout from "@/layouts/MainLayout.astro"
 import { getWpPopularPosts } from "@/lib/action/wp-popular-post"
-import { LANGUAGE_TYPE } from "@/lib/validation/language"
-import { wpGetPostsByTagIdAction } from "@/lib/wp/action/wp-post"
+ import { wpGetPostsByTagIdAction } from "@/lib/wp/action/wp-post"
 import {
-  wpGetAllTagsAction,
-  wpGetTagBySlugAction,
+   wpGetTagBySlugAction,
 } from "@/lib/wp/action/wp-tag"
-import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
-
+ 
  
 export const prerender = false
 
-const { tag_slug, locale } = Astro.params
+const { tag_slug } = Astro.params
 
-if(!LANGUAGE_TYPE.includes(locale!)){
-  return Astro.redirect('/404')
-}
-
+ 
 
 const { tag: main_tag, other_lang_tag } = await wpGetTagBySlugAction(tag_slug)
 
@@ -39,50 +23,52 @@ if (!main_tag && !other_lang_tag) {
 
 let tag 
 
-if (locale === "id") {
-  if (
+// if (locale === "id") {
+//   if (
+//     main_tag &&
+//     tag_slug === main_tag.slug &&
+//     main_tag.language.slug.toLocaleLowerCase() === locale
+//   ) {
+//     tag = main_tag
+//   } else if (
+//     other_lang_tag &&
+//     tag_slug === other_lang_tag.slug &&
+//     other_lang_tag.language.slug.toLocaleLowerCase() === locale
+//   ) {
+//     tag = other_lang_tag
+//   } else if (
+//     main_tag &&
+//     tag_slug === main_tag.slug &&
+//     main_tag.language.slug.toLocaleLowerCase() !== locale
+//   ) {
+//     if (other_lang_tag)
+//       Astro.redirect(`/id/tag/${other_lang_tag?.slug}`)
+//   } 
+// } else if (locale === "en") {
+ 
+// }
+
+if (
     main_tag &&
     tag_slug === main_tag.slug &&
-    main_tag.language.slug.toLocaleLowerCase() === locale
+    main_tag.language.slug.toLocaleLowerCase() === "en"
   ) {
     tag = main_tag
   } else if (
     other_lang_tag &&
     tag_slug === other_lang_tag.slug &&
-    other_lang_tag.language.slug.toLocaleLowerCase() === locale
+    other_lang_tag.language.slug.toLocaleLowerCase() === "en"
   ) {
     tag = other_lang_tag
   } else if (
     main_tag &&
     tag_slug === main_tag.slug &&
-    main_tag.language.slug.toLocaleLowerCase() !== locale
-  ) {
-    if (other_lang_tag)
-      Astro.redirect(`/id/tag/${other_lang_tag?.slug}`)
-  } 
-} else if (locale === "en") {
-  if (
-    main_tag &&
-    tag_slug === main_tag.slug &&
-    main_tag.language.slug.toLocaleLowerCase() === locale
-  ) {
-    tag = main_tag
-  } else if (
-    other_lang_tag &&
-    tag_slug === other_lang_tag.slug &&
-    other_lang_tag.language.slug.toLocaleLowerCase() === locale
-  ) {
-    tag = other_lang_tag
-  } else if (
-    main_tag &&
-    tag_slug === main_tag.slug &&
-    main_tag.language.slug.toLocaleLowerCase() !== locale
+    main_tag.language.slug.toLocaleLowerCase() !== "en"
   ) {
     if (other_lang_tag) {
       Astro.redirect(`/en/tag/${other_lang_tag.slug}`)
     }
   } 
-}
 
 if (!tag){
   return Astro.redirect("/")
@@ -98,12 +84,11 @@ const { posts, pageInfo } = await wpGetPostsByTagIdAction(tag.id)
 
 // FIX: to 7 days
 const trendingPosts = await getWpPopularPosts({
-  language: locale,
+  language: "en",
   page: 1,
   perPage: 10,
 })
-const listPost = posts?.slice(0, posts?.length - 1)
-const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
+ 
 // const adsBelowHeader = await api.ad.byPosition("topic_below_header")
 // const hidePostsData = await api.setting.byKey("filter_post")
 
@@ -124,7 +109,7 @@ const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
 // }
 ---
 
-<MainLayout locale={locale}  seo={{
+<MainLayout locale={"en"}  seo={{
   title: tag?.name,
     description: tag?.description,
   languageAlternates: [
@@ -141,7 +126,7 @@ const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
     },
     optional: {
       description: tag?.description,
-      locale: locale,
+      locale: "en",
     },
   },
 }}
@@ -155,5 +140,5 @@ const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
       />
     )
   }
-<Tag posts={posts} pageInfo={pageInfo} category={category} locale="id" trendingPosts={trendingPosts} />
+<Tag posts={posts} pageInfo={pageInfo} category={category} locale="en" trendingPosts={trendingPosts} />
 </MainLayout>
