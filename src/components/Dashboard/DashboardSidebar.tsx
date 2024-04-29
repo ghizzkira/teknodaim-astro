@@ -1,25 +1,26 @@
 import * as React from "react"
-import NextLink from "next/link"
 
 import LanguageSwitcher from "@/components/LanguageSwitcher"
-import Sidebar from "@/components/layout/Sidebar"
-import SidebarItem from "@/components/layout/SidebarItem"
-import ThemeSwitcher from "@/components/theme/ThemeSwitcher"
+import Sidebar from "@/components/Layout/Sidebar"
+import SidebarItem from "@/components/Layout/SidebarItem"
+import ThemeSwitcher from "@/components/Theme/ThemeSwitcher"
 import { Button } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
 import { useOnClickOutside } from "@/hooks/useOnClickOutside"
 import { logout } from "@/lib/auth/utils"
 import { useI18n } from "@/lib/locales/client"
+import type { LanguageType } from "@/lib/validation/language"
 
 interface DashboardSidebarProps
   extends React.HtmlHTMLAttributes<HTMLDivElement> {
   onToggle: () => void
   isOpen: boolean
   onClose: () => void
+  locale: LanguageType
 }
 
 const DashboardSidebar: React.FC<DashboardSidebarProps> = (props) => {
-  const { onToggle, onClose, isOpen } = props
+  const { onToggle, onClose, isOpen, locale } = props
 
   const ref = React.useRef(null)
 
@@ -69,12 +70,12 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = (props) => {
           </ul>
         </div>
         <div className="absolute bottom-0 left-0 z-20 flex w-full justify-center space-x-4 border-r border-border bg-background p-4">
-          <LanguageSwitcher />
+          <LanguageSwitcher locale={locale} />
           <ThemeSwitcher />
           <Button asChild variant="ghost">
-            <NextLink href="/dashboard/setting">
+            <a href="/dashboard/setting">
               <Icon.Setting />
-            </NextLink>
+            </a>
           </Button>
           <form action={logout}>
             <Button variant="ghost" size="icon">

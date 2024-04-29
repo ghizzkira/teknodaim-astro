@@ -1,10 +1,10 @@
 import * as React from "react"
 
+import LanguageSwitcher from "@/components/LanguageSwitcher"
 import Link from "@/components/Link"
 //  import { type Menu as MenuProps } from "@prisma/client"
 
 // import Image from "@/components/Image"
-// import LanguageSwitcher from "@/components/language-switcher"
 import { Button } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
 import type { LanguageType } from "@/lib/validation/language"
@@ -87,7 +87,7 @@ const SideNav: React.FunctionComponent<SideNavProps> = (props) => {
           </div>
         </div>
       )}
-      {/* <LanguageSwitcher /> */}
+      <LanguageSwitcher locale={locale} />
       {/* <ul className="flex flex-col space-y-3 border-b border-muted p-4">
         {!isMain && (
           <li>
