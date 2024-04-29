@@ -1,6 +1,6 @@
 import type * as React from "react"
 
-import { useEventListener } from "./use-event-listener"
+import { useEventListener } from "./useEventListener"
 
 type EventType = "mousedown" | "mouseup" | "touchstart" | "touchend"
 
