@@ -1,8 +1,6 @@
 import type { LanguageType } from "../validation/language"
 
 export function rewriteUrlLocale(locale: LanguageType, uri: string) {
-  console.log(locale, uri)
-
   if (locale === "en") {
     try {
       const url = new URL(uri)

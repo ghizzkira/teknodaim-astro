@@ -1,14 +1,13 @@
-"use client"
-
 import * as React from "react"
 
-import { Button } from "@/components/UI/Button"
+import { Button, buttonVariants } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/UI/Popover"
+import { cn } from "@/lib/utils/style"
 import type { LanguageType } from "@/lib/validation/language"
 
 const LanguageSwitcher = ({ locale }: { locale: LanguageType }) => {
@@ -22,7 +21,14 @@ const LanguageSwitcher = ({ locale }: { locale: LanguageType }) => {
   return (
     <div className="flex items-start px-2">
       <Popover>
-        <PopoverTrigger className="cursor-pointer bg-background">
+        <PopoverTrigger
+          className={cn(
+            buttonVariants({
+              variant: "ghost",
+              className: "cursor-pointer bg-background",
+            }),
+          )}
+        >
           {locale === "id" ? (
             <>
               <Icon.IndonesiaFlag

@@ -6,7 +6,6 @@ import { toast } from "@/components/UI/Toast/useToast"
 export function useSession() {
   const [session, setSession] = React.useState<{ user: User } | null>(null)
   const [isLoading, setIsLoading] = React.useState(false)
-  console.log(session)
   const handleLogin = async () => {
     setIsLoading(true)
     try {
