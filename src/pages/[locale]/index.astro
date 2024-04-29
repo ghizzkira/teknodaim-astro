@@ -7,6 +7,7 @@ import { wpGetAllPostsAction } from "@/lib/wp/action/wp-post"
 
 
 
+const DB = Astro.locals.runtime.env.DB
 const { locale } = Astro.params
 
 if(!LANGUAGE_TYPE.includes(locale!)){
@@ -15,7 +16,7 @@ if(!LANGUAGE_TYPE.includes(locale!)){
 
 const { posts, pageInfo } = await wpGetAllPostsAction(locale)
 // FIX: to 7 days
-const trendingPosts = await getWpPopularPosts({
+const trendingPosts = await getWpPopularPosts(DB, {
   language: locale!,
   page: 1,
   perPage: 10,

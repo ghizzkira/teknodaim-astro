@@ -16,7 +16,7 @@ import {
   wpGetPostsByCategorySlugAction,
 } from "@/lib/wp/action/wp-post"
 import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
-import { splitUriWP, wpPrimaryCategorySlug } from "@/lib/wp/helper"
+import {  wpPrimaryCategorySlug } from "@/lib/wp/helper"
 import MainLayout from "@/layouts/MainLayout.astro"
 import InfiniteScrollWpSinglePost from "@/components/Wp/InfiniteScrollWpSinglePost"
 import WpPostViewCounter from "@/components/Wp/WpPostViewCounter"
@@ -25,16 +25,19 @@ import WpComment from "@/components/Comment/WpComment"
 import { LANGUAGE_TYPE } from "@/lib/validation/language"
 
 export const prerender = false
+
 Astro.response.headers.set(
   "Cache-Control",
   "public, s-maxage=60, stale-while-revalidate=30",
 )
 
-const { categorySlug, slug ,locale } = Astro.params
+const { categorySlug, slug, locale }= Astro.params
 
-if(!LANGUAGE_TYPE.includes(locale!)){
+if(!LANGUAGE_TYPE.includes(locale)){
   return Astro.redirect('/404')
 }
+
+const DB = Astro.locals.runtime.env.DB
 
 const { posts } = await wpGetAllPostsAction(locale?.toLocaleUpperCase())
 const { post: mainPost, otherLangPost } = await wpGetPostBySlugAction(
@@ -99,11 +102,12 @@ if (!post) {
 }
 
 // FIX: to 7 days
-const trendingPosts = await getWpPopularPosts({
+const trendingPosts = await getWpPopularPosts(DB, {
   language: locale,
   page: 1,
   perPage: 10,
 })
+
 const regexId = new RegExp(import.meta.env.PUBLIC_WP_DOMAIN, "g")
 const regexEn = new RegExp(import.meta.env.PUBLIC_WP_EN_SUBDOMAIN, "g")
 const postJsonLdString = post?.seo?.schema?.raw

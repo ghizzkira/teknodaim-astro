@@ -24,6 +24,7 @@ import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
  
 export const prerender = false
 
+const DB = Astro.locals.runtime.env.DB
 const { tag_slug, locale } = Astro.params
 
 if(!LANGUAGE_TYPE.includes(locale!)){
@@ -97,7 +98,7 @@ const postJsonLd = postJsonLdString
 const { posts, pageInfo } = await wpGetPostsByTagIdAction(tag.id)
 
 // FIX: to 7 days
-const trendingPosts = await getWpPopularPosts({
+const trendingPosts = await getWpPopularPosts(DB, {
   language: locale,
   page: 1,
   perPage: 10,
