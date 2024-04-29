@@ -1,0 +1,52 @@
+---
+import { SEO, type Props as SeoProps } from "astro-seo"
+import { ViewTransitions } from "astro:transitions"
+
+import "@/styles/globals.css"
+
+import DashboardContainer from "@/components/Dashboard/DashboardContainer"
+import MainContainer from "@/components/Layout/MainContainer"
+import Themes from "@/components/Theme/Themes.astro"
+import type { LanguageType } from "@/lib/validation/language"
+
+interface Props {
+  seo?: SeoProps
+  locale: LanguageType
+}
+
+const user = Astro.locals.user
+
+const { seo, locale } = Astro.props
+const title = seo?.title || import.meta.env.PUBLIC_SITE_TITLE
+const description = seo?.description || import.meta.env.PUBLIC_SITE_DESCRIPTION
+const titleTemplate =
+  seo?.titleTemplate || `%s | ${import.meta.env.PUBLIC_SITE_TITLE || ""}`
+const titleDefault = seo?.titleDefault || import.meta.env.PUBLIC_SITE_TITLE
+
+if (!user) {
+    return new Response(null, {
+    status: 404,
+    statusText: 'Not found'
+  })
+}
+---
+
+<html lang={locale}>
+  <head>
+    <Themes />
+    <SEO
+      {...seo}
+      title={title}
+      description={description}
+      titleTemplate={titleTemplate}
+      titleDefault={titleDefault}
+      charset="utf-8"
+    />
+    <link rel="icon" type="image/svg+xml" href="/icon/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <ViewTransitions fallback="swap" />
+  </head>
+  <body class="antialiased font-400 font-sans">
+    <DashboardContainer client:load><slot /></DashboardContainer>
+  </body>
+</html>

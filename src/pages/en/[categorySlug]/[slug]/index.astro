@@ -121,17 +121,17 @@ const { primaryCategory } = wpPrimaryCategorySlug(
 ---
 
 <MainLayout 
-locale={"id"}
+locale={"en"}
 seo={{
   title: post?.title,
   description: post?.seo.metaDesc,
   languageAlternates: [
-    {
-      href: `${import.meta.env.PUBLIC_SITE_URL}/${categorySlug}/${slug}`,
+   {
+      href: `${import.meta.env.PUBLIC_SITE_URL}/${categorySlug}/${mainPost.language.slug.toLocaleLowerCase() === "id" ? mainPost.slug: otherLangPost?.slug}`,
       hrefLang: "id",
     },
     {
-      href: `${import.meta.env.PUBLIC_EN_SITE_URL}/${post?.slug}`,
+      href: `${import.meta.env.PUBLIC_SITE_URL}/en/${mainPost.language.slug.toLocaleLowerCase() === "en" ? mainPost.slug: otherLangPost?.slug}`,
       hrefLang: "en",
     },
   ],

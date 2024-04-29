@@ -112,8 +112,8 @@ const trendingPosts = await getWpPopularPosts({
   title: tag?.name,
     description: tag?.description,
   languageAlternates: [
-    { href: `${import.meta.env.PUBLIC_SITE_URL}/tag/${tag?.slug}`, hrefLang: "id" },
-    { href: `${import.meta.env.PUBLIC_EN_SITE_URL}/tag/${tag?.slug}`, hrefLang: "id" },
+    { href: `${import.meta.env.PUBLIC_SITE_URL}/tag/${main_tag?.language.slug.toLocaleLowerCase() ==="id" ? main_tag?.slug:other_lang_tag?.slug}`, hrefLang: "id" },
+    { href: `${import.meta.env.PUBLIC_EN_SITE_URL}/en/tag/${other_lang_tag?.language.slug.toLocaleLowerCase() ==="en" ? other_lang_tag?.slug:main_tag?.slug}`, hrefLang: "en" },
   ],
   canonical: `${import.meta.env.PUBLIC_SITE_URL}/tag/${tag?.slug}`,
   openGraph: {

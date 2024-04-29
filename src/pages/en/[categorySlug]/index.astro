@@ -164,16 +164,17 @@ const { posts, pageInfo } = await wpGetPostsByCategoryIdAction(
 ---
 
 <MainLayout 
+locale="en"
 seo={{
   title: category?.name,
   description: category?.description,
   languageAlternates: [
-    {
-      href: `${import.meta.env.PUBLIC_SITE_URL}/${category?.slug}`,
+  {
+      href: `${import.meta.env.PUBLIC_SITE_URL}/${main_category.language.slug.toLocaleLowerCase() ==="id"?main_category?.slug:other_lang_category?.slug}`,
       hrefLang: "id",
     },
     {
-      href: `${import.meta.env.PUBLIC_EN_SITE_URL}/${category?.slug}`,
+      href: `${import.meta.env.PUBLIC_EN_SITE_URL}/en/${main_category.language.slug.toLocaleLowerCase()==="en"?main_category?.slug:other_lang_category?.slug}`,
       hrefLang: "en",
     },
   ],

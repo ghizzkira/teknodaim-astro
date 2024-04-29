@@ -149,6 +149,7 @@ const WpPostContent: React.FunctionComponent<WpPostContentProps> = React.memo(
               name={primaryData?.name!}
               slug={`/${primaryData?.slug!}`}
               className={stylesIcons}
+              locale={locale}
             />
           </div>
           <h1 className="mb-[10px] mt-4 line-clamp-none text-[1.8em] font-bold leading-[1.2] md:border-none md:text-[40px] md:leading-[43px]">
