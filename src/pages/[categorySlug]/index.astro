@@ -14,7 +14,10 @@ import {
 import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
 
  
+const DB = Astro.locals.runtime.env.DB
 const { categorySlug } = Astro.params
+
+ 
 
 
 
@@ -62,7 +65,7 @@ if (!category) {
 //   per_page: 10,
 // })
 // FIX: to 7 days
-const trendingPosts = await getWpPopularPosts({
+const trendingPosts = await getWpPopularPosts(DB, {
   language: "id",
   page: 1,
   perPage: 10,

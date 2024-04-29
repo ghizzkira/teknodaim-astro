@@ -11,7 +11,10 @@ import {
  
 export const prerender = false
 
+const DB = Astro.locals.runtime.env.DB
 const { tag_slug } = Astro.params
+
+ 
 
  
 
@@ -83,7 +86,7 @@ const postJsonLd = postJsonLdString
 const { posts, pageInfo } = await wpGetPostsByTagIdAction(tag.id)
 
 // FIX: to 7 days
-const trendingPosts = await getWpPopularPosts({
+const trendingPosts = await getWpPopularPosts(DB, {
   language: "en",
   page: 1,
   perPage: 10,

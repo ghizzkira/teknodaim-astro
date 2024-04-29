@@ -5,7 +5,8 @@ import { getWpPopularPostsLast7Days } from "@/lib/action/wp-popular-post"
 import { wpGetAllPostsAction } from "@/lib/wp/action/wp-post"
 
 const { posts, pageInfo } = await wpGetAllPostsAction("ID")
-const trendingPosts = await getWpPopularPostsLast7Days({
+const DB = Astro.locals.runtime.env.DB
+const trendingPosts = await getWpPopularPostsLast7Days(DB, {
   language: "id",
   page: 1,
   perPage: 10,

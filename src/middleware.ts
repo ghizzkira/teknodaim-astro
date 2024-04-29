@@ -1,11 +1,16 @@
+/* eslint-disable @typescript-eslint/restrict-plus-operands */
+
 import { defineMiddleware } from "astro:middleware"
 import { verifyRequestOrigin } from "lucia"
 
-import { auth } from "@/lib/auth"
+import { initializeAuth } from "@/lib/auth"
 
 const excludedPaths = ["/api", "/auth/", "/sitemap", "/_image"]
 export const onRequest = defineMiddleware(async (context, next) => {
   const url = new URL(context.request.url)
+  const DB = context.locals.runtime.env.DB
+  const auth = initializeAuth(DB)
+
   if (context.request.method !== "GET") {
     const originHeader = context.request.headers.get("Origin")
     const hostHeader = context.request.headers.get("Host")

@@ -1,7 +1,7 @@
 import type { APIContext } from "astro"
 import { OAuth2RequestError } from "arctic"
 
-import { auth, googleOAuth } from "@/lib/auth"
+import { googleOAuth, initializeAuth } from "@/lib/auth"
 import { initializeDB } from "@/lib/db"
 import { accounts, users } from "@/lib/db/schema"
 import { cuid, uniqueCharacter } from "@/lib/utils/id"
@@ -36,6 +36,7 @@ export async function GET(context: APIContext): Promise<Response> {
 
   try {
     const db = initializeDB(DB)
+    const auth = initializeAuth(DB)
 
     const tokens = await googleOAuth.validateAuthorizationCode(
       code,

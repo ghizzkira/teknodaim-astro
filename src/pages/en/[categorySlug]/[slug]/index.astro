@@ -61,8 +61,11 @@ if (!post) {
    return Astro.redirect("/")
 }
 
+const DB = Astro.locals.runtime.env.DB
+
+
 // FIX: to 7 days
-const trendingPosts = await getWpPopularPosts({
+const trendingPosts = await getWpPopularPosts(DB,{
   language: "en",
   page: 1,
   perPage: 10,

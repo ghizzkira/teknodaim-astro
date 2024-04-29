@@ -21,6 +21,7 @@ Astro.response.headers.set(
 
 const { categorySlug, slug } = Astro.params
 
+const DB = Astro.locals.runtime.env.DB
 
 
 const { posts } = await wpGetAllPostsAction("ID")
@@ -62,7 +63,7 @@ if (!post) {
 }
 
 // FIX: to 7 days
-const trendingPosts = await getWpPopularPosts({
+const trendingPosts = await getWpPopularPosts(DB,{
   language: "id",
   page: 1,
   perPage: 10,

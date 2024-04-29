@@ -13,7 +13,8 @@ export const prerender = false
 
 const { tag_slug } = Astro.params
 
- 
+const DB = Astro.locals.runtime.env.DB
+
 
 const { tag: main_tag, other_lang_tag } = await wpGetTagBySlugAction(tag_slug)
 
@@ -22,31 +23,7 @@ if (!main_tag && !other_lang_tag) {
 }
 
 let tag 
-
-// if (locale === "id") {
-//   if (
-//     main_tag &&
-//     tag_slug === main_tag.slug &&
-//     main_tag.language.slug.toLocaleLowerCase() === locale
-//   ) {
-//     tag = main_tag
-//   } else if (
-//     other_lang_tag &&
-//     tag_slug === other_lang_tag.slug &&
-//     other_lang_tag.language.slug.toLocaleLowerCase() === locale
-//   ) {
-//     tag = other_lang_tag
-//   } else if (
-//     main_tag &&
-//     tag_slug === main_tag.slug &&
-//     main_tag.language.slug.toLocaleLowerCase() !== locale
-//   ) {
-//     if (other_lang_tag)
-//       Astro.redirect(`/id/tag/${other_lang_tag?.slug}`)
-//   } 
-// } else if (locale === "id") {
  
-// }
 
   if (
     main_tag &&
@@ -82,7 +59,7 @@ const postJsonLd = postJsonLdString
 const { posts, pageInfo } = await wpGetPostsByTagIdAction(tag.id)
 
 // FIX: to 7 days
-const trendingPosts = await getWpPopularPosts({
+const trendingPosts = await getWpPopularPosts(DB,{
   language: "id",
   page: 1,
   perPage: 10,

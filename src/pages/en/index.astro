@@ -4,10 +4,12 @@ import MainLayout from "@/layouts/MainLayout.astro"
 import { getWpPopularPosts } from "@/lib/action/wp-popular-post"
 import { wpGetAllPostsAction } from "@/lib/wp/action/wp-post"
 
+const DB = Astro.locals.runtime.env.DB
+
 const { posts, pageInfo } = await wpGetAllPostsAction("EN")
 // FIX: to 7 days
-const trendingPosts = await getWpPopularPosts({
-  language: "EN",
+const trendingPosts = await getWpPopularPosts(DB, {
+  language: "en",
   page: 1,
   perPage: 10,
 })
@@ -75,7 +77,7 @@ const trendingPosts = await getWpPopularPosts({
 ---
 
 <MainLayout
-  locale={"EN"}
+  locale={"en"}
   seo={{
     title: import.meta.env.PUBLIC_SITE_TITLE,
     description: import.meta.env.PUBLIC_SITE_DESCRIPTION,
