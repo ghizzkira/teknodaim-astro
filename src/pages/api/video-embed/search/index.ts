@@ -3,15 +3,16 @@ import { z } from "zod"
 
 import { searchVideoEmbeds } from "@/lib/action/video-embed"
 
-export const GET: APIRoute = async ({ request }) => {
+export const GET: APIRoute = async ({ locals, request }) => {
   try {
+    const DB = locals.runtime.env.DB
     const url = new URL(request.url)
     const queryParams = new URLSearchParams(url.search)
     const searchQuery = queryParams.get("query")
 
     const parsedInput = z.string().parse(searchQuery)
 
-    const data = await searchVideoEmbeds(parsedInput)
+    const data = await searchVideoEmbeds(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

@@ -3,12 +3,13 @@ import { z } from "zod"
 
 import { getDownloadCommentsCountByDownloadId } from "@/lib/action/download-comment"
 
-export const GET: APIRoute = async ({ params }) => {
+export const GET: APIRoute = async ({ locals, params }) => {
   try {
+    const DB = locals.runtime.env.DB
     const downloadId = params.downloadId
     const parsedInput = z.string().parse(downloadId)
 
-    const data = await getDownloadCommentsCountByDownloadId(parsedInput)
+    const data = await getDownloadCommentsCountByDownloadId(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

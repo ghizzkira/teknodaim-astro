@@ -7,10 +7,11 @@ import { createDownloadCommentSchema } from "@/lib/validation/download-comment"
 export const POST: APIRoute = async (context: APIContext) => {
   try {
     const user = context.locals.user
+    const DB = context.locals.runtime.env.DB
 
     const body = await context.request.json()
     const parsedInput = createDownloadCommentSchema.parse(body)
-    const data = await createDownloadComment({
+    const data = await createDownloadComment(DB, {
       authorId: user?.id!,
       ...parsedInput,
     })

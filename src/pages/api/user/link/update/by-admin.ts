@@ -10,6 +10,7 @@ export const PUT: APIRoute = async (context: APIContext) => {
     const parsedInput = updateUserLinkSchema.parse(body)
 
     const user = context.locals.user
+    const DB = context.locals.runtime.env.DB
 
     if (user?.role !== "admin") {
       return new Response(null, {
@@ -17,7 +18,7 @@ export const PUT: APIRoute = async (context: APIContext) => {
       })
     }
 
-    const data = await updateUserLink(parsedInput)
+    const data = await updateUserLink(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

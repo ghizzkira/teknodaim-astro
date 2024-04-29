@@ -1,6 +1,6 @@
 import { and, count, eq } from "drizzle-orm"
 
-import { db } from "@/lib/db"
+import { initializeDB } from "@/lib/db"
 import { downloadDownloadFiles, downloads } from "@/lib/db/schema/download"
 import {
   downloadFileAuthors,
@@ -13,13 +13,17 @@ import type {
   UpdateDownloadFile,
 } from "@/lib/validation/download-file"
 
-export const getDownloadFilesDashboard = async ({
-  page,
-  perPage,
-}: {
-  page: number
-  perPage: number
-}) => {
+export const getDownloadFilesDashboard = async (
+  DB: D1Database,
+  input: {
+    page: number
+    perPage: number
+  },
+) => {
+  const { page, perPage } = input
+
+  const db = initializeDB(DB)
+
   const downloadFilesData = await db.query.downloadFiles.findMany({
     where: (downloadFiles, { eq }) => eq(downloadFiles.status, "published"),
     limit: perPage,
@@ -62,9 +66,11 @@ export const getDownloadFilesDashboard = async ({
   return data
 }
 
-export const getDownloadFileById = async (id: string) => {
+export const getDownloadFileById = async (DB: D1Database, input: string) => {
+  const db = initializeDB(DB)
+
   const downloadFileData = await db.query.downloadFiles.findFirst({
-    where: (downloadFiles, { eq }) => eq(downloadFiles.id, id),
+    where: (downloadFiles, { eq }) => eq(downloadFiles.id, input),
     with: {
       featuredImage: true,
       authors: true,
@@ -103,9 +109,11 @@ export const getDownloadFileById = async (id: string) => {
   return data
 }
 
-export const getDownloadFileBySlug = async (slug: string) => {
+export const getDownloadFileBySlug = async (DB: D1Database, input: string) => {
+  const db = initializeDB(DB)
+
   const downloadFileData = await db.query.downloadFiles.findFirst({
-    where: (downloadFiles, { eq }) => eq(downloadFiles.slug, slug),
+    where: (downloadFiles, { eq }) => eq(downloadFiles.slug, input),
     with: {
       featuredImage: true,
       authors: true,
@@ -133,7 +141,7 @@ export const getDownloadFileBySlug = async (slug: string) => {
       downloadDownloadFiles,
       eq(downloadDownloadFiles.downloadId, downloads.id),
     )
-    .where(eq(downloadFiles.slug, slug))
+    .where(eq(downloadFiles.slug, input))
     .all()
 
   const data = {
@@ -144,13 +152,17 @@ export const getDownloadFileBySlug = async (slug: string) => {
   return data
 }
 
-export const getDownloadFilesSitemap = async ({
-  page,
-  perPage,
-}: {
-  page: number
-  perPage: number
-}) => {
+export const getDownloadFilesSitemap = async (
+  DB: D1Database,
+  input: {
+    page: number
+    perPage: number
+  },
+) => {
+  const { page, perPage } = input
+
+  const db = initializeDB(DB)
+
   const downloadFilesData = await db.query.downloadFiles.findMany({
     where: (downloadFiles, { eq }) => eq(downloadFiles.status, "published"),
     limit: perPage,
@@ -184,7 +196,8 @@ export const getDownloadFilesSitemap = async ({
   return data
 }
 
-export const getDownloadFilesCount = async () => {
+export const getDownloadFilesCount = async (DB: D1Database) => {
+  const db = initializeDB(DB)
   const data = await db
     .select({ value: count() })
     .from(downloadFiles)
@@ -192,15 +205,17 @@ export const getDownloadFilesCount = async () => {
   return data[0].value
 }
 
-export const searchDownloadFiles = async (searchQuery: string) => {
+export const searchDownloadFiles = async (DB: D1Database, input: string) => {
+  const db = initializeDB(DB)
+
   const downloadFilesData = await db.query.downloadFiles.findMany({
     where: (downloadFiles, { eq, and, or, like }) =>
       and(
         eq(downloadFiles.status, "published"),
         or(
-          like(downloadFiles.title, `%${searchQuery}%`),
-          like(downloadFiles.version, `%${searchQuery}%`),
-          like(downloadFiles.downloadLink, `%${searchQuery}%`),
+          like(downloadFiles.title, `%${input}%`),
+          like(downloadFiles.version, `%${input}%`),
+          like(downloadFiles.downloadLink, `%${input}%`),
         ),
       ),
     with: {
@@ -241,15 +256,20 @@ export const searchDownloadFiles = async (searchQuery: string) => {
   return data
 }
 
-export const searchDownloadFilesDashboard = async (searchQuery: string) => {
+export const searchDownloadFilesDashboard = async (
+  DB: D1Database,
+  input: string,
+) => {
+  const db = initializeDB(DB)
+
   const downloadFilesData = await db.query.downloadFiles.findMany({
     where: (downloadFiles, { eq, and, or, like }) =>
       and(
         eq(downloadFiles.status, "published"),
         or(
-          like(downloadFiles.title, `%${searchQuery}%`),
-          like(downloadFiles.version, `%${searchQuery}%`),
-          like(downloadFiles.downloadLink, `%${searchQuery}%`),
+          like(downloadFiles.title, `%${input}%`),
+          like(downloadFiles.version, `%${input}%`),
+          like(downloadFiles.downloadLink, `%${input}%`),
         ),
       ),
     with: {
@@ -280,7 +300,10 @@ export const searchDownloadFilesDashboard = async (searchQuery: string) => {
   return data
 }
 
-export const createDownloadFile = async (input: CreateDownloadFile) => {
+export const createDownloadFile = async (
+  DB: D1Database,
+  input: CreateDownloadFile,
+) => {
   const slug = `${slugify(input.title)}_${uniqueCharacter()}`
   const generatedMetaTitle = !input.metaTitle ? input.title : input.metaTitle
   const generatedMetaDescription = !input.metaDescription
@@ -288,6 +311,8 @@ export const createDownloadFile = async (input: CreateDownloadFile) => {
     : input.metaDescription
 
   const downloadFileId = cuid()
+
+  const db = initializeDB(DB)
 
   const data = await db.transaction(async (tx) => {
     const downloadFile = await tx
@@ -314,7 +339,12 @@ export const createDownloadFile = async (input: CreateDownloadFile) => {
   return data
 }
 
-export const updateDownloadFile = async (input: UpdateDownloadFile) => {
+export const updateDownloadFile = async (
+  DB: D1Database,
+  input: UpdateDownloadFile,
+) => {
+  const db = initializeDB(DB)
+
   const data = await db.transaction(async (tx) => {
     const downloadFile = await tx
       .insert(downloadFiles)
@@ -340,14 +370,16 @@ export const updateDownloadFile = async (input: UpdateDownloadFile) => {
   return data
 }
 
-export const deleteDownloadFile = async (id: string) => {
+export const deleteDownloadFile = async (DB: D1Database, input: string) => {
+  const db = initializeDB(DB)
+
   const data = await db.transaction(async (tx) => {
     await tx
       .delete(downloadFileAuthors)
-      .where(eq(downloadFileAuthors.downloadFileId, id))
+      .where(eq(downloadFileAuthors.downloadFileId, input))
     const downloadFile = await tx
       .delete(downloadFiles)
-      .where(eq(downloadFiles.id, id))
+      .where(eq(downloadFiles.id, input))
     return downloadFile
   })
   return data

@@ -250,8 +250,8 @@ CREATE TABLE `settings` (
 --> statement-breakpoint
 CREATE TABLE `top_up_order_counters` (
 	`id` text PRIMARY KEY NOT NULL,
-	`key` text NOT NULL,
-	`value` text NOT NULL,
+	`brand` text NOT NULL,
+	`orders` integer DEFAULT 0 NOT NULL,
 	`created_at` text DEFAULT CURRENT_TIMESTAMP,
 	`updated_at` text DEFAULT CURRENT_TIMESTAMP
 );
@@ -378,7 +378,8 @@ CREATE TABLE `video_embeds` (
 	`meta_title` text,
 	`meta_description` text,
 	`status` text DEFAULT 'draft' NOT NULL,
-	`featured_image_id` text NOT NULL,
+	`featured_image_id` text,
+	`type` text DEFAULT 'youtube' NOT NULL,
 	`created_at` text DEFAULT CURRENT_TIMESTAMP,
 	`updated_at` text DEFAULT CURRENT_TIMESTAMP,
 	FOREIGN KEY (`featured_image_id`) REFERENCES `medias`(`id`) ON UPDATE no action ON DELETE no action
@@ -436,7 +437,7 @@ CREATE UNIQUE INDEX `gadgets_title_unique` ON `gadgets` (`title`);--> statement-
 CREATE UNIQUE INDEX `gadgets_slug_unique` ON `gadgets` (`slug`);--> statement-breakpoint
 CREATE UNIQUE INDEX `menus_title_unique` ON `menus` (`title`);--> statement-breakpoint
 CREATE UNIQUE INDEX `settings_key_unique` ON `settings` (`key`);--> statement-breakpoint
-CREATE UNIQUE INDEX `top_up_order_counters_key_unique` ON `top_up_order_counters` (`key`);--> statement-breakpoint
+CREATE UNIQUE INDEX `top_up_order_counters_brand_unique` ON `top_up_order_counters` (`brand`);--> statement-breakpoint
 CREATE UNIQUE INDEX `top_up_orders_invoice_id_unique` ON `top_up_orders` (`invoice_id`);--> statement-breakpoint
 CREATE UNIQUE INDEX `topics_slug_unique` ON `topics` (`slug`);--> statement-breakpoint
 CREATE UNIQUE INDEX `accounts_provider_account_id_unique` ON `accounts` (`provider_account_id`);--> statement-breakpoint

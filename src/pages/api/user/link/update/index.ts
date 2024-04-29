@@ -10,8 +10,9 @@ export const PUT: APIRoute = async (context: APIContext) => {
     const parsedInput = updateUserLinkSchema.parse(body)
 
     const userSession = context.locals.user
+    const DB = context.locals.runtime.env.DB
 
-    const userLink = await getUserLinkById(parsedInput.id)
+    const userLink = await getUserLinkById(DB, parsedInput.id)
 
     if (!userSession) {
       return new Response(null, {
@@ -25,7 +26,7 @@ export const PUT: APIRoute = async (context: APIContext) => {
       })
     }
 
-    const data = await updateUserLink(parsedInput)
+    const data = await updateUserLink(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

@@ -12,9 +12,10 @@ export const PUT: APIRoute = async (context: APIContext) => {
     const body = await context.request.json()
     const parsedInput = updateDownloadCommentSchema.parse(body)
 
+    const DB = context.locals.runtime.env.DB
     const user = context.locals.user
 
-    const downloadComment = await getDownloadCommentById(parsedInput.id)
+    const downloadComment = await getDownloadCommentById(DB, parsedInput.id)
 
     if (!user) {
       return new Response(null, {
@@ -28,7 +29,7 @@ export const PUT: APIRoute = async (context: APIContext) => {
       })
     }
 
-    const data = await updateDownloadComment(parsedInput)
+    const data = await updateDownloadComment(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

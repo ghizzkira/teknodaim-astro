@@ -11,9 +11,10 @@ export const DELETE: APIRoute = async (context: APIContext) => {
     const body = await context.request.json()
     const parsedInput = z.string().parse(body)
 
+    const DB = context.locals.runtime.env.DB
     const user = context.locals.user
 
-    const videoEmbedComment = await getVideoEmbedCommentById(parsedInput)
+    const videoEmbedComment = await getVideoEmbedCommentById(DB, parsedInput)
 
     if (!user) {
       return new Response(null, {
@@ -27,7 +28,7 @@ export const DELETE: APIRoute = async (context: APIContext) => {
       })
     }
 
-    const data = await deleteVideoEmbedComment(parsedInput)
+    const data = await deleteVideoEmbedComment(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

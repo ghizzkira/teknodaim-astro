@@ -30,14 +30,18 @@ export default defineConfig({
     mode: "directory",
     imageService: "cloudflare",
     functionPerRoute: true,
+    runtime: {
+      mode: "local",
+      type: "pages",
+    },
+    bindings: {
+      DB: {
+        type: "d1",
+      },
+    },
     platformProxy: {
       enabled: true,
     },
-    // routes: {
-    //   extend: {
-    //     include: [{ pattern: "/en/*" }], // Route a prerended page to the SSR function for on-demand rendering
-    //   },
-    // },
   }),
 
   image: {

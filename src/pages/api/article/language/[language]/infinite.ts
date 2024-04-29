@@ -10,8 +10,10 @@ const inputSchema = z.object({
   cursor: z.string().optional(),
 })
 
-export const GET: APIRoute = async ({ request, params }) => {
+export const GET: APIRoute = async ({ locals, request, params }) => {
   try {
+    const DB = locals.runtime.env.DB
+
     const language = params.language
 
     const url = new URL(request.url)
@@ -24,7 +26,7 @@ export const GET: APIRoute = async ({ request, params }) => {
       limit,
       cursor,
     })
-    const data = await getArticlesByLanguageInfinite(parsedInput)
+    const data = await getArticlesByLanguageInfinite(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

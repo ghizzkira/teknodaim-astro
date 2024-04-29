@@ -1,13 +1,7 @@
-import { createClient } from "@libsql/client"
-import { drizzle } from "drizzle-orm/libsql"
+import { drizzle } from "drizzle-orm/d1"
 
 import * as schema from "./schema"
 
-export const client = () =>
-  createClient({
-    url: import.meta.env.VITE_DATABASE_URL!,
-    authToken: import.meta.env.VITE_DATABASE_AUTH_TOKEN!,
-  })
+export const initializeDBWithoutSchema = (DB: D1Database) => drizzle(DB)
 
-export const initializeDB = drizzle(client())
-export const db = drizzle(client(), { schema })
+export const initializeDB = (DB: D1Database) => drizzle(DB, { schema })

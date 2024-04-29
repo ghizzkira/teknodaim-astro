@@ -1,6 +1,6 @@
 import { count, eq, sql } from "drizzle-orm"
 
-import { db } from "@/lib/db"
+import { initializeDB } from "@/lib/db"
 import { menus } from "@/lib/db/schema/menu"
 import { cuid } from "@/lib/utils/id"
 import type {
@@ -9,13 +9,15 @@ import type {
   UpdateMenu,
 } from "@/lib/validation/menu"
 
-export const getMenus = async ({
-  page,
-  perPage,
-}: {
-  page: number
-  perPage: number
-}) => {
+export const getMenus = async (
+  DB: D1Database,
+  input: {
+    page: number
+    perPage: number
+  },
+) => {
+  const { page, perPage } = input
+  const db = initializeDB(DB)
   const data = await db.query.menus.findMany({
     limit: perPage,
     offset: (page - 1) * perPage,
@@ -24,26 +26,33 @@ export const getMenus = async ({
   return data
 }
 
-export const getMenuById = async (id: string) => {
+export const getMenuById = async (DB: D1Database, input: string) => {
+  const db = initializeDB(DB)
   const data = await db.query.menus.findFirst({
-    where: (menus, { eq }) => eq(menus.id, id),
+    where: (menus, { eq }) => eq(menus.id, input),
   })
   return data
 }
 
-export const getMenuByPosition = async (position: MenuPosition) => {
+export const getMenuByPosition = async (
+  DB: D1Database,
+  input: MenuPosition,
+) => {
+  const db = initializeDB(DB)
   const data = await db.query.menus.findFirst({
-    where: (menus, { eq }) => eq(menus.position, position),
+    where: (menus, { eq }) => eq(menus.position, input),
   })
   return data
 }
 
-export const getMenusCount = async () => {
+export const getMenusCount = async (DB: D1Database) => {
+  const db = initializeDB(DB)
   const data = await db.select({ value: count() }).from(menus)
   return data[0].value
 }
 
-export const createMenu = async (input: CreateMenu) => {
+export const createMenu = async (DB: D1Database, input: CreateMenu) => {
+  const db = initializeDB(DB)
   const data = await db.insert(menus).values({
     id: cuid(),
     ...input,
@@ -51,7 +60,8 @@ export const createMenu = async (input: CreateMenu) => {
   return data
 }
 
-export const updateMenu = async (input: UpdateMenu) => {
+export const updateMenu = async (DB: D1Database, input: UpdateMenu) => {
+  const db = initializeDB(DB)
   const data = await db
     .update(menus)
     .set({
@@ -62,7 +72,8 @@ export const updateMenu = async (input: UpdateMenu) => {
   return data
 }
 
-export const deleteMenu = async (id: string) => {
-  const data = await db.delete(menus).where(eq(menus.id, id))
+export const deleteMenu = async (DB: D1Database, input: string) => {
+  const db = initializeDB(DB)
+  const data = await db.delete(menus).where(eq(menus.id, input))
   return data
 }

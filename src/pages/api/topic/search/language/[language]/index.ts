@@ -4,8 +4,9 @@ import { z } from "zod"
 import { searchTopics } from "@/lib/action/topic"
 import { languageType } from "@/lib/validation/language"
 
-export const GET: APIRoute = async ({ params, request }) => {
+export const GET: APIRoute = async ({ locals, params, request }) => {
   try {
+    const DB = locals.runtime.env.DB
     const language = params.language
 
     const url = new URL(request.url)
@@ -16,7 +17,7 @@ export const GET: APIRoute = async ({ params, request }) => {
       .object({ language: languageType, searchQuery: z.string() })
       .parse({ language, searchQuery })
 
-    const data = await searchTopics(parsedInput)
+    const data = await searchTopics(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

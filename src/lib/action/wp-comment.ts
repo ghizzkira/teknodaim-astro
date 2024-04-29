@@ -1,6 +1,6 @@
 import { and, count, eq, sql } from "drizzle-orm"
 
-import { db } from "@/lib/db"
+import { initializeDB } from "@/lib/db"
 import { wpComments } from "@/lib/db/schema/wp-comment"
 import { cuid } from "@/lib/utils/id"
 import type {
@@ -8,13 +8,17 @@ import type {
   UpdateWpComment,
 } from "@/lib/validation/wp-comment"
 
-export const getWpCommentsDashboard = async ({
-  page,
-  perPage,
-}: {
-  page: number
-  perPage: number
-}) => {
+export const getWpCommentsDashboard = async (
+  DB: D1Database,
+  input: {
+    page: number
+    perPage: number
+  },
+) => {
+  const { page, perPage } = input
+
+  const db = initializeDB(DB)
+
   const data = await db.query.wpComments.findMany({
     limit: perPage,
     offset: (page - 1) * perPage,
@@ -26,15 +30,18 @@ export const getWpCommentsDashboard = async ({
   return data
 }
 
-export const getWpCommentsByWpPostSlug = async ({
-  wpPostSlug,
-  page,
-  perPage,
-}: {
-  wpPostSlug: string
-  page: number
-  perPage: number
-}) => {
+export const getWpCommentsByWpPostSlug = async (
+  DB: D1Database,
+  input: {
+    wpPostSlug: string
+    page: number
+    perPage: number
+  },
+) => {
+  const { wpPostSlug, page, perPage } = input
+
+  const db = initializeDB(DB)
+
   const data = await db.query.wpComments.findMany({
     where: (wpComments, { eq }) => eq(wpComments.wpPostSlug, wpPostSlug),
     limit: perPage,
@@ -52,15 +59,18 @@ export const getWpCommentsByWpPostSlug = async ({
   return data
 }
 
-export const getWpCommentsByWpPostSlugInfinite = async ({
-  wpPostSlug,
-  limit = 50,
-  cursor,
-}: {
-  wpPostSlug: string
-  limit?: number
-  cursor?: string
-}) => {
+export const getWpCommentsByWpPostSlugInfinite = async (
+  DB: D1Database,
+  input: {
+    wpPostSlug: string
+    limit?: number
+    cursor?: string
+  },
+) => {
+  const { wpPostSlug, limit = 10, cursor } = input
+
+  const db = initializeDB(DB)
+
   const data = await db.query.wpComments.findMany({
     where: (wpComments, { eq, and, lt }) =>
       and(
@@ -96,9 +106,10 @@ export const getWpCommentsByWpPostSlugInfinite = async ({
   }
 }
 
-export const getWpCommentById = async (id: string) => {
+export const getWpCommentById = async (DB: D1Database, input: string) => {
+  const db = initializeDB(DB)
   const data = await db.query.wpComments.findFirst({
-    where: (wpComments, { eq }) => eq(wpComments.id, id),
+    where: (wpComments, { eq }) => eq(wpComments.id, input),
     with: {
       author: true,
       replies: {
@@ -111,24 +122,29 @@ export const getWpCommentById = async (id: string) => {
   return data
 }
 
-export const getWpCommentsCount = async () => {
+export const getWpCommentsCount = async (DB: D1Database) => {
+  const db = initializeDB(DB)
   const data = await db.select({ value: count() }).from(wpComments)
   return data[0].value
 }
 
-export const getWpCommentsCountByWpPostSlug = async (wpPostSlug: string) => {
+export const getWpCommentsCountByWpPostSlug = async (
+  DB: D1Database,
+  input: string,
+) => {
+  const db = initializeDB(DB)
   const data = await db
     .select({ value: count() })
     .from(wpComments)
-    .where(
-      and(eq(wpComments.wpPostSlug, wpPostSlug), eq(wpComments.replyToId, "")),
-    )
+    .where(and(eq(wpComments.wpPostSlug, input), eq(wpComments.replyToId, "")))
   return data[0].value
 }
 
 export const createWpComment = async (
+  DB: D1Database,
   input: CreateWpComment & { authorId: string },
 ) => {
+  const db = initializeDB(DB)
   const data = await db.insert(wpComments).values({
     id: cuid(),
     wpPostSlug: input.wpPostSlug,
@@ -139,7 +155,12 @@ export const createWpComment = async (
   return data
 }
 
-export const updateWpComment = async (input: UpdateWpComment) => {
+export const updateWpComment = async (
+  DB: D1Database,
+  input: UpdateWpComment,
+) => {
+  const db = initializeDB(DB)
+
   const data = await db
     .update(wpComments)
     .set({
@@ -151,7 +172,8 @@ export const updateWpComment = async (input: UpdateWpComment) => {
   return data
 }
 
-export const deleteWpComment = async (id: string) => {
-  const data = await db.delete(wpComments).where(eq(wpComments.id, id))
+export const deleteWpComment = async (DB: D1Database, input: string) => {
+  const db = initializeDB(DB)
+  const data = await db.delete(wpComments).where(eq(wpComments.id, input))
   return data
 }

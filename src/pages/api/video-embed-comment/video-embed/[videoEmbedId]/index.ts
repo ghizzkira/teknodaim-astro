@@ -9,8 +9,9 @@ const inputSchema = z.object({
   perPage: z.number(),
 })
 
-export const GET: APIRoute = async ({ params, request }) => {
+export const GET: APIRoute = async ({ locals, params, request }) => {
   try {
+    const DB = locals.runtime.env.DB
     const videoEmbedId = params.videoEmbedId
 
     const url = new URL(request.url)
@@ -24,7 +25,7 @@ export const GET: APIRoute = async ({ params, request }) => {
       perPage,
     })
 
-    const data = await getVideoEmbedCommentsByVideoEmbedId(parsedInput)
+    const data = await getVideoEmbedCommentsByVideoEmbedId(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

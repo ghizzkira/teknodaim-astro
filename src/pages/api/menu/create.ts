@@ -7,6 +7,7 @@ import { createMenuSchema } from "@/lib/validation/menu"
 export const POST: APIRoute = async (context: APIContext) => {
   try {
     const user = context.locals.user
+    const DB = context.locals.runtime.env.DB
 
     if (!user?.role.includes("admin")) {
       return new Response(null, {
@@ -16,7 +17,7 @@ export const POST: APIRoute = async (context: APIContext) => {
 
     const body = await context.request.json()
     const parsedInput = createMenuSchema.parse(body)
-    const data = await createMenu(parsedInput)
+    const data = await createMenu(DB, parsedInput)
 
     return new Response(JSON.stringify(data), {
       status: 200,

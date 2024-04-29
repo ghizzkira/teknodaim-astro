@@ -1,6 +1,6 @@
 import { and, count, eq, sql } from "drizzle-orm"
 
-import { db } from "@/lib/db"
+import { initializeDB } from "@/lib/db"
 import {
   articleAuthors,
   articleEditors,
@@ -21,9 +21,14 @@ import type {
 } from "@/lib/validation/article"
 import type { LanguageType } from "@/lib/validation/language"
 
-export const getArticleTranslationById = async (id: string) => {
+export const getArticleTranslationById = async (
+  DB: D1Database,
+  input: string,
+) => {
+  const db = initializeDB(DB)
+
   const articleTranslationData = await db.query.articleTranslations.findFirst({
-    where: (articleTranslations, { eq }) => eq(articleTranslations.id, id),
+    where: (articleTranslations, { eq }) => eq(articleTranslations.id, input),
     with: {
       articles: {
         columns: {
@@ -82,12 +87,14 @@ export const getArticleTranslationById = async (id: string) => {
   return data
 }
 
-export const getArticleById = async (id: string) => {
+export const getArticleById = async (DB: D1Database, input: string) => {
+  const db = initializeDB(DB)
+
   const articleData = await db
     .select()
     .from(articles)
     .leftJoin(medias, eq(medias.id, articles.featuredImageId))
-    .where(eq(articles.id, id))
+    .where(eq(articles.id, input))
     .limit(1)
 
   const articleTopicsData = await db
@@ -95,7 +102,7 @@ export const getArticleById = async (id: string) => {
     .from(articleTopics)
     .leftJoin(articles, eq(articleTopics.articleId, articles.id))
     .leftJoin(topics, eq(articleTopics.topicId, topics.id))
-    .where(eq(articles.id, id))
+    .where(eq(articles.id, input))
     .all()
 
   const articleAuthorsData = await db
@@ -103,7 +110,7 @@ export const getArticleById = async (id: string) => {
     .from(articleAuthors)
     .leftJoin(articles, eq(articleAuthors.articleId, articles.id))
     .leftJoin(users, eq(articleAuthors.userId, users.id))
-    .where(eq(articles.id, id))
+    .where(eq(articles.id, input))
     .all()
 
   const articleEditorsData = await db
@@ -111,7 +118,7 @@ export const getArticleById = async (id: string) => {
     .from(articleEditors)
     .leftJoin(articles, eq(articleEditors.articleId, articles.id))
     .leftJoin(users, eq(articleEditors.userId, users.id))
-    .where(eq(articles.id, id))
+    .where(eq(articles.id, input))
     .all()
 
   const data = articleData.map((item) => ({
@@ -128,12 +135,14 @@ export const getArticleById = async (id: string) => {
   return data[0]
 }
 
-export const getArticleBySlug = async (slug: string) => {
+export const getArticleBySlug = async (DB: D1Database, input: string) => {
+  const db = initializeDB(DB)
+
   const articleData = await db
     .select()
     .from(articles)
     .leftJoin(medias, eq(medias.id, articles.featuredImageId))
-    .where(eq(articles.slug, slug))
+    .where(eq(articles.slug, input))
     .limit(1)
 
   const articleTopicsData = await db
@@ -174,15 +183,18 @@ export const getArticleBySlug = async (slug: string) => {
   return data[0]
 }
 
-export const getArticlesByLanguage = async ({
-  language,
-  page,
-  perPage,
-}: {
-  language: LanguageType
-  page: number
-  perPage: number
-}) => {
+export const getArticlesByLanguage = async (
+  DB: D1Database,
+  input: {
+    language: LanguageType
+    page: number
+    perPage: number
+  },
+) => {
+  const { language, page, perPage } = input
+
+  const db = initializeDB(DB)
+
   const data = await db.query.articles.findMany({
     where: (articles, { eq, and }) =>
       and(eq(articles.language, language), eq(articles.status, "published")),
@@ -196,15 +208,18 @@ export const getArticlesByLanguage = async ({
   return data
 }
 
-export const getArticlesByLanguageInfinite = async ({
-  language,
-  limit = 50,
-  cursor,
-}: {
-  language: LanguageType
-  limit?: number
-  cursor?: string
-}) => {
+export const getArticlesByLanguageInfinite = async (
+  DB: D1Database,
+  input: {
+    language: LanguageType
+    limit?: number
+    cursor?: string
+  },
+) => {
+  const { language, limit = 50, cursor } = input
+
+  const db = initializeDB(DB)
+
   const data = await db.query.articles.findMany({
     where: (articles, { eq, and, lt }) =>
       and(
@@ -233,17 +248,19 @@ export const getArticlesByLanguageInfinite = async ({
   }
 }
 
-export const getArticlesByTopicId = async ({
-  topicId,
-  language,
-  page,
-  perPage,
-}: {
-  topicId: string
-  language: LanguageType
-  page: number
-  perPage: number
-}) => {
+export const getArticlesByTopicId = async (
+  DB: D1Database,
+  input: {
+    topicId: string
+    language: LanguageType
+    page: number
+    perPage: number
+  },
+) => {
+  const { topicId, language, page, perPage } = input
+
+  const db = initializeDB(DB)
+
   const articles = await db.query.articles.findMany({
     where: (articles, { eq, and }) =>
       and(eq(articles.language, language), eq(articles.status, "published")),
@@ -263,17 +280,19 @@ export const getArticlesByTopicId = async ({
   return data
 }
 
-export const getArticlesByTopicIdInfinite = async ({
-  topicId,
-  language,
-  limit = 50,
-  cursor,
-}: {
-  topicId: string
-  language: LanguageType
-  limit?: number
-  cursor?: string
-}) => {
+export const getArticlesByTopicIdInfinite = async (
+  DB: D1Database,
+  input: {
+    topicId: string
+    language: LanguageType
+    limit?: number
+    cursor?: string
+  },
+) => {
+  const { topicId, language, limit = 50, cursor } = input
+
+  const db = initializeDB(DB)
+
   const articles = await db.query.articles.findMany({
     where: (articles, { eq, and, lt }) =>
       and(
@@ -307,17 +326,19 @@ export const getArticlesByTopicIdInfinite = async ({
   }
 }
 
-export const getArticlesByAuthorId = async ({
-  authorId,
-  language,
-  page,
-  perPage,
-}: {
-  authorId: string
-  language: LanguageType
-  page: number
-  perPage: number
-}) => {
+export const getArticlesByAuthorId = async (
+  DB: D1Database,
+  input: {
+    authorId: string
+    language: LanguageType
+    page: number
+    perPage: number
+  },
+) => {
+  const { authorId, language, page, perPage } = input
+
+  const db = initializeDB(DB)
+
   const articles = await db.query.articles.findMany({
     where: (articles, { eq, and }) =>
       and(eq(articles.language, language), eq(articles.status, "published")),
@@ -337,17 +358,19 @@ export const getArticlesByAuthorId = async ({
   return data
 }
 
-export const getArticlesByAuthorIdInfinite = async ({
-  authorId,
-  language,
-  limit = 50,
-  cursor,
-}: {
-  authorId: string
-  language: LanguageType
-  limit?: number
-  cursor?: string
-}) => {
+export const getArticlesByAuthorIdInfinite = async (
+  DB: D1Database,
+  input: {
+    authorId: string
+    language: LanguageType
+    limit?: number
+    cursor?: string
+  },
+) => {
+  const { authorId, language, limit = 50, cursor } = input
+
+  const db = initializeDB(DB)
+
   const articles = await db.query.articles.findMany({
     where: (articles, { eq, and, lt }) =>
       and(
@@ -381,19 +404,20 @@ export const getArticlesByAuthorIdInfinite = async ({
   }
 }
 
-export const getRelatedArticlesInfinite = async ({
-  topicId,
-  currentArticleId,
-  language,
-  limit = 50,
-  cursor,
-}: {
-  topicId: string
-  currentArticleId: string
-  language: LanguageType
-  limit?: number
-  cursor?: string
-}) => {
+export const getRelatedArticlesInfinite = async (
+  DB: D1Database,
+  input: {
+    topicId: string
+    currentArticleId: string
+    language: LanguageType
+    limit?: number
+    cursor?: string
+  },
+) => {
+  const { topicId, currentArticleId, language, limit = 50, cursor } = input
+
+  const db = initializeDB(DB)
+
   const articles = await db.query.articles.findMany({
     where: (articles, { eq, and, not, lt }) =>
       and(
@@ -428,15 +452,18 @@ export const getRelatedArticlesInfinite = async ({
   }
 }
 
-export const getArticlesDashboard = async ({
-  language,
-  page,
-  perPage,
-}: {
-  language: LanguageType
-  page: number
-  perPage: number
-}) => {
+export const getArticlesDashboard = async (
+  DB: D1Database,
+  input: {
+    language: LanguageType
+    page: number
+    perPage: number
+  },
+) => {
+  const { language, page, perPage } = input
+
+  const db = initializeDB(DB)
+
   const data = await db.query.articles.findMany({
     where: (articles, { eq }) => eq(articles.language, language),
     limit: perPage,
@@ -468,15 +495,18 @@ export const getArticlesDashboard = async ({
   return data
 }
 
-export const getArticlesSitemap = async ({
-  language,
-  page,
-  perPage,
-}: {
-  language: LanguageType
-  page: number
-  perPage: number
-}) => {
+export const getArticlesSitemap = async (
+  DB: D1Database,
+  input: {
+    language: LanguageType
+    page: number
+    perPage: number
+  },
+) => {
+  const { language, page, perPage } = input
+
+  const db = initializeDB(DB)
+
   const data = await db.query.articles.findMany({
     where: (articles, { eq, and }) =>
       and(eq(articles.language, language), eq(articles.status, "published")),
@@ -492,7 +522,8 @@ export const getArticlesSitemap = async ({
   return data
 }
 
-export const getArticlesCount = async () => {
+export const getArticlesCount = async (DB: D1Database) => {
+  const db = initializeDB(DB)
   const data = await db
     .select({ value: count() })
     .from(articles)
@@ -500,28 +531,35 @@ export const getArticlesCount = async () => {
   return data[0].value
 }
 
-export const getArticlesCountDashboard = async () => {
+export const getArticlesCountDashboard = async (DB: D1Database) => {
+  const db = initializeDB(DB)
   const data = await db.select({ value: count() }).from(articles)
   return data[0].value
 }
 
-export const getArticlesCountByLanguage = async (language: LanguageType) => {
+export const getArticlesCountByLanguage = async (
+  DB: D1Database,
+  input: LanguageType,
+) => {
+  const db = initializeDB(DB)
   const data = await db
     .select({ values: count() })
     .from(articles)
-    .where(
-      and(eq(articles.language, language), eq(articles.status, "published")),
-    )
+    .where(and(eq(articles.language, input), eq(articles.status, "published")))
   return data[0].values
 }
 
-export const searchArticles = async ({
-  language,
-  searchQuery,
-}: {
-  language: LanguageType
-  searchQuery: string
-}) => {
+export const searchArticles = async (
+  DB: D1Database,
+  input: {
+    language: LanguageType
+    searchQuery: string
+  },
+) => {
+  const { language, searchQuery } = input
+
+  const db = initializeDB(DB)
+
   const data = await db.query.articles.findMany({
     where: (articles, { eq, and, or, like }) =>
       and(
@@ -540,13 +578,17 @@ export const searchArticles = async ({
   return data
 }
 
-export const searchArticlesDashboard = async ({
-  language,
-  searchQuery,
-}: {
-  language: LanguageType
-  searchQuery: string
-}) => {
+export const searchArticlesDashboard = async (
+  DB: D1Database,
+  input: {
+    language: LanguageType
+    searchQuery: string
+  },
+) => {
+  const { language, searchQuery } = input
+
+  const db = initializeDB(DB)
+
   const data = await db.query.articles.findMany({
     where: (articles, { eq, and, or, like }) =>
       and(
@@ -564,7 +606,7 @@ export const searchArticlesDashboard = async ({
   return data
 }
 
-export const createArticle = async (input: CreateArticle) => {
+export const createArticle = async (DB: D1Database, input: CreateArticle) => {
   const slug = `${slugify(input.title)}_${uniqueCharacter()}`
   const generatedExcerpt = !input.excerpt
     ? trimText(input.content, 160)
@@ -576,6 +618,8 @@ export const createArticle = async (input: CreateArticle) => {
 
   const articleTranslationId = cuid()
   const articleId = cuid()
+
+  const db = initializeDB(DB)
 
   const data = await db.transaction(async (tx) => {
     const articleTranslation = await tx
@@ -629,7 +673,9 @@ export const createArticle = async (input: CreateArticle) => {
   return data
 }
 
-export const updateArticle = async (input: UpdateArticle) => {
+export const updateArticle = async (DB: D1Database, input: UpdateArticle) => {
+  const db = initializeDB(DB)
+
   const data = await db.transaction(async (tx) => {
     const article = await tx
       .update(articles)
@@ -687,8 +733,11 @@ export const updateArticle = async (input: UpdateArticle) => {
 }
 
 export const updateArticleWithoutChangeUpdatedDate = async (
+  DB: D1Database,
   input: UpdateArticle,
 ) => {
+  const db = initializeDB(DB)
+
   const data = await db.transaction(async (tx) => {
     const article = await tx
       .update(articles)
@@ -744,7 +793,10 @@ export const updateArticleWithoutChangeUpdatedDate = async (
   return data
 }
 
-export const translateArticle = async (input: TranslateArticle) => {
+export const translateArticle = async (
+  DB: D1Database,
+  input: TranslateArticle,
+) => {
   const slug = `${slugify(input.title)}_${uniqueCharacter()}`
   const generatedExcerpt = !input.excerpt
     ? trimText(input.content, 160)
@@ -753,6 +805,8 @@ export const translateArticle = async (input: TranslateArticle) => {
   const generatedMetaDescription = !input.metaDescription
     ? generatedExcerpt
     : input.metaDescription
+
+  const db = initializeDB(DB)
 
   const data = await db.transaction(async (tx) => {
     const article = await tx
@@ -799,12 +853,13 @@ export const translateArticle = async (input: TranslateArticle) => {
   return data
 }
 
-export const deleteArticle = async (id: string) => {
+export const deleteArticle = async (DB: D1Database, input: string) => {
+  const db = initializeDB(DB)
   const data = await db.transaction(async (tx) => {
-    await tx.delete(articleTopics).where(eq(articleTopics.articleId, id))
-    await tx.delete(articleAuthors).where(eq(articleAuthors.articleId, id))
-    await tx.delete(articleEditors).where(eq(articleEditors.articleId, id))
-    const article = await tx.delete(articles).where(eq(articles.id, id))
+    await tx.delete(articleTopics).where(eq(articleTopics.articleId, input))
+    await tx.delete(articleAuthors).where(eq(articleAuthors.articleId, input))
+    await tx.delete(articleEditors).where(eq(articleEditors.articleId, input))
+    const article = await tx.delete(articles).where(eq(articles.id, input))
     return article
   })
   return data

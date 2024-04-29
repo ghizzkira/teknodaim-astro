@@ -1,18 +1,22 @@
 import { and, count, eq, sql } from "drizzle-orm"
 
-import { db } from "@/lib/db"
+import { initializeDB } from "@/lib/db"
 import { gadgets } from "@/lib/db/schema/gadget"
 import { cuid, uniqueCharacter } from "@/lib/utils/id"
 import { slugify } from "@/lib/utils/slug"
 import type { CreateGadget, UpdateGadget } from "@/lib/validation/gadget"
 
-export const getGadgetsPublished = async ({
-  page,
-  perPage,
-}: {
-  page: number
-  perPage: number
-}) => {
+export const getGadgetsPublished = async (
+  DB: D1Database,
+  input: {
+    page: number
+    perPage: number
+  },
+) => {
+  const { page, perPage } = input
+
+  const db = initializeDB(DB)
+
   const data = await db.query.gadgets.findMany({
     where: (gadgets, { eq }) => eq(gadgets.status, "published"),
     limit: perPage,
@@ -24,13 +28,17 @@ export const getGadgetsPublished = async ({
   return data
 }
 
-export const getGadgetsPublishedInfinite = async ({
-  limit = 50,
-  cursor,
-}: {
-  limit?: number
-  cursor?: string
-}) => {
+export const getGadgetsPublishedInfinite = async (
+  DB: D1Database,
+  input: {
+    limit?: number
+    cursor?: string
+  },
+) => {
+  const { limit = 10, cursor } = input
+
+  const db = initializeDB(DB)
+
   const data = await db.query.gadgets.findMany({
     where: (gadgets, { eq, and, lt }) =>
       and(
@@ -58,10 +66,12 @@ export const getGadgetsPublishedInfinite = async ({
   }
 }
 
-export const getGadgetsByWpTagSlug = async (wpTagSlug: string) => {
+export const getGadgetsByWpTagSlug = async (DB: D1Database, input: string) => {
+  const db = initializeDB(DB)
+
   const data = await db.query.gadgets.findMany({
     where: (gadgets, { eq, and }) =>
-      and(eq(gadgets.status, "published"), eq(gadgets.wpTagSlug, wpTagSlug)),
+      and(eq(gadgets.status, "published"), eq(gadgets.wpTagSlug, input)),
     with: {
       featuredImage: true,
     },
@@ -69,13 +79,14 @@ export const getGadgetsByWpTagSlug = async (wpTagSlug: string) => {
   return data
 }
 
-export const getGadgetsByWpCategorySlug = async (wpCategorySlug: string) => {
+export const getGadgetsByWpCategorySlug = async (
+  DB: D1Database,
+  input: string,
+) => {
+  const db = initializeDB(DB)
   const data = await db.query.gadgets.findMany({
     where: (gadgets, { eq, and }) =>
-      and(
-        eq(gadgets.status, "published"),
-        eq(gadgets.wpCategorySlug, wpCategorySlug),
-      ),
+      and(eq(gadgets.status, "published"), eq(gadgets.wpCategorySlug, input)),
     with: {
       featuredImage: true,
     },
@@ -83,13 +94,15 @@ export const getGadgetsByWpCategorySlug = async (wpCategorySlug: string) => {
   return data
 }
 
-export const getGadgetsDashboard = async ({
-  page,
-  perPage,
-}: {
-  page: number
-  perPage: number
-}) => {
+export const getGadgetsDashboard = async (
+  DB: D1Database,
+  input: {
+    page: number
+    perPage: number
+  },
+) => {
+  const { page, perPage } = input
+  const db = initializeDB(DB)
   const data = await db.query.gadgets.findMany({
     limit: perPage,
     offset: (page - 1) * perPage,
@@ -100,13 +113,15 @@ export const getGadgetsDashboard = async ({
   return data
 }
 
-export const getGadgetsSitemap = async ({
-  page,
-  perPage,
-}: {
-  page: number
-  perPage: number
-}) => {
+export const getGadgetsSitemap = async (
+  DB: D1Database,
+  input: {
+    page: number
+    perPage: number
+  },
+) => {
+  const { page, perPage } = input
+  const db = initializeDB(DB)
   const data = await db.query.gadgets.findMany({
     where: (gadgets, { eq }) => eq(gadgets.status, "published"),
     limit: perPage,
@@ -119,7 +134,8 @@ export const getGadgetsSitemap = async ({
   return data
 }
 
-export const getGadgetsCount = async () => {
+export const getGadgetsCount = async (DB: D1Database) => {
+  const db = initializeDB(DB)
   const data = await db
     .select({ value: count() })
     .from(gadgets)
@@ -127,20 +143,19 @@ export const getGadgetsCount = async () => {
   return data[0].value
 }
 
-export const getGadgetsDashboardCount = async () => {
+export const getGadgetsDashboardCount = async (DB: D1Database) => {
+  const db = initializeDB(DB)
   const data = await db.select({ value: count() }).from(gadgets)
   return data[0].value
 }
 
-export const searchGadgets = async (searchQuery: string) => {
+export const searchGadgets = async (DB: D1Database, input: string) => {
+  const db = initializeDB(DB)
   const data = await db.query.gadgets.findMany({
     where: (gadgets, { eq, and, or, like }) =>
       and(
         eq(gadgets.status, "published"),
-        or(
-          like(gadgets.title, `%${searchQuery}%`),
-          like(gadgets.slug, `%${searchQuery}%`),
-        ),
+        or(like(gadgets.title, `%${input}%`), like(gadgets.slug, `%${input}%`)),
       ),
     with: {
       featuredImage: true,
@@ -150,13 +165,11 @@ export const searchGadgets = async (searchQuery: string) => {
   return data
 }
 
-export const searchGadgetsDashboard = async (searchQuery: string) => {
+export const searchGadgetsDashboard = async (DB: D1Database, input: string) => {
+  const db = initializeDB(DB)
   const data = await db.query.gadgets.findMany({
     where: (gadgets, { or, like }) =>
-      or(
-        like(gadgets.title, `%${searchQuery}%`),
-        like(gadgets.slug, `%${searchQuery}%`),
-      ),
+      or(like(gadgets.title, `%${input}%`), like(gadgets.slug, `%${input}%`)),
     with: {
       featuredImage: true,
     },
@@ -165,7 +178,7 @@ export const searchGadgetsDashboard = async (searchQuery: string) => {
   return data
 }
 
-export const createGadget = async (input: CreateGadget) => {
+export const createGadget = async (DB: D1Database, input: CreateGadget) => {
   const slug = `${slugify(input.title)}_${uniqueCharacter()}`
   const generatedMetaTitle = !input.metaTitle ? input.title : input.metaTitle
   const generatedMetaDescription = !input.metaDescription
@@ -173,6 +186,8 @@ export const createGadget = async (input: CreateGadget) => {
     : input.metaDescription
 
   const gadgetId = cuid()
+
+  const db = initializeDB(DB)
 
   const data = await db
     .insert(gadgets)
@@ -188,7 +203,8 @@ export const createGadget = async (input: CreateGadget) => {
   return data
 }
 
-export const updateGadget = async (input: UpdateGadget) => {
+export const updateGadget = async (DB: D1Database, input: UpdateGadget) => {
+  const db = initializeDB(DB)
   const data = await db
     .insert(gadgets)
     .values({
@@ -200,7 +216,8 @@ export const updateGadget = async (input: UpdateGadget) => {
   return data
 }
 
-export const deleteGadget = async (id: string) => {
-  const data = await db.delete(gadgets).where(eq(gadgets.id, id))
+export const deleteGadget = async (DB: D1Database, input: string) => {
+  const db = initializeDB(DB)
+  const data = await db.delete(gadgets).where(eq(gadgets.id, input))
   return data
 }

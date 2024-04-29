@@ -6,12 +6,13 @@ import { updateWpCommentSchema } from "@/lib/validation/wp-comment"
 
 export const PUT: APIRoute = async (context: APIContext) => {
   try {
+    const DB = context.locals.runtime.env.DB
     const body = await context.request.json()
     const parsedInput = updateWpCommentSchema.parse(body)
 
     const user = context.locals.user
 
-    const wpComment = await getWpCommentById(parsedInput.id)
+    const wpComment = await getWpCommentById(DB, parsedInput.id)
 
     if (!user) {
       return new Response(null, {
@@ -25,7 +26,7 @@ export const PUT: APIRoute = async (context: APIContext) => {
       })
     }
 
-    const data = await updateWpComment(parsedInput)
+    const data = await updateWpComment(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

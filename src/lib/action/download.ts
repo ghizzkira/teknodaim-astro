@@ -1,6 +1,6 @@
 import { and, count, desc, eq, sql } from "drizzle-orm"
 
-import { db } from "@/lib/db"
+import { initializeDB } from "@/lib/db"
 import {
   downloadAuthors,
   downloadDownloadFiles,
@@ -23,10 +23,16 @@ import type {
 } from "@/lib/validation/download"
 import type { LanguageType } from "@/lib/validation/language"
 
-export const getDownloadTranslationById = async (id: string) => {
+export const getDownloadTranslationById = async (
+  DB: D1Database,
+  input: string,
+) => {
+  const db = initializeDB(DB)
+
   const downloadTranslationData = await db.query.downloadTranslations.findFirst(
     {
-      where: (downloadTranslations, { eq }) => eq(downloadTranslations.id, id),
+      where: (downloadTranslations, { eq }) =>
+        eq(downloadTranslations.id, input),
       with: {
         downloads: {
           columns: {
@@ -91,12 +97,14 @@ export const getDownloadTranslationById = async (id: string) => {
   return data
 }
 
-export const getDownloadById = async (id: string) => {
+export const getDownloadById = async (DB: D1Database, input: string) => {
+  const db = initializeDB(DB)
+
   const downloadData = await db
     .select()
     .from(downloads)
     .leftJoin(medias, eq(medias.id, downloads.featuredImageId))
-    .where(eq(downloads.id, id))
+    .where(eq(downloads.id, input))
     .limit(1)
 
   const downloadFilesData = await db
@@ -108,7 +116,7 @@ export const getDownloadById = async (id: string) => {
       eq(downloadDownloadFiles.downloadFileId, downloadFiles.id),
     )
     .orderBy(desc(downloadFiles.createdAt))
-    .where(eq(downloads.id, id))
+    .where(eq(downloads.id, input))
     .all()
 
   const downloadTopicsData = await db
@@ -116,7 +124,7 @@ export const getDownloadById = async (id: string) => {
     .from(downloadTopics)
     .leftJoin(downloads, eq(downloadTopics.downloadId, downloads.id))
     .leftJoin(topics, eq(downloadTopics.topicId, topics.id))
-    .where(eq(downloads.id, id))
+    .where(eq(downloads.id, input))
     .all()
 
   const downloadAuthorsData = await db
@@ -124,7 +132,7 @@ export const getDownloadById = async (id: string) => {
     .from(downloadAuthors)
     .leftJoin(downloads, eq(downloadAuthors.downloadId, downloads.id))
     .leftJoin(users, eq(downloadAuthors.userId, users.id))
-    .where(eq(downloads.id, id))
+    .where(eq(downloads.id, input))
     .all()
 
   const data = downloadData.map((item) => ({
@@ -141,15 +149,18 @@ export const getDownloadById = async (id: string) => {
   return data[0]
 }
 
-export const getDownloadBySlug = async ({
-  slug,
-  downloadFilePage,
-  downloadFilePerPage,
-}: {
-  slug: string
-  downloadFilePage: number
-  downloadFilePerPage: number
-}) => {
+export const getDownloadBySlug = async (
+  DB: D1Database,
+  input: {
+    slug: string
+    downloadFilePage: number
+    downloadFilePerPage: number
+  },
+) => {
+  const { slug, downloadFilePage, downloadFilePerPage } = input
+
+  const db = initializeDB(DB)
+
   const downloadData = await db
     .select()
     .from(downloads)
@@ -200,15 +211,17 @@ export const getDownloadBySlug = async ({
   return data[0]
 }
 
-export const getDownloadsByLanguage = async ({
-  language,
-  page,
-  perPage,
-}: {
-  language: LanguageType
-  page: number
-  perPage: number
-}) => {
+export const getDownloadsByLanguage = async (
+  DB: D1Database,
+  input: {
+    language: LanguageType
+    page: number
+    perPage: number
+  },
+) => {
+  const db = initializeDB(DB)
+  const { language, page, perPage } = input
+
   const downloadData = await db.query.downloads.findMany({
     where: (downloads, { eq, and }) =>
       and(eq(downloads.language, language), eq(downloads.status, "published")),
@@ -240,15 +253,18 @@ export const getDownloadsByLanguage = async ({
   return data
 }
 
-export const getDownloadsByLanguageInfinite = async ({
-  language,
-  limit = 50,
-  cursor,
-}: {
-  language: LanguageType
-  limit?: number
-  cursor?: string
-}) => {
+export const getDownloadsByLanguageInfinite = async (
+  DB: D1Database,
+  input: {
+    language: LanguageType
+    limit?: number
+    cursor?: string
+  },
+) => {
+  const db = initializeDB(DB)
+
+  const { language, limit = 50, cursor } = input
+
   const downloadData = await db.query.downloads.findMany({
     where: (downloads, { eq, and, lt }) =>
       and(
@@ -294,17 +310,19 @@ export const getDownloadsByLanguageInfinite = async ({
   }
 }
 
-export const getDownloadsByType = async ({
-  type,
-  language,
-  page,
-  perPage,
-}: {
-  type: DownloadType
-  language: LanguageType
-  page: number
-  perPage: number
-}) => {
+export const getDownloadsByType = async (
+  DB: D1Database,
+  input: {
+    type: DownloadType
+    language: LanguageType
+    page: number
+    perPage: number
+  },
+) => {
+  const { type, language, page, perPage } = input
+
+  const db = initializeDB(DB)
+
   const downloadData = await db.query.downloads.findMany({
     where: (downloads, { eq, and }) =>
       and(
@@ -340,17 +358,19 @@ export const getDownloadsByType = async ({
   return data
 }
 
-export const getDownloadsByTopicId = async ({
-  topicId,
-  language,
-  page,
-  perPage,
-}: {
-  topicId: string
-  language: LanguageType
-  page: number
-  perPage: number
-}) => {
+export const getDownloadsByTopicId = async (
+  DB: D1Database,
+  input: {
+    topicId: string
+    language: LanguageType
+    page: number
+    perPage: number
+  },
+) => {
+  const { topicId, language, page, perPage } = input
+
+  const db = initializeDB(DB)
+
   const downloads = await db.query.downloads.findMany({
     where: (downloads, { eq, and }) =>
       and(eq(downloads.language, language), eq(downloads.status, "published")),
@@ -370,17 +390,19 @@ export const getDownloadsByTopicId = async ({
   return data
 }
 
-export const getDownloadsByTopicIdInfinite = async ({
-  topicId,
-  language,
-  limit = 50,
-  cursor,
-}: {
-  topicId: string
-  language: LanguageType
-  limit?: number
-  cursor?: string
-}) => {
+export const getDownloadsByTopicIdInfinite = async (
+  DB: D1Database,
+  input: {
+    topicId: string
+    language: LanguageType
+    limit?: number
+    cursor?: string
+  },
+) => {
+  const { topicId, language, limit = 50, cursor } = input
+
+  const db = initializeDB(DB)
+
   const downloads = await db.query.downloads.findMany({
     where: (downloads, { eq, and, lt }) =>
       and(
@@ -414,17 +436,19 @@ export const getDownloadsByTopicIdInfinite = async ({
   }
 }
 
-export const getDownloadsByAuthorId = async ({
-  authorId,
-  language,
-  page,
-  perPage,
-}: {
-  authorId: string
-  language: LanguageType
-  page: number
-  perPage: number
-}) => {
+export const getDownloadsByAuthorId = async (
+  DB: D1Database,
+  input: {
+    authorId: string
+    language: LanguageType
+    page: number
+    perPage: number
+  },
+) => {
+  const { authorId, language, page, perPage } = input
+
+  const db = initializeDB(DB)
+
   const downloads = await db.query.downloads.findMany({
     where: (downloads, { eq, and }) =>
       and(eq(downloads.language, language), eq(downloads.status, "published")),
@@ -444,17 +468,19 @@ export const getDownloadsByAuthorId = async ({
   return data
 }
 
-export const getDownloadsByAuthorIdInfinite = async ({
-  authorId,
-  language,
-  limit = 50,
-  cursor,
-}: {
-  authorId: string
-  language: LanguageType
-  limit?: number
-  cursor?: string
-}) => {
+export const getDownloadsByAuthorIdInfinite = async (
+  DB: D1Database,
+  input: {
+    authorId: string
+    language: LanguageType
+    limit?: number
+    cursor?: string
+  },
+) => {
+  const { authorId, language, limit = 50, cursor } = input
+
+  const db = initializeDB(DB)
+
   const downloads = await db.query.downloads.findMany({
     where: (downloads, { eq, and, lt }) =>
       and(
@@ -488,19 +514,20 @@ export const getDownloadsByAuthorIdInfinite = async ({
   }
 }
 
-export const getRelatedDownloadsInfinite = async ({
-  topicId,
-  currentDownloadId,
-  language,
-  limit = 50,
-  cursor,
-}: {
-  topicId: string
-  currentDownloadId: string
-  language: LanguageType
-  limit?: number
-  cursor?: string
-}) => {
+export const getRelatedDownloadsInfinite = async (
+  DB: D1Database,
+  input: {
+    topicId: string
+    currentDownloadId: string
+    language: LanguageType
+    limit?: number
+    cursor?: string
+  },
+) => {
+  const { topicId, currentDownloadId, language, limit = 50, cursor } = input
+
+  const db = initializeDB(DB)
+
   const downloads = await db.query.downloads.findMany({
     where: (downloads, { eq, and, not, lt }) =>
       and(
@@ -535,15 +562,18 @@ export const getRelatedDownloadsInfinite = async ({
   }
 }
 
-export const getDownloadsDashboard = async ({
-  language,
-  page,
-  perPage,
-}: {
-  language: LanguageType
-  page: number
-  perPage: number
-}) => {
+export const getDownloadsDashboard = async (
+  DB: D1Database,
+  input: {
+    language: LanguageType
+    page: number
+    perPage: number
+  },
+) => {
+  const { language, page, perPage } = input
+
+  const db = initializeDB(DB)
+
   const data = await db.query.downloads.findMany({
     where: (downloads, { eq }) => eq(downloads.language, language),
     limit: perPage,
@@ -575,15 +605,18 @@ export const getDownloadsDashboard = async ({
   return data
 }
 
-export const getDownloadsSitemap = async ({
-  language,
-  page,
-  perPage,
-}: {
-  language: LanguageType
-  page: number
-  perPage: number
-}) => {
+export const getDownloadsSitemap = async (
+  DB: D1Database,
+  input: {
+    language: LanguageType
+    page: number
+    perPage: number
+  },
+) => {
+  const { language, page, perPage } = input
+
+  const db = initializeDB(DB)
+
   const data = await db.query.downloads.findMany({
     where: (downloads, { eq, and }) =>
       and(eq(downloads.language, language), eq(downloads.status, "published")),
@@ -599,7 +632,8 @@ export const getDownloadsSitemap = async ({
   return data
 }
 
-export const getDownloadsCount = async () => {
+export const getDownloadsCount = async (DB: D1Database) => {
+  const db = initializeDB(DB)
   const data = await db
     .select({ value: count() })
     .from(downloads)
@@ -607,28 +641,37 @@ export const getDownloadsCount = async () => {
   return data[0].value
 }
 
-export const getDownloadsCountDashboard = async () => {
+export const getDownloadsCountDashboard = async (DB: D1Database) => {
+  const db = initializeDB(DB)
   const data = await db.select({ value: count() }).from(downloads)
   return data[0].value
 }
 
-export const getDownloadsCountByLanguage = async (language: LanguageType) => {
+export const getDownloadsCountByLanguage = async (
+  DB: D1Database,
+  input: LanguageType,
+) => {
+  const db = initializeDB(DB)
   const data = await db
     .select({ values: count() })
     .from(downloads)
     .where(
-      and(eq(downloads.language, language), eq(downloads.status, "published")),
+      and(eq(downloads.language, input), eq(downloads.status, "published")),
     )
   return data[0].values
 }
 
-export const searchDownloads = async ({
-  language,
-  searchQuery,
-}: {
-  language: LanguageType
-  searchQuery: string
-}) => {
+export const searchDownloads = async (
+  DB: D1Database,
+  input: {
+    language: LanguageType
+    searchQuery: string
+  },
+) => {
+  const { language, searchQuery } = input
+
+  const db = initializeDB(DB)
+
   const data = await db.query.downloads.findMany({
     where: (downloads, { eq, and, or, like }) =>
       and(
@@ -647,13 +690,17 @@ export const searchDownloads = async ({
   return data
 }
 
-export const searchDownloadsDashboard = async ({
-  language,
-  searchQuery,
-}: {
-  language: LanguageType
-  searchQuery: string
-}) => {
+export const searchDownloadsDashboard = async (
+  DB: D1Database,
+  input: {
+    language: LanguageType
+    searchQuery: string
+  },
+) => {
+  const { language, searchQuery } = input
+
+  const db = initializeDB(DB)
+
   const data = await db.query.downloads.findMany({
     where: (downloads, { eq, and, or, like }) =>
       and(
@@ -671,7 +718,7 @@ export const searchDownloadsDashboard = async ({
   return data
 }
 
-export const createDownload = async (input: CreateDownload) => {
+export const createDownload = async (DB: D1Database, input: CreateDownload) => {
   const slug = `${slugify(input.title)}_${uniqueCharacter()}`
   const generatedExcerpt = !input.excerpt
     ? trimText(input.content, 160)
@@ -683,6 +730,8 @@ export const createDownload = async (input: CreateDownload) => {
 
   const downloadTranslationId = cuid()
   const downloadId = cuid()
+
+  const db = initializeDB(DB)
 
   const data = await db.transaction(async (tx) => {
     const downloadTranslation = await tx
@@ -732,7 +781,9 @@ export const createDownload = async (input: CreateDownload) => {
   return data
 }
 
-export const updateDownload = async (input: UpdateDownload) => {
+export const updateDownload = async (DB: D1Database, input: UpdateDownload) => {
+  const db = initializeDB(DB)
+
   const data = await db.transaction(async (tx) => {
     const download = await tx
       .update(downloads)
@@ -783,8 +834,10 @@ export const updateDownload = async (input: UpdateDownload) => {
 }
 
 export const updateDownloadWithoutChangeUpdatedDate = async (
+  DB: D1Database,
   input: UpdateDownload,
 ) => {
+  const db = initializeDB(DB)
   const data = await db.transaction(async (tx) => {
     const download = await tx
       .update(downloads)
@@ -822,7 +875,10 @@ export const updateDownloadWithoutChangeUpdatedDate = async (
   return data
 }
 
-export const translateDownload = async (input: TranslateDownload) => {
+export const translateDownload = async (
+  DB: D1Database,
+  input: TranslateDownload,
+) => {
   const slug = `${slugify(input.title)}_${uniqueCharacter()}`
   const generatedExcerpt = !input.excerpt
     ? trimText(input.content, 160)
@@ -831,6 +887,8 @@ export const translateDownload = async (input: TranslateDownload) => {
   const generatedMetaDescription = !input.metaDescription
     ? generatedExcerpt
     : input.metaDescription
+
+  const db = initializeDB(DB)
 
   const data = await db.transaction(async (tx) => {
     const download = await tx
@@ -865,11 +923,14 @@ export const translateDownload = async (input: TranslateDownload) => {
   return data
 }
 
-export const deleteDownload = async (id: string) => {
+export const deleteDownload = async (DB: D1Database, input: string) => {
+  const db = initializeDB(DB)
   const data = await db.transaction(async (tx) => {
-    await tx.delete(downloadTopics).where(eq(downloadTopics.downloadId, id))
-    await tx.delete(downloadAuthors).where(eq(downloadAuthors.downloadId, id))
-    const download = await tx.delete(downloads).where(eq(downloads.id, id))
+    await tx.delete(downloadTopics).where(eq(downloadTopics.downloadId, input))
+    await tx
+      .delete(downloadAuthors)
+      .where(eq(downloadAuthors.downloadId, input))
+    const download = await tx.delete(downloads).where(eq(downloads.id, input))
     return download
   })
   return data

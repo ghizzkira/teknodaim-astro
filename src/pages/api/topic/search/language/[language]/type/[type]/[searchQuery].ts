@@ -5,8 +5,9 @@ import { searchTopicsByType } from "@/lib/action/topic"
 import { languageType } from "@/lib/validation/language"
 import { topicType } from "@/lib/validation/topic"
 
-export const GET: APIRoute = async ({ params, request }) => {
+export const GET: APIRoute = async ({ locals, params, request }) => {
   try {
+    const DB = locals.runtime.env.DB
     const language = params.language
     const type = params.type
 
@@ -22,7 +23,7 @@ export const GET: APIRoute = async ({ params, request }) => {
       })
       .parse({ language: language, type, searchQuery })
 
-    const data = await searchTopicsByType(parsedInput)
+    const data = await searchTopicsByType(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

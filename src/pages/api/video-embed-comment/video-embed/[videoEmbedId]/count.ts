@@ -3,12 +3,13 @@ import { z } from "zod"
 
 import { getVideoEmbedCommentsCountByVideoEmbedId } from "@/lib/action/video-embed-comment"
 
-export const GET: APIRoute = async ({ params }) => {
+export const GET: APIRoute = async ({ locals, params }) => {
   try {
+    const DB = locals.runtime.env.DB
     const videoEmbedId = params.videoEmbedId
     const parsedInput = z.string().parse(videoEmbedId)
 
-    const data = await getVideoEmbedCommentsCountByVideoEmbedId(parsedInput)
+    const data = await getVideoEmbedCommentsCountByVideoEmbedId(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

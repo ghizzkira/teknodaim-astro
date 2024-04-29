@@ -9,9 +9,10 @@ const inputSchema = z.object({
   cursor: z.string().optional(),
 })
 
-export const GET: APIRoute = async ({ params, request }) => {
+export const GET: APIRoute = async ({ params, locals, request }) => {
   try {
     const articleId = params.articleId
+    const DB = locals.runtime.env.DB
 
     const url = new URL(request.url)
     const queryParams = new URLSearchParams(url.search)
@@ -24,7 +25,7 @@ export const GET: APIRoute = async ({ params, request }) => {
       cursor,
     })
 
-    const data = await getArticleCommentsByArticleIdInfinite(parsedInput)
+    const data = await getArticleCommentsByArticleIdInfinite(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

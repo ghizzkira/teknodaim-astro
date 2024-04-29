@@ -3,11 +3,12 @@ import { z } from "zod"
 
 import { getSettingByKey } from "@/lib/action/setting"
 
-export const GET: APIRoute = async ({ params }) => {
+export const GET: APIRoute = async ({ locals, params }) => {
   try {
+    const DB = locals.runtime.env.DB
     const key = params.key
     const parsedInput = z.string().parse(key)
-    const data = await getSettingByKey(parsedInput)
+    const data = await getSettingByKey(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

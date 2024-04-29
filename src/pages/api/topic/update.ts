@@ -7,6 +7,7 @@ import { updateTopicSchema } from "@/lib/validation/topic"
 export const PUT: APIRoute = async (context: APIContext) => {
   try {
     const user = context.locals.user
+    const DB = context.locals.runtime.env.DB
 
     if (!user?.role.includes("admin" || "author")) {
       return new Response(null, {
@@ -16,7 +17,7 @@ export const PUT: APIRoute = async (context: APIContext) => {
 
     const body = await context.request.json()
     const parsedInput = updateTopicSchema.parse(body)
-    const data = await updateTopic(parsedInput)
+    const data = await updateTopic(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

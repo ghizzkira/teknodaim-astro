@@ -1,6 +1,6 @@
 import { and, count, desc, eq, sql } from "drizzle-orm"
 
-import { db } from "@/lib/db"
+import { initializeDB } from "@/lib/db"
 import { articleTopics } from "@/lib/db/schema/article"
 import { topics, topicTranslations } from "@/lib/db/schema/topic"
 import { cuid, uniqueCharacter } from "@/lib/utils/id"
@@ -14,9 +14,13 @@ import type {
   UpdateTopic,
 } from "@/lib/validation/topic"
 
-export const getTopciTranslationById = async (id: string) => {
+export const getTopciTranslationById = async (
+  DB: D1Database,
+  input: string,
+) => {
+  const db = initializeDB(DB)
   const data = await db.query.topicTranslations.findFirst({
-    where: (topicTranslations, { eq }) => eq(topicTranslations.id, id),
+    where: (topicTranslations, { eq }) => eq(topicTranslations.id, input),
     with: {
       topics: true,
     },
@@ -24,15 +28,16 @@ export const getTopciTranslationById = async (id: string) => {
   return data
 }
 
-export const getTopicsDashboard = async ({
-  language,
-  page,
-  perPage,
-}: {
-  language: LanguageType
-  page: number
-  perPage: number
-}) => {
+export const getTopicsDashboard = async (
+  DB: D1Database,
+  input: {
+    language: LanguageType
+    page: number
+    perPage: number
+  },
+) => {
+  const { language, page, perPage } = input
+  const db = initializeDB(DB)
   const data = await db.query.topics.findMany({
     where: (topics, { eq }) => eq(topics.language, language),
     limit: perPage,
@@ -49,15 +54,16 @@ export const getTopicsDashboard = async ({
   return data
 }
 
-export const getTopicsByLanguage = async ({
-  language,
-  page,
-  perPage,
-}: {
-  language: LanguageType
-  page: number
-  perPage: number
-}) => {
+export const getTopicsByLanguage = async (
+  DB: D1Database,
+  input: {
+    language: LanguageType
+    page: number
+    perPage: number
+  },
+) => {
+  const { language, page, perPage } = input
+  const db = initializeDB(DB)
   const data = await db.query.topics.findMany({
     where: (topics, { and, eq }) =>
       and(eq(topics.language, language), eq(topics.status, "published")),
@@ -71,15 +77,16 @@ export const getTopicsByLanguage = async ({
   return data
 }
 
-export const getTopicsByArticlesCount = async ({
-  language,
-  page,
-  perPage,
-}: {
-  language: LanguageType
-  page: number
-  perPage: number
-}) => {
+export const getTopicsByArticlesCount = async (
+  DB: D1Database,
+  input: {
+    language: LanguageType
+    page: number
+    perPage: number
+  },
+) => {
+  const { language, page, perPage } = input
+  const db = initializeDB(DB)
   const data = await db
     .select({
       id: topics.id,
@@ -104,15 +111,16 @@ export const getTopicsByArticlesCount = async ({
   return data
 }
 
-export const getTopicsSitemap = async ({
-  language,
-  page,
-  perPage,
-}: {
-  language: LanguageType
-  page: number
-  perPage: number
-}) => {
+export const getTopicsSitemap = async (
+  DB: D1Database,
+  input: {
+    language: LanguageType
+    page: number
+    perPage: number
+  },
+) => {
+  const { language, page, perPage } = input
+  const db = initializeDB(DB)
   const data = await db.query.topics.findMany({
     where: (topics, { eq, and }) =>
       and(eq(topics.language, language), eq(topics.status, "published")),
@@ -127,17 +135,17 @@ export const getTopicsSitemap = async ({
   return data
 }
 
-export const getTopicsByType = async ({
-  type,
-  language,
-  page,
-  perPage,
-}: {
-  type: TopicType
-  language: LanguageType
-  page: number
-  perPage: number
-}) => {
+export const getTopicsByType = async (
+  DB: D1Database,
+  input: {
+    type: TopicType
+    language: LanguageType
+    page: number
+    perPage: number
+  },
+) => {
+  const { type, language, page, perPage } = input
+  const db = initializeDB(DB)
   const data = await db.query.topics.findMany({
     where: (topics, { eq, and }) =>
       and(
@@ -155,17 +163,17 @@ export const getTopicsByType = async ({
   return data
 }
 
-export const getTopicsByVisibility = async ({
-  visibility,
-  language,
-  page,
-  perPage,
-}: {
-  visibility: TopicVisibility
-  language: LanguageType
-  page: number
-  perPage: number
-}) => {
+export const getTopicsByVisibility = async (
+  DB: D1Database,
+  input: {
+    visibility: TopicVisibility
+    language: LanguageType
+    page: number
+    perPage: number
+  },
+) => {
+  const { visibility, language, page, perPage } = input
+  const db = initializeDB(DB)
   const data = await db.query.topics.findMany({
     where: (topics, { eq, and }) =>
       and(
@@ -183,20 +191,23 @@ export const getTopicsByVisibility = async ({
   return data
 }
 
-export const getTopicBySlug = async (slug: string) => {
+export const getTopicBySlug = async (DB: D1Database, input: string) => {
+  const db = initializeDB(DB)
   const data = await db.query.topics.findFirst({
-    where: (topics, { eq }) => eq(topics.slug, slug),
+    where: (topics, { eq }) => eq(topics.slug, input),
   })
   return data
 }
 
-export const searchTopics = async ({
-  language,
-  searchQuery,
-}: {
-  language: LanguageType
-  searchQuery: string
-}) => {
+export const searchTopics = async (
+  DB: D1Database,
+  input: {
+    language: LanguageType
+    searchQuery: string
+  },
+) => {
+  const { language, searchQuery } = input
+  const db = initializeDB(DB)
   const data = await db.query.topics.findMany({
     where: (topics, { eq, and, or, like }) =>
       and(
@@ -216,13 +227,15 @@ export const searchTopics = async ({
   return data
 }
 
-export const searchTopicsDashboard = async ({
-  language,
-  searchQuery,
-}: {
-  language: LanguageType
-  searchQuery: string
-}) => {
+export const searchTopicsDashboard = async (
+  DB: D1Database,
+  input: {
+    language: LanguageType
+    searchQuery: string
+  },
+) => {
+  const { language, searchQuery } = input
+  const db = initializeDB(DB)
   const data = await db.query.topics.findMany({
     where: (topics, { eq, and, or, like }) =>
       and(
@@ -240,15 +253,16 @@ export const searchTopicsDashboard = async ({
   return data
 }
 
-export const searchTopicsByType = async ({
-  type,
-  language,
-  searchQuery,
-}: {
-  type: TopicType
-  language: LanguageType
-  searchQuery: string
-}) => {
+export const searchTopicsByType = async (
+  DB: D1Database,
+  input: {
+    type: TopicType
+    language: LanguageType
+    searchQuery: string
+  },
+) => {
+  const { type, language, searchQuery } = input
+  const db = initializeDB(DB)
   const data = await db.query.topics.findMany({
     where: (topics, { eq, and, or, like }) =>
       and(
@@ -269,22 +283,28 @@ export const searchTopicsByType = async ({
   return data
 }
 
-export const getTopicsCount = async () => {
+export const getTopicsCount = async (DB: D1Database) => {
+  const db = initializeDB(DB)
   const data = await db.select({ value: count() }).from(topics)
   return data[0].value
 }
 
-export const getTopicsCountByLanguage = async (language: LanguageType) => {
+export const getTopicsCountByLanguage = async (
+  DB: D1Database,
+  input: LanguageType,
+) => {
+  const db = initializeDB(DB)
   const data = await db
     .select({ values: count() })
     .from(topics)
-    .where(and(eq(topics.language, language), eq(topics.status, "published")))
+    .where(and(eq(topics.language, input), eq(topics.status, "published")))
   return data[0].values
 }
 
-export const getTopicById = async (id: string) => {
+export const getTopicById = async (DB: D1Database, input: string) => {
+  const db = initializeDB(DB)
   const data = await db.query.topics.findFirst({
-    where: (topics, { eq }) => eq(topics.id, id),
+    where: (topics, { eq }) => eq(topics.id, input),
     with: {
       featuredImage: true,
     },
@@ -292,7 +312,8 @@ export const getTopicById = async (id: string) => {
   return data
 }
 
-export const createTopic = async (input: CreateTopic) => {
+export const createTopic = async (DB: D1Database, input: CreateTopic) => {
+  const db = initializeDB(DB)
   const slug = `${slugify(input.title)}_${uniqueCharacter()}`
   const generatedMetaTitle = !input.metaTitle ? input.title : input.metaTitle
   const generatedMetaDescription = !input.metaDescription
@@ -334,7 +355,8 @@ export const createTopic = async (input: CreateTopic) => {
   return data
 }
 
-export const updateTopic = async (input: UpdateTopic) => {
+export const updateTopic = async (DB: D1Database, input: UpdateTopic) => {
+  const db = initializeDB(DB)
   const data = await db
     .update(topics)
     .set({
@@ -345,7 +367,8 @@ export const updateTopic = async (input: UpdateTopic) => {
   return data
 }
 
-export const translateTopic = async (input: TranslateTopic) => {
+export const translateTopic = async (DB: D1Database, input: TranslateTopic) => {
+  const db = initializeDB(DB)
   const slug = `${slugify(input.title)}_${uniqueCharacter()}`
   const generatedMetaTitle = !input.metaTitle ? input.title : input.metaTitle
   const generatedMetaDescription = !input.metaDescription
@@ -370,12 +393,11 @@ export const translateTopic = async (input: TranslateTopic) => {
   return data
 }
 
-export const deleteTopic = async (id: string) => {
+export const deleteTopic = async (DB: D1Database, input: string) => {
+  const db = initializeDB(DB)
   const data = await db.transaction(async (tx) => {
-    await tx.delete(articleTopics).where(eq(articleTopics.topicId, id))
-
-    const topic = await tx.delete(topics).where(eq(topics.id, id))
-
+    await tx.delete(articleTopics).where(eq(articleTopics.topicId, input))
+    const topic = await tx.delete(topics).where(eq(topics.id, input))
     return topic
   })
 

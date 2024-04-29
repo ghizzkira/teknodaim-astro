@@ -4,8 +4,9 @@ import { z } from "zod"
 import { searchUsersByRole } from "@/lib/action/user"
 import { userRole } from "@/lib/validation/user"
 
-export const GET: APIRoute = async ({ params, request }) => {
+export const GET: APIRoute = async ({ locals, params, request }) => {
   try {
+    const DB = locals.runtime.env.DB
     const role = params.role
 
     const url = new URL(request.url)
@@ -16,7 +17,7 @@ export const GET: APIRoute = async ({ params, request }) => {
       .object({ role: userRole, searchQuery: z.string() })
       .parse({ role, searchQuery })
 
-    const data = await searchUsersByRole(parsedInput)
+    const data = await searchUsersByRole(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

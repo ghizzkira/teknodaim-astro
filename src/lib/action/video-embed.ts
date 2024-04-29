@@ -1,6 +1,7 @@
 import { and, count, eq, sql } from "drizzle-orm"
 
-import { db } from "@/lib/db"
+import { initializeDB } from "@/lib/db"
+import { medias } from "@/lib/db/schema/media"
 import { topics } from "@/lib/db/schema/topic"
 import { users } from "@/lib/db/schema/user"
 import {
@@ -8,22 +9,23 @@ import {
   videoEmbeds,
   videoEmbedTopics,
 } from "@/lib/db/schema/video-embed"
+import { cuid, uniqueCharacter } from "@/lib/utils/id"
+import { slugify } from "@/lib/utils/slug"
 import type {
   CreateVideoEmbed,
   UpdateVideoEmbed,
   VideoEmbedType,
 } from "@/lib/validation/video-embed"
-import { medias } from "../db/schema/media"
-import { cuid, uniqueCharacter } from "../utils/id"
-import { slugify } from "../utils/slug"
 
-export const getVideoEmbedsDashboard = async ({
-  page,
-  perPage,
-}: {
-  page: number
-  perPage: number
-}) => {
+export const getVideoEmbedsDashboard = async (
+  DB: D1Database,
+  input: {
+    page: number
+    perPage: number
+  },
+) => {
+  const { page, perPage } = input
+  const db = initializeDB(DB)
   const videoEmbedsData = await db.query.videoEmbeds.findMany({
     limit: perPage,
     offset: (page - 1) * perPage,
@@ -57,15 +59,16 @@ export const getVideoEmbedsDashboard = async ({
   return data
 }
 
-export const getVideoEmbedsByTopicId = async ({
-  topicId,
-  page,
-  perPage,
-}: {
-  topicId: string
-  page: number
-  perPage: number
-}) => {
+export const getVideoEmbedsByTopicId = async (
+  DB: D1Database,
+  input: {
+    topicId: string
+    page: number
+    perPage: number
+  },
+) => {
+  const { topicId, page, perPage } = input
+  const db = initializeDB(DB)
   const videoEmbeds = await db.query.videoEmbeds.findMany({
     where: (videoEmbeds, { eq }) => eq(videoEmbeds.status, "published"),
     limit: perPage,
@@ -84,15 +87,16 @@ export const getVideoEmbedsByTopicId = async ({
   return data
 }
 
-export const getVideoEmbedsByTopicIdInfinite = async ({
-  topicId,
-  limit = 50,
-  cursor,
-}: {
-  topicId: string
-  limit?: number
-  cursor?: string
-}) => {
+export const getVideoEmbedsByTopicIdInfinite = async (
+  DB: D1Database,
+  input: {
+    topicId: string
+    limit?: number
+    cursor?: string
+  },
+) => {
+  const { topicId, limit = 50, cursor } = input
+  const db = initializeDB(DB)
   const videoEmbeds = await db.query.videoEmbeds.findMany({
     where: (videoEmbeds, { eq, and, lt }) =>
       and(
@@ -125,17 +129,17 @@ export const getVideoEmbedsByTopicIdInfinite = async ({
   }
 }
 
-export const getRelatedVideoEmbedsInfinite = async ({
-  topicId,
-  currentVideoEmbedId,
-  limit = 50,
-  cursor,
-}: {
-  topicId: string
-  currentVideoEmbedId: string
-  limit?: number
-  cursor?: string
-}) => {
+export const getRelatedVideoEmbedsInfinite = async (
+  DB: D1Database,
+  input: {
+    topicId: string
+    currentVideoEmbedId: string
+    limit?: number
+    cursor?: string
+  },
+) => {
+  const { topicId, currentVideoEmbedId, limit = 50, cursor } = input
+  const db = initializeDB(DB)
   const videoEmbeds = await db.query.videoEmbeds.findMany({
     where: (videoEmbeds, { eq, and, not, lt }) =>
       and(
@@ -169,15 +173,16 @@ export const getRelatedVideoEmbedsInfinite = async ({
   }
 }
 
-export const getVideoEmbedsByType = async ({
-  type,
-  page,
-  perPage,
-}: {
-  type: VideoEmbedType
-  page: number
-  perPage: number
-}) => {
+export const getVideoEmbedsByType = async (
+  DB: D1Database,
+  input: {
+    type: VideoEmbedType
+    page: number
+    perPage: number
+  },
+) => {
+  const { type, page, perPage } = input
+  const db = initializeDB(DB)
   const data = await db.query.videoEmbeds.findMany({
     where: (videoEmbeds, { eq, and }) =>
       and(eq(videoEmbeds.type, type), eq(videoEmbeds.status, "published")),
@@ -192,15 +197,16 @@ export const getVideoEmbedsByType = async ({
   return data
 }
 
-export const getVideoEmbedsByTypeInfinite = async ({
-  type,
-  limit = 50,
-  cursor,
-}: {
-  type: VideoEmbedType
-  limit?: number
-  cursor?: string
-}) => {
+export const getVideoEmbedsByTypeInfinite = async (
+  DB: D1Database,
+  input: {
+    type: VideoEmbedType
+    limit?: number
+    cursor?: string
+  },
+) => {
+  const { type, limit = 50, cursor } = input
+  const db = initializeDB(DB)
   const data = await db.query.videoEmbeds.findMany({
     where: (videoEmbeds, { eq, and, lt }) =>
       and(
@@ -230,15 +236,16 @@ export const getVideoEmbedsByTypeInfinite = async ({
   }
 }
 
-export const getVideoEmbedsByAuthorIdInfinite = async ({
-  authorId,
-  limit = 50,
-  cursor,
-}: {
-  authorId: string
-  limit?: number
-  cursor?: string
-}) => {
+export const getVideoEmbedsByAuthorIdInfinite = async (
+  DB: D1Database,
+  input: {
+    authorId: string
+    limit?: number
+    cursor?: string
+  },
+) => {
+  const { authorId, limit = 50, cursor } = input
+  const db = initializeDB(DB)
   const videoEmbeds = await db.query.videoEmbeds.findMany({
     where: (videoEmbeds, { eq, and, lt }) =>
       and(
@@ -271,9 +278,10 @@ export const getVideoEmbedsByAuthorIdInfinite = async ({
   }
 }
 
-export const getVideoEmbedById = async (id: string) => {
+export const getVideoEmbedById = async (DB: D1Database, input: string) => {
+  const db = initializeDB(DB)
   const data = await db.query.videoEmbeds.findFirst({
-    where: (videoEmbed, { eq }) => eq(videoEmbed.id, id),
+    where: (videoEmbed, { eq }) => eq(videoEmbed.id, input),
     with: {
       featuredImage: true,
     },
@@ -282,12 +290,13 @@ export const getVideoEmbedById = async (id: string) => {
   return data
 }
 
-export const getVideoEmbedBySlug = async ({ slug }: { slug: string }) => {
+export const getVideoEmbedBySlug = async (DB: D1Database, input: string) => {
+  const db = initializeDB(DB)
   const videoEmbedData = await db
     .select()
     .from(videoEmbeds)
     .leftJoin(medias, eq(medias.id, videoEmbeds.featuredImageId))
-    .where(eq(videoEmbeds.slug, slug))
+    .where(eq(videoEmbeds.slug, input))
     .limit(1)
 
   const videoEmbedTopicsData = await db
@@ -319,13 +328,15 @@ export const getVideoEmbedBySlug = async ({ slug }: { slug: string }) => {
   return data[0]
 }
 
-export const getVideoEmbedsSitemap = async ({
-  page,
-  perPage,
-}: {
-  page: number
-  perPage: number
-}) => {
+export const getVideoEmbedsSitemap = async (
+  DB: D1Database,
+  input: {
+    page: number
+    perPage: number
+  },
+) => {
+  const { page, perPage } = input
+  const db = initializeDB(DB)
   const data = await db.query.videoEmbeds.findMany({
     where: (videoEmbeds, { eq }) => eq(videoEmbeds.status, "published"),
     columns: {
@@ -340,7 +351,8 @@ export const getVideoEmbedsSitemap = async ({
   return data
 }
 
-export const getVideoEmbedsCount = async () => {
+export const getVideoEmbedsCount = async (DB: D1Database) => {
+  const db = initializeDB(DB)
   const data = await db
     .select({ value: count() })
     .from(videoEmbeds)
@@ -348,27 +360,33 @@ export const getVideoEmbedsCount = async () => {
   return data[0].value
 }
 
-export const getVideoEmbedsCountDashboard = async () => {
+export const getVideoEmbedsCountDashboard = async (DB: D1Database) => {
+  const db = initializeDB(DB)
   const data = await db.select({ value: count() }).from(videoEmbeds)
   return data[0].value
 }
 
-export const getVideoEmbedsCountByType = async (type: VideoEmbedType) => {
+export const getVideoEmbedsCountByType = async (
+  DB: D1Database,
+  input: VideoEmbedType,
+) => {
+  const db = initializeDB(DB)
   const data = await db
     .select({ value: count() })
     .from(videoEmbeds)
-    .where(eq(videoEmbeds.type, type))
+    .where(eq(videoEmbeds.type, input))
   return data[0].value
 }
 
-export const searchVideoEmbeds = async (searchQuery: string) => {
+export const searchVideoEmbeds = async (DB: D1Database, input: string) => {
+  const db = initializeDB(DB)
   const data = await db.query.videoEmbeds.findMany({
     where: (videoEmbeds, { eq, and, or, like }) =>
       and(
         eq(videoEmbeds.status, "published"),
         or(
-          like(videoEmbeds.title, `%${searchQuery}%`),
-          like(videoEmbeds.slug, `%${searchQuery}%`),
+          like(videoEmbeds.title, `%${input}%`),
+          like(videoEmbeds.slug, `%${input}%`),
         ),
       ),
     with: {
@@ -379,12 +397,16 @@ export const searchVideoEmbeds = async (searchQuery: string) => {
   return data
 }
 
-export const searchVideoEmbedsDashboard = async (searchQuery: string) => {
+export const searchVideoEmbedsDashboard = async (
+  DB: D1Database,
+  input: string,
+) => {
+  const db = initializeDB(DB)
   const data = await db.query.videoEmbeds.findMany({
     where: (videoEmbeds, { or, like }) =>
       or(
-        like(videoEmbeds.title, `%${searchQuery}%`),
-        like(videoEmbeds.slug, `%${searchQuery}%`),
+        like(videoEmbeds.title, `%${input}%`),
+        like(videoEmbeds.slug, `%${input}%`),
       ),
     with: {
       featuredImage: true,
@@ -394,12 +416,17 @@ export const searchVideoEmbedsDashboard = async (searchQuery: string) => {
   return data
 }
 
-export const createVideoEmbed = async (input: CreateVideoEmbed) => {
+export const createVideoEmbed = async (
+  DB: D1Database,
+  input: CreateVideoEmbed,
+) => {
   const slug = `${slugify(input.title)}_${uniqueCharacter()}`
   const generatedMetaTitle = !input.metaTitle ? input.title : input.metaTitle
   const generatedMetaDescription = !input.metaDescription
     ? generatedMetaTitle
     : input.metaDescription
+
+  const db = initializeDB(DB)
 
   const data = await db.transaction(async (tx) => {
     const videoEmbed = await tx
@@ -431,7 +458,11 @@ export const createVideoEmbed = async (input: CreateVideoEmbed) => {
   return data
 }
 
-export const updateVideoEmbed = async (input: UpdateVideoEmbed) => {
+export const updateVideoEmbed = async (
+  DB: D1Database,
+  input: UpdateVideoEmbed,
+) => {
+  const db = initializeDB(DB)
   const data = await db.transaction(async (tx) => {
     const videoEmbed = await tx
       .update(videoEmbeds)
@@ -470,17 +501,18 @@ export const updateVideoEmbed = async (input: UpdateVideoEmbed) => {
   return data
 }
 
-export const deleteVideoEmbed = async (id: string) => {
+export const deleteVideoEmbed = async (DB: D1Database, input: string) => {
+  const db = initializeDB(DB)
   const data = await db.transaction(async (tx) => {
     await tx
       .delete(videoEmbedTopics)
-      .where(eq(videoEmbedTopics.videoEmbedId, id))
+      .where(eq(videoEmbedTopics.videoEmbedId, input))
     await tx
       .delete(videoEmbedAuthors)
-      .where(eq(videoEmbedAuthors.videoEmbedId, id))
+      .where(eq(videoEmbedAuthors.videoEmbedId, input))
     const videoEmbed = await tx
       .delete(videoEmbeds)
-      .where(eq(videoEmbeds.id, id))
+      .where(eq(videoEmbeds.id, input))
     return videoEmbed
   })
   return data

@@ -9,6 +9,7 @@ export const PUT: APIRoute = async (context: APIContext) => {
     const body = await context.request.json()
     const parsedInput = updateVideoEmbedCommentSchema.parse(body)
 
+    const DB = context.locals.runtime.env.DB
     const user = context.locals.user
 
     if (user?.role !== "admin") {
@@ -17,7 +18,7 @@ export const PUT: APIRoute = async (context: APIContext) => {
       })
     }
 
-    const data = await updateVideoEmbedComment(parsedInput)
+    const data = await updateVideoEmbedComment(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

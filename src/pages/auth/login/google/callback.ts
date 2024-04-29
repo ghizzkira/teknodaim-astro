@@ -2,7 +2,7 @@ import type { APIContext } from "astro"
 import { OAuth2RequestError } from "arctic"
 
 import { auth, googleOAuth } from "@/lib/auth"
-import { db } from "@/lib/db"
+import { initializeDB } from "@/lib/db"
 import { accounts, users } from "@/lib/db/schema"
 import { cuid, uniqueCharacter } from "@/lib/utils/id"
 import { slugify } from "@/lib/utils/slug"
@@ -17,6 +17,7 @@ interface GoogleUser {
 export async function GET(context: APIContext): Promise<Response> {
   const code = context.url.searchParams.get("code")
   const state = context.url.searchParams.get("state")
+  const DB = context.locals.runtime.env.DB
 
   const storedState = context.cookies.get("state")?.value ?? null
   const storedCodeVerifier = context.cookies.get("code_verifier")?.value ?? null
@@ -34,6 +35,8 @@ export async function GET(context: APIContext): Promise<Response> {
   }
 
   try {
+    const db = initializeDB(DB)
+
     const tokens = await googleOAuth.validateAuthorizationCode(
       code,
       storedCodeVerifier,

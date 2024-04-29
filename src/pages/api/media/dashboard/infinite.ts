@@ -11,6 +11,7 @@ const inputSchema = z.object({
 export const GET: APIRoute = async ({ locals, request }) => {
   try {
     const user = locals.user
+    const DB = locals.runtime.env.DB
 
     if (!user?.role.includes("admin")) {
       return new Response(null, {
@@ -24,7 +25,7 @@ export const GET: APIRoute = async ({ locals, request }) => {
     const cursor = queryParams.get("cursor")
 
     const parsedInput = inputSchema.parse({ limit, cursor })
-    const data = await getMediasDashboardInfinite(parsedInput)
+    const data = await getMediasDashboardInfinite(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {
