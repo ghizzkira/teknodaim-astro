@@ -29,6 +29,7 @@ export default defineConfig({
   adapter: cloudflare({
     mode: "directory",
     imageService: "cloudflare",
+    functionPerRoute: true,
     platformProxy: {
       enabled: true,
     },
