@@ -1,5 +1,4 @@
 ---
-import { ReactScript } from "@/components/ReactScript"
 import SinglePost from "@/components/Template/SinglePost.astro"
 import WpPostViewCounter from "@/components/Wp/WpPostViewCounter"
 import MainLayout from "@/layouts/MainLayout.astro"
@@ -168,8 +167,14 @@ const alternatesList: AlternateLink[] = langlist.reduce((acc: AlternateLink[], l
     authorImage={post.author.avatar.url}
     client:load
   />
-  {postJsonLd && <ReactScript postJsonLdString={postJsonLdString} />}
-  <SinglePost
+{
+  postJsonLd && (
+  <script
+      type="application/ld+json"
+      set:html={postJsonLdString}
+    ></script>
+   )
+}  <SinglePost
     posts={posts!}
     post={post}
     trendingPosts={trendingPosts}

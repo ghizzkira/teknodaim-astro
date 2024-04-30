@@ -12,7 +12,6 @@ import {  wpPrimaryCategorySlug } from "@/lib/wp/helper"
 import MainLayout from "@/layouts/MainLayout.astro"
 import WpPostViewCounter from "@/components/Wp/WpPostViewCounter"
 import { getWpPopularPosts } from "@/lib/action/wp-popular-post"
-import { ReactScript } from "@/components/ReactScript"
 
 export const prerender = false
 Astro.response.headers.set(
@@ -173,9 +172,12 @@ seo={{
     authorImage={post.author.avatar.url}
     client:load
   />
- {
+  {
     postJsonLd && (
-      <ReactScript postJsonLdString={postJsonLdString}/>
+    <script
+        type="application/ld+json"
+        set:html={postJsonLdString}
+      ></script>
      )
   }
 <SinglePost  posts={posts!}

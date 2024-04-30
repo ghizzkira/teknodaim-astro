@@ -4,6 +4,7 @@ import Link from "@/components/Link"
 
 import "@/lib/internationalization/route"
 
+import Image from "@/components/Image"
 import type { LanguageType } from "@/lib/validation/language"
 
 interface WpPostCardSideProps {
@@ -29,11 +30,13 @@ const WpPostCardSide: React.FunctionComponent<WpPostCardSideProps> = React.memo(
         <article className="mb-4 flex w-full border-separate flex-col rounded-lg">
           <div className="relative flex max-w-xs flex-col space-y-3 md:max-w-3xl md:flex-row md:space-x-4 md:space-y-0">
             <div className="relative aspect-[1/1] h-[75px] w-auto max-w-[unset] overflow-hidden rounded-md">
-              <img
+              <Image
                 src={src}
                 alt={`Image ${alt}`}
                 className="!h-full !w-full object-cover"
                 sizes="(max-width: 768px) 50px, 100px"
+                width={"50"}
+                height={"50"}
               />
             </div>
 
