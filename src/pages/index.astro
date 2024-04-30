@@ -72,6 +72,28 @@ const trendingPosts = await getWpPopularPostsLast7Days(DB, {
 //   featuredCategories =
 //     locale === "id" ? parsedData?.categories?.id : parsedData?.categories?.en
 // }
+const breadcrumbJson = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: import.meta.env.PUBLIC_SITE_TITLE,
+      item: import.meta.env.PUBLIC_SITE_URL,
+    },
+  ],
+}
+const searchBoxJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  url: import.meta.env.PUBLIC_SITE_URL,
+  potentialAction: {
+    "@type": "SearchAction",
+    target: `${import.meta.env.PUBLIC_SITE_URL}/search?q`,
+    "query-input": "search_term_string",
+  },
+}
 ---
 
 <MainLayout
@@ -99,6 +121,14 @@ const trendingPosts = await getWpPopularPostsLast7Days(DB, {
     },
   }}
 >
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify(breadcrumbJson)}
+  />
+  <script
+    type="application/ld+json"
+    set:html={JSON.stringify(searchBoxJsonLd)}
+  />
   <Homepage
     locale="id"
     posts={posts}

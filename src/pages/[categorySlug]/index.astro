@@ -1,6 +1,5 @@
 ---
 
-import { ReactScript } from "@/components/ReactScript"
 import Category from "@/components/Template/Category.astro"
  
 import MainLayout from "@/layouts/MainLayout.astro"
@@ -153,9 +152,12 @@ seo={{
     },
   },
 }}>
-   {
+  {
     categoryJsonLd && (
-      <ReactScript postJsonLdString={categoryJsonLd}/>
+    <script
+        type="application/ld+json"
+        set:html={categoryJsonLd}
+      ></script>
      )
   }
   <Category posts={posts} pageInfo={pageInfo} category={category} locale="id" trendingPosts={trendingPosts} />

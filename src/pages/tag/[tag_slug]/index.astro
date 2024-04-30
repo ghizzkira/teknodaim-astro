@@ -1,6 +1,5 @@
 ---
-import { ReactScript } from "@/components/ReactScript"
-import Tag from "@/components/Template/Tag.astro"
+ import Tag from "@/components/Template/Tag.astro"
  
 import MainLayout from "@/layouts/MainLayout.astro"
 import { getWpPopularPosts } from "@/lib/action/wp-popular-post"
@@ -110,7 +109,10 @@ const trendingPosts = await getWpPopularPosts(DB,{
 >
  {
     postJsonLd && (
-      <ReactScript postJsonLdString={postJsonLdString}/>
+    <script
+        type="application/ld+json"
+        set:html={postJsonLdString}
+      ></script>
      )
   }
 <Tag posts={posts} pageInfo={pageInfo}   locale="id" trendingPosts={trendingPosts} />
