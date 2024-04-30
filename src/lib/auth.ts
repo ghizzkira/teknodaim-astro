@@ -1,4 +1,7 @@
 import { DrizzleSQLiteAdapter } from "@lucia-auth/adapter-drizzle"
+
+import "dotenv/config"
+
 import { Google } from "arctic"
 import { Lucia } from "lucia"
 
@@ -35,9 +38,9 @@ export function initializeAuth(D1: D1Database) {
 }
 
 export const googleOAuth = new Google(
-  import.meta.env.VITE_GOOGLE_CLIENT_ID,
-  import.meta.env.VITE_GOOGLE_CLIENT_SECRET,
-  import.meta.env.VITE_GOOGLE_REDIRECT_URL,
+  import.meta.env.GOOGLE_CLIENT_ID ?? process.env.GOOGLE_CLIENT_ID,
+  import.meta.env.GOOGLE_CLIENT_SECRET ?? process.env.GOOGLE_CLIENT_SECRET,
+  import.meta.env.GOOGLE_REDIRECT_URL ?? process.env.GOOGLE_REDIRECT_URL,
 )
 
 declare module "lucia" {
