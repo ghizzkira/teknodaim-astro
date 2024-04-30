@@ -35,10 +35,9 @@ export function initializeAuth(D1: D1Database) {
 }
 
 export const googleOAuth = new Google(
-  import.meta.env.GOOGLE_CLIENT_ID,
-  import.meta.env.GOOGLE_CLIENT_SECRET,
-  import.meta.env.GOOGLE_REDIRECT_URL ??
-    "https://beta.teknodaim.com/auth/login/google/callback",
+  import.meta.env.VITE_GOOGLE_CLIENT_ID,
+  import.meta.env.VITE_GOOGLE_CLIENT_SECRET,
+  import.meta.env.VITE_GOOGLE_REDIRECT_URL,
 )
 
 declare module "lucia" {
