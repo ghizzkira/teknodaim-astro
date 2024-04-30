@@ -1,4 +1,5 @@
 ---
+import { ReactScript } from "@/components/ReactScript"
 import Tag from "@/components/Template/Tag.astro"
  
 import MainLayout from "@/layouts/MainLayout.astro"
@@ -107,14 +108,10 @@ const trendingPosts = await getWpPopularPosts(DB,{
   },
 }}
 >
-  {
+ {
     postJsonLd && (
-      <script
-      is:inline
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: postJsonLd }}
-      />
-    )
+      <ReactScript postJsonLdString={postJsonLdString}/>
+     )
   }
-<Tag posts={posts} pageInfo={pageInfo} category={category} locale="id" trendingPosts={trendingPosts} />
+<Tag posts={posts} pageInfo={pageInfo}   locale="id" trendingPosts={trendingPosts} />
 </MainLayout>
