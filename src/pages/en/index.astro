@@ -79,8 +79,9 @@ const trendingPosts = await getWpPopularPosts(DB, {
 <MainLayout
   locale={"en"}
   seo={{
-    title: import.meta.env.PUBLIC_SITE_TITLE,
+    title: import.meta.env.PUBLIC_SITE_TITLE ?? "Teknodaim",
     description: import.meta.env.PUBLIC_SITE_DESCRIPTION,
+    titleTemplate: "Everlasting Tech Knowledge",
     languageAlternates: [
       { href: `${import.meta.env.PUBLIC_SITE_URL}/`, hrefLang: "id" },
       { href: `${import.meta.env.PUBLIC_EN_SITE_URL}/`, hrefLang: "en" },
