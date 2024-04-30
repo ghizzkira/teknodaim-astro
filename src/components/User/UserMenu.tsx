@@ -1,7 +1,6 @@
 import * as React from "react"
 import type { User } from "lucia"
 
-import Image from "@/components/Image"
 import Link from "@/components/Link"
 import { buttonVariants } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
@@ -28,15 +27,7 @@ const UserMenu: React.FunctionComponent<UserMenuProps> = (props) => {
       {user ? (
         <Popover>
           <PopoverTrigger className="cursor-pointer p-1">
-            <div className="relative h-5 w-5 overflow-hidden rounded-full">
-              <Image
-                src={user?.image!}
-                alt={user?.name!}
-                className="m-0"
-                width={"20"}
-                height={"20"}
-              />
-            </div>
+            <Icon.User aria-label="Profile" className="mr-2 h-5 w-5" />
           </PopoverTrigger>
           <PopoverContent className="flex w-[min-content] flex-1 flex-col items-start">
             <Link

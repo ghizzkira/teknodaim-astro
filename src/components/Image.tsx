@@ -22,14 +22,9 @@ const addQueryParamToURL = ({
 }): string => {
   try {
     const urlObject = new URL(url)
-    const searchParams = new URLSearchParams(urlObject.search)
-    searchParams.set("h", height)
-    searchParams.set("w", width)
-    searchParams.set("f", "webp")
-    const searchParamsString = searchParams.toString()
-    const queryString = searchParamsString ? `&${searchParamsString}` : ""
+
     return import.meta.env.APP_ENV !== "depelopment"
-      ? `/_image?href=${encodeURIComponent(urlObject.href)}${queryString}`
+      ? `/cdn-cgi/image/width=${width},height=${height},format=webp/${urlObject.href}$`
       : url
   } catch (error) {
     console.error("URL tidak valid:", error)
@@ -48,22 +43,9 @@ const Image = (props: ImageProps) => {
     ...rest
   } = props
 
-  const srcSet = `
-    ${addQueryParamToURL({ url: src, width: "640", height })} 640w,
-    ${addQueryParamToURL({ url: src, width: "750", height })} 750w,
-    ${addQueryParamToURL({ url: src, width: "828", height })} 828w,
-    ${addQueryParamToURL({ url: src, width: "1080", height })} 1080w,
-    ${addQueryParamToURL({ url: src, width: "1200", height })} 1200w,
-    ${addQueryParamToURL({ url: src, width: "1920", height })} 1920w,
-    ${addQueryParamToURL({ url: src, width: "2048", height })} 2048w,
-    ${addQueryParamToURL({ url: src, width: "3840", height })} 3840w
-  `
-
   return (
     <img
       {...rest}
-      sizes={sizes}
-      srcSet={srcSet}
       alt={alt}
       decoding={decoding}
       width={width}
