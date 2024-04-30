@@ -18,9 +18,9 @@ const user = Astro.locals.user
 const { seo, locale } = Astro.props
 const title = seo?.title || import.meta.env.PUBLIC_SITE_TITLE
 const description = seo?.description || import.meta.env.PUBLIC_SITE_DESCRIPTION
-const titleTemplate =
-  seo?.titleTemplate || `%s | ${import.meta.env.PUBLIC_SITE_TITLE || ""}`
-const titleDefault = seo?.titleDefault || import.meta.env.PUBLIC_SITE_TITLE
+const titleTemplate = `%s | ${seo?.titleTemplate || import.meta.env.PUBLIC_SITE_TITLE || ""}`
+const titleDefault =
+  seo?.titleDefault || import.meta.env.PUBLIC_SITE_TITLE || "Teknodaim"
 ---
 
 <html lang="en">
