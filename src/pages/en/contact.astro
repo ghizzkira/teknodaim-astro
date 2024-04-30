@@ -1,0 +1,181 @@
+---
+import { Image } from "astro:assets"
+import sanitizeHtml from "sanitize-html"
+
+import ParseContent from "@/components/ParseContent"
+import WpPostBody from "@/components/Wp/WpPostBody"
+import WpPostCardSide from "@/components/Wp/WpPostCardSide"
+import MainLayout from "@/layouts/MainLayout.astro"
+import { getWpPopularPostsLast7Days } from "@/lib/action/wp-popular-post"
+import {
+  allowedAMPAttributes,
+  allowedAMPClasses,
+  allowedAMPTags,
+} from "@/lib/amp/sanitize"
+import { wpGetPageByUri } from "@/lib/wp/action/wp-page"
+
+const { page: main_page, other_lang_page } = await wpGetPageByUri("/contact/")
+if (!main_page && !other_lang_page) {
+  Astro.redirect("/404")
+}
+
+let page = null
+
+if (main_page && main_page?.language?.slug.toLocaleLowerCase() === "id") {
+  page = main_page
+} else if (
+  main_page &&
+  main_page?.language?.slug.toLocaleLowerCase() !== "id"
+) {
+  page = other_lang_page?.[0]
+}
+
+const DB = Astro.locals.runtime.env.DB
+const trendingPosts = await getWpPopularPostsLast7Days(DB, {
+  language: "id",
+  page: 1,
+  perPage: 10,
+})
+
+const regexId = new RegExp(import.meta.env.PUBLIC_WP_DOMAIN, "g")
+const regexEn = new RegExp(import.meta.env.PUBLIC_WP_EN_SUBDOMAIN, "g")
+const postJsonLdString = page?.seo?.schema?.raw
+const postJsonLd = postJsonLdString
+  ?.replace(regexId, import.meta.env.PUBLIC_DOMAIN)
+  ?.replace(regexEn, import.meta.env.PUBLIC_EN_SUBDOMAIN)
+
+const firstCleanHtml = sanitizeHtml(page?.content!, {
+  allowedTags: allowedAMPTags,
+  allowedAttributes: allowedAMPAttributes,
+  selfClosing: ["source", "track", "br"],
+  //   allowedClasses: allowedAMPClasses,
+})
+// const adsBelowHeader = await api.ad.byPosition("article_below_header")
+
+// const data = await api.setting.byKey("featured_categories")
+
+// let featuredCategories: WpCategoriesDataProps[] | undefined
+// if (data) {
+//   const parsedData = JSON.parse(data.value)
+//   featuredCategories =
+//     locale === "id" ? parsedData?.categories?.id : parsedData?.categories?.en
+// }
+---
+
+<MainLayout
+  locale="id"
+  seo={{
+    title: page?.title,
+    description: page?.seo.metaDesc,
+    languageAlternates: [
+      { href: `${import.meta.env.PUBLIC_SITE_URL}/contact`, hrefLang: "id" },
+      { href: `${import.meta.env.PUBLIC_SITE_URL}/en/contact`, hrefLang: "en" },
+    ],
+    canonical: import.meta.env.PUBLIC_SITE_URL,
+    openGraph: {
+      basic: {
+        title: `${import.meta.env.PUBLIC_SITE_TITLE} | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/contact`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: import.meta.env.PUBLIC_SITE_DESCRIPTION,
+        locale: "ID",
+      },
+    },
+  }}
+>
+  {
+    postJsonLd && (
+      <script
+        is:inline
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: postJsonLd }}
+      />
+    )
+  }
+  <!-- {
+    featuredCategories && Array.isArray(featuredCategories) && (
+      <div class="block sm:hidden">
+        <WpFeaturedCategories categories={featuredCategories} />
+      </div>
+    )
+  } -->
+  <div
+    class="mx-auto flex w-full pt-5 md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]"
+  >
+    <!-- <React.Suspense>
+      {
+        adsBelowHeader &&
+          adsBelowHeader.length > 0 &&
+          adsBelowHeader.map((ad) => {
+            return <Ad ad={ad} key={ad.id} />
+          })
+      }
+    </React.Suspense> -->
+  </div>
+  <div
+    class="fade-up-element mx-auto flex w-full pt-5 md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]"
+  >
+    <section class="w-full lg:w-8/12">
+      <article class="article-divider px-4">
+        <h1
+          class="mb-[10px] mt-4 line-clamp-none text-[1.8em] font-bold leading-[1.2] md:border-none md:text-[40px] md:leading-[43px]"
+        >
+          {page?.title}
+        </h1>
+
+        {
+          page?.featuredImage && (
+            <>
+              <div class="relative aspect-video w-full">
+                <Image
+                  src={page?.featuredImage?.node?.sourceUrl}
+                  class="max-w-auto relative aspect-video w-full overflow-hidden rounded-xl object-cover"
+                  alt={page?.title}
+                  width={1200}
+                  height={720}
+                />
+              </div>
+            </>
+          )
+        }
+        <div class="mt-[10px] flex flex-col">
+          <WpPostBody className="wp-body w-full">
+            <ParseContent
+              htmlInput={page?.content!}
+              title={page?.title!}
+              locale={"id"}
+              client:load
+            />
+          </WpPostBody>
+        </div>
+        <aside class="hidden w-4/12 px-4 lg:block">
+          <div class="sticky top-4 rounded-xl border border-border p-4">
+            <div class="relative mb-4">
+              <div
+                class="block text-center after:absolute after:bottom-[-3px] after:left-1/2 after:right-[auto] after:top-[auto] after:ml-[-25px] after:h-[3px] after:w-[50px] after:border after:border-main after:bg-main"
+              >
+                <span class="block h-[36px] text-main">Trending</span>
+              </div>
+            </div>
+            {
+              trendingPosts?.map((post) => {
+                return (
+                  <WpPostCardSide
+                    src={post.thumbnail}
+                    alt={post.title}
+                    uri={`/${post.primaryCategorySlug}/${post.slug}`}
+                    title={post.title}
+                    locale="id"
+                  />
+                )
+              })
+            }
+          </div>
+        </aside>
+      </article>
+    </section>
+  </div></MainLayout
+>

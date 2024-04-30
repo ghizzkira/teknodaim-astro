@@ -7,6 +7,8 @@ import * as React from "react"
 
 import Logo from "@/components/Brand/Logo"
 import { Icon } from "@/components/UI/Icon"
+import type { LanguageType } from "@/lib/validation/language"
+import Link from "../Link"
 
 // import env from "@/env"
 
@@ -15,6 +17,7 @@ interface FooterProps {
   address?: string
   site_title?: string
   support_email?: string
+  locale: LanguageType
   // menusFooterAll?:
   //   | Pick<
   //       MenuProps,
@@ -30,7 +33,7 @@ interface FooterProps {
 }
 
 const Footer: React.FunctionComponent<FooterProps> = (props) => {
-  const { address, site_title, className } = props
+  const { address, site_title, className, locale } = props
 
   const currentYear = new Date().getFullYear()
 
@@ -41,13 +44,14 @@ const Footer: React.FunctionComponent<FooterProps> = (props) => {
       <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
         <div className="flex flex-col md:flex-row lg:px-8">
           <div className="mb-6 w-full md:mb-0 md:w-5/12 lg:mr-3">
-            <a
+            <Link
+              locale={locale}
               aria-label="Go To Homepage"
               className="self-center pl-4"
               href="/"
             >
               <Logo />
-            </a>
+            </Link>
             <ul className="mt-8 flex flex-col space-y-2 font-medium text-foreground/80">
               <li className="inline-flex">
                 <Icon.Location aria-label="Location" className="mr-2 h-6 w-6" />

@@ -11,6 +11,7 @@ import { Icon } from "@/components/UI/Icon"
 import UserMenu from "@/components/User/UserMenu"
 import { cn } from "@/lib/utils/style"
 import type { LanguageType } from "@/lib/validation/language"
+import Link from "../Link"
 import SearchTopNav from "./SearchTopNav"
 
 interface TopNavProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -50,9 +51,9 @@ const TopNav: React.FunctionComponent<TopNavProps> = (props) => {
           <div className="flex h-full flex-row flex-nowrap items-center">
             <div className="flex items-center md:w-[250px]">
               <h2 className="m-0 p-0 text-4xl font-bold leading-none">
-                <a aria-label="Go To Homepage" href="/">
+                <Link locale={locale} aria-label="Go To Homepage" href="/">
                   <Logo />
-                </a>
+                </Link>
               </h2>
             </div>
             <div
@@ -193,7 +194,7 @@ const TopNav: React.FunctionComponent<TopNavProps> = (props) => {
                   <ThemeSwitcher />
                 </div>
                 <div className="flex items-center">
-                  <UserMenu user={user} />
+                  <UserMenu user={user} locale={locale} />
                 </div>
               </div>
             </div>
