@@ -24,7 +24,7 @@ const addQueryParamToURL = ({
     const urlObject = new URL(url)
 
     return import.meta.env.APP_ENV !== "depelopment"
-      ? `/cdn-cgi/image/width=${width},height=${height},format=webp/${urlObject.href}$`
+      ? `/cdn-cgi/image/width=${width},height=${height},format=webp/${urlObject.href}`
       : url
   } catch (error) {
     console.error("URL tidak valid:", error)
