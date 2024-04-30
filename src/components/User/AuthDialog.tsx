@@ -12,10 +12,9 @@ import { Icon } from "@/components/UI/Icon"
 const AuthModal: React.FunctionComponent = () => {
   return (
     <>
-      <Dialog id={"auth-Dialog"}>
+      <Dialog>
         <DialogTrigger
           role="button"
-          variant="ghost"
           className="overflow-hidden max-md:rounded-full max-md:p-2 max-md:hover:bg-muted/20 md:rounded-md"
         >
           <div role="button" aria-label="Profile" className="flex lg:hidden">
@@ -30,10 +29,7 @@ const AuthModal: React.FunctionComponent = () => {
             <span>Login</span>
           </div>
         </DialogTrigger>
-        <DialogContent
-          className="bottom-[unset] top-[50vh] gap-0 text-center"
-          onClose={() => handleCloseDialog("auth-Dialog")}
-        >
+        <DialogContent className="bottom-[unset] top-[50vh] gap-0 text-center">
           <DialogTitle className="text-[24px] font-bold">Login</DialogTitle>
           <div className="pointer-events-auto relative mt-4 w-full text-center">
             <div className="overflow-auto">

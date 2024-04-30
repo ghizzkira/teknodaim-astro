@@ -37,14 +37,14 @@ let post
 if (
     mainPost &&
     slug === mainPost.slug &&
-    mainPost.language.slug.toLocaleLowerCase() === "id"
+    mainPost.language.slug.toLocaleLowerCase() === "en"
   ) {
     post = mainPost
  
   } else if (
     mainPost &&
     slug === mainPost.slug &&
-    mainPost.language.slug.toLocaleLowerCase() !== "id"
+    mainPost.language.slug.toLocaleLowerCase() !== "en"
   ) {
     if (otherLangPost?.slug) {
  
@@ -52,7 +52,7 @@ if (
         otherLangPost?.categories as WpCategoriesDataProps[],
       )
        return Astro.redirect(
-        `/${primaryCategory?.slug}/${otherLangPost.slug}`
+        `/en/${primaryCategory?.slug}/${otherLangPost.slug}`
       )
     }
   }

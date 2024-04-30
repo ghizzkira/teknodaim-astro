@@ -230,11 +230,12 @@ const ParseContent: React.FunctionComponent<ParseContentProps> = (props) => {
       processNode: processNodeDefinitions.processDefaultNode,
     },
   ]
-  return htmlToReactParser.parseWithInstructions(
+  const results = htmlToReactParser.parseWithInstructions(
     htmlInput,
     () => true,
     processingInstructions,
   )
+  return results
 }
 
 export default ParseContent
