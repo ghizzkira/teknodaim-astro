@@ -1,7 +1,4 @@
 import { DrizzleSQLiteAdapter } from "@lucia-auth/adapter-drizzle"
-
-import "dotenv/config"
-
 import { Google } from "arctic"
 import { Lucia } from "lucia"
 
