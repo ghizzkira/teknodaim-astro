@@ -15,7 +15,22 @@ const LanguageSwitcher = ({ locale }: { locale: LanguageType }) => {
   React.useEffect(() => {
     if (typeof window !== undefined) {
       const currentUrl = new URL(window.location.href)
-      setPathname(currentUrl.pathname)
+      let pathname = currentUrl.pathname
+
+      const pathSegments = pathname
+        .split("/")
+        .filter((segment) => segment !== "")
+
+      const indexToRemove = pathSegments.findIndex(
+        (segment) => segment === "en" || segment === "id",
+      )
+
+      if (indexToRemove !== -1) {
+        pathSegments.splice(indexToRemove, 1)
+      }
+
+      pathname = "/" + pathSegments.join("/")
+      setPathname(pathname)
     }
   }, [])
   return (
