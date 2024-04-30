@@ -45,6 +45,23 @@ if (!user) {
     <link rel="icon" type="image/svg+xml" href="/icon/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <ViewTransitions fallback="swap" />
+    <script
+      is:inline
+      type="text/partytown"
+      async
+      src={`https://www.googletagmanager.com/gtag/js?id=G-P4Y1YPM7SR`}></script>
+    <script is:inline type="text/partytown">
+      {
+        ;`
+          window.dataLayer = window.dataLayer || [];
+          function gtag() {
+            dataLayer.push(arguments);
+          }
+          gtag("js", new Date());
+          gtag("config", "G-P4Y1YPM7SR");
+          `
+      }
+    </script>
   </head>
   <body class="antialiased font-400 font-sans">
     <DashboardContainer client:load><slot /></DashboardContainer>
