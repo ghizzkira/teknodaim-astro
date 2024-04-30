@@ -1,5 +1,6 @@
 ---
 
+import { ReactScript } from "@/components/ReactScript"
 import Category from "@/components/Template/Category.astro"
  
 import MainLayout from "@/layouts/MainLayout.astro"
@@ -119,6 +120,8 @@ const { posts, pageInfo } = await wpGetPostsByCategoryIdAction(
 //     }
 //     return true
 //   })
+
+ 
 ---
 
 <MainLayout 
@@ -150,14 +153,10 @@ seo={{
     },
   },
 }}>
-  {
+   {
     categoryJsonLd && (
-      <script
-      is:inline
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: categoryJsonLd }}
-      />
-    )
+      <ReactScript postJsonLdString={categoryJsonLd}/>
+     )
   }
   <Category posts={posts} pageInfo={pageInfo} category={category} locale="id" trendingPosts={trendingPosts} />
 </MainLayout>

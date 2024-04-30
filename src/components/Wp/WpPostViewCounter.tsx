@@ -1,6 +1,5 @@
 import * as React from "react"
 
-import { toast } from "@/components/UI/Toast/useToast"
 import type { UpsertWpPopularPost } from "@/lib/validation/wp-popular-post"
 
 const WpPostViewCounter: React.FunctionComponent<UpsertWpPopularPost> = (
@@ -22,7 +21,7 @@ const WpPostViewCounter: React.FunctionComponent<UpsertWpPopularPost> = (
 
   React.useEffect(() => {
     const postView = async () => {
-      await fetch("/api/wp-popular-post", {
+      await fetch("/api/wp-popular-post/upsert", {
         method: "POST",
         headers: {
           Accept: "application/json",

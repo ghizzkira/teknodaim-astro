@@ -1,5 +1,6 @@
 ---
  
+import { ReactScript } from "@/components/ReactScript"
 import Author from "@/components/Template/Author.astro"
 import MainLayout from "@/layouts/MainLayout.astro"
  
@@ -89,12 +90,8 @@ const postJsonLd = postJsonLdString
 >
   {
     postJsonLd && (
-      <script
-        is:inline
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: postJsonLd }}
-      />
-    )
+      <ReactScript postJsonLdString={postJsonLdString}/>
+     )
   }
   <Author
   posts={posts}
