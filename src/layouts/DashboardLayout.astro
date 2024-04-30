@@ -5,7 +5,6 @@ import { ViewTransitions } from "astro:transitions"
 import "@/styles/globals.css"
 
 import DashboardContainer from "@/components/Dashboard/DashboardContainer"
-import MainContainer from "@/components/Layout/MainContainer"
 import Themes from "@/components/Theme/Themes.astro"
 import type { LanguageType } from "@/lib/validation/language"
 
@@ -41,6 +40,7 @@ if (!user) {
       titleTemplate={titleTemplate}
       titleDefault={titleDefault}
       charset="utf-8"
+      noindex={true}
     />
     <link rel="icon" type="image/svg+xml" href="/icon/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
