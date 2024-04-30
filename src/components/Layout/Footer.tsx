@@ -6,9 +6,9 @@ import * as React from "react"
 // import { type Menu as MenuProps } from "@prisma/client"
 
 import Logo from "@/components/Brand/Logo"
+import Link from "@/components/Link"
 import { Icon } from "@/components/UI/Icon"
 import type { LanguageType } from "@/lib/validation/language"
-import Link from "../Link"
 
 // import env from "@/env"
 

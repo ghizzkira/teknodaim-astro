@@ -4,6 +4,7 @@ import type { User } from "lucia"
 //  import type { Topic as TopicProps } from "@prisma/client"
 
 import Logo from "@/components/Brand/Logo"
+import Link from "@/components/Link"
 import ThemeSwitcher from "@/components/Theme/ThemeSwitcher"
 // import ThemeSwitcher from "@/components/theme/theme-switcher"
 import { Button } from "@/components/UI/Button"
@@ -11,7 +12,6 @@ import { Icon } from "@/components/UI/Icon"
 import UserMenu from "@/components/User/UserMenu"
 import { cn } from "@/lib/utils/style"
 import type { LanguageType } from "@/lib/validation/language"
-import Link from "../Link"
 import SearchTopNav from "./SearchTopNav"
 
 interface TopNavProps extends React.HTMLAttributes<HTMLDivElement> {
