@@ -22,14 +22,9 @@ const addQueryParamToURL = ({
 }): string => {
   try {
     const urlObject = new URL(url)
-    const searchParams = new URLSearchParams(urlObject.search)
-    searchParams.set("h", height)
-    searchParams.set("w", width)
-    searchParams.set("f", "webp")
-    const searchParamsString = searchParams.toString()
-    const queryString = searchParamsString ? `&${searchParamsString}` : ""
+
     return import.meta.env.APP_ENV !== "depelopment"
-      ? `/cdn-cgi/image/width=300,height=699,format=webp/${urlObject.href}${queryString}`
+      ? `/cdn-cgi/image/width=${width},height=${height},format=webp/${urlObject.href}$`
       : url
   } catch (error) {
     console.error("URL tidak valid:", error)
