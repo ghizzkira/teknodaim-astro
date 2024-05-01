@@ -19,6 +19,8 @@ if (!main_page && !other_lang_page) {
   Astro.redirect("/404")
 }
 
+Astro.locals.cache(60)
+
 let page = null
 if (main_page && main_page?.language?.slug.toLocaleLowerCase() === "id") {
   page = main_page
@@ -67,7 +69,6 @@ const firstCleanHtml = sanitizeHtml(page?.content!, {
     title: page?.title,
     description: page?.seo.metaDesc,
     languageAlternates: [
-      { href: `${import.meta.env.PUBLIC_SITE_URL}/contact`, hrefLang: "id" },
       { href: `${import.meta.env.PUBLIC_SITE_URL}/en/contact`, hrefLang: "en" },
     ],
     canonical: import.meta.env.PUBLIC_SITE_URL,

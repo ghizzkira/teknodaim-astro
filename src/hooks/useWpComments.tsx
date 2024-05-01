@@ -44,7 +44,6 @@ export function useWpCreateComment({
       }
       return data
     } catch (error) {
-      console.error(error)
       onError && onError()
       toast({
         description: "Error when creating comment, try again",
@@ -77,7 +76,6 @@ export function useWpUpdateComment(
       }
       return data
     } catch (error) {
-      console.error(error)
       toast({
         description: "Error when updating comment, try again",
         variant: "warning",
@@ -119,7 +117,6 @@ export function useWpDeleteComment({
 
       return data
     } catch (error) {
-      console.error(error)
       toast({
         description: "Error when deleting comment, try again",
         variant: "warning",
@@ -150,7 +147,6 @@ export function useGetWpCommentCountByWpSlug(slug: string) {
       }
       return data
     } catch (error) {
-      console.error(error)
       toast({
         description: "Error when getting count, try again",
         variant: "warning",
@@ -187,7 +183,6 @@ export function useGetWpCommentByWpSlug(slug: string) {
         setData(data)
       }
     } catch (error) {
-      console.error(error)
     } finally {
       setIsLoading(false)
     }
@@ -261,7 +256,6 @@ export function useGetWpCommentByWpSlugInfinite({
         setHasNextPage(false)
       }
     } catch (error) {
-      console.error(error)
       toast({
         description: "Error when getting comment, try again",
         variant: "warning",
@@ -343,7 +337,6 @@ export function useGetWpCommentByWpSlugInfinite({
           break
         }
       } catch (error) {
-        console.error(error)
         toast({
           description: "Error when getting comment, try again",
           variant: "warning",

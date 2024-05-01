@@ -1,6 +1,8 @@
 ---
 import InfiniteScrollWpPost from "@/components/Wp/InfiniteScrollWpPosts"
+import WpListPostFeatured from "@/components/Wp/WpListPostFeatured"
 import WpPostCardSide from "@/components/Wp/WpPostCardSide"
+import WpVerticalCarousel from "@/components/Wp/WpVerticalCarousel"
 import type { LanguageType } from "@/lib/validation/language"
 import type { UpsertWpPopularPost } from "@/lib/validation/wp-popular-post"
 import type {
@@ -17,7 +19,29 @@ interface Props {
 const { posts, pageInfo, locale, trendingPosts } = Astro.props
 ---
 
-<div class="flex items-center justify-center min-h-screen">
+<section class="fade-up-element flex w-full flex-col pt-5">
+  <div
+    class="mx-auto mb-5 flex w-full flex-col px-4 md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]"
+  >
+    {
+      trendingPosts?.length && trendingPosts?.length > 4 && (
+        <div class="mb-[30px]">
+          <WpListPostFeatured
+            client:load
+            posts={trendingPosts!}
+            locale={locale}
+          />
+        </div>
+      )
+    }
+    {
+      posts && (
+        <div class="mb-[25px]">
+          <WpVerticalCarousel client:load articles={posts} />
+        </div>
+      )
+    }
+  </div>
   <div
     class="mx-auto flex w-full flex-row md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]"
   >
@@ -65,4 +89,4 @@ const { posts, pageInfo, locale, trendingPosts } = Astro.props
       </div>
     </aside>
   </div>
-</div>
+</section>

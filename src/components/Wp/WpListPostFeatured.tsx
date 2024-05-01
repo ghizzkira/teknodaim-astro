@@ -7,13 +7,13 @@ interface WpListPostFeaturedProps extends React.HTMLAttributes<HTMLDivElement> {
   posts: {
     title: string
     slug: string
-    published_time: Date | string
+    publishedTime: Date | string
     thumbnail: string
-    primary_category: string
-    primary_category_slug: string
-    author_name: string
-    author_slug: string
-    author_image: string
+    primaryCategory: string
+    primaryCategorySlug: string
+    authorName: string
+    authorSlug: string
+    authorImage: string
   }[]
   locale: LanguageType
 }
@@ -23,7 +23,7 @@ export const WpListPostFeatured: React.FunctionComponent<
 > = (props) => {
   const { posts, locale } = props
   return (
-    <div className="grid h-[600px] w-full lg:h-[400px] lg:grid-cols-4 lg:grid-rows-2">
+    <div className="grid h-[600px] w-full grid-cols-2 grid-rows-4 lg:h-[400px] lg:grid-cols-4 lg:grid-rows-2">
       <div className="col-span-2 row-span-2 mb-[10px] lg:mb-0 lg:mr-[10px]">
         <div className="h-full w-full">
           {posts[0] && (

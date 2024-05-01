@@ -10,6 +10,8 @@ import {
 
 const { slug } = Astro.params
 
+Astro.locals.cache(60);
+
 export const prerender = false
 
 const { user } = await wpGetUserBySlugAction(slug as unknown as string)
@@ -66,10 +68,6 @@ const postJsonLd = postJsonLdString
       {
         href: `${import.meta.env.PUBLIC_SITE_URL}/author/${user?.slug}`,
         hrefLang: "id",
-      },
-      {
-        href: `${import.meta.env.PUBLIC_EN_SITE_URL}/author/${user?.slug}`,
-        hrefLang: "en",
       },
     ],
     canonical: `${import.meta.env.PUBLIC_SITE_URL}/author/${user?.slug}`,
