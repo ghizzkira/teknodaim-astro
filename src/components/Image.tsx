@@ -1,6 +1,10 @@
 import * as React from "react"
 
-interface ImageProps extends React.HTMLAttributes<HTMLImageElement> {
+interface ImageProps
+  extends React.DetailedHTMLProps<
+    React.ImgHTMLAttributes<HTMLImageElement>,
+    HTMLImageElement
+  > {
   src: string
   sizes?: string
   alt: string
@@ -8,7 +12,7 @@ interface ImageProps extends React.HTMLAttributes<HTMLImageElement> {
   fetchpriority?: "high" | "low" | "auto"
   width: string
   height: string
-  className: string
+  className?: string
 }
 
 const addQueryParamToURL = ({

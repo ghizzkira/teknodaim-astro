@@ -9,6 +9,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/UI/Popover"
+import { useSession } from "@/hooks/useSession"
 // import { useSession } from "@/lib/auth/client"
 import { cn } from "@/lib/utils/style"
 import type { LanguageType } from "@/lib/validation/language"
@@ -21,10 +22,12 @@ interface UserMenuProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const UserMenu: React.FunctionComponent<UserMenuProps> = (props) => {
-  const { user, locale } = props
+  const { locale } = props
+  const { session } = useSession()
+
   return (
     <>
-      {user ? (
+      {session?.user ? (
         <Popover>
           <PopoverTrigger className="cursor-pointer p-1">
             <Icon.User aria-label="Profile" className="mr-2 h-5 w-5" />
@@ -33,7 +36,7 @@ const UserMenu: React.FunctionComponent<UserMenuProps> = (props) => {
             <Link
               locale={locale}
               aria-label="Profile"
-              href={`/user/${user?.username}`}
+              href={`/user/${session?.user?.username}`}
               className={cn(buttonVariants({ variant: "ghost" }))}
             >
               <Icon.User aria-label="Profile" className="mr-2 h-5 w-5" />
@@ -48,7 +51,7 @@ const UserMenu: React.FunctionComponent<UserMenuProps> = (props) => {
               <Icon.Settings aria-label="Setting" className="mr-2 h-5 w-5" />
               Setting
             </Link>
-            {user?.role?.includes("admin" || "author") && (
+            {session?.user?.role?.includes("admin" || "author") && (
               <Link
                 locale={locale}
                 aria-label="Dashboard"

@@ -13,10 +13,7 @@ import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
 import { wpPrimaryCategorySlug } from "@/lib/wp/helper"
 
 export const prerender = false
-Astro.response.headers.set(
-  "Cache-Control",
-  "public, s-maxage=60, stale-while-revalidate=30",
-)
+Astro.locals.cache(60);
 
 const { categorySlug, slug } = Astro.params
 
@@ -165,7 +162,7 @@ const alternatesList: AlternateLink[] = langlist.reduce((acc: AlternateLink[], l
     authorSlug={post.author.slug}
     language={"id"}
     authorImage={post.author.avatar.url}
-    client:load
+    client:only="react"
   />
 {
   postJsonLd && (

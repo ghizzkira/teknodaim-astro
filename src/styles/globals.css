@@ -9,8 +9,6 @@
 }
 
 @layer components {
-  @import "./dbe/dbe-style.css";
-
   input[type="checkbox"]#openSidebarMenu {
     @apply box-border hidden transition-all duration-300;
   }
@@ -42,7 +40,7 @@
   .fade-up-element {
     transform: translateY(40px);
     opacity: 0;
-    animation: fade-up-animation 1s ease forwards;
+    animation: fade-up-animation 500ms ease forwards;
   }
 
   .wp-body,
