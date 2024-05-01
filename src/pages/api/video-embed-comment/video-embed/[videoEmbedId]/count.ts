@@ -12,8 +12,8 @@ export const GET: APIRoute = async ({ locals, params }) => {
     const data = await getVideoEmbedCommentsCountByVideoEmbedId(DB, parsedInput)
 
     if (!data) {
-      return new Response(null, {
-        status: 404,
+      return new Response(JSON.stringify(0), {
+        status: 200,
       })
     }
 
