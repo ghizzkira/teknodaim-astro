@@ -92,8 +92,8 @@ const searchBoxJsonLd = {
   url: import.meta.env.PUBLIC_SITE_URL,
   potentialAction: {
     "@type": "SearchAction",
-    target: `${import.meta.env.PUBLIC_SITE_URL}/search?q`,
-    "query-input": "search_term_string",
+    target: `${import.meta.env.PUBLIC_SITE_URL}/search?q={search_term_string}`,
+    "query-input": "required name=search_term_string",
   },
 }
 ---
