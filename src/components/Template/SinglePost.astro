@@ -1,5 +1,5 @@
 ---
-import React from "react"
+import { Children } from "react"
 
 import WpComment from "@/components/Comment/WpComment"
 import ParseContent from "@/components/ParseContent"
@@ -8,20 +8,9 @@ import InfiniteScrollWpSinglePost from "@/components/Wp/InfiniteScrollWpSinglePo
 // import WpFeaturedCategories from "@/components/wp/wp-featured-categories"
 import WpPostCardSide from "@/components/Wp/WpPostCardSide"
 import WpPostContent from "@/components/Wp/WpPostContent"
-import WpPostViewCounter from "@/components/Wp/WpPostViewCounter"
-import MainLayout from "@/layouts/MainLayout.astro"
-import { getWpPopularPosts } from "@/lib/action/wp-popular-post"
-// import { api } from "@/lib/trpc/server"
 import { splitReactNodes } from "@/lib/utils/content"
-import { LANGUAGE_TYPE, type LanguageType } from "@/lib/validation/language"
+import { type LanguageType } from "@/lib/validation/language"
 import type { UpsertWpPopularPost } from "@/lib/validation/wp-popular-post"
-// import type { LanguageType } from "@/lib/validation/language"
-import {
-  wpGetAllPostsAction,
-  // wpGetAllPostsSlugAction,
-  wpGetPostBySlugAction,
-  wpGetPostsByCategorySlugAction,
-} from "@/lib/wp/action/wp-post"
 import type {
   WpCategoriesDataProps,
   WpSinglePostDataProps,
@@ -67,7 +56,7 @@ const parsedContent = ParseContent({
 })
 
 const { firstContent, secondContent } = splitReactNodes(
-  React.Children.toArray(parsedContent),
+  Children.toArray(parsedContent),
 )
 
 // const adsBelowHeader = await api.ad.byPosition("article_below_header")

@@ -18,6 +18,7 @@ const DB = Astro.locals.runtime.env.DB
 const { categorySlug } = Astro.params
 
  
+Astro.locals.cache(60);
 
 
 

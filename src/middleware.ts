@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
 
-import { defineMiddleware } from "astro:middleware"
+import { defineMiddleware, sequence } from "astro:middleware"
 
 // import { verifyRequestOrigin } from "lucia"
 
@@ -8,7 +8,40 @@ import { initializeAuth } from "@/lib/auth"
 
 const excludedPaths = ["/api", "/auth/", "/sitemap", "/_image"]
 
-export const onRequest = defineMiddleware(async (context, next) => {
+type Path = string
+interface ICachedResponse {
+  response: Response
+  expires: number
+}
+
+const cache = new Map<Path, ICachedResponse>()
+
+const validate = defineMiddleware(async (req, next) => {
+  let ttl: number | undefined
+
+  req.locals.cache = (seconds: number = 60) => {
+    ttl = seconds
+  }
+
+  const cached = cache.get(req.url.pathname)
+
+  if (cached && cached.expires > Date.now()) {
+    return cached.response.clone()
+  } else if (cached) {
+    cache.delete(req.url.pathname)
+  }
+
+  const response = await next()
+
+  if (ttl !== undefined) {
+    cache.set(req.url.pathname, {
+      response: response.clone(),
+      expires: Date.now() + ttl * 1000,
+    })
+  }
+  return response
+})
+export const auth = defineMiddleware(async (context, next) => {
   const url = new URL(context.request.url)
   const DB = context.locals.runtime.env.DB
   const auth = initializeAuth(DB)
@@ -80,3 +113,4 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   return next()
 })
+export const onRequest = sequence(validate, auth)
