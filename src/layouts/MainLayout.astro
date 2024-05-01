@@ -4,7 +4,7 @@ import { ViewTransitions } from "astro:transitions"
 
 import "@/styles/globals.css"
 
-import MainContainer from "@/components/Layout/MainContainer"
+import MainContainer from "@/components/Layout/MainContainer.astro"
 import Themes from "@/components/Theme/Themes.astro"
 import type { LanguageType } from "@/lib/validation/language"
 
@@ -60,10 +60,14 @@ const titleDefault =
           `
       }
     </script>
+    <link
+      as="image"
+      rel="preload"
+      fetchpriority="high"
+      href={import.meta.env.PUBLIC_LOGO_URL}
+    />
   </head>
   <body class="antialiased font-400 font-sans">
-    <MainContainer user={user} locale={locale} client:load
-      ><slot /></MainContainer
-    >
+    <MainContainer user={user} locale={locale}><slot /></MainContainer>
   </body>
 </html>

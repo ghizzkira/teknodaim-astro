@@ -1,5 +1,10 @@
 import type { APIContext } from "astro"
+import { z } from "zod"
 
+import {
+  getWpCommentsByWpPostSlug,
+  getWpCommentsCountByWpPostSlug,
+} from "@/lib/action/wp-comment"
 import { santizeCharacter } from "@/lib/amp/sanitize"
 import { basecolor, htmlStyle } from "@/lib/amp/style"
 import { transformHtmlToAMP } from "@/lib/amp/transform-html-to-amp"
@@ -13,9 +18,15 @@ import {
 import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
 import { splitUriWP, wpPrimaryCategorySlug } from "@/lib/wp/helper"
 
+const inputSchema = z.object({
+  wpPostSlug: z.string(),
+  page: z.number(),
+  perPage: z.number(),
+})
 export const GET = async (context: APIContext) => {
   const { params } = context
-  const { slug, categorySlug, locale } = params
+  const { slug, categorySlug } = params
+  const DB = context.locals.runtime.env.DB
 
   const { post: mainPost, otherLangPost } = await wpGetPostBySlugAction(slug!)
 
@@ -25,52 +36,26 @@ export const GET = async (context: APIContext) => {
     })
   }
 
+  const locale = "id"
   let post = null
-
-  if (locale === "id") {
-    if (
-      mainPost &&
-      slug === mainPost.slug &&
-      mainPost.language.slug.toLocaleLowerCase() === locale
-    ) {
-      post = mainPost
-    } else if (
-      mainPost &&
-      slug === mainPost.slug &&
-      mainPost.language.slug.toLocaleLowerCase() !== locale
-    ) {
-      if (otherLangPost?.slug) {
-        const { primaryCategory } = wpPrimaryCategorySlug(
-          otherLangPost?.categories as WpCategoriesDataProps[],
-        )
-        Response.redirect(
-          `/${primaryCategory?.slug}/${otherLangPost?.slug}/amp/`,
-        )
-      }
-    }
-  } else if (locale === "en") {
-    if (
-      mainPost &&
-      slug === mainPost.slug &&
-      mainPost.language.slug.toLocaleLowerCase() === locale
-    ) {
-      post = mainPost
-    } else if (
-      mainPost &&
-      slug === mainPost.slug &&
-      mainPost.language.slug.toLocaleLowerCase() !== locale
-    ) {
-      if (otherLangPost?.slug) {
-        const { primaryCategory } = wpPrimaryCategorySlug(
-          otherLangPost?.categories as WpCategoriesDataProps[],
-        )
-        Response.redirect(
-          `/${primaryCategory?.slug}/${otherLangPost.slug}/amp/`,
-        )
-      }
+  if (
+    mainPost &&
+    slug === mainPost.slug &&
+    mainPost.language.slug.toLocaleLowerCase() === "id"
+  ) {
+    post = mainPost
+  } else if (
+    mainPost &&
+    slug === mainPost.slug &&
+    mainPost.language.slug.toLocaleLowerCase() !== "id"
+  ) {
+    if (otherLangPost?.slug) {
+      const { primaryCategory } = wpPrimaryCategorySlug(
+        otherLangPost?.categories as WpCategoriesDataProps[],
+      )
+      Response.redirect(`/${primaryCategory?.slug}/${otherLangPost?.slug}/amp/`)
     }
   }
-
   if (!post) {
     Response.redirect("/")
   }
@@ -93,151 +78,163 @@ export const GET = async (context: APIContext) => {
   // )
   // const menus = await api.menu.byLocation("sidebar_all_amp")
   // const menusByLang = await api.menu.byLocation(
-  //   locale === "id" ? "sidebar_all_id_amp" : "sidebar_all_en_amp",
+  //   "id" === "id" ? "sidebar_all_id_amp" : "sidebar_all_en_amp",
   // )
   // const menusFooterAll = await api.menu.byLocation("footer_all_amp")
   // const menusFooterByLang = await api.menu.byLocation(
-  //   locale === "id" ? "footer_id_amp" : "footer_en_amp",
+  //   "id" === "id" ? "footer_id_amp" : "footer_en_amp",
   // )
 
-  const menusAllLang = menus
-    ?.map((menu) => {
-      if (menu.active) {
-        return `
-<li>
-        <a aria-label="${menu.title}" role="link" class="sidebar-link" href="${menu.link}">
-            <p class="sidebar-p">
-            ${menu.icon && `<amp-img alt="${menu.title}" src="${menu.icon}" width="16" height="16" class="sidebar-item-svg" layout="fixed"></amp-img>`}
-                ${menu.title}
-            </p>
-        </a>
-    </li>
-        `
-      }
-      return
-    })
-    .join("")
-  const menusByLangHtml = menusByLang
-    ?.map((menu) => {
-      if (menu.active) {
-        return `
-<li>
-    <a aria-label="${menu.title}" role="link" class="sidebar-link" href="${menu.link}">
-        <p class="sidebar-p">
-            ${menu.icon && `<amp-img alt="${menu.title}" src="${menu.icon}" width="16" height="16" class="sidebar-item-svg" layout="fixed"></amp-img>`}
-            ${menu.title}
-        </p>
-    </a>
-</li>
-        `
-      }
-      return
-    })
-    .join("")
+  //   const menusAllLang = menus
+  //     ?.map((menu) => {
+  //       if (menu.active) {
+  //         return `
+  // <li>
+  //         <a aria-label="${menu.title}" role="link" class="sidebar-link" href="${menu.link}">
+  //             <p class="sidebar-p">
+  //             ${menu.icon && `<amp-img alt="${menu.title}" src="${menu.icon}" width="16" height="16" class="sidebar-item-svg" layout="fixed"></amp-img>`}
+  //                 ${menu.title}
+  //             </p>
+  //         </a>
+  //     </li>
+  //         `
+  //       }
+  //       return
+  //     })
+  //     .join("")
+  //   const menusByLangHtml = menusByLang
+  //     ?.map((menu) => {
+  //       if (menu.active) {
+  //         return `
+  // <li>
+  //     <a aria-label="${menu.title}" role="link" class="sidebar-link" href="${menu.link}">
+  //         <p class="sidebar-p">
+  //             ${menu.icon && `<amp-img alt="${menu.title}" src="${menu.icon}" width="16" height="16" class="sidebar-item-svg" layout="fixed"></amp-img>`}
+  //             ${menu.title}
+  //         </p>
+  //     </a>
+  // </li>
+  //         `
+  //       }
+  //       return
+  //     })
+  //     .join("")
+  const wpPostSlug = params.slug
+  const parsedInputCount = z.string().parse(wpPostSlug)
 
-  const commentCount = await api.wpComment.countByWpPostSlug(slug)
+  const commentCount = await getWpCommentsCountByWpPostSlug(
+    DB,
+    parsedInputCount,
+  )
 
-  const comments = await api.wpComment.byWpPostSlug({
-    wp_post_slug: slug,
-    page: 1,
-    per_page: 10,
+  const url = new URL(context.request.url)
+  const queryParams = new URLSearchParams(url.search)
+  const page = parseInt(queryParams.get("page") ?? "1")
+  const perPage = parseInt(queryParams.get("perPage") ?? "10")
+
+  const parsedInput = inputSchema.parse({
+    wpPostSlug,
+    page,
+    perPage,
   })
+
+  const comments = await getWpCommentsByWpPostSlug(DB, parsedInput)
 
   const commentsHtml = `
-  <div class="amp-comment-container">
-  <div class="amp-comment-count">
-Comments (${commentCount ?? 0})
-</div>
-<div class="amp-comment-action">
-<a aria-label="You should sign in before comment" href="/${categorySlug}/${slug}#comment/">
-Leave a comment
-</a>
-</div>
-    <ul class="amp-comment-lists">
-        ${comments
-          .map((comment) => {
-            return `
-        <li class="amp-comment-lists">
-            <div class="amp-comment-item">
-                <figcaption>
-                    <div class="amp-comment-item-img">
-                        <amp-img layout="fixed" width="40" height="40" src="${comment?.author?.image}"></amp-img>
-                    </div>
-                    <div class="amp-comment-item-content">
-                        <div class="amp-comment-author-name">
-                            <h1>
-                                ${comment?.author?.name}
-                            </h1>
-                            <div class="amp-comment-date">
-                                ${formatDateFromNow(comment.createdAt, locale)}
-                            </div>
-                        </div>
-                        <span class="amp-comment-content">
-                            ${comment.content}
-                        </span>
-                    </div>
-                </figcaption>
-            </div>
-        </li>
-        ${comment?.replies
-          ?.map((reply) => {
-            return `
-        <li class="amp-comment-reply-container">
-            <div class="amp-comment-reply-item">
-                <figcaption>
-                    <div class="amp-comment-reply-img">
-                        <amp-img layout="fixed" width="40" height="40" src="${reply?.author?.image}"></amp-img>
-                    </div>
-                    <div class="amp-comment-item-content">
-                        <div class="amp-comment-author-name">
-                            <h1>
-                                ${reply?.author?.name}
-                            </h1>
-                            <div class="amp-comment-date">
-                                ${formatDateFromNow(reply.createdAt, locale)}
-                            </div>
-                        </div>
-                        <span class="amp-comment-content">${reply.content}</span>
-                    </div>
-                </figcaption>
-            </div>
-        </li>`
-          })
-          .join("")}
-        `
-          })
-          .join("")}
-    </ul>
-</div>
-  `
-  let settingsValue
+    <div class="amp-comment-container">
+    <div class="amp-comment-count">
+  Comments (${commentCount ?? 0})
+  </div>
+  <div class="amp-comment-action">
+  <a aria-label="You should sign in before comment" href="/${categorySlug}/${slug}#comment/">
+  Leave a comment
+  </a>
+  </div>
+      <ul class="amp-comment-lists">
+          ${comments
+            .map((comment) => {
+              return `
+          <li class="amp-comment-lists">
+              <div class="amp-comment-item">
+                  <figcaption>
+                      <div class="amp-comment-item-img">
+                          <amp-img layout="fixed" width="40" height="40" src="${comment?.author?.image}"></amp-img>
+                      </div>
+                      <div class="amp-comment-item-content">
+                          <div class="amp-comment-author-name">
+                              <h1>
+                                  ${comment?.author?.name}
+                              </h1>
+                              <div class="amp-comment-date">
+                                  ${formatDateFromNow(comment.createdAt, "id")}
+                              </div>
+                          </div>
+                          <span class="amp-comment-content">
+                              ${comment.content}
+                          </span>
+                      </div>
+                  </figcaption>
+              </div>
+          </li>
+          ${comment?.replies
+            ?.map((reply) => {
+              return `
+          <li class="amp-comment-reply-container">
+              <div class="amp-comment-reply-item">
+                  <figcaption>
+                      <div class="amp-comment-reply-img">
+                          <amp-img layout="fixed" width="40" height="40" src="${reply?.author?.image}"></amp-img>
+                      </div>
+                      <div class="amp-comment-item-content">
+                          <div class="amp-comment-author-name">
+                              <h1>
+                                  ${reply?.author?.name}
+                              </h1>
+                              <div class="amp-comment-date">
+                                  ${formatDateFromNow(reply.createdAt, "id")}
+                              </div>
+                          </div>
+                          <span class="amp-comment-content">${reply.content}</span>
+                      </div>
+                  </figcaption>
+              </div>
+          </li>`
+            })
+            .join("")}
+          `
+            })
+            .join("")}
+      </ul>
+  </div>
+    `
+  //   let settingsValue
 
-  if (settings) {
-    const parsedData = JSON.parse(settings.value)
-    settingsValue = { ...parsedData }
-  }
+  //   if (settings) {
+  //     const parsedData = JSON.parse(settings.value)
+  //     settingsValue = { ...parsedData }
+  //   }
 
   const htmlcontent = await transformHtmlToAMP(post)
-  const { newsArticle, breadcrumbList } = generateJsonLdSchema(post, locale)
+  const { newsArticle, breadcrumbList } = generateJsonLdSchema(post, "id")
 
-  const adsBelowHeaderHtml = adsBelowHeader?.map((ad) => {
-    return `
-<div class="amp-ad-header">
-    <amp-ad width="100vw" height="320" type="adsense" data-ad-client="${import.meta.env.PUBLIC_ADSENSE_CLIENT_ID}" data-ad-slot="${ad.content}" data-auto-format="rspv" data-full-width="">
-        <div overflow></div>
-    </amp-ad>
-</div>
-    `
-  })
-  const adsSingleArticleAboveHtml = adsSingleArticleAbove?.map((ad) => {
-    return `<div class="amp-ad-content"><amp-ad width="100vw" height="320" type="adsense" data-ad-client="${import.meta.env.PUBLIC_ADSENSE_CLIENT_ID}" data-ad-slot="${ad.content}" data-auto-format="rspv" data-full-width=""><div overflow></div></amp-ad></div>`
-  })
-  const adsSingleArticleBelowHtml = adsSingleArticleBelow?.map((ad) => {
-    return `<div class="amp-ad-content"><amp-ad width="100vw" height="320" type="adsense" data-ad-client="${import.meta.env.PUBLIC_ADSENSE_CLIENT_ID}" data-ad-slot="${ad.content}" data-auto-format="rspv" data-full-width=""><div overflow></div></amp-ad></div>`
-  })
-  const adsSingleArticleInlineHtml = adsSingleArticleInline?.map((ad) => {
-    return `<div class="amp-ad-content"><amp-ad width="100vw" height="320" type="adsense" data-ad-client="${import.meta.env.PUBLIC_ADSENSE_CLIENT_ID}" data-ad-slot="${ad.content}" data-auto-format="rspv" data-full-width=""><div overflow></div></amp-ad></div>`
-  })
+  //   const adsBelowHeaderHtml = adsBelowHeader?.map((ad) => {
+  //     return `
+  // <div class="amp-ad-header">
+  //     <amp-ad width="100vw" height="320" type="adsense" data-ad-client="${import.meta.env.PUBLIC_ADSENSE_CLIENT_ID}" data-ad-slot="${ad.content}" data-auto-format="rspv" data-full-width="">
+  //         <div overflow></div>
+  //     </amp-ad>
+  // </div>
+  //     `
+  //   })
+  //   const adsSingleArticleAboveHtml = adsSingleArticleAbove?.map((ad) => {
+  //     return `<div class="amp-ad-content"><amp-ad width="100vw" height="320" type="adsense" data-ad-client="${import.meta.env.PUBLIC_ADSENSE_CLIENT_ID}" data-ad-slot="${ad.content}" data-auto-format="rspv" data-full-width=""><div overflow></div></amp-ad></div>`
+  //   })
+  //   const adsSingleArticleBelowHtml = adsSingleArticleBelow?.map((ad) => {
+  //     return `<div class="amp-ad-content"><amp-ad width="100vw" height="320" type="adsense" data-ad-client="${import.meta.env.PUBLIC_ADSENSE_CLIENT_ID}" data-ad-slot="${ad.content}" data-auto-format="rspv" data-full-width=""><div overflow></div></amp-ad></div>`
+  //   })
+  //   const adsSingleArticleInlineHtml = adsSingleArticleInline?.map((ad) => {
+  //     return `<div class="amp-ad-content"><amp-ad width="100vw" height="320" type="adsense" data-ad-client="${import.meta.env.PUBLIC_ADSENSE_CLIENT_ID}" data-ad-slot="${ad.content}" data-auto-format="rspv" data-full-width=""><div overflow></div></amp-ad></div>`
+  //   })
 
   const layoutHtml = `<!doctype html>
   <html amp lang="en">
@@ -255,7 +252,7 @@ Leave a comment
           content="sha384-HLjhGFoQL5ruBX6qnMC1eyKy-QVvXvGLwT0Pe55bKhv3Ov21f0S15eWC0gwkcxHg">
         <title>${post.title}</title>
         <link rel="canonical" href="${
-          locale === "id"
+          "id" === "id"
             ? import.meta.env.PUBLIC_SITE_URL
             : import.meta.env.PUBLIC_EN_SITE_URL
         }${splitUriWP(post.uri, post.slug)}/">
@@ -270,11 +267,9 @@ Leave a comment
         <meta property="og:description" content="${santizeCharacter(post.seo.metaDesc)}">
         <meta name="twitter:description" content="${santizeCharacter(post.seo.metaDesc)}">
         <meta property="og:site_name" content="${
-          settingsValue?.site_title ?? locale === "id"
-            ? import.meta.env.PUBLIC_SITE_URL
-            : import.meta.env.PUBLIC_EN_SITE_URL
+          import.meta.env.PUBLIC_SITE_URL
         }">
-        <meta property="og:locale" content="${locale}">
+        <meta property="og:id" content="${locale}">
         <meta property="og:type" content="article">
         <meta property="og:url" content="${
           locale === "id"
@@ -413,8 +408,7 @@ darkButton.addEventListener('click', () => {
                  </p>
               </a>
            </li>
-           ${menusAllLang}
-           ${menusByLangHtml}
+          
         </ul>
         <ul class="sidebar-items">
            <li>
@@ -441,7 +435,7 @@ darkButton.addEventListener('click', () => {
         </ul>
      </nav>
   </div>
-  ${adsBelowHeaderHtml.join("")}
+  
   <main class="content" role="main">
      <article class="post">
         <div class="amp-wp-meta-terms">
@@ -515,14 +509,11 @@ darkButton.addEventListener('click', () => {
                 </button>
             </a>
           </div>
-          ${adsSingleArticleAboveHtml.join("")}
-        <section class="post-content">
+         <section class="post-content">
            ${htmlcontent.firstCleanHtml}
-           ${adsSingleArticleInlineHtml.join("")}
-           ${htmlcontent.secondCleanHtml}
+            ${htmlcontent.secondCleanHtml}
         </section>
-        ${adsSingleArticleBelowHtml.join("")}
-        <div class="amp-wp-meta-terms">
+         <div class="amp-wp-meta-terms">
            <div class="amp-wp-tax-tag">${post.tags
              .map((tag) => {
                return `<a href="/tag/${tag.slug}" rel="category tag">${tag.name}</a>`

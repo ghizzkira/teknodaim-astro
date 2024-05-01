@@ -43,7 +43,6 @@ export default defineConfig({
       enabled: true,
     },
   }),
-
   image: {
     domains: ["secure.gravatar.com"],
     remotePatterns: [
@@ -93,9 +92,7 @@ export default defineConfig({
     tailwind({
       applyBaseStyles: false,
     }),
-    react({
-      experimentalReactChildren: true,
-    }),
+    react(),
     partytown({
       config: {
         forward: ["dataLayer.push"],
@@ -106,7 +103,6 @@ export default defineConfig({
     optimizeDeps: {
       exclude: ["oslo"],
     },
-
     ssr: {
       external: [
         "node:buffer",
