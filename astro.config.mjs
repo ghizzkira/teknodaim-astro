@@ -93,7 +93,9 @@ export default defineConfig({
     tailwind({
       applyBaseStyles: false,
     }),
-    react(),
+    react({
+      experimentalReactChildren: true,
+    }),
     partytown({
       config: {
         forward: ["dataLayer.push"],
