@@ -19,6 +19,8 @@ if (!main_page && !other_lang_page) {
   Astro.redirect("/404")
 }
 
+Astro.locals.cache(60)
+
 let page = null
 if (main_page && main_page?.language?.slug.toLocaleLowerCase() === "id") {
   page = main_page

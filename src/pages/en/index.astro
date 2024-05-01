@@ -6,6 +6,8 @@ import { wpGetAllPostsAction } from "@/lib/wp/action/wp-post"
 
 const DB = Astro.locals.runtime.env.DB
 
+Astro.locals.cache(60)
+
 const { posts, pageInfo } = await wpGetAllPostsAction("EN")
 // FIX: to 7 days
 const trendingPosts = await getWpPopularPosts(DB, {

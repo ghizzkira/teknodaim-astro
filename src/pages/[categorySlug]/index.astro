@@ -121,7 +121,21 @@ const { posts, pageInfo } = await wpGetPostsByCategoryIdAction(
 //     return true
 //   })
 
- 
+interface AlternateLink {
+  href: string;
+  hrefLang: string;
+}
+
+const langlist = [main_category, other_lang_category];
+ const alternatesList: AlternateLink[] = langlist.reduce((acc: AlternateLink[], list) => {
+  if (list?.language?.slug.toLocaleLowerCase() ==="en") {
+    acc.push({
+      href: `${import.meta.env.PUBLIC_SITE_URL}/en/${list?.slug}`,
+      hrefLang: list.language.slug,
+    });
+  }
+  return acc;
+}, []);
 ---
 
 <MainLayout 
@@ -129,16 +143,7 @@ locale="id"
 seo={{
   title: category?.name,
   description: category?.description,
-  languageAlternates: [
-    {
-      href: `${import.meta.env.PUBLIC_SITE_URL}/${main_category.language.slug.toLocaleLowerCase() ==="id"?main_category?.slug:other_lang_category?.slug}`,
-      hrefLang: "id",
-    },
-    {
-      href: `${import.meta.env.PUBLIC_EN_SITE_URL}/en/${main_category.language.slug.toLocaleLowerCase()==="en"?main_category?.slug:other_lang_category?.slug}`,
-      hrefLang: "en",
-    },
-  ],
+  languageAlternates:alternatesList,
   canonical: `${import.meta.env.PUBLIC_SITE_URL}/${category?.slug}`,
   openGraph: {
     basic: {

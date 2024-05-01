@@ -119,9 +119,9 @@ interface AlternateLink {
 
 const langlist = [mainPost, otherLangPost];
 const alternatesList: AlternateLink[] = langlist.reduce((acc: AlternateLink[], list) => {
-  if (list?.language?.slug) {
+  if (list?.language?.slug.toLocaleLowerCase() ==="en") {
     acc.push({
-      href: `${import.meta.env.PUBLIC_SITE_URL}/${categorySlug}/${list.language.slug.toLocaleLowerCase() === "id" ? list.slug : list?.slug}`,
+      href: `${import.meta.env.PUBLIC_SITE_URL}/en/${categorySlug}/${list?.slug}`,
       hrefLang: list.language.slug,
     });
   }

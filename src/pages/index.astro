@@ -4,6 +4,8 @@ import MainLayout from "@/layouts/MainLayout.astro"
 import { getWpPopularPostsLast7Days } from "@/lib/action/wp-popular-post"
 import { wpGetAllPostsAction } from "@/lib/wp/action/wp-post"
 
+Astro.locals.cache(60)
+
 const { posts, pageInfo } = await wpGetAllPostsAction("ID")
 const DB = Astro.locals.runtime.env.DB
 const trendingPosts = await getWpPopularPostsLast7Days(DB, {
@@ -103,7 +105,6 @@ const searchBoxJsonLd = {
     description: import.meta.env.PUBLIC_SITE_DESCRIPTION,
     titleTemplate: "Everlasting Tech Knowledge",
     languageAlternates: [
-      { href: `${import.meta.env.PUBLIC_SITE_URL}/`, hrefLang: "id" },
       { href: `${import.meta.env.PUBLIC_SITE_URL}/en`, hrefLang: "en" },
     ],
     canonical: import.meta.env.PUBLIC_SITE_URL,

@@ -11,6 +11,8 @@ import {
  
 export const prerender = false
 
+Astro.locals.cache(60);
+
 const DB = Astro.locals.runtime.env.DB
 const { tag_slug } = Astro.params
 
@@ -110,15 +112,27 @@ const trendingPosts = await getWpPopularPosts(DB, {
 //   featuredCategories =
 //     locale === "id" ? parsedData?.categories?.id : parsedData?.categories?.en
 // }
+interface AlternateLink {
+  href: string;
+  hrefLang: string;
+}
+
+const langlist = [main_tag, other_lang_tag];
+ const alternatesList: AlternateLink[] = langlist.reduce((acc: AlternateLink[], list) => {
+  if (list?.language?.slug.toLocaleLowerCase() ==="id") {
+    acc.push({
+      href: `${import.meta.env.PUBLIC_SITE_URL}/tag/${list?.slug}`,
+      hrefLang: list.language.slug,
+    });
+  }
+  return acc;
+}, []);
 ---
 
 <MainLayout locale={"en"}  seo={{
   title: tag?.name,
     description: tag?.description,
-  languageAlternates: [
-  { href: `${import.meta.env.PUBLIC_SITE_URL}/tag/${main_tag?.language.slug.toLocaleLowerCase() ==="id" ? main_tag?.slug:other_lang_tag?.slug}`, hrefLang: "id" },
-    { href: `${import.meta.env.PUBLIC_EN_SITE_URL}/en/tag/${other_lang_tag?.language.slug.toLocaleLowerCase() ==="en" ? other_lang_tag?.slug:main_tag?.slug}`, hrefLang: "en" },
-  ],
+  languageAlternates: alternatesList,
   canonical: `${import.meta.env.PUBLIC_SITE_URL}/tag/${tag?.slug}`,
   openGraph: {
     basic: {

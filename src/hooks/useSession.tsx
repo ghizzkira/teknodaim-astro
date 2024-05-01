@@ -16,7 +16,6 @@ export function useSession() {
       }
       return data
     } catch (error) {
-      console.error(error)
       toast({ description: "Invalid session, try again", variant: "warning" })
     } finally {
       setIsLoading(false)
