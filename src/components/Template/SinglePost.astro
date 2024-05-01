@@ -134,7 +134,7 @@ const { primaryCategory } = wpPrimaryCategorySlug(
             <WpComment
               locale={locale}
               wp_post_slug={slug!}
-              client:visible={{ rootMargin: "200px" }}
+              client:only="react"
             />
           </div>
         </WpPostContent>

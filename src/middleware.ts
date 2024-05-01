@@ -24,7 +24,7 @@ const validate = defineMiddleware(async (req, next) => {
   }
 
   const cached = cache.get(req.url.pathname)
-
+  console.log(cached?.response)
   if (cached && cached.expires > Date.now()) {
     return cached.response.clone()
   } else if (cached) {
@@ -113,4 +113,4 @@ export const auth = defineMiddleware(async (context, next) => {
 
   return next()
 })
-export const onRequest = sequence(validate, auth)
+export const onRequest = sequence(auth, validate)
