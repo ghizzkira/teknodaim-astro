@@ -142,7 +142,11 @@ const { primaryCategory } = wpPrimaryCategorySlug(
           locale={locale}
         >
           <div slot="CommentComponent">
-            <WpComment locale={locale} wp_post_slug={slug!} client:idle />
+            <WpComment
+              locale={locale}
+              wp_post_slug={slug!}
+              client:visible={{ rootMargin: "200px" }}
+            />
           </div>
         </WpPostContent>
       )
@@ -152,13 +156,13 @@ const { primaryCategory } = wpPrimaryCategorySlug(
         <InfiniteScrollWpSinglePost
           posts={posts}
           post={post}
-          locale={"id"}
+          locale={locale}
           adsBelowHeader={[]}
           adsSingleArticleAbove={[]}
           adsSingleArticleBelow={[]}
           adsSingleArticleInline={[]}
           adsSingleArticlePopUp={[]}
-          client:load
+          client:visible={{ rootMargin: "200px" }}
         />
       )
     }

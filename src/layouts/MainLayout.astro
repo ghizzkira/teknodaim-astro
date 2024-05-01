@@ -60,6 +60,11 @@ const titleDefault =
           `
       }
     </script>
+    <link
+      rel="preload"
+      fetchpriority="high"
+      href={import.meta.env.PUBLIC_LOGO_URL}
+    />
   </head>
   <body class="antialiased font-400 font-sans">
     <MainContainer user={user} locale={locale} client:load

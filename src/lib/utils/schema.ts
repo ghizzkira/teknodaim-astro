@@ -128,7 +128,7 @@ export function generateJsonLdSchema(
         thumbnailUrl: post?.featuredImage?.sourceUrl ?? "",
         datePublished: new Date(post?.date),
         dateModified: new Date(post?.modified),
-        description: post.seo.metaDesc,
+        description: post?.seo.metaDesc,
         breadcrumb: {
           "@id": `${
             locale === "id"

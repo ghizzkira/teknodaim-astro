@@ -43,7 +43,7 @@ export default defineConfig({
       enabled: true,
     },
   }),
-
+  compressHTML: true,
   image: {
     domains: ["secure.gravatar.com"],
     remotePatterns: [
@@ -104,7 +104,7 @@ export default defineConfig({
     optimizeDeps: {
       exclude: ["oslo"],
     },
-
+    build: { minify: "esbuild" },
     ssr: {
       external: [
         "node:buffer",
