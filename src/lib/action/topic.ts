@@ -323,34 +323,30 @@ export const createTopic = async (DB: D1Database, input: CreateTopic) => {
   const topicTranslationId = cuid()
   const topicId = cuid()
 
-  const data = await db.transaction(async (tx) => {
-    const topicTranslation = await tx
-      .insert(topicTranslations)
-      .values({
-        id: topicTranslationId,
-      })
-      .returning()
+  const topicTranslation = await db
+    .insert(topicTranslations)
+    .values({
+      id: topicTranslationId,
+    })
+    .returning()
 
-    const topic = await tx
-      .insert(topics)
-      .values({
-        id: topicId,
-        language: input.language,
-        title: input.title,
-        slug: slug,
-        description: input.description,
-        visibility: input.visibility,
-        type: input.type,
-        status: input.status,
-        metaTitle: generatedMetaTitle,
-        metaDescription: generatedMetaDescription,
-        featuredImageId: input.featuredImageId,
-        topicTranslationId: topicTranslation[0].id,
-      })
-      .returning()
-
-    return topic
-  })
+  const data = await db
+    .insert(topics)
+    .values({
+      id: topicId,
+      language: input.language,
+      title: input.title,
+      slug: slug,
+      description: input.description,
+      visibility: input.visibility,
+      type: input.type,
+      status: input.status,
+      metaTitle: generatedMetaTitle,
+      metaDescription: generatedMetaDescription,
+      featuredImageId: input.featuredImageId,
+      topicTranslationId: topicTranslation[0].id,
+    })
+    .returning()
 
   return data
 }
@@ -395,11 +391,11 @@ export const translateTopic = async (DB: D1Database, input: TranslateTopic) => {
 
 export const deleteTopic = async (DB: D1Database, input: string) => {
   const db = initializeDB(DB)
-  const data = await db.transaction(async (tx) => {
-    await tx.delete(articleTopics).where(eq(articleTopics.topicId, input))
-    const topic = await tx.delete(topics).where(eq(topics.id, input))
-    return topic
-  })
+
+  const data = await db.batch([
+    db.delete(articleTopics).where(eq(articleTopics.topicId, input)),
+    db.delete(topics).where(eq(topics.id, input)),
+  ])
 
   return data
 }

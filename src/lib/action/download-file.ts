@@ -314,27 +314,23 @@ export const createDownloadFile = async (
 
   const db = initializeDB(DB)
 
-  const data = await db.transaction(async (tx) => {
-    const downloadFile = await tx
-      .insert(downloadFiles)
-      .values({
-        ...input,
-        id: downloadFileId,
-        slug: slug,
-        metaTitle: generatedMetaTitle,
-        metaDescription: generatedMetaDescription,
-      })
-      .returning()
+  const data = await db
+    .insert(downloadFiles)
+    .values({
+      ...input,
+      id: downloadFileId,
+      slug: slug,
+      metaTitle: generatedMetaTitle,
+      metaDescription: generatedMetaDescription,
+    })
+    .returning()
 
-    const authorValues = input.authors.map((author) => ({
-      downloadFileId: downloadFile[0].id,
-      userId: author,
-    }))
+  const authorValues = input.authors.map((author) => ({
+    downloadFileId: data[0].id,
+    userId: author,
+  }))
 
-    await tx.insert(downloadFileAuthors).values(authorValues)
-
-    return downloadFile
-  })
+  await db.insert(downloadFileAuthors).values(authorValues)
 
   return data
 }
@@ -345,27 +341,23 @@ export const updateDownloadFile = async (
 ) => {
   const db = initializeDB(DB)
 
-  const data = await db.transaction(async (tx) => {
-    const downloadFile = await tx
-      .insert(downloadFiles)
-      .values({
-        ...input,
-      })
-      .returning()
+  const data = await db
+    .insert(downloadFiles)
+    .values({
+      ...input,
+    })
+    .returning()
 
-    await tx
-      .delete(downloadFileAuthors)
-      .where(eq(downloadFileAuthors.downloadFileId, input.id))
+  await db
+    .delete(downloadFileAuthors)
+    .where(eq(downloadFileAuthors.downloadFileId, input.id))
 
-    const authorValues = input.authors.map((author) => ({
-      downloadFileId: downloadFile[0].id,
-      userId: author,
-    }))
+  const authorValues = input.authors.map((author) => ({
+    downloadFileId: data[0].id,
+    userId: author,
+  }))
 
-    await tx.insert(downloadFileAuthors).values(authorValues)
-
-    return downloadFile
-  })
+  await db.insert(downloadFileAuthors).values(authorValues)
 
   return data
 }
@@ -373,14 +365,12 @@ export const updateDownloadFile = async (
 export const deleteDownloadFile = async (DB: D1Database, input: string) => {
   const db = initializeDB(DB)
 
-  const data = await db.transaction(async (tx) => {
-    await tx
+  const data = await db.batch([
+    db
       .delete(downloadFileAuthors)
-      .where(eq(downloadFileAuthors.downloadFileId, input))
-    const downloadFile = await tx
-      .delete(downloadFiles)
-      .where(eq(downloadFiles.id, input))
-    return downloadFile
-  })
+      .where(eq(downloadFileAuthors.downloadFileId, input)),
+    db.delete(downloadFiles).where(eq(downloadFiles.id, input)),
+  ])
+
   return data
 }

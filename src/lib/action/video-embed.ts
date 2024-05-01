@@ -428,32 +428,30 @@ export const createVideoEmbed = async (
 
   const db = initializeDB(DB)
 
-  const data = await db.transaction(async (tx) => {
-    const videoEmbed = await tx
-      .insert(videoEmbeds)
-      .values({
-        ...input,
-        id: cuid(),
-        slug: slug,
-        metaTitle: generatedMetaTitle,
-        metaDescription: generatedMetaDescription,
-      })
-      .returning()
+  const data = await db
+    .insert(videoEmbeds)
+    .values({
+      ...input,
+      id: cuid(),
+      slug: slug,
+      metaTitle: generatedMetaTitle,
+      metaDescription: generatedMetaDescription,
+    })
+    .returning()
 
-    const topicValues = input.topics.map((topic) => ({
-      videoEmbedId: videoEmbed[0].id,
-      topicId: topic,
-    }))
+  const topicValues = input.topics.map((topic) => ({
+    videoEmbedId: data[0].id,
+    topicId: topic,
+  }))
 
-    await tx.insert(videoEmbedTopics).values(topicValues)
+  await db.insert(videoEmbedTopics).values(topicValues)
 
-    const authorValues = input.authors.map((author) => ({
-      videoEmbedId: videoEmbed[0].id,
-      userId: author,
-    }))
+  const authorValues = input.authors.map((author) => ({
+    videoEmbedId: data[0].id,
+    userId: author,
+  }))
 
-    await tx.insert(videoEmbedAuthors).values(authorValues)
-  })
+  await db.insert(videoEmbedAuthors).values(authorValues)
 
   return data
 }
@@ -463,57 +461,51 @@ export const updateVideoEmbed = async (
   input: UpdateVideoEmbed,
 ) => {
   const db = initializeDB(DB)
-  const data = await db.transaction(async (tx) => {
-    const videoEmbed = await tx
-      .update(videoEmbeds)
-      .set({
-        ...input,
-        updatedAt: sql`CURRENT_TIMESTAMP`,
-      })
-      .where(eq(videoEmbeds.id, input.id))
-      .returning()
 
-    await tx
-      .delete(videoEmbedTopics)
-      .where(eq(videoEmbedTopics.videoEmbedId, input.id))
+  const data = await db
+    .update(videoEmbeds)
+    .set({
+      ...input,
+      updatedAt: sql`CURRENT_TIMESTAMP`,
+    })
+    .where(eq(videoEmbeds.id, input.id))
+    .returning()
 
-    await tx
-      .delete(videoEmbedAuthors)
-      .where(eq(videoEmbedAuthors.videoEmbedId, input.id))
+  await db
+    .delete(videoEmbedTopics)
+    .where(eq(videoEmbedTopics.videoEmbedId, input.id))
 
-    const topicValues = input.topics.map((topic) => ({
-      videoEmbedId: videoEmbed[0].id,
-      topicId: topic,
-    }))
+  await db
+    .delete(videoEmbedAuthors)
+    .where(eq(videoEmbedAuthors.videoEmbedId, input.id))
 
-    await tx.insert(videoEmbedTopics).values(topicValues)
+  const topicValues = input.topics.map((topic) => ({
+    videoEmbedId: data[0].id,
+    topicId: topic,
+  }))
 
-    const authorValues = input.authors.map((author) => ({
-      videoEmbedId: videoEmbed[0].id,
-      userId: author,
-    }))
+  await db.insert(videoEmbedTopics).values(topicValues)
 
-    await tx.insert(videoEmbedAuthors).values(authorValues)
+  const authorValues = input.authors.map((author) => ({
+    videoEmbedId: data[0].id,
+    userId: author,
+  }))
 
-    return videoEmbed
-  })
+  await db.insert(videoEmbedAuthors).values(authorValues)
 
   return data
 }
 
 export const deleteVideoEmbed = async (DB: D1Database, input: string) => {
   const db = initializeDB(DB)
-  const data = await db.transaction(async (tx) => {
-    await tx
-      .delete(videoEmbedTopics)
-      .where(eq(videoEmbedTopics.videoEmbedId, input))
-    await tx
+
+  const data = await db.batch([
+    db.delete(videoEmbedTopics).where(eq(videoEmbedTopics.videoEmbedId, input)),
+    db
       .delete(videoEmbedAuthors)
-      .where(eq(videoEmbedAuthors.videoEmbedId, input))
-    const videoEmbed = await tx
-      .delete(videoEmbeds)
-      .where(eq(videoEmbeds.id, input))
-    return videoEmbed
-  })
+      .where(eq(videoEmbedAuthors.videoEmbedId, input)),
+    db.delete(videoEmbeds).where(eq(videoEmbeds.id, input)),
+  ])
+
   return data
 }

@@ -621,54 +621,50 @@ export const createArticle = async (DB: D1Database, input: CreateArticle) => {
 
   const db = initializeDB(DB)
 
-  const data = await db.transaction(async (tx) => {
-    const articleTranslation = await tx
-      .insert(articleTranslations)
-      .values({
-        id: articleTranslationId,
-      })
-      .returning()
+  const articleTranslation = await db
+    .insert(articleTranslations)
+    .values({
+      id: articleTranslationId,
+    })
+    .returning()
 
-    const article = await tx
-      .insert(articles)
-      .values({
-        id: articleId,
-        language: input.language,
-        title: input.title,
-        slug: slug,
-        content: input.content,
-        status: input.status,
-        excerpt: generatedExcerpt,
-        metaTitle: generatedMetaTitle,
-        metaDescription: generatedMetaDescription,
-        featuredImageId: input.featuredImageId,
-        articleTranslationId: articleTranslation[0].id,
-      })
-      .returning()
+  const data = await db
+    .insert(articles)
+    .values({
+      id: articleId,
+      language: input.language,
+      title: input.title,
+      slug: slug,
+      content: input.content,
+      status: input.status,
+      excerpt: generatedExcerpt,
+      metaTitle: generatedMetaTitle,
+      metaDescription: generatedMetaDescription,
+      featuredImageId: input.featuredImageId,
+      articleTranslationId: articleTranslation[0].id,
+    })
+    .returning()
 
-    const topicValues = input.topics.map((topic) => ({
-      articleId: article[0].id,
-      topicId: topic,
-    }))
+  const topicValues = input.topics.map((topic) => ({
+    articleId: data[0].id,
+    topicId: topic,
+  }))
 
-    await tx.insert(articleTopics).values(topicValues)
+  await db.insert(articleTopics).values(topicValues)
 
-    const authorValues = input.authors.map((author) => ({
-      articleId: article[0].id,
-      userId: author,
-    }))
+  const authorValues = input.authors.map((author) => ({
+    articleId: data[0].id,
+    userId: author,
+  }))
 
-    await tx.insert(articleAuthors).values(authorValues)
+  await db.insert(articleAuthors).values(authorValues)
 
-    const editorValues = input.editors.map((editor) => ({
-      articleId: article[0].id,
-      userId: editor,
-    }))
+  const editorValues = input.editors.map((editor) => ({
+    articleId: data[0].id,
+    userId: editor,
+  }))
 
-    await tx.insert(articleEditors).values(editorValues)
-
-    return article
-  })
+  await db.insert(articleEditors).values(editorValues)
 
   return data
 }
@@ -676,58 +672,50 @@ export const createArticle = async (DB: D1Database, input: CreateArticle) => {
 export const updateArticle = async (DB: D1Database, input: UpdateArticle) => {
   const db = initializeDB(DB)
 
-  const data = await db.transaction(async (tx) => {
-    const article = await tx
-      .update(articles)
-      .set({
-        id: input.id,
-        language: input.language,
-        title: input.title,
-        slug: input.slug,
-        content: input.content,
-        status: input.status,
-        excerpt: input.excerpt,
-        metaTitle: input.metaTitle,
-        metaDescription: input.metaDescription,
-        featuredImageId: input.featuredImageId,
-        updatedAt: sql`CURRENT_TIMESTAMP`,
-      })
-      .where(eq(articles.id, input.id))
-      .returning()
+  const data = await db
+    .update(articles)
+    .set({
+      id: input.id,
+      language: input.language,
+      title: input.title,
+      slug: input.slug,
+      content: input.content,
+      status: input.status,
+      excerpt: input.excerpt,
+      metaTitle: input.metaTitle,
+      metaDescription: input.metaDescription,
+      featuredImageId: input.featuredImageId,
+      updatedAt: sql`CURRENT_TIMESTAMP`,
+    })
+    .where(eq(articles.id, input.id))
+    .returning()
 
-    await tx.delete(articleTopics).where(eq(articleTopics.articleId, input.id))
+  await db.delete(articleTopics).where(eq(articleTopics.articleId, input.id))
 
-    await tx
-      .delete(articleAuthors)
-      .where(eq(articleAuthors.articleId, input.id))
+  await db.delete(articleAuthors).where(eq(articleAuthors.articleId, input.id))
 
-    await tx
-      .delete(articleEditors)
-      .where(eq(articleEditors.articleId, input.id))
+  await db.delete(articleEditors).where(eq(articleEditors.articleId, input.id))
 
-    const topicValues = input.topics.map((topic) => ({
-      articleId: article[0].id,
-      topicId: topic,
-    }))
+  const topicValues = input.topics.map((topic) => ({
+    articleId: data[0].id,
+    topicId: topic,
+  }))
 
-    await tx.insert(articleTopics).values(topicValues)
+  await db.insert(articleTopics).values(topicValues)
 
-    const authorValues = input.authors.map((author) => ({
-      articleId: article[0].id,
-      userId: author,
-    }))
+  const authorValues = input.authors.map((author) => ({
+    articleId: data[0].id,
+    userId: author,
+  }))
 
-    await tx.insert(articleAuthors).values(authorValues)
+  await db.insert(articleAuthors).values(authorValues)
 
-    const editorValues = input.editors.map((editor) => ({
-      articleId: article[0].id,
-      userId: editor,
-    }))
+  const editorValues = input.editors.map((editor) => ({
+    articleId: data[0].id,
+    userId: editor,
+  }))
 
-    await tx.insert(articleEditors).values(editorValues)
-
-    return article
-  })
+  await db.insert(articleEditors).values(editorValues)
 
   return data
 }
@@ -738,57 +726,49 @@ export const updateArticleWithoutChangeUpdatedDate = async (
 ) => {
   const db = initializeDB(DB)
 
-  const data = await db.transaction(async (tx) => {
-    const article = await tx
-      .update(articles)
-      .set({
-        id: input.id,
-        language: input.language,
-        title: input.title,
-        slug: input.slug,
-        content: input.content,
-        status: input.status,
-        excerpt: input.excerpt,
-        metaTitle: input.metaTitle,
-        metaDescription: input.metaDescription,
-        featuredImageId: input.featuredImageId,
-      })
-      .where(eq(articles.id, input.id))
-      .returning()
+  const data = await db
+    .update(articles)
+    .set({
+      id: input.id,
+      language: input.language,
+      title: input.title,
+      slug: input.slug,
+      content: input.content,
+      status: input.status,
+      excerpt: input.excerpt,
+      metaTitle: input.metaTitle,
+      metaDescription: input.metaDescription,
+      featuredImageId: input.featuredImageId,
+    })
+    .where(eq(articles.id, input.id))
+    .returning()
 
-    await tx.delete(articleTopics).where(eq(articleTopics.articleId, input.id))
+  await db.delete(articleTopics).where(eq(articleTopics.articleId, input.id))
 
-    await tx
-      .delete(articleAuthors)
-      .where(eq(articleAuthors.articleId, input.id))
+  await db.delete(articleAuthors).where(eq(articleAuthors.articleId, input.id))
 
-    await tx
-      .delete(articleEditors)
-      .where(eq(articleEditors.articleId, input.id))
+  await db.delete(articleEditors).where(eq(articleEditors.articleId, input.id))
 
-    const topicValues = input.topics.map((topic) => ({
-      articleId: article[0].id,
-      topicId: topic,
-    }))
+  const topicValues = input.topics.map((topic) => ({
+    articleId: data[0].id,
+    topicId: topic,
+  }))
 
-    await tx.insert(articleTopics).values(topicValues)
+  await db.insert(articleTopics).values(topicValues)
 
-    const authorValues = input.authors.map((author) => ({
-      articleId: article[0].id,
-      userId: author,
-    }))
+  const authorValues = input.authors.map((author) => ({
+    articleId: data[0].id,
+    userId: author,
+  }))
 
-    await tx.insert(articleAuthors).values(authorValues)
+  await db.insert(articleAuthors).values(authorValues)
 
-    const editorValues = input.editors.map((editor) => ({
-      articleId: article[0].id,
-      userId: editor,
-    }))
+  const editorValues = input.editors.map((editor) => ({
+    articleId: data[0].id,
+    userId: editor,
+  }))
 
-    await tx.insert(articleEditors).values(editorValues)
-
-    return article
-  })
+  await db.insert(articleEditors).values(editorValues)
 
   return data
 }
@@ -808,59 +788,56 @@ export const translateArticle = async (
 
   const db = initializeDB(DB)
 
-  const data = await db.transaction(async (tx) => {
-    const article = await tx
-      .insert(articles)
-      .values({
-        id: cuid(),
-        language: input.language,
-        title: input.title,
-        slug: slug,
-        content: input.content,
-        status: input.status,
-        excerpt: generatedExcerpt,
-        metaTitle: generatedMetaTitle,
-        metaDescription: generatedMetaDescription,
-        featuredImageId: input.featuredImageId,
-        articleTranslationId: input.articleTranslationId,
-      })
-      .returning()
+  const data = await db
+    .insert(articles)
+    .values({
+      id: cuid(),
+      language: input.language,
+      title: input.title,
+      slug: slug,
+      content: input.content,
+      status: input.status,
+      excerpt: generatedExcerpt,
+      metaTitle: generatedMetaTitle,
+      metaDescription: generatedMetaDescription,
+      featuredImageId: input.featuredImageId,
+      articleTranslationId: input.articleTranslationId,
+    })
+    .returning()
 
-    const topicValues = input.topics.map((topic) => ({
-      articleId: article[0].id,
-      topicId: topic,
-    }))
+  const topicValues = input.topics.map((topic) => ({
+    articleId: data[0].id,
+    topicId: topic,
+  }))
 
-    await tx.insert(articleTopics).values(topicValues)
+  await db.insert(articleTopics).values(topicValues)
 
-    const authorValues = input.authors.map((author) => ({
-      articleId: article[0].id,
-      userId: author,
-    }))
+  const authorValues = input.authors.map((author) => ({
+    articleId: data[0].id,
+    userId: author,
+  }))
 
-    await tx.insert(articleAuthors).values(authorValues)
+  await db.insert(articleAuthors).values(authorValues)
 
-    const editorValues = input.editors.map((editor) => ({
-      articleId: article[0].id,
-      userId: editor,
-    }))
+  const editorValues = input.editors.map((editor) => ({
+    articleId: data[0].id,
+    userId: editor,
+  }))
 
-    await tx.insert(articleEditors).values(editorValues)
-
-    return article
-  })
+  await db.insert(articleEditors).values(editorValues)
 
   return data
 }
 
 export const deleteArticle = async (DB: D1Database, input: string) => {
   const db = initializeDB(DB)
-  const data = await db.transaction(async (tx) => {
-    await tx.delete(articleTopics).where(eq(articleTopics.articleId, input))
-    await tx.delete(articleAuthors).where(eq(articleAuthors.articleId, input))
-    await tx.delete(articleEditors).where(eq(articleEditors.articleId, input))
-    const article = await tx.delete(articles).where(eq(articles.id, input))
-    return article
-  })
+
+  const data = await db.batch([
+    db.delete(articleTopics).where(eq(articleTopics.articleId, input)),
+    db.delete(articleAuthors).where(eq(articleAuthors.articleId, input)),
+    db.delete(articleEditors).where(eq(articleEditors.articleId, input)),
+    db.delete(articles).where(eq(articles.id, input)),
+  ])
+
   return data
 }
