@@ -6,6 +6,7 @@ import "@/styles/globals.css"
 
 import MainContainer from "@/components/Layout/MainContainer.astro"
 import Themes from "@/components/Theme/Themes.astro"
+import Toast from "@/components/Toast.astro"
 import { Toaster } from "@/components/UI/Toast/Toaster"
 import type { LanguageType } from "@/lib/validation/language"
 
@@ -71,5 +72,6 @@ const titleDefault =
   <body class="antialiased font-400 font-sans">
     <MainContainer user={user} locale={locale}><slot /></MainContainer>
     <Toaster client:only="react" />
+    <Toast />
   </body>
 </html>

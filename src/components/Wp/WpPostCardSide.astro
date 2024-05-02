@@ -1,0 +1,43 @@
+---
+import { Image } from "astro:assets"
+
+import Link from "@/components/Link"
+import type { LanguageType } from "@/lib/validation/language"
+
+interface Props {
+  isWP?: boolean
+  src: string
+  alt: string
+  title: string
+  uri: string
+  locale: LanguageType
+}
+const { src, alt, uri, title, locale } = Astro.props
+---
+
+<Link locale={locale} aria-label={`Go To ${title} Page`} role="link" href={uri}>
+  <article class="mb-4 flex w-full border-separate flex-col rounded-lg">
+    <div
+      class="relative flex max-w-xs flex-col space-y-3 md:max-w-3xl md:flex-row md:space-x-4 md:space-y-0"
+    >
+      <div
+        class="relative aspect-[1/1] h-[75px] w-auto max-w-[unset] overflow-hidden rounded-md"
+      >
+        <Image
+          src={src}
+          alt={`Image ${alt}`}
+          class="!h-full !w-full object-cover"
+          sizes="(max-width: 768px) 50px, 100px"
+          width={50}
+          height={50}
+        />
+      </div>
+
+      <div class="flex w-full flex-col space-y-2 md:w-2/3">
+        <h3 class="line-clamp-3 text-sm leading-5 hover:text-primary">
+          {title}
+        </h3>
+      </div>
+    </div>
+  </article>
+</Link>

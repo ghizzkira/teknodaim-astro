@@ -1,0 +1,120 @@
+---
+import { Button } from "@/components/UI/Button"
+import { Input } from "@/components/UI/Input"
+import { Textarea } from "@/components/UI/Textarea"
+import { getUserById, updateUser } from "@/lib/action/user"
+import { updateUserSchema, type UpdateUser } from "@/lib/validation/user"
+
+interface Props {
+  initialData: UpdateUser
+}
+
+const { initialData } = Astro.props
+let isSuccess = false
+
+let updatedUser = initialData
+
+if (Astro.request.method === "POST") {
+  try {
+    const data = await Astro.request.formData()
+    const name = data.get("name")
+    const username = data.get("username")
+    const about = data.get("about")
+    const phone_number = data.get("phone_number")
+    const parsedInput = updateUserSchema.parse({
+      id: initialData?.id,
+      name,
+      username: username,
+      about,
+      phoneNumber: phone_number,
+    })
+    const DB = Astro.locals.runtime.env.DB
+
+    const manuks = await updateUser(DB, parsedInput)
+    if (manuks) {
+      updatedUser = parsedInput
+      isSuccess = true
+    }
+    // Do something with the data
+  } catch (error) {
+    console.error("nab", error)
+    if (error instanceof Error) {
+      console.error(error.message)
+    }
+  }
+}
+---
+
+<form
+  method="POST"
+  class="w-full space-y-4 rounded-sm border border-border p-5 lg:p-10"
+>
+  <div>
+    <label class="font-bold">Name</label>
+    <Input
+      type="text"
+      name="name"
+      maxLength={64}
+      defaultValue={updatedUser.name}
+      required
+      id="user-name"
+      placeholder="Enter name"
+      className="max-w-xl"
+    />
+    <!-- {errors?.name && <FormErrorMessage>{errors.name.message}</FormErrorMessage>} -->
+  </div>
+  <div>
+    <label class="font-bold"> Username </label>
+    <Input
+      defaultValue={updatedUser.username}
+      name="username"
+      required
+      pattern="^[a-z0-9]{3,16}$"
+      minLength={3}
+      maxLength={20}
+      id="user-username"
+      placeholder="Enter your username"
+      className="max-w-xl"
+    />
+    <!-- {
+      errors?.username && (
+        <FormErrorMessage>{errors.username.message}</FormErrorMessage>
+      )
+    } -->
+  </div>
+
+  <div>
+    <label class="font-bold">Phone Number</label>
+    <Input
+      type="number"
+      defaultValue={updatedUser?.phoneNumber!}
+      id="user-phone-number"
+      name="phone_number"
+      pattern="/^[0-9]*$/"
+      minLength={9}
+      maxLength={16}
+      placeholder="Optional"
+      className="max-w-xl"
+    />
+    <!-- {
+      errors?.phone_number && (
+        <FormErrorMessage>{errors.phone_number.message}</FormErrorMessage>
+      )
+    } -->
+  </div>
+  <div>
+    <label class="font-bold">About</label>
+    <Textarea
+      defaultValue={updatedUser?.about!}
+      name="about"
+      className="max-w-xl"
+      placeholder="Optional"
+    />
+    <!-- {
+      errors?.about && (
+        <FormErrorMessage>{errors.about.message}</FormErrorMessage>
+      )
+    } -->
+  </div>
+  <Button aria-label="Submit" type="submit"> Submit </Button>
+</form>

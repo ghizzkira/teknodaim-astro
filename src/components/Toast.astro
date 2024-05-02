@@ -1,0 +1,27 @@
+---
+export declare type ToastMessage = {
+  detail: { type: string; message: string }
+}
+
+declare global {
+  interface DocumentEventMap {
+    "show-toast": CustomEvent<ToastMessage | null>
+  }
+}
+---
+
+<script type="module">
+  window.addEventListener("show-toast", function (event) {
+    const { type, message } = event.detail
+
+    const toast = document.createElement("div")
+    toast.className = `toast toast-${type}`
+    toast.textContent = message
+
+    document.body.appendChild(toast)
+
+    setTimeout(function () {
+      document.body.removeChild(toast)
+    }, 3000)
+  })
+</script>

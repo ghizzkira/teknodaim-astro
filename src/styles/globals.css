@@ -6,6 +6,32 @@
   body {
     @apply scroll-smooth font-sans;
   }
+  .toast {
+    /* Gaya dasar untuk semua toast */
+    padding: 15px;
+    position: fixed;
+    z-index: 9999;
+    top: 20px;
+    right: 20px;
+    border-radius: 5px;
+    color: white;
+    font-size: 16px;
+  }
+
+  .toast-success {
+    /* Gaya khusus untuk toast sukses */
+    background-color: #51a351;
+  }
+
+  .toast-error {
+    /* Gaya khusus untuk toast error */
+    background-color: #bd362f;
+  }
+
+  .toast-warning {
+    /* Gaya khusus untuk toast peringatan */
+    background-color: #f89406;
+  }
 }
 
 @layer components {
