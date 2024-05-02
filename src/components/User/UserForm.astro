@@ -2,7 +2,7 @@
 import { Button } from "@/components/UI/Button"
 import { Input } from "@/components/UI/Input"
 import { Textarea } from "@/components/UI/Textarea"
-import { getUserById, updateUser } from "@/lib/action/user"
+import { updateUser } from "@/lib/action/user"
 import { updateUserSchema, type UpdateUser } from "@/lib/validation/user"
 
 interface Props {
@@ -10,7 +10,6 @@ interface Props {
 }
 
 const { initialData } = Astro.props
-let isSuccess = false
 
 let updatedUser = initialData
 
@@ -30,14 +29,12 @@ if (Astro.request.method === "POST") {
     })
     const DB = Astro.locals.runtime.env.DB
 
-    const manuks = await updateUser(DB, parsedInput)
-    if (manuks) {
+    const results = await updateUser(DB, parsedInput)
+    if (results) {
       updatedUser = parsedInput
-      isSuccess = true
     }
-    // Do something with the data
   } catch (error) {
-    console.error("nab", error)
+    console.error(error)
     if (error instanceof Error) {
       console.error(error.message)
     }
@@ -61,7 +58,6 @@ if (Astro.request.method === "POST") {
       placeholder="Enter name"
       className="max-w-xl"
     />
-    <!-- {errors?.name && <FormErrorMessage>{errors.name.message}</FormErrorMessage>} -->
   </div>
   <div>
     <label class="font-bold"> Username </label>
@@ -76,11 +72,6 @@ if (Astro.request.method === "POST") {
       placeholder="Enter your username"
       className="max-w-xl"
     />
-    <!-- {
-      errors?.username && (
-        <FormErrorMessage>{errors.username.message}</FormErrorMessage>
-      )
-    } -->
   </div>
 
   <div>
@@ -96,11 +87,6 @@ if (Astro.request.method === "POST") {
       placeholder="Optional"
       className="max-w-xl"
     />
-    <!-- {
-      errors?.phone_number && (
-        <FormErrorMessage>{errors.phone_number.message}</FormErrorMessage>
-      )
-    } -->
   </div>
   <div>
     <label class="font-bold">About</label>
@@ -110,11 +96,6 @@ if (Astro.request.method === "POST") {
       className="max-w-xl"
       placeholder="Optional"
     />
-    <!-- {
-      errors?.about && (
-        <FormErrorMessage>{errors.about.message}</FormErrorMessage>
-      )
-    } -->
   </div>
   <Button aria-label="Submit" type="submit"> Submit </Button>
 </form>
