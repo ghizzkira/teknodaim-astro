@@ -14,10 +14,8 @@ import WpPostViewCounter from "@/components/Wp/WpPostViewCounter"
 import { getWpPopularPosts } from "@/lib/action/wp-popular-post"
 
 export const prerender = false
-Astro.response.headers.set(
-  "Cache-Control",
-  "public, s-maxage=60, stale-while-revalidate=30",
-)
+Astro.locals.cache(60);
+
 
 const { categorySlug, slug } = Astro.params
 
@@ -127,17 +125,16 @@ const { primaryCategory } = wpPrimaryCategorySlug(
 }
 
 const langlist = [mainPost, otherLangPost];
-const alternatesList: AlternateLink[] = langlist.reduce((acc: AlternateLink[], list) => {
-  if (list?.language?.slug) {
+ const alternatesList: AlternateLink[] = langlist.reduce((acc: AlternateLink[], list) => {
+  if (list?.language?.slug.toLocaleLowerCase() ==="id") {
     acc.push({
-      href: `${import.meta.env.PUBLIC_SITE_URL}/${categorySlug}/${list.language.slug.toLocaleLowerCase() === "id" ? list.slug : list?.slug}`,
+      href: `${import.meta.env.PUBLIC_SITE_URL}/${categorySlug}/${list?.slug}`,
       hrefLang: list.language.slug,
     });
   }
   return acc;
 }, []);
 ---
-
 <MainLayout 
 locale={"en"}
 seo={{

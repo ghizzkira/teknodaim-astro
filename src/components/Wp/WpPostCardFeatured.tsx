@@ -6,6 +6,7 @@ import { Icon } from "@/components/UI/Icon"
 
 import "@/lib/internationalization/route"
 
+import Image from "@/components/Image"
 import { formatDateFromNow } from "@/lib/utils/date"
 import type { LanguageType } from "@/lib/validation/language"
 
@@ -14,13 +15,13 @@ interface WpPostCardFeaturedProps extends React.HTMLAttributes<HTMLDivElement> {
   post: {
     title: string
     slug: string
-    published_time: Date | string
+    publishedTime: Date | string
     thumbnail: string
-    primary_category: string
-    primary_category_slug: string
-    author_name: string
-    author_slug: string
-    author_image: string
+    primaryCategory: string
+    primaryCategorySlug: string
+    authorName: string
+    authorSlug: string
+    authorImage: string
   }
   locale: LanguageType
 }
@@ -33,21 +34,21 @@ const WpPostCardFeatured: React.FunctionComponent<WpPostCardFeaturedProps> = (
   const {
     title,
     slug,
-    published_time,
+    publishedTime,
     thumbnail,
-    primary_category,
-    primary_category_slug,
-    author_name,
-    author_slug,
-    author_image,
+    primaryCategory,
+    primaryCategorySlug,
+    authorName,
+    authorSlug,
+    authorImage,
   } = post
   const stylesIcons = `absolute z-[5] right-[15px] top-[10px] md:top-[-10px] h-[32px] w-[32px] md:h-[44px] md:w-[44px] rounded-full p-1.5 md:p-3 text-[26px] leading-[32px] md:leading-[44px]`
 
   return (
     <article className="whitspace-normal group relative h-full w-full">
       <BadgeIcon
-        name={primary_category as never as string}
-        slug={primary_category_slug as never as string}
+        name={primaryCategory as never as string}
+        slug={primaryCategorySlug as never as string}
         className={stylesIcons}
         locale={locale}
       />
@@ -57,14 +58,16 @@ const WpPostCardFeatured: React.FunctionComponent<WpPostCardFeaturedProps> = (
           role="link"
           aria-label={title}
           className="transition-all duration-300 after:absolute after:left-0 after:top-0 after:h-full after:w-full after:rounded-xl after:bg-gradient-to-t after:from-[#2828289c] after:to-transparent after:transition-all after:group-hover:from-[#282828e0]"
-          href={`/${primary_category_slug}/${slug}`}
+          href={`/${primaryCategorySlug}/${slug}`}
         >
           <div className="relative box-border h-full w-full">
-            <img
+            <Image
               sizes="(max-width: 768px) 80vw, (max-width: 1200px) 60vw, 40vw"
               src={thumbnail}
               className="!h-full !w-full overflow-hidden object-cover transition-all duration-300 group-hover:scale-125"
               alt={title}
+              width={"300"}
+              height={"300"}
             />
           </div>
         </Link>
@@ -74,7 +77,7 @@ const WpPostCardFeatured: React.FunctionComponent<WpPostCardFeaturedProps> = (
           locale={locale}
           role="link"
           aria-label={title}
-          href={`/${primary_category_slug}/${slug}`}
+          href={`/${primaryCategorySlug}/${slug}`}
         >
           <h3
             className={`${
@@ -93,15 +96,15 @@ const WpPostCardFeatured: React.FunctionComponent<WpPostCardFeaturedProps> = (
         <div
           className={`flex translate-y-6 flex-row items-center opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100`}
         >
-          {author_name && (
+          {authorName && (
             <>
               <div className="mt-1 flex flex-row items-center">
-                {author_image && (
+                {authorImage && (
                   <div className="relative h-[20px] w-[20px]">
                     <img
-                      src={author_image}
+                      src={authorImage}
                       className="!h-[20px] !w-[20px] overflow-hidden rounded-full object-cover"
-                      alt={author_name}
+                      alt={authorName}
                       sizes="(max-width: 768px) 20px, 50px"
                     />
                   </div>
@@ -109,17 +112,17 @@ const WpPostCardFeatured: React.FunctionComponent<WpPostCardFeaturedProps> = (
                 <Link
                   locale={locale}
                   role="link"
-                  aria-label={author_name}
-                  href={`/author/${author_slug}`}
+                  aria-label={authorName}
+                  href={`/author/${authorSlug}`}
                 >
                   <h4 className="ml-2 line-clamp-1 text-[10px] text-white md:text-[12px]">
-                    {author_name}
+                    {authorName}
                   </h4>
                 </Link>
               </div>
             </>
           )}
-          {index === 1 && published_time && (
+          {index === 1 && publishedTime && (
             <>
               <Icon.AccessTime
                 aria-label="Date"
@@ -127,10 +130,10 @@ const WpPostCardFeatured: React.FunctionComponent<WpPostCardFeaturedProps> = (
               />
               <time
                 className="pl-0.5 text-[10px] text-white md:text-xs"
-                dateTime={published_time as unknown as string}
+                dateTime={publishedTime as unknown as string}
                 suppressHydrationWarning={true}
               >
-                {formatDateFromNow(published_time, locale)}
+                {formatDateFromNow(publishedTime, locale)}
               </time>
             </>
           )}

@@ -70,7 +70,6 @@ const firstCleanHtml = sanitizeHtml(page?.content!, {
     title: page?.title,
     description: page?.seo.metaDesc,
     languageAlternates: [
-      { href: `${import.meta.env.PUBLIC_SITE_URL}/about`, hrefLang: "id" },
       { href: `${import.meta.env.PUBLIC_SITE_URL}/en/about`, hrefLang: "en" },
     ],
     canonical: import.meta.env.PUBLIC_SITE_URL,
