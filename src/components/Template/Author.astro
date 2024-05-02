@@ -1,6 +1,9 @@
 ---
 import { Image } from "astro:assets"
 
+import ParseContent from "@/components/ParseContent"
+import InfiniteScrollWpPostsAuthor from "@/components/Wp/InfiniteScrollWpPostsAuthor"
+import WpListPost from "@/components/Wp/WpListPost.astro"
 import type { LanguageType } from "@/lib/validation/language"
 import type { UpsertWpPopularPost } from "@/lib/validation/wp-popular-post"
 import type {
@@ -9,9 +12,6 @@ import type {
   WpSinglePostDataProps,
   WpTagsDataProps,
 } from "@/lib/wp/action/wp-types"
-import ParseContent from "../ParseContent"
-import InfiniteScrollWpPostsAuthor from "../Wp/InfiniteScrollWpPostsAuthor"
-import WpListPost from "../Wp/WpListPost"
 
 interface Props {
   posts?: WpSinglePostDataProps[] | null

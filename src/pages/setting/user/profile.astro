@@ -1,0 +1,42 @@
+---
+import PageInfo from "@/components/Layout/PageInfo.astro"
+import UserForm from "@/components/User/UserForm.astro"
+import MainLayout from "@/layouts/MainLayout.astro"
+import { getUserByUsername } from "@/lib/action/user"
+
+const session = Astro.locals.user
+const DB = Astro.locals.runtime.env.DB
+if (!Astro.locals.user) {
+  Astro.redirect("/")
+}
+const user = await getUserByUsername(DB, session?.username!)
+if (!user) {
+  Astro.redirect("/404")
+}
+---
+
+<MainLayout
+  locale="id"
+  seo={{
+    title: user?.name!,
+    description: user?.about ?? user?.name!,
+    noindex: true,
+    canonical: import.meta.env.PUBLIC_SITE_URL,
+    openGraph: {
+      basic: {
+        title: `${user?.name} | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/setting/user/profile`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: user?.about ?? user?.name!,
+        locale: "ID",
+      },
+    },
+  }}
+  ><div class="fade-up-element flex w-full flex-col items-center p-10">
+    <PageInfo title="Settings" description="Manage your account." />
+    <UserForm initialData={user} />
+  </div>
+</MainLayout>

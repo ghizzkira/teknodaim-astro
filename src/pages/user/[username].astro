@@ -1,0 +1,86 @@
+---
+import { Image } from "astro:assets"
+
+import { Icon } from "@/components/UI/Icon"
+import MainLayout from "@/layouts/MainLayout.astro"
+import { getUserByUsername } from "@/lib/action/user"
+import { formatDate } from "@/lib/utils/date"
+
+Astro.locals.cache(60)
+const DB = Astro.locals.runtime.env.DB
+const { username } = Astro.params
+const locale = "id"
+
+const user = await getUserByUsername(DB, username!)
+
+if (!user) {
+  Astro.redirect("/404")
+}
+---
+
+<MainLayout
+  locale={locale}
+  seo={{
+    title: user?.name!,
+    description: user?.about ?? user?.name!,
+    languageAlternates: [
+      {
+        href: `${import.meta.env.PUBLIC_SITE_URL}/en/user/${username}`,
+        hrefLang: "en",
+      },
+    ],
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/user/${username}`,
+    openGraph: {
+      basic: {
+        title: `${user?.name} | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/setting/user/profile`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: user?.about ?? user?.name!,
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <div class="fade-up-element flex w-full flex-col items-center space-y-3 px-4">
+    <div class="w-full rounded border border-border p-4">
+      <div class="flex items-center justify-between">
+        <div class="flex flex-1 flex-col items-center space-x-7 lg:flex-row">
+          {
+            user?.image ? (
+              <div class="relative h-[100px] w-[100px] overflow-hidden rounded-full border-2 border-border shadow">
+                <Image
+                  src={user?.image}
+                  alt={user?.name!}
+                  class="object-cover"
+                  width={100}
+                  height={100}
+                />
+              </div>
+            ) : (
+              <Icon.User
+                aria-label="User"
+                className="bg-muted/61 h-[100px] w-[100px] rounded-full border-2 border-border object-cover p-2 text-foreground/80 shadow"
+              />
+            )
+          }
+          <div class="flex flex-1 flex-col space-y-1">
+            <h2>{user?.name}</h2>
+            <p class="text-sm">@{user?.username}</p>
+            <p class="max-w-sm">{user?.about}</p>
+          </div>
+        </div>
+      </div>
+      <div class="mt-3 flex items-center justify-center text-sm">
+        <Icon.Calendar aria-label="Member" className="mr0 h-4 w-4" />
+        <p>
+          Member since
+          {formatDate(user?.createdAt as unknown as string, "LL")}
+        </p>
+      </div>
+    </div>
+    <h3 class="my-16 text-center text-3xl">Article Not Found</h3>
+  </div>
+</MainLayout>
