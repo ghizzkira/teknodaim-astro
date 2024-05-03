@@ -39,11 +39,33 @@ const titleDefault =
     <link rel="icon" type="image/svg+xml" href="/icon/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <ViewTransitions fallback="swap" />
-    <script
-      is:inline
-      async
-      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1431832394500017"
-      crossorigin="anonymous"></script>
+    <script type="module" is:inline>
+      const scriptElement = document.querySelector(
+        `script[src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1431832394500017"]`,
+      )
+      function addScriptTag() {
+        if (!scriptElement) {
+          const script = document.createElement("script")
+          script.async = true
+          script.src =
+            "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1431832394500017"
+          script.crossOrigin = "anonymous"
+          document.body.appendChild(script)
+        }
+      }
+
+      var timeoutId = setTimeout(function () {
+        addScriptTag()
+        window.onscroll = null // Menghapus event listener scroll
+      }, 8000)
+
+      // Menambahkan tag script ketika pengguna melakukan scroll
+      window.onscroll = function () {
+        clearTimeout(timeoutId) // Membatalkan timeout
+        addScriptTag()
+        window.onscroll = null // Menghapus event listener scroll
+      }
+    </script>
     <script
       is:inline
       type="text/partytown"
@@ -70,6 +92,5 @@ const titleDefault =
   </head>
   <body class="antialiased font-400 font-sans">
     <MainContainer user={user} locale={locale}><slot /></MainContainer>
-    <Toaster client:only="react" />
   </body>
 </html>
