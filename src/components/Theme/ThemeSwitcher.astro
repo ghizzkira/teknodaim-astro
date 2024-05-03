@@ -26,11 +26,11 @@ import { Icon } from "@/components/UI/Icon"
 <div class="flex items-center justify-center">
   <div
     onclick="toggleTheme()"
-    class={`relative flex h-7 w-7 items-center rounded-full bg-border transition duration-200 ease-linear`}
+    class={`relative flex h-7 w-[52px] items-center rounded-full bg-border transition duration-200 ease-linear`}
   >
     <button
       id="dark-mode-switcher"
-      class={`border-1 absolute left-0 mx-[2px] flex h-6 w-6 transform cursor-pointer items-center justify-center rounded-full bg-background transition duration-100 ease-linear `}
+      class={`border-1 absolute left-0 mx-[2px] flex h-6 w-6 transform cursor-pointer items-center justify-center rounded-full bg-background transition duration-100 ease-linear translate-x-full`}
     >
       <Icon.Dark id="dark-icon" aria-label="Dark Theme" className="h-4 w-4" />
       <Icon.Light
