@@ -21,13 +21,13 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^10.2.4",
+    "@astrojs/cloudflare": "^10.2.5",
     "@astrojs/partytown": "^2.1.0",
-    "@astrojs/react": "^3.3.1",
+    "@astrojs/react": "^3.3.2",
     "@astrojs/tailwind": "^5.1.0",
     "@astrojs/ts-plugin": "^1.6.1",
     "@auth/drizzle-adapter": "^1.0.1",
-    "@aws-sdk/client-s3": "^3.567.0",
+    "@aws-sdk/client-s3": "^3.568.0",
     "@libsql/client": "^0.6.0",
     "@lucia-auth/adapter-drizzle": "^1.0.7",
     "@lucia-auth/adapter-sqlite": "^3.0.1",
@@ -82,7 +82,7 @@
     "@types/react-dom": "^18.3.0",
     "amperize": "^0.6.1",
     "arctic": "^1.8.0",
-    "astro": "^4.7.0",
+    "astro": "^4.7.1",
     "astro-seo": "^0.8.3",
     "astro-seo-schema": "^4.0.2",
     "class-variance-authority": "^0.7.0",
@@ -108,10 +108,10 @@
     "tailwindcss": "^3.4.3",
     "tippy.js": "^6.3.7",
     "tripay-sdk": "^0.1.4",
-    "zod": "^3.23.5"
+    "zod": "^3.23.6"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20240423.0",
+    "@cloudflare/workers-types": "^4.20240502.0",
     "@ianvs/prettier-plugin-sort-imports": "^4.2.1",
     "@tailwindcss/forms": "^0.5.7",
     "@types/eslint": "^8.56.10",
@@ -136,8 +136,8 @@
     "prettier-plugin-astro": "^0.13.0",
     "prettier-plugin-tailwindcss": "^0.5.14",
     "tailwindcss-animate": "^1.0.7",
-    "tsx": "^4.8.2",
+    "tsx": "^4.9.0",
     "typescript": "^5.4.5",
-    "wrangler": "^3.53.0"
+    "wrangler": "^3.53.1"
   }
 }
