@@ -9,6 +9,7 @@ import { initializeAuth } from "@/lib/auth"
 const excludedPaths = ["/api", "/auth/", "/sitemap", "/_image"]
 
 type Path = string
+
 interface ICachedResponse {
   response: Response
   expires: number
@@ -19,7 +20,7 @@ const cache = new Map<Path, ICachedResponse>()
 const validate = defineMiddleware(async (req, next) => {
   let ttl: number | undefined
 
-  req.locals.cache = (seconds: number = 60) => {
+  req.locals.cache = (seconds = 60) => {
     ttl = seconds
   }
 
