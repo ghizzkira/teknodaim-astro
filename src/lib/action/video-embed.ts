@@ -444,14 +444,15 @@ export const createVideoEmbed = async (
     topicId: topic,
   }))
 
-  await db.insert(videoEmbedTopics).values(topicValues)
-
   const authorValues = input.authors.map((author) => ({
     videoEmbedId: data[0].id,
     userId: author,
   }))
 
-  await db.insert(videoEmbedAuthors).values(authorValues)
+  await db.batch([
+    db.insert(videoEmbedTopics).values(topicValues),
+    db.insert(videoEmbedAuthors).values(authorValues),
+  ])
 
   return data
 }
@@ -471,27 +472,29 @@ export const updateVideoEmbed = async (
     .where(eq(videoEmbeds.id, input.id))
     .returning()
 
-  await db
-    .delete(videoEmbedTopics)
-    .where(eq(videoEmbedTopics.videoEmbedId, input.id))
-
-  await db
-    .delete(videoEmbedAuthors)
-    .where(eq(videoEmbedAuthors.videoEmbedId, input.id))
+  await db.batch([
+    db
+      .delete(videoEmbedTopics)
+      .where(eq(videoEmbedTopics.videoEmbedId, input.id)),
+    db
+      .delete(videoEmbedAuthors)
+      .where(eq(videoEmbedAuthors.videoEmbedId, input.id)),
+  ])
 
   const topicValues = input.topics.map((topic) => ({
     videoEmbedId: data[0].id,
     topicId: topic,
   }))
 
-  await db.insert(videoEmbedTopics).values(topicValues)
-
   const authorValues = input.authors.map((author) => ({
     videoEmbedId: data[0].id,
     userId: author,
   }))
 
-  await db.insert(videoEmbedAuthors).values(authorValues)
+  await db.batch([
+    db.insert(videoEmbedAuthors).values(authorValues),
+    db.insert(videoEmbedTopics).values(topicValues),
+  ])
 
   return data
 }

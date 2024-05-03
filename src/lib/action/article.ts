@@ -743,32 +743,32 @@ export const updateArticleWithoutChangeUpdatedDate = async (
     .where(eq(articles.id, input.id))
     .returning()
 
-  await db.delete(articleTopics).where(eq(articleTopics.articleId, input.id))
-
-  await db.delete(articleAuthors).where(eq(articleAuthors.articleId, input.id))
-
-  await db.delete(articleEditors).where(eq(articleEditors.articleId, input.id))
+  await db.batch([
+    db.delete(articleTopics).where(eq(articleTopics.articleId, input.id)),
+    db.delete(articleAuthors).where(eq(articleAuthors.articleId, input.id)),
+    db.delete(articleEditors).where(eq(articleEditors.articleId, input.id)),
+  ])
 
   const topicValues = input.topics.map((topic) => ({
     articleId: data[0].id,
     topicId: topic,
   }))
 
-  await db.insert(articleTopics).values(topicValues)
-
   const authorValues = input.authors.map((author) => ({
     articleId: data[0].id,
     userId: author,
   }))
-
-  await db.insert(articleAuthors).values(authorValues)
 
   const editorValues = input.editors.map((editor) => ({
     articleId: data[0].id,
     userId: editor,
   }))
 
-  await db.insert(articleEditors).values(editorValues)
+  await db.batch([
+    db.insert(articleTopics).values(topicValues),
+    db.insert(articleEditors).values(editorValues),
+    db.insert(articleAuthors).values(authorValues),
+  ])
 
   return data
 }
@@ -810,21 +810,21 @@ export const translateArticle = async (
     topicId: topic,
   }))
 
-  await db.insert(articleTopics).values(topicValues)
-
   const authorValues = input.authors.map((author) => ({
     articleId: data[0].id,
     userId: author,
   }))
-
-  await db.insert(articleAuthors).values(authorValues)
 
   const editorValues = input.editors.map((editor) => ({
     articleId: data[0].id,
     userId: editor,
   }))
 
-  await db.insert(articleEditors).values(editorValues)
+  await db.batch([
+    db.insert(articleTopics).values(topicValues),
+    db.insert(articleEditors).values(editorValues),
+    db.insert(articleAuthors).values(authorValues),
+  ])
 
   return data
 }

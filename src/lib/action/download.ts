@@ -758,21 +758,21 @@ export const createDownload = async (DB: D1Database, input: CreateDownload) => {
     downloadFileId: downloadFile,
   }))
 
-  await db.insert(downloadDownloadFiles).values(downloadFileValues)
-
   const topicValues = input.topics.map((topic) => ({
     downloadId: data[0].id,
     topicId: topic,
   }))
-
-  await db.insert(downloadTopics).values(topicValues)
 
   const authorValues = input.authors.map((author) => ({
     downloadId: data[0].id,
     userId: author,
   }))
 
-  await db.insert(downloadAuthors).values(authorValues)
+  await db.batch([
+    db.insert(downloadDownloadFiles).values(downloadFileValues),
+    db.insert(downloadTopics).values(topicValues),
+    db.insert(downloadAuthors).values(authorValues),
+  ])
 
   return data
 }
@@ -789,36 +789,34 @@ export const updateDownload = async (DB: D1Database, input: UpdateDownload) => {
     .where(eq(downloads.id, input.id))
     .returning()
 
-  await db
-    .delete(downloadDownloadFiles)
-    .where(eq(downloadTopics.downloadId, input.id))
-
-  await db.delete(downloadTopics).where(eq(downloadTopics.downloadId, input.id))
-
-  await db
-    .delete(downloadAuthors)
-    .where(eq(downloadAuthors.downloadId, input.id))
+  await db.batch([
+    db
+      .delete(downloadDownloadFiles)
+      .where(eq(downloadTopics.downloadId, input.id)),
+    db.delete(downloadTopics).where(eq(downloadTopics.downloadId, input.id)),
+    db.delete(downloadAuthors).where(eq(downloadAuthors.downloadId, input.id)),
+  ])
 
   const downloadFileValues = input.downloadFiles.map((downloadFile) => ({
     downloadId: data[0].id,
     downloadFileId: downloadFile,
   }))
 
-  await db.insert(downloadDownloadFiles).values(downloadFileValues)
-
   const topicValues = input.topics.map((topic) => ({
     downloadId: data[0].id,
     topicId: topic,
   }))
-
-  await db.insert(downloadTopics).values(topicValues)
 
   const authorValues = input.authors.map((author) => ({
     downloadId: data[0].id,
     userId: author,
   }))
 
-  await db.insert(downloadAuthors).values(authorValues)
+  await db.batch([
+    db.insert(downloadAuthors).values(authorValues),
+    db.insert(downloadTopics).values(topicValues),
+    db.insert(downloadDownloadFiles).values(downloadFileValues),
+  ])
 
   return data
 }
@@ -836,25 +834,25 @@ export const updateDownloadWithoutChangeUpdatedDate = async (
     .where(eq(downloads.id, input.id))
     .returning()
 
-  await db.delete(downloadTopics).where(eq(downloadTopics.downloadId, input.id))
-
-  await db
-    .delete(downloadAuthors)
-    .where(eq(downloadAuthors.downloadId, input.id))
+  await db.batch([
+    db.delete(downloadTopics).where(eq(downloadTopics.downloadId, input.id)),
+    db.delete(downloadAuthors).where(eq(downloadAuthors.downloadId, input.id)),
+  ])
 
   const topicValues = input.topics.map((topic) => ({
     downloadId: data[0].id,
     topicId: topic,
   }))
 
-  await db.insert(downloadTopics).values(topicValues)
-
   const authorValues = input.authors.map((author) => ({
     downloadId: data[0].id,
     userId: author,
   }))
 
-  await db.insert(downloadAuthors).values(authorValues)
+  await db.batch([
+    db.insert(downloadAuthors).values(authorValues),
+    db.insert(downloadTopics).values(topicValues),
+  ])
 
   return data
 }
@@ -891,14 +889,15 @@ export const translateDownload = async (
     topicId: topic,
   }))
 
-  await db.insert(downloadTopics).values(topicValues)
-
   const authorValues = input.authors.map((author) => ({
     downloadId: data[0].id,
     userId: author,
   }))
 
-  await db.insert(downloadAuthors).values(authorValues)
+  await db.batch([
+    db.insert(downloadTopics).values(topicValues),
+    db.insert(downloadAuthors).values(authorValues),
+  ])
 
   return data
 }
