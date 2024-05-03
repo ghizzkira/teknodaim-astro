@@ -3,7 +3,7 @@ import * as React from "react"
 import LanguageSwitcher from "@/components/LanguageSwitcher"
 import Sidebar from "@/components/Layout/Sidebar"
 import SidebarItem from "@/components/Layout/SidebarItem"
-import ThemeSwitcher from "@/components/Theme/ThemeSwitcher"
+// import ThemeSwitcher from "@/components/Theme/ThemeSwitcher.astro"
 import { Button } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
 import { useOnClickOutside } from "@/hooks/useOnClickOutside"
@@ -82,7 +82,7 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = (props) => {
         </div>
         <div className="absolute bottom-0 left-0 z-20 flex w-full justify-center space-x-4 border-r border-border bg-background p-4">
           <LanguageSwitcher locale={locale} />
-          <ThemeSwitcher />
+          {/* <ThemeSwitcher /> */}
           <Button asChild variant="ghost">
             <a href="/dashboard/setting">
               <Icon.Settings />

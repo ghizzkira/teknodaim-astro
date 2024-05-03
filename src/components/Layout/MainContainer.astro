@@ -5,10 +5,9 @@ import type { User } from "lucia"
 
 import { cn } from "@/lib/utils/style"
 import type { LanguageType } from "@/lib/validation/language"
-import CheckboxSidebar from "./CheckboxSidebar"
-import Footer from "./Footer"
+import Footer from "./Footer.astro"
 import SideNav from "./SideNav"
-import TopNav from "./TopNav"
+import TopNav from "./TopNav.astro"
 
 interface Props {
   locale: LanguageType
@@ -55,7 +54,6 @@ const {
 ---
 
 <div>
-  <CheckboxSidebar client:load />
   <TopNav
     headerType={headerType}
     locale={locale}
@@ -66,7 +64,6 @@ const {
     whatsapp_channel={settings?.whatsapp_channel}
     youtube_channel={settings?.youtube_channel}
     user={user}
-    client:load
     ><Fragment slot="buttonMenu">
       <label
         for="openSidebarMenu"
