@@ -12,7 +12,7 @@ if (data) {
   settings = { ...parsedData }
 }
 if (!user?.role.includes("admin" || "author")) {
-  Astro.redirect("/")
+ return Astro.redirect("/")
 }
 ---
 
@@ -21,11 +21,11 @@ if (!user?.role.includes("admin" || "author")) {
   seo={{
     title: "Filter Post",
     description: "Filter Post",
-    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/setting/filter-post`,
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/filter-post`,
     openGraph: {
       basic: {
         title: `Filter Post | `,
-        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/setting/filter-post`,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/filter-post`,
         type: "website",
         image: "",
       },

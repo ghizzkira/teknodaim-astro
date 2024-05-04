@@ -27,27 +27,25 @@ if (!user?.role.includes("admin" || "author")) {
 <DashboardLayout
   locale="id"
   seo={{
-    title: import.meta.env.PUBLIC_SITE_TITLE,
-    description: import.meta.env.PUBLIC_SITE_DESCRIPTION,
-    languageAlternates: [
-      { href: `${import.meta.env.PUBLIC_SITE_URL}/`, hrefLang: "id" },
-      { href: `${import.meta.env.PUBLIC_SITE_URL}/en`, hrefLang: "en" },
-    ],
-    canonical: import.meta.env.PUBLIC_SITE_URL,
+    title: "Dashboard",
+    description: "Dashboard",
+     
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard`,
     openGraph: {
       basic: {
-        title: `${import.meta.env.PUBLIC_SITE_TITLE} | `,
-        url: `${import.meta.env.PUBLIC_SITE_URL}/`,
+        title: `Dashboard | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard`,
         type: "website",
         image: "",
       },
       optional: {
-        description: import.meta.env.PUBLIC_SITE_DESCRIPTION,
+        description: "Dashboard",
         locale: "ID",
       },
     },
   }}
-><div class="mx-4 my-8 w-full"> <h2 class="text-3xl">Statistics</h2>
+><div class="mx-4 my-8 w-full">
+  <h2 class="text-3xl">Statistics</h2>
   <div class="my-8 grid grid-cols-2 gap-3 md:grid-cols-5">
     <DashboardBox>
       <DashboardBoxIconWrapper>
