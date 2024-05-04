@@ -5,14 +5,14 @@ export const languages = {
 
 export const defaultLang = "id"
 
-export const ui = {
+export const translations = {
   en: {
     "nav.home": "Home",
     "nav.about": "About",
     "nav.twitter": "Twitter",
   },
   id: {
-    "nav.home": "Accueil",
-    "nav.about": "À propos",
+    "nav.home": "Home",
+    "nav.about": "Tentang",
   },
 } as const

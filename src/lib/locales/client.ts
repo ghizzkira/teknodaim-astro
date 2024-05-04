@@ -1,13 +1,13 @@
-import { defaultLang, ui } from "./ui"
+import { defaultLang, translations } from "./translations"
 
 export function getLangFromUrl(url: URL) {
   const [, lang] = url.pathname.split("/")
-  if (lang in ui) return lang as keyof typeof ui
+  if (lang in translations) return lang as keyof typeof translations
   return defaultLang
 }
 
-export function useI18n(lang: keyof typeof ui) {
-  return function t(key: keyof (typeof ui)[typeof defaultLang]) {
-    return ui[lang][key] || ui[defaultLang][key]
+export function useI18n(lang: keyof typeof translations) {
+  return function t(key: keyof (typeof translations)[typeof defaultLang]) {
+    return translations[lang][key] || translations[defaultLang][key]
   }
 }
