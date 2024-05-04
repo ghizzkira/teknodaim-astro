@@ -36,7 +36,7 @@ export default function EditMediaForm(props: EditMediaProps) {
 
   const [loading, setLoading] = React.useState<boolean>(false)
 
-  const t = useI18n()
+  const t = useI18n(locale)
   const ts = useScopedI18n("media")
 
   const router = useRouter()

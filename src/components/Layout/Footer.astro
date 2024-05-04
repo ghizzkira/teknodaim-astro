@@ -12,8 +12,9 @@ import type { LanguageType } from "@/lib/validation/language"
 interface Props {
   className?: string
   address?: string
-  site_title?: string
-  support_email?: string
+  siteTitle?: string
+  supportEmail?: string
+  whatsappNumber?: number
   locale: LanguageType
   // menusFooterAll?:
   //   | Pick<
@@ -29,7 +30,8 @@ interface Props {
   //   | null
 }
 
-const { address, site_title, className, locale } = Astro.props
+const { address, siteTitle, className, locale, supportEmail, whatsappNumber } =
+  Astro.props
 
 const currentYear = new Date().getFullYear()
 ---
@@ -54,31 +56,35 @@ const currentYear = new Date().getFullYear()
             <span>{address ?? import.meta.env.PUBLIC_ADDRESS}</span>
           </li>
           {
-            /* <li class="inline-flex">
-          <Icon.Email
-            aria-label={`Send Email ${import.meta.env.PUBLIC_SUPPORT_EMAIL}`}
-            class="mr-2 h-4 w-4"
-          />
-          <a
-            aria-label={`Send Email ${import.meta.env.PUBLIC_SUPPORT_EMAIL}`}
-            href={`mailto:${
-              support_email ?? env.PUBLIC_SUPPORT_EMAIL
-            }`}
-          >
-            <span>{import.meta.env.PUBLIC_SUPPORT_EMAIL}</span>
-          </a>
-        </li> */
+            (
+              <li class="inline-flex">
+                <Icon.Email
+                  aria-label={`Send Email ${import.meta.env.PUBLIC_SUPPORT_EMAIL}`}
+                  className="mr-2 h-4 w-4"
+                />
+                <a
+                  aria-label={`Send Email ${import.meta.env.PUBLIC_SUPPORT_EMAIL}`}
+                  href={`mailto:${supportEmail ?? import.meta.env.PUBLIC_SUPPORT_EMAIL}`}
+                >
+                  <span>{import.meta.env.PUBLIC_SUPPORT_EMAIL}</span>
+                </a>
+              </li>
+            )
           }
           <li class="inline-flex">
             <Icon.WhatsApp
-              aria-label={`Send Whatsapp to ${import.meta.env.PUBLIC_WHATSAPP_NUMBER}`}
+              aria-label={`Send Whatsapp to ${whatsappNumber ?? import.meta.env.PUBLIC_WHATSAPP_NUMBER}`}
               className="mr-2 h-4 w-4"
             />
             <a
-              aria-label={`Send Whatsapp to ${import.meta.env.PUBLIC_WHATSAPP_NUMBER}`}
-              href={`https://api.whatsapp.com/send?phone=${import.meta.env.PUBLIC_WHATSAPP_NUMBER}`}
+              aria-label={`Send Whatsapp to ${whatsappNumber ?? import.meta.env.PUBLIC_WHATSAPP_NUMBER}`}
+              href={`https://api.whatsapp.com/send?phone=${whatsappNumber ?? import.meta.env.PUBLIC_WHATSAPP_NUMBER}`}
             >
-              <span>{`+${import.meta.env.PUBLIC_WHATSAPP_NUMBER}`}</span>
+              <span
+                >{
+                  `+${whatsappNumber ?? import.meta.env.PUBLIC_WHATSAPP_NUMBER}`
+                }</span
+              >
             </a>
           </li>
         </ul>
@@ -135,7 +141,7 @@ const currentYear = new Date().getFullYear()
   </div>
   <div class="flex min-h-[60px] border border-t border-border">
     <div class="w-full self-center pl-4">
-      {`© ${currentYear} ${site_title ?? import.meta.env.PUBLIC_SITE_TITLE}`}
+      {`© ${currentYear} ${siteTitle ?? import.meta.env.PUBLIC_SITE_TITLE}`}
     </div>
   </div>
 </footer>

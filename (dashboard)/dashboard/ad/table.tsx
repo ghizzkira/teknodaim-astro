@@ -28,7 +28,7 @@ interface AdTableProps {
 export default function AdTable(props: AdTableProps) {
   const { ads, paramsName, page, lastPage, updateAds, updateAdsCount } = props
 
-  const t = useI18n()
+  const t = useI18n(locale)
   const ts = useScopedI18n("ad")
 
   const { mutate: deleteAd } = api.ad.delete.useMutation({

@@ -39,7 +39,7 @@ interface FormValues {
 export default function CreateAdForm() {
   const [loading, setLoading] = React.useState<boolean>(false)
 
-  const t = useI18n()
+  const t = useI18n(locale)
   const ts = useScopedI18n("ad")
 
   const router = useRouter()

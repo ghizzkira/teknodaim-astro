@@ -6,7 +6,7 @@ import { defineMiddleware, sequence } from "astro:middleware"
 
 import { initializeAuth } from "@/lib/auth"
 
-// const excludedPaths = ["/api", "/auth/", "/sitemap", "/_image"]
+const excludedPaths = ["/api", "/auth/", "/sitemap", "/_image"]
 
 type Path = string
 
@@ -64,17 +64,17 @@ export const auth = defineMiddleware(async (context, next) => {
   if (!sessionId) {
     context.locals.user = null
     context.locals.session = null
-    // if (
-    //   !url.pathname.endsWith("/") &&
-    //   !excludedPaths.some((path) => url.pathname.startsWith(path))
-    // ) {
-    //   return new Response(null, {
-    //     status: 301,
-    //     headers: {
-    //       Location: url + "/",
-    //     },
-    //   })
-    // }
+    if (
+      !url.pathname.endsWith("/") &&
+      !excludedPaths.some((path) => url.pathname.startsWith(path))
+    ) {
+      return new Response(null, {
+        status: 308,
+        headers: {
+          Location: url + "/",
+        },
+      })
+    }
     return next()
   }
 
@@ -99,17 +99,17 @@ export const auth = defineMiddleware(async (context, next) => {
   context.locals.session = session
   context.locals.user = user
 
-  // if (
-  //   !url.pathname.endsWith("/") &&
-  //   !excludedPaths.some((path) => url.pathname.startsWith(path))
-  // ) {
-  //   return new Response(null, {
-  //     status: 301,
-  //     headers: {
-  //       Location: url + "/",
-  //     },
-  //   })
-  // }
+  if (
+    !url.pathname.endsWith("/") &&
+    !excludedPaths.some((path) => url.pathname.startsWith(path))
+  ) {
+    return new Response(null, {
+      status: 308,
+      headers: {
+        Location: url + "/",
+      },
+    })
+  }
 
   return next()
 })

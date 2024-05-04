@@ -14,7 +14,7 @@ interface DashboardAddNewProps extends React.HTMLAttributes<HTMLDivElement> {
 const DashboardAddNew: React.FC<DashboardAddNewProps> = (props) => {
   const { url } = props
 
-  const t = useI18n()
+  const t = useI18n(locale)
 
   return (
     <Button variant="ghost" asChild>

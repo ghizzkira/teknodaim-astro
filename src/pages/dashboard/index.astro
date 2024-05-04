@@ -12,17 +12,15 @@ import { getTopicsCount } from "@/lib/action/topic"
 import { getUsersCount } from "@/lib/action/user"
 
 const user = Astro.locals.user
-
+const DB = Astro.locals.runtime.env.DB
+const articles = await getArticlesCount(DB)
+const topics = await getTopicsCount(DB)
+const medias = await getMediasCount(DB)
+const ads = await getAdsCount(DB)
+const users = await getUsersCount(DB)
 if (!user?.role.includes("admin" || "author")) {
   return Astro.redirect("/")
 }
-
-const articles = await getArticlesCount()
-const topics = await getTopicsCount()
-const medias = await getMediasCount()
-const ads = await getAdsCount()
-const users = await getUsersCount()
-
 //TODO: change layout
 ---
 
@@ -49,8 +47,7 @@ const users = await getUsersCount()
       },
     },
   }}
->
-  <h2 class="text-3xl">Statistics</h2>
+><div class="mx-4 my-8 w-full"> <h2 class="text-3xl">Statistics</h2>
   <div class="my-8 grid grid-cols-2 gap-3 md:grid-cols-5">
     <DashboardBox>
       <DashboardBoxIconWrapper>
@@ -87,5 +84,6 @@ const users = await getUsersCount()
       <DashboardBoxCount>{users}</DashboardBoxCount>
       <DashboardBoxDescription>users</DashboardBoxDescription>
     </DashboardBox>
-  </div>
+  </div></div>
+ 
 </DashboardLayout>

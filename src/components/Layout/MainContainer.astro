@@ -57,12 +57,12 @@ const {
   <TopNav
     headerType={headerType}
     locale={locale}
-    facebook_username={settings?.facebook_username}
-    twitter_username={settings?.twitter_username}
-    instagram_username={settings?.instagram_username}
-    tiktok_username={settings?.tiktok_username}
-    whatsapp_channel={settings?.whatsapp_channel}
-    youtube_channel={settings?.youtube_channel}
+    facebookUsername={settings?.facebookUsername}
+    twitterUsername={settings?.twitterUsername}
+    instagramUsername={settings?.instagramUsername}
+    tiktokUsername={settings?.tiktok_username}
+    whatsappChannel={settings?.whatsappChannel}
+    youtubeChannel={settings?.youtubeChannel}
     user={user}
     ><Fragment slot="buttonMenu">
       <label
@@ -120,8 +120,9 @@ const {
             ? "min-[1330px]:pl-[250px] peer-checked/menu:min-[1330px]:pl-0"
             : undefined
       }
-      site_title={settings?.site_title}
-      support_email={settings?.support_email}
+      siteTitle={settings?.siteTitle}
+      supportEmail={settings?.supportEmail}
+      whatsappNumber={settings?.whatsappNumber as number}
       locale={locale}
     />
   )

@@ -1,5 +1,4 @@
 ---
-import * as React from "react"
 import type { User } from "lucia"
 
 //  import type { Topic as TopicProps } from "@prisma/client"
@@ -18,12 +17,12 @@ import SearchTopNav from "./SearchTopNav"
 interface Props {
   locale: LanguageType
   toggleSideNav?: () => void
-  facebook_username?: string
-  twitter_username?: string
-  instagram_username?: string
-  tiktok_username?: string
-  whatsapp_channel?: string
-  youtube_channel?: string
+  facebookUsername?: string
+  twitterUsername?: string
+  instagramUsername?: string
+  tiktokUsername?: string
+  whatsappChannel?: string
+  youtubeChannel?: string
   headerType?: "default" | "video" | "shorts" | "video-content"
   // topics?: Partial<TopicProps>[]
   user?: User | null
@@ -32,17 +31,16 @@ interface Props {
 const {
   headerType = "default",
   locale,
-  facebook_username,
-  instagram_username,
-  tiktok_username,
-  twitter_username,
-  whatsapp_channel,
-  youtube_channel,
+  facebookUsername,
+  instagramUsername,
+  tiktokUsername,
+  twitterUsername,
+  whatsappChannel,
+  youtubeChannel,
   user,
 } = Astro.props
 ---
 
-return (
 <header
   class="fixed top-0 z-[10] mx-auto flex h-16 w-full max-w-full items-center bg-background pl-[60px] shadow-md"
 >
@@ -68,12 +66,12 @@ return (
         <div
           class={cn(
             "grow-1 ml-2 flex flex-row space-x-2 pr-2 md:ml-auto",
-            headerType === "shorts" ? "hidden md:block" : "block",
+            headerType === "shorts" ? "hidden md:block" : "flex",
           )}
         >
-          <div class="flex space-x-1">
+          <div class="items-center hidden lg:flex space-x-2">
             {
-              facebook_username && (
+              facebookUsername && (
                 <Button
                   aria-label="Facebook"
                   className="hidden p-1 lg:flex"
@@ -83,7 +81,7 @@ return (
                 >
                   <a
                     aria-label="Facebook"
-                    href={`https://www.facebook.com/${facebook_username}`}
+                    href={`https://www.facebook.com/${facebookUsername}`}
                     target="_blank"
                   >
                     <Icon.Facebook
@@ -95,7 +93,7 @@ return (
               )
             }
             {
-              twitter_username && (
+              twitterUsername && (
                 <Button
                   aria-label="Twitter"
                   className="hidden p-1 lg:flex"
@@ -105,7 +103,7 @@ return (
                 >
                   <a
                     aria-label="Twitter"
-                    href={`https://www.twitter.com/${twitter_username}`}
+                    href={`https://www.twitter.com/${twitterUsername}`}
                     target="_blank"
                   >
                     <Icon.Twitter
@@ -117,7 +115,7 @@ return (
               )
             }
             {
-              instagram_username && (
+              instagramUsername && (
                 <Button
                   aria-label="Instagram"
                   className="hidden p-1 lg:flex"
@@ -126,7 +124,7 @@ return (
                   asChild
                 >
                   <a
-                    href={`https://www.instagram.com/${instagram_username}`}
+                    href={`https://www.instagram.com/${instagramUsername}`}
                     target="_blank"
                   >
                     <Icon.Instagram
@@ -138,7 +136,7 @@ return (
               )
             }
             {
-              tiktok_username && (
+              tiktokUsername && (
                 <Button
                   aria-label="Tiktok"
                   className="hidden p-1 lg:flex"
@@ -148,7 +146,7 @@ return (
                 >
                   <a
                     aria-label="Tiktok"
-                    href={`https://tiktok.com/${tiktok_username}`}
+                    href={`https://tiktok.com/${tiktokUsername}`}
                     target="_blank"
                   >
                     <Icon.Tiktok
@@ -160,7 +158,7 @@ return (
               )
             }
             {
-              whatsapp_channel && (
+              whatsappChannel && (
                 <Button
                   aria-label="WhatsApp Channel"
                   className="hidden p-1 lg:flex"
@@ -170,7 +168,7 @@ return (
                 >
                   <a
                     aria-label="WhatsApp Channel"
-                    href={`https://whatsapp.com/${whatsapp_channel}`}
+                    href={`https://whatsapp.com/${whatsappChannel}`}
                     target="_blank"
                   >
                     <Icon.WhatsApp
@@ -182,7 +180,7 @@ return (
               )
             }
             {
-              youtube_channel && (
+              youtubeChannel && (
                 <Button
                   aria-label="Youtube"
                   className="hidden p-1 lg:flex"
@@ -192,7 +190,7 @@ return (
                 >
                   <a
                     aria-label="Youtube"
-                    href={`https://www.youtube.com/${youtube_channel}`}
+                    href={`https://www.youtube.com/${youtubeChannel}`}
                     target="_blank"
                   >
                     <Icon.Youtube
@@ -203,11 +201,13 @@ return (
                 </Button>
               )
             }
+          </div>
+          <div class="items-center flex space-x-2">
             <div class="flex items-center">
               <ThemeSwitcher />
             </div>
             <div class="flex items-center">
-              <UserMenu client:only="react" user={user} locale={locale} />
+              <UserMenu client:load user={user} locale={locale} />
             </div>
           </div>
         </div>

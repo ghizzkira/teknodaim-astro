@@ -28,7 +28,7 @@ export default defineConfig({
   },
   adapter: cloudflare({
     mode: "directory",
-    imageService: "cloudflare",
+    imageService: import.meta.env.PROD !== false ? "cloudflare" : "passthrough",
     functionPerRoute: true,
     runtime: {
       mode: "local",

@@ -26,7 +26,7 @@ export const AlertDelete: React.FunctionComponent<AlertDeleteProps> = (
 ) => {
   const { description, isOpen, onClose, className, onDelete } = props
 
-  // const t = useI18n()
+  // const t = useI18n(locale)
 
   function handleDeleteAndClose() {
     onDelete()

@@ -46,7 +46,7 @@ export default function ArticleTable(props: ArticleTableProps) {
     updateArticlesCount,
   } = props
 
-  const t = useI18n()
+  const t = useI18n(locale)
   const ts = useScopedI18n("article")
 
   const { mutate: deleteArticle } = api.article.deleteByAdmin.useMutation({
