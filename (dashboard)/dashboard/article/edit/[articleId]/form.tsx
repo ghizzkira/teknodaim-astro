@@ -143,7 +143,7 @@ const EditArticleForm: React.FunctionComponent<EditArticleFormProps> = (
       : [],
   )
 
-  const t = useI18n()
+  const t = useI18n(locale)
   const ts = useScopedI18n("article")
   const router = useRouter()
   const { isOpen: isOpenSidebar, onToggle: onToggleSidebar } = useDisclosure()

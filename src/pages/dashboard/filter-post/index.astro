@@ -1,0 +1,40 @@
+---
+import { FilterPostForm } from "@/components/Dashboard/DashboardFilterPostForm"
+import DashboardLayout from "@/layouts/DashboardLayout.astro"
+import { getSettingByKey } from "@/lib/action/setting"
+
+const user = Astro.locals.user
+const DB = Astro.locals.runtime.env.DB
+const data = await getSettingByKey(DB, "filter_post")
+let settings: { queries: string[] } | undefined
+if (data) {
+  const parsedData = JSON.parse(data.value)
+  settings = { ...parsedData }
+}
+if (!user?.role.includes("admin" || "author")) {
+ return Astro.redirect("/")
+}
+---
+
+<DashboardLayout
+  locale="id"
+  seo={{
+    title: "Filter Post",
+    description: "Filter Post",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/filter-post`,
+    openGraph: {
+      basic: {
+        title: `Filter Post | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/filter-post`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: "Filter Post",
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <FilterPostForm settingValues={settings} client:load />
+</DashboardLayout>

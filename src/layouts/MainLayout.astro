@@ -5,6 +5,7 @@ import "@/styles/globals.css"
 
 import MainContainer from "@/components/Layout/MainContainer.astro"
 import Themes from "@/components/Theme/Themes.astro"
+import { getSettingByKey } from "@/lib/action/setting"
 import type { LanguageType } from "@/lib/validation/language"
 
 interface Props {
@@ -13,13 +14,29 @@ interface Props {
 }
 
 const user = Astro.locals.user
+const DB = Astro.locals.runtime.env.DB
+const data = await getSettingByKey(DB, "settings")
+const dataShop = await getSettingByKey(DB, "shop_settings")
 
+let siteSettings
+
+if (data) {
+  const parsedData = JSON.parse(data.value)
+  siteSettings = { ...parsedData }
+  if (dataShop) {
+    const parsedDataShop = JSON.parse(dataShop.value)
+    siteSettings = { ...parsedData, ...parsedDataShop }
+  }
+}
 const { seo, locale } = Astro.props
 const title = seo?.title || import.meta.env.PUBLIC_SITE_TITLE
 const description = seo?.description || import.meta.env.PUBLIC_SITE_DESCRIPTION
-const titleTemplate = `%s | ${seo?.titleTemplate || import.meta.env.PUBLIC_SITE_TITLE || ""}`
+const titleTemplate = `%s | ${seo?.titleTemplate ?? siteSettings?.siteTagline ?? import.meta.env.PUBLIC_SITE_TITLE ?? ""}`
 const titleDefault =
-  seo?.titleDefault || import.meta.env.PUBLIC_SITE_TITLE || "Teknodaim"
+  seo?.titleDefault ??
+  siteSettings?.siteTitle ??
+  import.meta.env.PUBLIC_SITE_TITLE ??
+  "Teknodaim"
 ---
 
 <html lang="en">
@@ -87,6 +104,8 @@ const titleDefault =
     />
   </head>
   <body class="antialiased font-400 font-sans">
-    <MainContainer user={user} locale={locale}><slot /></MainContainer>
+    <MainContainer settings={siteSettings} user={user} locale={locale}
+      ><slot /></MainContainer
+    >
   </body>
 </html>

@@ -1,0 +1,42 @@
+---
+import { AdsTxtForm } from "@/components/Dashboard/DashboardAdsTxtForm"
+import DashboardLayout from "@/layouts/DashboardLayout.astro"
+import { getSettingByKey } from "@/lib/action/setting"
+
+const user = Astro.locals.user
+const DB = Astro.locals.runtime.env.DB
+const data = await getSettingByKey(DB, "ads_txt")
+
+let settings
+
+if (data) {
+  const parsedData = JSON.parse(data.value)
+  settings = { ...parsedData }
+}
+if (!user?.role.includes("admin" || "author")) {
+ return Astro.redirect("/")
+}
+---
+
+<DashboardLayout
+  locale="id"
+  seo={{
+    title: "Ads.txt Setting",
+    description: "Ads.txt Setting",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/setting/ads`,
+    openGraph: {
+      basic: {
+        title: `Ads.txt Setting | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/setting/ads`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: "Ads.txt Setting",
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <AdsTxtForm settingValues={settings} client:load />
+</DashboardLayout>

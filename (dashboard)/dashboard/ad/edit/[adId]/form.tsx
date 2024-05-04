@@ -46,7 +46,7 @@ export default function EditAdForm(props: EditAdFormProps) {
 
   const [loading, setLoading] = React.useState<boolean>(false)
 
-  const t = useI18n()
+  const t = useI18n(locale)
   const ts = useScopedI18n("ad")
 
   const { mutate: updateAd } = api.ad.update.useMutation({

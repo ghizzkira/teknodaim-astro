@@ -6,7 +6,7 @@ import DashboardHeading from "@/components/dashboard/dashboard-heading"
 import { useI18n } from "@/lib/locales/client"
 
 export default function DashboardUserHeader() {
-  const t = useI18n()
+  const t = useI18n(locale)
 
   return (
     <div className="mb-8">

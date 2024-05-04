@@ -4,16 +4,34 @@ import { ViewTransitions } from "astro:transitions"
 
 import "@/styles/globals.css"
 
+import { getSettingByKey } from "@/lib/action/setting"
+
 interface Props {
   seo?: SeoProps
 }
+const DB = Astro.locals.runtime.env.DB
+const data = await getSettingByKey(DB, "settings")
+const dataShop = await getSettingByKey(DB, "shop_settings")
 
+let siteSettings
+
+if (data) {
+  const parsedData = JSON.parse(data.value)
+  siteSettings = { ...parsedData }
+  if (dataShop) {
+    const parsedDataShop = JSON.parse(dataShop.value)
+    siteSettings = { ...parsedData, ...parsedDataShop }
+  }
+}
 const { seo } = Astro.props
 const title = seo?.title ?? import.meta.env.PUBLIC_SITE_TITLE
 const description = seo?.description ?? import.meta.env.PUBLIC_SITE_DESCRIPTION
-const titleTemplate =
-  seo?.titleTemplate ?? `%s | ${import.meta.env.PUBLIC_SITE_TITLE ?? ""}`
-const titleDefault = seo?.titleDefault ?? `${import.meta.env.PUBLIC_SITE_TITLE}`
+const titleTemplate = `%s | ${seo?.titleTemplate ?? siteSettings?.siteTagline ?? import.meta.env.PUBLIC_SITE_TITLE ?? ""}`
+const titleDefault =
+  seo?.titleDefault ??
+  siteSettings?.siteTitle ??
+  import.meta.env.PUBLIC_SITE_TITLE ??
+  "Teknodaim"
 ---
 
 <html lang="en">

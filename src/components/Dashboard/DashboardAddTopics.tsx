@@ -57,7 +57,7 @@ const DashboardAddTopics: React.FunctionComponent<DashboardAddTopicsProps> = (
   const [searchQuery, setSearchQuery] = React.useState<string>("")
   const [loadingCreate, setLoadingCreate] = React.useState(false)
 
-  const t = useI18n()
+  const t = useI18n(locale)
   const ts = useScopedI18n("topic")
 
   const {
