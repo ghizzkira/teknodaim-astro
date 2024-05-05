@@ -75,13 +75,13 @@ const firstCleanHtml = sanitizeHtml(page?.content!, {
     canonical: import.meta.env.PUBLIC_SITE_URL,
     openGraph: {
       basic: {
-        title: `${import.meta.env.PUBLIC_SITE_TITLE} | `,
+        title: `${page?.title} | `,
         url: `${import.meta.env.PUBLIC_SITE_URL}/contact`,
         type: "website",
         image: "",
       },
       optional: {
-        description: import.meta.env.PUBLIC_SITE_DESCRIPTION,
+        description: page?.seo.metaDesc,
         locale: "ID",
       },
     },

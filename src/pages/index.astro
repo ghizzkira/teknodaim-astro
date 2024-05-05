@@ -1,6 +1,7 @@
 ---
 import Homepage from "@/components/Template/Homepage.astro"
 import MainLayout from "@/layouts/MainLayout.astro"
+import { getSettingByKey } from "@/lib/action/setting"
 import { getWpPopularPostsLast7Days } from "@/lib/action/wp-popular-post"
 import { wpGetAllPostsAction } from "@/lib/wp/action/wp-post"
 
@@ -8,6 +9,19 @@ Astro.locals.cache(60)
 
 const { posts, pageInfo } = await wpGetAllPostsAction("ID")
 const DB = Astro.locals.runtime.env.DB
+const data = await getSettingByKey(DB, "settings")
+const dataShop = await getSettingByKey(DB, "shop_settings")
+
+let siteSettings
+
+if (data) {
+  const parsedData = JSON.parse(data.value)
+  siteSettings = { ...parsedData }
+  if (dataShop) {
+    const parsedDataShop = JSON.parse(dataShop.value)
+    siteSettings = { ...parsedData, ...parsedDataShop }
+  }
+}
 const trendingPosts = await getWpPopularPostsLast7Days(DB, {
   language: "id",
   page: 1,
@@ -81,7 +95,7 @@ const breadcrumbJson = {
     {
       "@type": "ListItem",
       position: 1,
-      name: import.meta.env.PUBLIC_SITE_TITLE,
+      name: siteSettings?.siteTitle ?? import.meta.env.PUBLIC_SITE_TITLE,
       item: import.meta.env.PUBLIC_SITE_URL,
     },
   ],
@@ -101,22 +115,28 @@ const searchBoxJsonLd = {
 <MainLayout
   locale="id"
   seo={{
-    title: import.meta.env.PUBLIC_SITE_TITLE ?? "Teknodaim",
-    description: import.meta.env.PUBLIC_SITE_DESCRIPTION,
-    titleTemplate: "Everlasting Tech Knowledge",
+    title:
+      siteSettings?.siteTitle ??
+      import.meta.env.PUBLIC_SITE_TITLE ??
+      "Teknodaim",
+    description:
+      siteSettings?.siteDescription ?? import.meta.env.PUBLIC_SITE_DESCRIPTION,
+    titleTemplate: siteSettings?.siteTagline ?? "Everlasting Tech Knowledge",
     languageAlternates: [
       { href: `${import.meta.env.PUBLIC_SITE_URL}/en`, hrefLang: "en" },
     ],
     canonical: import.meta.env.PUBLIC_SITE_URL,
     openGraph: {
       basic: {
-        title: `${import.meta.env.PUBLIC_SITE_TITLE} | `,
+        title: `${siteSettings?.siteTitle ?? import.meta.env.PUBLIC_SITE_TITLE} | `,
         url: `${import.meta.env.PUBLIC_SITE_URL}/`,
         type: "website",
         image: "",
       },
       optional: {
-        description: import.meta.env.PUBLIC_SITE_DESCRIPTION,
+        description:
+          siteSettings?.siteDescription ??
+          import.meta.env.PUBLIC_SITE_DESCRIPTION,
         locale: "ID",
       },
     },
