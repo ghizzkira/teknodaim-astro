@@ -10,7 +10,7 @@ import type { LanguageType } from "@/lib/validation/language"
 import DashboardSidebar from "@/components/Dashboard/DashboardSidebar"
 import { Toaster } from "@/components/UI/Toast/Toaster"
 import { getSettingByKey } from "@/lib/action/setting"
-
+import Toast from "@/components/Toast.astro"
 interface Props {
   seo?: SeoProps
   locale: LanguageType
@@ -83,6 +83,7 @@ if (!user) {
           `
       }
     </script>
+    <Toast />
   </head>
   <body class="antialiased font-400 font-sans">
     <Toaster client:load />

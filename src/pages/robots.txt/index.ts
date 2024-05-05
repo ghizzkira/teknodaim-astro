@@ -11,7 +11,6 @@ export async function GET(context: APIContext) {
 
   if (settings) {
     const parsedData = JSON.parse(settings.value)
-    console.log(parsedData)
     settingsValue = { ...parsedData }
   }
   const value = settingsValue

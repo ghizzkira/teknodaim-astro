@@ -31,7 +31,7 @@ if (data) {
 const { seo, locale } = Astro.props
 const title = seo?.title || import.meta.env.PUBLIC_SITE_TITLE
 const description = seo?.description || import.meta.env.PUBLIC_SITE_DESCRIPTION
-const titleTemplate = `%s | ${seo?.titleTemplate ?? siteSettings?.siteTagline ?? import.meta.env.PUBLIC_SITE_TITLE ?? ""}`
+const titleTemplate = `%s | ${seo?.titleTemplate ?? siteSettings?.siteTitle ?? import.meta.env.PUBLIC_SITE_TITLE ?? ""}`
 const titleDefault =
   seo?.titleDefault ??
   siteSettings?.siteTitle ??

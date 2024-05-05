@@ -1,5 +1,6 @@
 ---
-import { RobotsTxtForm } from "@/components/Dashboard/DashboardRobotsTxtForm"
+import { Button } from "@/components/UI/Button"
+import { Input } from "@/components/UI/Input"
 import DashboardLayout from "@/layouts/DashboardLayout.astro"
 import { getSettingByKey } from "@/lib/action/setting"
 
@@ -11,7 +12,7 @@ let settings
 
 if (data) {
   const parsedData = JSON.parse(data.value)
-  settings = { ...parsedData }
+   settings = { ...parsedData }
 }
 if (!user?.role.includes("admin" || "author")) {
  return Astro.redirect("/")
@@ -38,5 +39,84 @@ if (!user?.role.includes("admin" || "author")) {
     },
   }}
 >
-  <RobotsTxtForm settingValues={settings} client:load />
+  <div class="mx-4 flex w-full flex-col">
+    <div class="mb-[100px] mt-4 flex items-end justify-end">
+      <div class="flex-1 space-y-4">
+        <h1>Robots.txt Settings</h1>
+        <hr />
+        <form id="form-robots-txt" method="POST">
+          <div class="space-y-3 mb-3">
+            <label>robots.txt data</label>
+            <Input
+              type="text"
+              id="robots_txt"
+              name="robots_txt"
+              defaultValue={settings.robots_txt}
+              className="max-w-xl"
+              placeholder="Enter robots.txt"
+              required
+            />
+          </div>
+
+          <Button aria-label="Submit"> Submit </Button>
+        </form>
+      </div>
+    </div>
+  </div>
 </DashboardLayout>
+<script type="module" is:inline>
+  const formEl = document.getElementById("form-robots-txt")
+
+  if (formEl) {
+    formEl.addEventListener("submit", function (event) {
+      event.preventDefault()
+
+      const robotsTxt = document.getElementById("robots_txt").value
+
+      const keyValues = {
+        key: "robots_txt",
+        value: JSON.stringify({ robots_txt: robotsTxt }),
+      }
+       fetch("/api/setting/upsert", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(keyValues),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.error) {
+            document.dispatchEvent(
+              new CustomEvent("showNotification", {
+                detail: {
+                  message: "somthing error went updating robots.txt",
+                  type: "warning",
+                },
+              }),
+            )
+          } else {
+             document.dispatchEvent(
+              new CustomEvent("showNotification", {
+                detail: {
+                  message: "robots.txt has been updated",
+                  type: "success",
+                }, // success, warning, danger
+              }),
+            )
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error)
+          document.dispatchEvent(
+            new CustomEvent("showNotification", {
+              detail: {
+                message: "something error went updating robots.txt",
+                type: "warning",
+              },
+            }),
+          )
+        })
+    })
+  }
+</script>

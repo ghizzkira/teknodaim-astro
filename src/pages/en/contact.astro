@@ -71,18 +71,17 @@ const firstCleanHtml = sanitizeHtml(page?.content!, {
     description: page?.seo.metaDesc,
     languageAlternates: [
       { href: `${import.meta.env.PUBLIC_SITE_URL}/contact`, hrefLang: "id" },
-      { href: `${import.meta.env.PUBLIC_SITE_URL}/en/contact`, hrefLang: "en" },
     ],
-    canonical: import.meta.env.PUBLIC_SITE_URL,
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/en/contact`,
     openGraph: {
       basic: {
-        title: `${import.meta.env.PUBLIC_SITE_TITLE} | `,
+        title: `${page?.title} | `,
         url: `${import.meta.env.PUBLIC_SITE_URL}/contact`,
         type: "website",
         image: "",
       },
       optional: {
-        description: import.meta.env.PUBLIC_SITE_DESCRIPTION,
+        description: page?.seo.metaDesc,
         locale: "ID",
       },
     },
@@ -90,11 +89,7 @@ const firstCleanHtml = sanitizeHtml(page?.content!, {
 >
   {
     postJsonLd && (
-      <script
-        is:inline
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: postJsonLd }}
-      />
+      <script is:inline type="application/ld+json" set:html={postJsonLd} />
     )
   }
   <!-- {

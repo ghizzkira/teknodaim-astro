@@ -29,6 +29,9 @@ importers:
       '@aws-sdk/client-s3':
         specifier: ^3.568.0
         version: 3.568.0(@aws-sdk/client-sso-oidc@3.568.0(@aws-sdk/client-sts@3.568.0))(@aws-sdk/client-sts@3.568.0(@aws-sdk/client-sso-oidc@3.568.0))
+      '@hookform/resolvers':
+        specifier: ^3.3.4
+        version: 3.3.4(react-hook-form@7.51.3(react@18.3.1))
       '@libsql/client':
         specifier: ^0.6.0
         version: 0.6.0
@@ -1413,6 +1416,11 @@ packages:
     peerDependencies:
       hono: '>=3.9.0'
       zod: ^3.19.1
+
+  '@hookform/resolvers@3.3.4':
+    resolution: {integrity: sha512-o5cgpGOuJYrd+iMKvkttOclgwRW86EsWJZZRC23prf0uU2i48Htq4PuT73AVb9ionFyZrwYEITuOFGF+BydEtQ==}
+    peerDependencies:
+      react-hook-form: ^7.0.0
 
   '@humanwhocodes/config-array@0.11.14':
     resolution: {integrity: sha512-3T8LkOmg45BV5FICb15QQMsyUSWrQ8AygVfC7ZG32zOalnqrilm018ZVCw0eapXux8FtA33q8PSRSstjee3jSg==}
@@ -7525,6 +7533,10 @@ snapshots:
     dependencies:
       hono: 4.3.0
       zod: 3.23.6
+
+  '@hookform/resolvers@3.3.4(react-hook-form@7.51.3(react@18.3.1))':
+    dependencies:
+      react-hook-form: 7.51.3(react@18.3.1)
 
   '@humanwhocodes/config-array@0.11.14':
     dependencies:
