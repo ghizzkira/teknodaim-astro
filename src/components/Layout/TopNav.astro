@@ -9,7 +9,7 @@ import ThemeSwitcher from "@/components/Theme/ThemeSwitcher.astro"
 // import ThemeSwitcher from "@/components/theme/theme-switcher"
 import { Button } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
-import UserMenu from "@/components/User/UserMenu"
+import UserMenu from "@/components/User/UserMenu.astro"
 import { cn } from "@/lib/utils/style"
 import type { LanguageType } from "@/lib/validation/language"
 import SearchTopNav from "./SearchTopNav"
@@ -207,7 +207,7 @@ const {
               <ThemeSwitcher />
             </div>
             <div class="flex items-center">
-              <UserMenu client:load user={user} locale={locale} />
+              <UserMenu />
             </div>
           </div>
         </div>

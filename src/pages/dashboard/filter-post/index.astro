@@ -127,7 +127,7 @@ if (!user?.role.includes("admin" || "author")) {
         }
       }
 
-      function handleSubmit(event) {
+      async function handleSubmit(event) {
         event.preventDefault()
         if (stringArray.length === 0) {
           queryError.style.display = "block"
@@ -137,7 +137,7 @@ if (!user?.role.includes("admin" || "author")) {
             value: JSON.stringify({ queries: stringArray }),
           }
 
-          fetch("/api/setting/upsert", {
+          await fetch("/api/setting/upsert", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
