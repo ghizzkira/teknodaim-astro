@@ -16,6 +16,7 @@
     "db:check": "drizzle-kit check:sqlite",
     "format:fix": "prettier --write \"**/*.{ts,tsx,js,jsx,css,md,mdx,json,astro}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,css,md,mdx,json,astro}\"",
+    "lint": "eslint ./src",
     "deploy": "astro check && astro build && wrangler pages deploy",
     "cf-typegen": "wrangler types",
     "astro": "astro"
