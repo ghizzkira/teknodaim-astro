@@ -1,8 +1,9 @@
 /** @typedef  {import("prettier").Config} PrettierConfig */
 /** @typedef {import("prettier-plugin-tailwindcss").PluginOptions} TailwindConfig */
-/** @typedef  {import("@trivago/prettier-plugin-sort-imports").PluginConfig} SortImportsConfig */
+// /** @typedef  {import("@trivago/prettier-plugin-sort-imports").PluginConfig} SortImportsConfig */
 
-/** @type { PrettierConfig | SortImportsConfig | TailwindConfig } */
+// /** @type { PrettierConfig | SortImportsConfig | TailwindConfig } */
+/** @type { PrettierConfig | TailwindConfig } */
 const config = {
   bracketSpacing: true,
   jsxSingleQuote: false,
@@ -13,9 +14,8 @@ const config = {
   tabWidth: 2,
   trailingComma: "all",
   plugins: [
+    // "@trivago/prettier-plugin-sort-imports",
     "prettier-plugin-astro",
-    "@trivago/prettier-plugin-sort-imports",
-    "prettier-plugin-astro-organize-imports",
     "prettier-plugin-tailwindcss",
   ],
   overrides: [
@@ -26,20 +26,20 @@ const config = {
       },
     },
   ],
-  importOrder: [
-    "^(react/(.*)$)|^(react$)|^(react-native(.*)$)",
-    "^(next/(.*)$)|^(next$)",
-    "^(astro/(.*)$)|^(astro$)",
-    "^(expo(.*)$)|^(expo$)",
-    "<THIRD_PARTY_MODULES>",
-    "",
-    "",
-    "^@/",
-    "^[../]",
-    "^[./]",
-  ],
-  importOrderSeparation: true,
-  importOrderSortSpecifiers: true,
+  // importOrder: [
+  //   "^(react/(.*)$)|^(react$)|^(react-native(.*)$)",
+  //   "^(next/(.*)$)|^(next$)",
+  //   "^(astro/(.*)$)|^(astro$)",
+  //   "^(expo(.*)$)|^(expo$)",
+  //   "<THIRD_PARTY_MODULES>",
+  //   "",
+  //   "",
+  //   "^@/",
+  //   "^[../]",
+  //   "^[./]",
+  // ],
+  // importOrderSeparation: true,
+  // importOrderSortSpecifiers: true,
 }
 
 export default config
