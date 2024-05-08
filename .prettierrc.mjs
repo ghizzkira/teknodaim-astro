@@ -13,9 +13,8 @@ const config = {
   tabWidth: 2,
   trailingComma: "all",
   plugins: [
-    "prettier-plugin-astro",
     "@trivago/prettier-plugin-sort-imports",
-    "prettier-plugin-astro-organize-imports",
+    "prettier-plugin-astro",
     "prettier-plugin-tailwindcss",
   ],
   overrides: [
