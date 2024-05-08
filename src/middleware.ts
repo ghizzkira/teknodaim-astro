@@ -68,12 +68,7 @@ export const auth = defineMiddleware(async (context, next) => {
       !url.pathname.endsWith("/") &&
       !excludedPaths.some((path) => url.pathname.startsWith(path))
     ) {
-      return new Response(null, {
-        status: 301,
-        headers: {
-          Location: url + "/",
-        },
-      })
+      return context.redirect(url.pathname + `/`, 308)
     }
     return next()
   }
@@ -103,12 +98,7 @@ export const auth = defineMiddleware(async (context, next) => {
     !url.pathname.endsWith("/") &&
     !excludedPaths.some((path) => url.pathname.startsWith(path))
   ) {
-    return new Response(null, {
-      status: 301,
-      headers: {
-        Location: url + "/",
-      },
-    })
+    return context.redirect(url.pathname + `/`, 308)
   }
 
   return next()

@@ -5,10 +5,9 @@ import type { User } from "lucia"
 
 import { cn } from "@/lib/utils/style"
 import type { LanguageType } from "@/lib/validation/language"
-import CheckboxSidebar from "./CheckboxSidebar"
-import Footer from "./Footer"
+import Footer from "./Footer.astro"
 import SideNav from "./SideNav"
-import TopNav from "./TopNav"
+import TopNav from "./TopNav.astro"
 
 interface Props {
   locale: LanguageType
@@ -55,18 +54,16 @@ const {
 ---
 
 <div>
-  <CheckboxSidebar client:load />
   <TopNav
     headerType={headerType}
     locale={locale}
-    facebook_username={settings?.facebook_username}
-    twitter_username={settings?.twitter_username}
-    instagram_username={settings?.instagram_username}
-    tiktok_username={settings?.tiktok_username}
-    whatsapp_channel={settings?.whatsapp_channel}
-    youtube_channel={settings?.youtube_channel}
+    facebookUsername={settings?.facebookUsername}
+    twitterUsername={settings?.twitterUsername}
+    instagramUsername={settings?.instagramUsername}
+    tiktokUsername={settings?.tiktok_username}
+    whatsappChannel={settings?.whatsappChannel}
+    youtubeChannel={settings?.youtubeChannel}
     user={user}
-    client:load
     ><Fragment slot="buttonMenu">
       <label
         for="openSidebarMenu"
@@ -123,8 +120,9 @@ const {
             ? "min-[1330px]:pl-[250px] peer-checked/menu:min-[1330px]:pl-0"
             : undefined
       }
-      site_title={settings?.site_title}
-      support_email={settings?.support_email}
+      siteTitle={settings?.siteTitle}
+      supportEmail={settings?.supportEmail}
+      whatsappNumber={settings?.whatsappNumber as number}
       locale={locale}
     />
   )

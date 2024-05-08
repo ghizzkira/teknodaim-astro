@@ -26,7 +26,7 @@ const DashboardShowOptions: React.FC<DashboardShowOptionsProps> = (props) => {
 
   const [openDialog, setOpenDialog] = React.useState<boolean>(false)
 
-  const t = useI18n()
+  const t = useI18n(locale)
 
   return (
     <>

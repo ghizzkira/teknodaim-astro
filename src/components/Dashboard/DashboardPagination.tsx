@@ -25,7 +25,7 @@ const DashboardPagination: React.FunctionComponent<DashboardPaginationProps> = (
 
   const searchParams = useSearchParams()
 
-  const t = useI18n()
+  const t = useI18n(locale)
 
   function updatePage(page: number) {
     const params = new URLSearchParams(searchParams.toString())

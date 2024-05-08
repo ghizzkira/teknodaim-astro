@@ -101,7 +101,7 @@ export default function CreateArticleForm(props: CreateArticleFormProps) {
   )
 
   const { isOpen: isOpenSidebar, onToggle: onToggleSidebar } = useDisclosure()
-  const t = useI18n()
+  const t = useI18n(locale)
   const ts = useScopedI18n("article")
   const router = useRouter()
 

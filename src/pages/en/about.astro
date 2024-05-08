@@ -71,18 +71,17 @@ const firstCleanHtml = sanitizeHtml(page?.content!, {
     description: page?.seo.metaDesc,
     languageAlternates: [
       { href: `${import.meta.env.PUBLIC_SITE_URL}/about`, hrefLang: "id" },
-      { href: `${import.meta.env.PUBLIC_SITE_URL}/en/about`, hrefLang: "en" },
     ],
-    canonical: import.meta.env.PUBLIC_SITE_URL,
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/en/about`,
     openGraph: {
       basic: {
-        title: `${import.meta.env.PUBLIC_SITE_TITLE} | `,
+        title: `${page?.title} | `,
         url: `${import.meta.env.PUBLIC_SITE_URL}/about`,
         type: "website",
         image: "",
       },
       optional: {
-        description: import.meta.env.PUBLIC_SITE_DESCRIPTION,
+        description: page?.seo.metaDesc,
         locale: "ID",
       },
     },

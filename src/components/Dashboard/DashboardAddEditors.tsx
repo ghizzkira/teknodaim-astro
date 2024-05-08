@@ -44,7 +44,7 @@ const DashboardAddEditors: React.FunctionComponent<DashboardAddEditorsProps> = (
 
   const [searchQuery, setSearchQuery] = React.useState<string>("")
 
-  const t = useI18n()
+  const t = useI18n(locale)
   const ts = useScopedI18n("user")
 
   const { data: searchResults } = api.user.search.useQuery(searchQuery, {

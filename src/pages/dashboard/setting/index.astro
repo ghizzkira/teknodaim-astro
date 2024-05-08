@@ -1,0 +1,316 @@
+---
+import { Button } from "@/components/UI/Button"
+import { Input } from "@/components/UI/Input"
+import { Textarea } from "@/components/UI/Textarea"
+import DashboardLayout from "@/layouts/DashboardLayout.astro"
+import { getSettingByKey } from "@/lib/action/setting"
+
+const user = Astro.locals.user
+const DB = Astro.locals.runtime.env.DB
+const data = await getSettingByKey(DB, "settings")
+const dataShop = await getSettingByKey(DB, "shop_settings")
+
+let settings
+
+if (data) {
+  const parsedData = JSON.parse(data.value)
+  settings = { ...parsedData }
+  if (dataShop) {
+    const parsedDataShop = JSON.parse(dataShop.value)
+    settings = { ...parsedData, ...parsedDataShop }
+  }
+}
+if (!user?.role.includes("admin" || "author")) {
+  Astro.redirect("/")
+}
+---
+
+<DashboardLayout
+  locale="id"
+  seo={{
+    title: "Settings",
+    description: "Settings",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/setting`,
+    openGraph: {
+      basic: {
+        title: `Settings | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/setting`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: "Settings",
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <div class="mx-4 flex w-full flex-col">
+    <div class="mb-[100px] mt-4 flex items-end justify-end">
+      <div class="flex-1 space-y-4">
+        <h1>Settings</h1>
+        <hr />
+        <form class="space-y-4" id="form-settings" method="POST">
+          <div class="space-y-2">
+            <label>Site Title</label>
+            <Input
+              type="text"
+              name="siteTitle"
+              defaultValue={settings?.siteTitle}
+              className="max-w-xl"
+              placeholder="Enter Title"
+              required
+            />
+          </div>
+          <div class="space-y-2">
+            <label>Site Tagline</label>
+            <Input
+              type="text"
+              name="siteTagline"
+              defaultValue={settings?.siteTagline}
+              className="max-w-xl"
+              placeholder="Enter Tagline Username"
+              required
+            />
+          </div>
+          <div class="space-y-2">
+            <label>Site Description</label>
+            <Textarea
+              name="siteDescription"
+              defaultValue={settings?.siteDescription}
+              className="max-w-xl"
+              placeholder="Description"
+              required
+            />
+          </div>
+          <div class="space-y-2">
+            <label>Site Meta Title</label>
+            <Input
+              type="text"
+              name="siteMetaTitle"
+              defaultValue={settings?.siteMetaTitle}
+              className="max-w-xl"
+              placeholder="Enter Meta Title"
+              required
+            />
+          </div>
+          <div class="space-y-2">
+            <label>Site Meta Description</label>
+            <Textarea
+              name="siteMetaDescription"
+              className="max-w-xl"
+              defaultValue={settings?.siteMetaDescription}
+              placeholder="Enter Meta Description"
+              required
+            />
+          </div>
+          <div class="space-y-2">
+            <label>Email</label>
+            <Input
+              type="email"
+              name="email"
+              defaultValue={settings?.email}
+              pattern="^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$"
+              className="max-w-xl"
+              placeholder="Enter Email"
+              required
+            />
+          </div>
+          <div class="space-y-2">
+            <label>Support Email</label>
+            <Input
+              type="email"
+              name="supportEmail"
+              defaultValue={settings?.supportEmail}
+              className="max-w-xl"
+              pattern="^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$"
+              placeholder="Enter Support Email"
+              required
+            />
+          </div>
+          <div class="space-y-2">
+            <label>Whatsapp Number</label>
+            <Input
+              type="number"
+              name="whatsappNumber"
+              defaultValue={settings?.whatsappNumber}
+              className="max-w-xl"
+              placeholder="Enter Whatsapp Number"
+              required
+            />
+          </div>
+          <div class="space-y-2">
+            <label>Facebook Username</label>
+            <Input
+              type="text"
+              name="facebookUsername"
+              defaultValue={settings?.facebookUsername}
+              className="max-w-xl"
+              placeholder="Enter Facebook Username"
+              required
+            />
+          </div>
+          <div class="space-y-2">
+            <label>Twitter Username</label>
+            <Input
+              type="text"
+              name="twitterUsername"
+              defaultValue={settings?.twitterUsername}
+              className="max-w-xl"
+              placeholder="Enter Twitter Username"
+              required
+            />
+          </div>
+          <div class="space-y-2">
+            <label>Instagram Username</label>
+            <Input
+              type="text"
+              name="instagramUsername"
+              defaultValue={settings?.instagramUsername}
+              className="max-w-xl"
+              placeholder="Enter Instagram Username"
+              required
+            />
+          </div>
+          <div class="space-y-2">
+            <label>Tiktok Username</label>
+            <Input
+              type="text"
+              name="tiktokUsername"
+              defaultValue={settings?.tiktokUsername}
+              className="max-w-xl"
+              placeholder="Enter Tiktok Username"
+              required
+            />
+          </div>
+          <div class="space-y-2">
+            <label>WhatsApp Channel</label>
+            <Input
+              type="text"
+              name="whatsappChannel"
+              className="max-w-xl"
+              defaultValue={settings?.whatsappChannel}
+              placeholder="Enter WhatsApp Channel"
+              required
+            />
+          </div>
+          <div class="space-y-2">
+            <label>Pinterest Username</label>
+            <Input
+              type="text"
+              name="pinterestUsername"
+              defaultValue={settings?.pinterestUsername}
+              className="max-w-xl"
+              placeholder="Enter Pinterest Username"
+              required
+            />
+          </div>
+          <div class="space-y-2">
+            <label>Youtube Channel</label>
+            <Input
+              type="text"
+              name="youtubeChannel"
+              defaultValue={settings?.youtubeChannel}
+              className="max-w-xl"
+              placeholder="Enter Youtube Channel"
+              required
+            />
+          </div>
+          <Button aria-label="Submit"> Submit </Button>
+        </form>
+      </div>
+    </div>
+  </div>
+</DashboardLayout>
+
+<script type="module" is:inline>
+  const formEl = document.getElementById("form-settings")
+
+  if (formEl) {
+    let inputs = formEl.querySelectorAll("input, textarea")
+
+    inputs.forEach((input) => {
+      input.addEventListener("input", function () {
+        if (input.type === "email" && input.validity.typeMismatch) {
+          input.setCustomValidity("Harap masukkan alamat email yang valid.")
+        } else if (input.name === "whatsappNumber" && !input.validity.valid) {
+          input.setCustomValidity("Harap masukkan nomor telepon yang valid.")
+        } else if (
+          [
+            "facebookUsername",
+            "twitterUsername",
+            "instagramUsername",
+            "tiktokUsername",
+            "pinterestUsername",
+          ].includes(input.name) &&
+          input.validity.patternMismatch
+        ) {
+          input.setCustomValidity("Harap masukkan username yang valid.")
+        } else if (
+          ["whatsappChannel", "youtubeChannel"].includes(input.name) &&
+          input.validity.patternMismatch
+        ) {
+          input.setCustomValidity("Harap masukkan nama channel yang valid.")
+        } else {
+          input.setCustomValidity("")
+        }
+        input.reportValidity()
+      })
+    })
+    formEl.addEventListener("submit", function (event) {
+      event.preventDefault()
+      if (!formEl.checkValidity()) {
+        formEl.reportValidity()
+        return
+      }
+      let formData = new FormData(formEl)
+      let settings = Object.fromEntries(formData.entries())
+
+      const keyValues = {
+        key: "settings",
+        value: JSON.stringify({ ...settings }),
+      }
+
+     await fetch("/api/setting/upsert", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(keyValues),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.error) {
+            document.dispatchEvent(
+              new CustomEvent("showNotification", {
+                detail: {
+                  message: "somthing error went updating robots.txt",
+                  type: "warning",
+                },
+              }),
+            )
+          } else {
+            document.dispatchEvent(
+              new CustomEvent("showNotification", {
+                detail: {
+                  message: "robots.txt has been updated",
+                  type: "success",
+                },
+              }),
+            )
+          }
+        })
+        .catch((error) => {
+          console.error("Error:", error)
+          document.dispatchEvent(
+            new CustomEvent("showNotification", {
+              detail: {
+                message: "something error went updating robots.txt",
+                type: "warning",
+              },
+            }),
+          )
+        })
+    })
+  }
+</script>

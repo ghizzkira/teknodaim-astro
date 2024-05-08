@@ -52,7 +52,7 @@ export default function CreateTopicForm() {
     React.useState<string>("")
   const [showMetaData, setShowMetaData] = React.useState<boolean>(false)
 
-  const t = useI18n()
+  const t = useI18n(locale)
   const ts = useScopedI18n("topic")
 
   const router = useRouter()

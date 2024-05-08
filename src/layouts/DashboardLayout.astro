@@ -7,7 +7,10 @@ import "@/styles/globals.css"
 import DashboardContainer from "@/components/Dashboard/DashboardContainer"
 import Themes from "@/components/Theme/Themes.astro"
 import type { LanguageType } from "@/lib/validation/language"
-
+import DashboardSidebar from "@/components/Dashboard/DashboardSidebar"
+import { Toaster } from "@/components/UI/Toast/Toaster"
+import { getSettingByKey } from "@/lib/action/setting"
+import Toast from "@/components/UI/Toast/Toast.astro"
 interface Props {
   seo?: SeoProps
   locale: LanguageType
@@ -16,11 +19,29 @@ interface Props {
 const user = Astro.locals.user
 
 const { seo, locale } = Astro.props
+const DB = Astro.locals.runtime.env.DB
+
+const data = await getSettingByKey(DB, "settings")
+const dataShop = await getSettingByKey(DB, "shop_settings")
+
+let siteSettings
+
+if (data) {
+  const parsedData = JSON.parse(data.value)
+  siteSettings = { ...parsedData }
+  if (dataShop) {
+    const parsedDataShop = JSON.parse(dataShop.value)
+    siteSettings = { ...parsedData, ...parsedDataShop }
+  }
+}
 const title = seo?.title || import.meta.env.PUBLIC_SITE_TITLE
 const description = seo?.description || import.meta.env.PUBLIC_SITE_DESCRIPTION
-const titleTemplate =
-  seo?.titleTemplate || `%s | ${import.meta.env.PUBLIC_SITE_TITLE || ""}`
-const titleDefault = seo?.titleDefault || import.meta.env.PUBLIC_SITE_TITLE
+const titleTemplate = `%s | ${seo?.titleTemplate ?? siteSettings?.siteTagline ?? import.meta.env.PUBLIC_SITE_TITLE ?? ""}`
+const titleDefault =
+  seo?.titleDefault ??
+  siteSettings?.siteTitle ??
+  import.meta.env.PUBLIC_SITE_TITLE ??
+  "Teknodaim"
 
 if (!user) {
     return new Response(null, {
@@ -62,8 +83,14 @@ if (!user) {
           `
       }
     </script>
+    <Toast />
   </head>
   <body class="antialiased font-400 font-sans">
-    <DashboardContainer client:load><slot /></DashboardContainer>
+    <Toaster client:load />
+    <DashboardContainer client:load
+      ><Fragment slot="sidebar"
+        ><DashboardSidebar locale="id" user={user} client:load /></Fragment
+      ><slot /></DashboardContainer
+    >
   </body>
 </html>

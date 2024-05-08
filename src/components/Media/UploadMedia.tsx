@@ -23,7 +23,7 @@ const UploadMedia: React.FunctionComponent<UploadMediaProps> = (props) => {
   const [loading, setLoading] = React.useState<boolean>(false)
   const [previewImages, setPreviewImages] = React.useState<string[]>([])
 
-  const t = useI18n()
+  const t = useI18n(locale)
   const ts = useScopedI18n("media")
 
   const form = useForm<FormValues>()

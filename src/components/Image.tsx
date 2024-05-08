@@ -27,7 +27,7 @@ const addQueryParamToURL = ({
   try {
     const urlObject = new URL(url)
 
-    return import.meta.env.APP_ENV !== "depelopment"
+    return import.meta.env.APP_ENV !== "development"
       ? `/cdn-cgi/image/width=${width},height=${height},format=webp/${urlObject.href}`
       : url
   } catch (error) {

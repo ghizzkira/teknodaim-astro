@@ -1,32 +1,29 @@
 import * as React from "react"
+import type { User } from "lucia"
 
 import LanguageSwitcher from "@/components/LanguageSwitcher"
 import Sidebar from "@/components/Layout/Sidebar"
 import SidebarItem from "@/components/Layout/SidebarItem"
-import ThemeSwitcher from "@/components/Theme/ThemeSwitcher"
+import SidebarToggle from "@/components/Layout/SidebarToggle"
+import SidebarToggleItem from "@/components/Layout/SidebarToggleItem"
+// import ThemeSwitcher from "@/components/Theme/ThemeSwitcher.astro"
 import { Button } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
 import { useOnClickOutside } from "@/hooks/useOnClickOutside"
 // import { logout } from "@/lib/auth/utils"
-// import { useI18n } from "@/lib/locales/client"
+import { useI18n } from "@/lib/locales/client"
 import type { LanguageType } from "@/lib/validation/language"
 
 interface DashboardSidebarProps
   extends React.HtmlHTMLAttributes<HTMLDivElement> {
-  onToggle: () => void
-  isOpen: boolean
-  onClose: () => void
   locale: LanguageType
+  user: User
 }
 
 const DashboardSidebar: React.FC<DashboardSidebarProps> = (props) => {
-  const { onToggle, onClose, isOpen, locale } = props
+  const { locale, user } = props
 
-  const ref = React.useRef(null)
-
-  useOnClickOutside(ref, onClose)
-
-  const t = useI18n()
+  const t = useI18n(locale)
 
   const handleSignOut = async () => {
     try {
@@ -41,61 +38,142 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = (props) => {
   }
   return (
     <>
-      <Button
-        ref={ref}
-        data-drawer-target="dashboard-sidebar"
-        data-drawer-toggle="dashboard-sidebar"
-        aria-controls="dashboard-sidebar"
-        variant="ghost"
-        size="icon"
-        className="m-3 flex lg:hidden"
-        onClick={onToggle}
-      >
-        <span className="sr-only">Open sidebar</span>
-        <Icon.Menu className="size-6" />
-      </Button>
-      <Sidebar isOpen={isOpen}>
-        <div className="h-full overflow-y-auto border-r border-border bg-background px-3 py-5">
-          <ul className="space-y-2">
-            <SidebarItem href="/" icon={<Icon.Home />}>
-              {t("home")}
+      <Sidebar>
+        <SidebarItem
+          icon={<Icon.Dashboard aria-label="Dashboard" />}
+          href="/dashboard"
+        >
+          Dashboard
+        </SidebarItem>
+        <SidebarToggle
+          icon={<Icon.Download aria-label="Downloads" />}
+          title="Downloads"
+        >
+          <SidebarToggleItem href="/dashboard/download">
+            All Downloads
+          </SidebarToggleItem>
+          <SidebarToggleItem href="/dashboard/download/new">
+            Add new download
+          </SidebarToggleItem>
+          <SidebarToggleItem href="/dashboard/download-file">
+            All Download Files
+          </SidebarToggleItem>
+          <SidebarToggleItem href="/dashboard/download-file/new">
+            Add new download file
+          </SidebarToggleItem>
+        </SidebarToggle>
+        <SidebarToggle icon={<Icon.Topic aria-label="Topics" />} title="Topics">
+          <SidebarToggleItem href="/dashboard/topic">
+            All Topics
+          </SidebarToggleItem>
+          <SidebarToggleItem href="/dashboard/topic/new">
+            Add new topic
+          </SidebarToggleItem>
+        </SidebarToggle>
+        {user?.role === "admin" && (
+          <SidebarToggle icon={<Icon.Currency aria-label="Ads" />} title="Ads">
+            <SidebarToggleItem href="/dashboard/ad">All Ads</SidebarToggleItem>
+            <SidebarToggleItem href="/dashboard/ad/new">
+              Add new ad
+            </SidebarToggleItem>
+          </SidebarToggle>
+        )}
+        <SidebarToggle icon={<Icon.Media aria-label="Media" />} title="Media">
+          <SidebarToggleItem href="/dashboard/media">Library</SidebarToggleItem>
+          <SidebarToggleItem href="/dashboard/media/new">
+            Add new
+          </SidebarToggleItem>
+        </SidebarToggle>
+        {user?.role === "admin" && (
+          <>
+            <SidebarToggle
+              icon={<Icon.Smartphone aria-label="Gadget" />}
+              title="Gadget"
+            >
+              <SidebarToggleItem href="/dashboard/gadget">
+                All Gadget
+              </SidebarToggleItem>
+              <SidebarToggleItem href="/dashboard/gadget/new">
+                Add new gadget
+              </SidebarToggleItem>
+            </SidebarToggle>
+            <SidebarToggle
+              icon={<Icon.Youtube aria-label="Videos" />}
+              title="Video Embed"
+            >
+              <SidebarToggleItem href="/dashboard/video-embed">
+                All Video Embed
+              </SidebarToggleItem>
+              <SidebarToggleItem href="/dashboard/video-embed/new">
+                Add new video embed
+              </SidebarToggleItem>
+            </SidebarToggle>
+            <SidebarItem
+              icon={<Icon.Menu aria-label="Menu" />}
+              href="/dashboard/menu"
+            >
+              Menu
             </SidebarItem>
-            <SidebarItem href="/dashboard" icon={<Icon.Dashboard />}>
-              {t("overview")}
+            <SidebarItem
+              icon={<Icon.Comment aria-label="Comment" />}
+              href="/dashboard/comment"
+            >
+              Comment
             </SidebarItem>
-            <SidebarItem href="/dashboard/article" icon={<Icon.Article />}>
-              {t("articles")}
+
+            <SidebarToggle
+              icon={<Icon.Person aria-label="Users" />}
+              title="Users"
+            >
+              <SidebarToggleItem href="/dashboard/user">
+                Users
+              </SidebarToggleItem>
+              <SidebarToggleItem href="/dashboard/user-expertise">
+                All user expertises
+              </SidebarToggleItem>
+              <SidebarToggleItem href="/dashboard/user-expertise/new">
+                Add new user expertises
+              </SidebarToggleItem>
+            </SidebarToggle>
+            <SidebarItem
+              icon={<Icon.Shop aria-label="Shop" />}
+              href="/dashboard/shop"
+            >
+              Shop
             </SidebarItem>
-            <SidebarItem href="/dashboard/topic" icon={<Icon.Topic />}>
-              {t("topics")}
-            </SidebarItem>
-            <SidebarItem href="/dashboard/media" icon={<Icon.Media />}>
-              {t("medias")}
-            </SidebarItem>
-            <SidebarItem href="/dashboard/ad" icon={<Icon.Ads />}>
-              {t("ads")}
-            </SidebarItem>
-            <SidebarItem href="/dashboard/user" icon={<Icon.User />}>
-              {t("users")}
-            </SidebarItem>
-          </ul>
-        </div>
-        <div className="absolute bottom-0 left-0 z-20 flex w-full justify-center space-x-4 border-r border-border bg-background p-4">
-          <LanguageSwitcher locale={locale} />
-          <ThemeSwitcher />
-          <Button asChild variant="ghost">
-            <a href="/dashboard/setting">
-              <Icon.Settings />
-            </a>
-          </Button>
-          <Button onClick={handleSignOut} variant="ghost" size="icon">
-            <Icon.Logout />
-          </Button>
-        </div>
+            <SidebarToggle
+              icon={<Icon.Settings aria-label="Filter Post" />}
+              title="Setting"
+            >
+              <SidebarToggleItem href="/dashboard/setting">
+                General Settings
+              </SidebarToggleItem>
+              <SidebarToggleItem href="/dashboard/filter-post">
+                Filter Posts
+              </SidebarToggleItem>
+              <SidebarToggleItem href="/dashboard/featured-posts">
+                Featured Posts
+              </SidebarToggleItem>
+              <SidebarToggleItem href="/dashboard/featured-categories">
+                Featured Categories
+              </SidebarToggleItem>
+              <SidebarToggleItem href="/dashboard/setting/ads">
+                ads.txt
+              </SidebarToggleItem>
+              <SidebarToggleItem href="/dashboard/setting/robots">
+                robots.txt
+              </SidebarToggleItem>
+            </SidebarToggle>
+          </>
+        )}
+        <SidebarItem
+          className="py-5"
+          icon={<Icon.Person aria-label="Profile" />}
+          href="/setting/user/profile"
+        >
+          Profile
+        </SidebarItem>
       </Sidebar>
-      {isOpen && (
-        <div className="z-29 fixed inset-0 bg-primary/50 bg-opacity-50 dark:bg-opacity-80"></div>
-      )}
     </>
   )
 }
