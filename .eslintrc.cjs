@@ -5,8 +5,8 @@ const config = {
     "plugin:astro/recommended",
     "plugin:@typescript-eslint/recommended-type-checked",
     "plugin:@typescript-eslint/stylistic-type-checked",
-    // "plugin:prettier/recommended",
-    // "prettier",
+    "plugin:prettier/recommended",
+    "prettier",
   ],
   env: {
     es2022: true,
@@ -39,7 +39,7 @@ const config = {
     },
   },
   rules: {
-    // "prettier/prettier": "warn",
+    "prettier/prettier": "warn",
     "import/no-unresolved": "off",
     "arrow-body-style": "off",
     "prefer-arrow-callback": "off",
