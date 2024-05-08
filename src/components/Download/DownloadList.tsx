@@ -1,13 +1,22 @@
 import * as React from "react"
+
+import DownloadCard from "./DownloadCard"
+import { Button } from "@/components/UI/Button"
+import { Icon } from "@/components/UI/Icon"
 import type {
   DownloadFile as DownloadFileProps,
   Download as DownloadProps,
   Media as MediaProps,
 } from "@prisma/client"
 
+import DownloadCard from "./DownloadCard"
 import { Button } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
-import DownloadCard from "./DownloadCard"
+import type {
+  DownloadFile as DownloadFileProps,
+  Download as DownloadProps,
+  Media as MediaProps,
+} from "@prisma/client"
 
 type DownloadDataProps = Partial<DownloadProps> & {
   featured_image: Pick<MediaProps, "url">

@@ -1,4 +1,5 @@
-import { mergeAttributes, Node, type Editor as TextEditor } from "@tiptap/core"
+import { Button, type buttonVariants } from "@/components/UI/Button"
+import { Node, type Editor as TextEditor, mergeAttributes } from "@tiptap/core"
 import {
   NodeViewContent,
   NodeViewWrapper,
@@ -7,6 +8,13 @@ import {
 import type { VariantProps } from "class-variance-authority"
 
 import { Button, type buttonVariants } from "@/components/UI/Button"
+import { Node, type Editor as TextEditor, mergeAttributes } from "@tiptap/core"
+import {
+  NodeViewContent,
+  NodeViewWrapper,
+  ReactNodeViewRenderer,
+} from "@tiptap/react"
+import type { VariantProps } from "class-variance-authority"
 
 export const TextEditorButton = Node.create({
   name: "textEditorButton",

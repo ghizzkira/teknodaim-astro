@@ -1,24 +1,20 @@
 ---
- 
 import Author from "@/components/Template/Author.astro"
 import MainLayout from "@/layouts/MainLayout.astro"
- 
+
 import { wpGetPostsByAuthorSlugAction } from "@/lib/wp/action/wp-post"
-import {
- wpGetUserBySlugAction,
- } from "@/lib/wp/action/wp-user"
+import { wpGetUserBySlugAction } from "@/lib/wp/action/wp-user"
 
 const { slug } = Astro.params
 
 export const prerender = false
 
-Astro.locals.cache(60);
-
+Astro.locals.cache(60)
 
 const { user } = await wpGetUserBySlugAction(slug as unknown as string)
 
 if (!user) {
-return Astro.redirect("/404")
+  return Astro.redirect("/404")
 }
 // const userData = await api.user.byUsername({
 //   username: slug,
@@ -86,20 +82,16 @@ const postJsonLd = postJsonLdString
     },
   }}
 >
-{
-  postJsonLd && (
-  <script
-      type="application/ld+json"
-      set:html={postJsonLdString}
-    ></script>
-   )
-}
+  {
+    postJsonLd && (
+      <script type="application/ld+json" set:html={postJsonLdString} />
+    )
+  }
   <Author
-  posts={posts}
-  pageInfo={pageInfo}  
-  locale={"id"}
-  user={user}
-  slug={slug!}
-
+    posts={posts}
+    pageInfo={pageInfo}
+    locale={"id"}
+    user={user}
+    slug={slug!}
   />
 </MainLayout>

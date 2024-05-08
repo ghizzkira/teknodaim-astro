@@ -2,6 +2,10 @@ import PlaceholderPostCard from "./PlaceholderPostCard"
 import PlaceholderPostCardSide from "./PlaceholderPostCardSide"
 import PlaceholderWPListPostFeatured from "./PlaceholderWpListPostFeatured"
 
+import PlaceholderPostCard from "./PlaceholderPostCard"
+import PlaceholderPostCardSide from "./PlaceholderPostCardSide"
+import PlaceholderWPListPostFeatured from "./PlaceholderWpListPostFeatured"
+
 const PlaceholderHome: React.FunctionComponent = () => {
   return (
     <section className="mt-5 flex w-full flex-col pt-5">

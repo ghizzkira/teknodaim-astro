@@ -4,6 +4,10 @@ import { Badge, type BadgeProps } from "@/components/UI/Badge"
 import { cn } from "@/lib/utils"
 import type { StatusType } from "@/lib/validation/status"
 
+import { Badge, type BadgeProps } from "@/components/UI/Badge"
+import { cn } from "@/lib/utils"
+import type { StatusType } from "@/lib/validation/status"
+
 interface DashboardStatusBadgeProps extends BadgeProps {
   status: StatusType
   children: React.ReactNode

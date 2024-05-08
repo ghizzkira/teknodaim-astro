@@ -1,8 +1,12 @@
 import * as React from "react"
+
+import { type ButtonVariantProps, buttonVariants } from "@/components/UI/Button"
+import { cn } from "@/lib/utils/style"
 import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog"
 
-import { buttonVariants, type ButtonVariantProps } from "@/components/UI/Button"
+import { type ButtonVariantProps, buttonVariants } from "@/components/UI/Button"
 import { cn } from "@/lib/utils/style"
+import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog"
 
 export const AlertDialog = AlertDialogPrimitive.Root
 

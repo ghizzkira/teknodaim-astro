@@ -1,7 +1,10 @@
 import type { APIRoute } from "astro"
+
+import { getVideoEmbedCommentsCountByVideoEmbedId } from "@/lib/action/video-embed-comment"
 import { z } from "zod"
 
 import { getVideoEmbedCommentsCountByVideoEmbedId } from "@/lib/action/video-embed-comment"
+import { z } from "zod"
 
 export const GET: APIRoute = async ({ locals, params }) => {
   try {

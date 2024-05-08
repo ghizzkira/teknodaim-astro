@@ -12,6 +12,18 @@ import { formatDateFromNow } from "@/lib/utils/date"
 import { cn } from "@/lib/utils/style"
 import type { LanguageType } from "@/lib/validation/language"
 
+import BadgeIcon from "@/components/BadgeIcon"
+import Image from "@/components/Image"
+import Link from "@/components/Link"
+import { Icon } from "@/components/UI/Icon"
+import type { SelectArticle as ArticleProps } from "@/lib/db/schema/article"
+import type { SelectMedia as MediaProps } from "@/lib/db/schema/media"
+import type { SelectTopic as TopicsProps } from "@/lib/db/schema/topic"
+import type { SelectUser as UserProps } from "@/lib/db/schema/user"
+import { formatDateFromNow } from "@/lib/utils/date"
+import { cn } from "@/lib/utils/style"
+import type { LanguageType } from "@/lib/validation/language"
+
 interface ArticleCardVerticalProps {
   article: Pick<ArticleProps, "slug" | "title" | "createdAt" | "excerpt"> & {
     featured_image?: Pick<MediaProps, "url">

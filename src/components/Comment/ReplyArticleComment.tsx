@@ -1,12 +1,20 @@
 import * as React from "react"
-import { useForm, type SubmitHandler } from "react-hook-form"
 
-import Image from "@/components/image"
 import { Button } from "@/components/UI/Button"
-import { Icon } from "@/components/ui/icon"
 import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast/UseToast"
+import Image from "@/components/image"
+import { Icon } from "@/components/ui/icon"
 import { api } from "@/lib/trpc/react"
+import { type SubmitHandler, useForm } from "react-hook-form"
+
+import { Button } from "@/components/UI/Button"
+import { Textarea } from "@/components/UI/Textarea"
+import { toast } from "@/components/UI/Toast/UseToast"
+import Image from "@/components/image"
+import { Icon } from "@/components/ui/icon"
+import { api } from "@/lib/trpc/react"
+import { type SubmitHandler, useForm } from "react-hook-form"
 
 interface FormValues {
   content: string

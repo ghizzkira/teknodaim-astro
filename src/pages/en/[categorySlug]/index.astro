@@ -1,25 +1,18 @@
 ---
-
 import Category from "@/components/Template/Category.astro"
- 
+
 import MainLayout from "@/layouts/MainLayout.astro"
 import { getWpPopularPosts } from "@/lib/action/wp-popular-post"
 import { LANGUAGE_TYPE } from "@/lib/validation/language"
- import {
-   wpGetCategoryBySlugAction,
-} from "@/lib/wp/action/wp-category"
-import {
-   wpGetPostsByCategoryIdAction,
-} from "@/lib/wp/action/wp-post"
+import { wpGetCategoryBySlugAction } from "@/lib/wp/action/wp-category"
+import { wpGetPostsByCategoryIdAction } from "@/lib/wp/action/wp-post"
 import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
 
- 
 const { categorySlug } = Astro.params
 
-Astro.locals.cache(60);
+Astro.locals.cache(60)
 
 const DB = Astro.locals.runtime.env.DB
-
 
 export const prerender = false
 const { category: main_category, other_lang_category } =
@@ -29,9 +22,9 @@ const { category: main_category, other_lang_category } =
 //   notFound()
 // }
 if (!main_category && !other_lang_category) {
-  return Astro.redirect('/404');
+  return Astro.redirect("/404")
 }
-let category 
+let category
 
 // if (locale === "id") {
 //   if (
@@ -53,7 +46,7 @@ let category
 //   ) {
 //     if (other_lang_category)
 //       return Astro.redirect(`/id/${other_lang_category?.slug}`)
-//   }  
+//   }
 // } else if (locale === "en") {
 //   if (
 //     main_category &&
@@ -75,30 +68,30 @@ let category
 //     if (other_lang_category) {
 //       return Astro.redirect(`/en/${other_lang_category.slug}`)
 //     }
-//   } 
+//   }
 // }
 
 if (
-    main_category &&
-    categorySlug === main_category.slug &&
-    main_category.language.slug.toLocaleLowerCase() === "en"
-  ) {
-    category = main_category
-  } else if (
-    other_lang_category &&
-    categorySlug === other_lang_category.slug &&
-    other_lang_category.language.slug.toLocaleLowerCase() === "en"
-  ) {
-    category = other_lang_category
-  } else if (
-    main_category &&
-    categorySlug === main_category.slug &&
-    main_category.language.slug.toLocaleLowerCase() !== "en"
-  ) {
-    if (other_lang_category) {
-      return Astro.redirect(`/en/${other_lang_category.slug}`)
-    }
-  } 
+  main_category &&
+  categorySlug === main_category.slug &&
+  main_category.language.slug.toLocaleLowerCase() === "en"
+) {
+  category = main_category
+} else if (
+  other_lang_category &&
+  categorySlug === other_lang_category.slug &&
+  other_lang_category.language.slug.toLocaleLowerCase() === "en"
+) {
+  category = other_lang_category
+} else if (
+  main_category &&
+  categorySlug === main_category.slug &&
+  main_category.language.slug.toLocaleLowerCase() !== "en"
+) {
+  if (other_lang_category) {
+    return Astro.redirect(`/en/${other_lang_category.slug}`)
+  }
+}
 
 if (!category) {
   return Astro.redirect("/")
@@ -110,7 +103,7 @@ if (!category) {
 //   per_page: 10,
 // })
 // FIX: to 7 days
-const trendingPosts = await getWpPopularPosts(DB,{
+const trendingPosts = await getWpPopularPosts(DB, {
   language: "en",
   page: 1,
   perPage: 10,
@@ -165,50 +158,56 @@ const { posts, pageInfo } = await wpGetPostsByCategoryIdAction(
 //     return true
 //   })
 interface AlternateLink {
-  href: string;
-  hrefLang: string;
+  href: string
+  hrefLang: string
 }
 
-const langlist = [main_category, other_lang_category];
- const alternatesList: AlternateLink[] = langlist.reduce((acc: AlternateLink[], list) => {
-  if (list?.language?.slug.toLocaleLowerCase() ==="id") {
-    acc.push({
-      href: `${import.meta.env.PUBLIC_SITE_URL}/${list?.slug}`,
-      hrefLang: list.language.slug,
-    });
-  }
-  return acc;
-}, []);
+const langlist = [main_category, other_lang_category]
+const alternatesList: AlternateLink[] = langlist.reduce(
+  (acc: AlternateLink[], list) => {
+    if (list?.language?.slug.toLocaleLowerCase() === "id") {
+      acc.push({
+        href: `${import.meta.env.PUBLIC_SITE_URL}/${list?.slug}`,
+        hrefLang: list.language.slug,
+      })
+    }
+    return acc
+  },
+  [],
+)
 ---
 
-<MainLayout 
-locale="en"
-seo={{
-  title: category?.name,
-  description: category?.description,
-  languageAlternates:alternatesList,
-  canonical: `${import.meta.env.PUBLIC_SITE_URL}/${category?.slug}`,
-  openGraph: {
-    basic: {
-      title: category?.name!,
-      url: `${import.meta.env.PUBLIC_SITE_URL}/${category?.slug}`,
-      type: "article",
-      image: "",
+<MainLayout
+  locale="en"
+  seo={{
+    title: category?.name,
+    description: category?.description,
+    languageAlternates: alternatesList,
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/${category?.slug}`,
+    openGraph: {
+      basic: {
+        title: category?.name!,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/${category?.slug}`,
+        type: "article",
+        image: "",
+      },
+      optional: {
+        description: category?.description,
+        locale: "EN",
+      },
     },
-    optional: {
-      description: category?.description,
-      locale: "EN",
-    },
-  },
-}}>
- 
+  }}
+>
   {
     categoryJsonLd && (
-    <script
-        type="application/ld+json"
-        set:html={categoryJsonLd}
-      ></script>
-     )
+      <script type="application/ld+json" set:html={categoryJsonLd} />
+    )
   }
-  <Category posts={posts} pageInfo={pageInfo} category={category} locale="en" trendingPosts={trendingPosts} />
+  <Category
+    posts={posts}
+    pageInfo={pageInfo}
+    category={category}
+    locale="en"
+    trendingPosts={trendingPosts}
+  />
 </MainLayout>

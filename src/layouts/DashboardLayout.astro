@@ -44,9 +44,9 @@ const titleDefault =
   "Teknodaim"
 
 if (!user) {
-    return new Response(null, {
+  return new Response(null, {
     status: 404,
-    statusText: 'Not found'
+    statusText: "Not found",
   })
 }
 ---
@@ -85,7 +85,7 @@ if (!user) {
     </script>
     <Toast />
   </head>
-  <body class="antialiased font-400 font-sans">
+  <body class="font-400 font-sans antialiased">
     <Toaster client:load />
     <DashboardContainer client:load
       ><Fragment slot="sidebar"

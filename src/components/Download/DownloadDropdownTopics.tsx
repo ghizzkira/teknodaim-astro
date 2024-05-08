@@ -1,9 +1,14 @@
 import * as React from "react"
+
+import Link from "@/components/Link"
+import { Icon } from "@/components/UI/Icon"
+import type { LanguageType } from "@/lib/validation/language"
 import type { Topic as TopicProps } from "@prisma/client"
 
 import Link from "@/components/Link"
 import { Icon } from "@/components/UI/Icon"
 import type { LanguageType } from "@/lib/validation/language"
+import type { Topic as TopicProps } from "@prisma/client"
 
 interface DownloadDropdownTopicsProps {
   title: string

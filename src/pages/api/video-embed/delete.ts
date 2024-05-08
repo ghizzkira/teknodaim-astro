@@ -1,7 +1,10 @@
 import type { APIContext, APIRoute } from "astro"
+
+import { deleteVideoEmbed } from "@/lib/action/video-embed"
 import { z } from "zod"
 
 import { deleteVideoEmbed } from "@/lib/action/video-embed"
+import { z } from "zod"
 
 export const DELETE: APIRoute = async (context: APIContext) => {
   try {

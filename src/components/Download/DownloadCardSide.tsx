@@ -4,6 +4,10 @@ import Image from "@/components/Image"
 import Link from "@/components/Link"
 import type { LanguageType } from "@/lib/validation/language"
 
+import Image from "@/components/Image"
+import Link from "@/components/Link"
+import type { LanguageType } from "@/lib/validation/language"
+
 interface DownloadCardSideProps {
   title: string
   slug: string

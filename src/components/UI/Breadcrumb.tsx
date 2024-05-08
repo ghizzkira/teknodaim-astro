@@ -1,8 +1,12 @@
 import * as React from "react"
+
+import { Icon } from "@/components/UI/Icon"
+import { cn } from "@/lib/utils/style"
 import { Slot } from "@radix-ui/react-slot"
 
 import { Icon } from "@/components/UI/Icon"
 import { cn } from "@/lib/utils/style"
+import { Slot } from "@radix-ui/react-slot"
 
 export const Breadcrumb = React.forwardRef<
   HTMLElement,

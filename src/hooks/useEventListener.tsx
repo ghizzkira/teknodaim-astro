@@ -2,6 +2,8 @@ import * as React from "react"
 
 import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect"
 
+import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect"
+
 export const useEventListener = <
   KW extends keyof WindowEventMap,
   KH extends keyof HTMLElementEventMap,

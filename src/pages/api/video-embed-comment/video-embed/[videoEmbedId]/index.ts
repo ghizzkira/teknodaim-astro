@@ -1,7 +1,10 @@
 import type { APIRoute } from "astro"
+
+import { getVideoEmbedCommentsByVideoEmbedId } from "@/lib/action/video-embed-comment"
 import { z } from "zod"
 
 import { getVideoEmbedCommentsByVideoEmbedId } from "@/lib/action/video-embed-comment"
+import { z } from "zod"
 
 const inputSchema = z.object({
   videoEmbedId: z.string(),

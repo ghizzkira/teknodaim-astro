@@ -1,5 +1,4 @@
 import * as React from "react"
-import { useForm, type SubmitHandler } from "react-hook-form"
 
 import Image from "@/components/Image"
 import { Button } from "@/components/UI/Button"
@@ -7,6 +6,15 @@ import { Icon } from "@/components/UI/Icon"
 import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast/useToast"
 import { useWpCreateComment } from "@/hooks/useWpComments"
+import { type SubmitHandler, useForm } from "react-hook-form"
+
+import Image from "@/components/Image"
+import { Button } from "@/components/UI/Button"
+import { Icon } from "@/components/UI/Icon"
+import { Textarea } from "@/components/UI/Textarea"
+import { toast } from "@/components/UI/Toast/useToast"
+import { useWpCreateComment } from "@/hooks/useWpComments"
+import { type SubmitHandler, useForm } from "react-hook-form"
 
 interface FormValues {
   content: string

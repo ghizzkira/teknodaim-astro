@@ -1,7 +1,10 @@
 import * as React from "react"
 
-import { useDisclosure } from "@/hooks/useDisclosure"
 import DashboardTopNav from "./DashboardTopNav"
+import { useDisclosure } from "@/hooks/useDisclosure"
+
+import DashboardTopNav from "./DashboardTopNav"
+import { useDisclosure } from "@/hooks/useDisclosure"
 
 interface DashboardContainerProps {
   children: React.ReactNode

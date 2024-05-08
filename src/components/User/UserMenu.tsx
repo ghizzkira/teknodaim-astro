@@ -1,6 +1,7 @@
 import * as React from "react"
-import type { User } from "lucia"
 
+import AuthModal from "./AuthDialog"
+import LogoutButton from "./LogoutButton"
 import Link from "@/components/Link"
 import { buttonVariants } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
@@ -13,8 +14,22 @@ import { useSession } from "@/hooks/useSession"
 // import { useSession } from "@/lib/auth/client"
 import { cn } from "@/lib/utils/style"
 import type { LanguageType } from "@/lib/validation/language"
+import type { User } from "lucia"
+
 import AuthModal from "./AuthDialog"
 import LogoutButton from "./LogoutButton"
+import Link from "@/components/Link"
+import { buttonVariants } from "@/components/UI/Button"
+import { Icon } from "@/components/UI/Icon"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/UI/Popover"
+import { useSession } from "@/hooks/useSession"
+import { cn } from "@/lib/utils/style"
+import type { LanguageType } from "@/lib/validation/language"
+import type { User } from "lucia"
 
 interface UserMenuProps extends React.HTMLAttributes<HTMLDivElement> {
   user?: User | null

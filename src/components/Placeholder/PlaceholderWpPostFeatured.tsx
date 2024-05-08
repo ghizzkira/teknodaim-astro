@@ -1,5 +1,7 @@
 import { Skeleton } from "@/components/UI/Skeleton"
 
+import { Skeleton } from "@/components/UI/Skeleton"
+
 const PlaceholderWPPostFeatured: React.FunctionComponent = () => {
   return (
     <div className="whitspace-normal relative h-full w-full">

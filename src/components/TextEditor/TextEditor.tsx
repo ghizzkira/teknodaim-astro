@@ -1,8 +1,17 @@
 // TODO: styling link and youtube prompt
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import * as React from "react"
+
+import Document from "@tiptap/extension-document"
+import Paragraph from "@tiptap/extension-paragraph"
+import Text from "@tiptap/extension-text"
+import {
+  EditorContent as TextEditorContent,
+  useEditor as useTextEditor,
+} from "@tiptap/react"
+import { useController } from "react-hook-form"
+
 import Document from "@tiptap/extension-document"
 import Paragraph from "@tiptap/extension-paragraph"
 import Text from "@tiptap/extension-text"

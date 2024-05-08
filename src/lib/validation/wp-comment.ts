@@ -1,5 +1,7 @@
 import { z } from "zod"
 
+import { z } from "zod"
+
 const wpCommentInput = {
   wpPostSlug: z.string({
     required_error: "WP Post Slug is required",

@@ -1,7 +1,10 @@
+import { MENU_POSITION } from "@/lib/validation/menu"
 import { sql } from "drizzle-orm"
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core"
 
 import { MENU_POSITION } from "@/lib/validation/menu"
+import { sql } from "drizzle-orm"
+import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core"
 
 export const menus = sqliteTable("menus", {
   id: text("id").primaryKey(),

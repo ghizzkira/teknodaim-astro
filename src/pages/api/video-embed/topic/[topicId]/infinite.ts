@@ -1,7 +1,10 @@
 import type { APIRoute } from "astro"
+
+import { getVideoEmbedsByTopicIdInfinite } from "@/lib/action/video-embed"
 import { z } from "zod"
 
 import { getVideoEmbedsByTopicIdInfinite } from "@/lib/action/video-embed"
+import { z } from "zod"
 
 const inputSchema = z.object({
   topicId: z.string(),

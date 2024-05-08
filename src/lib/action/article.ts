@@ -1,12 +1,10 @@
-import { and, count, eq, sql } from "drizzle-orm"
-
 import { initializeDB } from "@/lib/db"
 import {
   articleAuthors,
   articleEditors,
-  articles,
   articleTopics,
   articleTranslations,
+  articles,
 } from "@/lib/db/schema/article"
 import { medias } from "@/lib/db/schema/media"
 import { topics } from "@/lib/db/schema/topic"
@@ -20,6 +18,29 @@ import type {
   UpdateArticle,
 } from "@/lib/validation/article"
 import type { LanguageType } from "@/lib/validation/language"
+import { and, count, eq, sql } from "drizzle-orm"
+
+import { initializeDB } from "@/lib/db"
+import {
+  articleAuthors,
+  articleEditors,
+  articleTopics,
+  articleTranslations,
+  articles,
+} from "@/lib/db/schema/article"
+import { medias } from "@/lib/db/schema/media"
+import { topics } from "@/lib/db/schema/topic"
+import { users } from "@/lib/db/schema/user"
+import { trimText } from "@/lib/utils/content"
+import { cuid, uniqueCharacter } from "@/lib/utils/id"
+import { slugify } from "@/lib/utils/slug"
+import type {
+  CreateArticle,
+  TranslateArticle,
+  UpdateArticle,
+} from "@/lib/validation/article"
+import type { LanguageType } from "@/lib/validation/language"
+import { and, count, eq, sql } from "drizzle-orm"
 
 export const getArticleTranslationById = async (
   DB: D1Database,

@@ -1,9 +1,4 @@
 import * as React from "react"
-// import { useQuery } from "@tanstack/react-query"
-import type {
-  DaftarHargaPostPaidReturnProps,
-  DaftarHargaPrePaidReturnProps,
-} from "digiflazz-sdk"
 
 // import ArticleCardSearch from "@/components/article/article-card-search"
 // import DownloadCardSearch from "@/components/download/download-card-search"
@@ -21,6 +16,25 @@ import WpPostCardSearch from "@/components/Wp/WpPostCardSearch"
 import type { LanguageType } from "@/lib/validation/language"
 import { wpGetPostsBySearchAction } from "@/lib/wp/action/wp-post"
 import { splitUriWP, wpPrimaryCategorySlug } from "@/lib/wp/helper"
+// import { useQuery } from "@tanstack/react-query"
+import type {
+  DaftarHargaPostPaidReturnProps,
+  DaftarHargaPrePaidReturnProps,
+} from "digiflazz-sdk"
+
+import { Button } from "@/components/UI/Button"
+import { Icon } from "@/components/UI/Icon"
+import { Input } from "@/components/UI/Input"
+import { InputRightElement } from "@/components/UI/InputElement"
+import { InputGroup } from "@/components/UI/InputGroup"
+import WpPostCardSearch from "@/components/Wp/WpPostCardSearch"
+import type { LanguageType } from "@/lib/validation/language"
+import { wpGetPostsBySearchAction } from "@/lib/wp/action/wp-post"
+import { splitUriWP, wpPrimaryCategorySlug } from "@/lib/wp/helper"
+import type {
+  DaftarHargaPostPaidReturnProps,
+  DaftarHargaPrePaidReturnProps,
+} from "digiflazz-sdk"
 
 type DigiflazzPriceListPostPaidResponse =
   DaftarHargaPostPaidReturnProps["data"][number] & { thumbnail_image?: string }

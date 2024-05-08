@@ -1,5 +1,7 @@
 import PlaceholderWPPostFeatured from "./PlaceholderWpPostFeatured"
 
+import PlaceholderWPPostFeatured from "./PlaceholderWpPostFeatured"
+
 const PlaceholderWPListPostFeatured: React.FunctionComponent = () => {
   return (
     <div className="grid h-[600px] w-full lg:h-[400px] lg:grid-cols-4 lg:grid-rows-2">

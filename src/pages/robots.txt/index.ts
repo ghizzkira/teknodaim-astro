@@ -2,6 +2,8 @@ import type { APIContext } from "astro"
 
 import { getSettingByKey } from "@/lib/action/setting"
 
+import { getSettingByKey } from "@/lib/action/setting"
+
 export async function GET(context: APIContext) {
   const DB = context.locals.runtime.env.DB
 

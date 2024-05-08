@@ -1,10 +1,15 @@
 import * as React from "react"
 
+import ArticleCardHorizontal from "./article-card-horizontal"
+import ArticleCardVertical from "./article-card-vertical"
 import LoadingProgress from "@/components/LoadingProgress"
 // import { api } from "@/lib/trpc/react"
 import type { LanguageType } from "@/lib/validation/language"
+
 import ArticleCardHorizontal from "./article-card-horizontal"
 import ArticleCardVertical from "./article-card-vertical"
+import LoadingProgress from "@/components/LoadingProgress"
+import type { LanguageType } from "@/lib/validation/language"
 
 interface InfiniteScrollTopicArticlesProps
   extends React.HTMLAttributes<HTMLDivElement> {

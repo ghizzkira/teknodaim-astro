@@ -1,6 +1,10 @@
 import * as React from "react"
 
 //  import type { User as UserProps } from "@prisma/client"
+import Image from "@/components/Image"
+import Link from "@/components/Link"
+import { Icon } from "@/components/UI/Icon"
+import type { LanguageType } from "@/lib/validation/language"
 
 import Image from "@/components/Image"
 import Link from "@/components/Link"

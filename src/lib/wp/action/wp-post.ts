@@ -1,3 +1,16 @@
+import { wpHttp } from "./http"
+import type {
+  WPFeedPostsProps,
+  WpAuthorsDataProps,
+  WpFeaturedImageDataProps,
+  WpGetAllPostsResponse,
+  WpGetPostsSlugByCategorySlugResponse,
+  WpMapPostDataProps,
+  WpResPostProps,
+  WpResPostsByTagProps,
+  WpSinglePostDataProps,
+} from "./wp-types"
+import { wpUpdateUserAvatar } from "./wp-user"
 import {
   GET_INFINITE_SCROLL_POSTS,
   GET_TOTAL_POSTS,
@@ -7,7 +20,6 @@ import {
   QUERY_WP_ALL_POSTS,
   QUERY_WP_ALL_POSTS_LOAD_MORE,
   QUERY_WP_ALL_SLUG,
-  QUERY_WP_POST_BY_SLUG,
   QUERY_WP_POSTS_BY_AUTHOR_SLUG,
   QUERY_WP_POSTS_BY_CATEGORY_ID,
   QUERY_WP_POSTS_BY_CATEGORY_SLUG,
@@ -15,13 +27,15 @@ import {
   QUERY_WP_POSTS_BY_TAG_SLUG,
   QUERY_WP_POSTS_FEED,
   QUERY_WP_POSTS_SLUG_BY_CATEGORY_ID,
+  QUERY_WP_POST_BY_SLUG,
   QUERY_WP_SEARCH_POSTS,
 } from "@/lib/wp/data/wp-post"
+
 import { wpHttp } from "./http"
 import type {
+  WPFeedPostsProps,
   WpAuthorsDataProps,
   WpFeaturedImageDataProps,
-  WPFeedPostsProps,
   WpGetAllPostsResponse,
   WpGetPostsSlugByCategorySlugResponse,
   WpMapPostDataProps,
@@ -30,6 +44,25 @@ import type {
   WpSinglePostDataProps,
 } from "./wp-types"
 import { wpUpdateUserAvatar } from "./wp-user"
+import {
+  GET_INFINITE_SCROLL_POSTS,
+  GET_TOTAL_POSTS,
+  QUERY_POSTS_ALL_SLUG,
+  QUERY_POSTS_PAGINATION,
+  QUERY_POSTS_SITEMAP,
+  QUERY_WP_ALL_POSTS,
+  QUERY_WP_ALL_POSTS_LOAD_MORE,
+  QUERY_WP_ALL_SLUG,
+  QUERY_WP_POSTS_BY_AUTHOR_SLUG,
+  QUERY_WP_POSTS_BY_CATEGORY_ID,
+  QUERY_WP_POSTS_BY_CATEGORY_SLUG,
+  QUERY_WP_POSTS_BY_TAG_ID,
+  QUERY_WP_POSTS_BY_TAG_SLUG,
+  QUERY_WP_POSTS_FEED,
+  QUERY_WP_POSTS_SLUG_BY_CATEGORY_ID,
+  QUERY_WP_POST_BY_SLUG,
+  QUERY_WP_SEARCH_POSTS,
+} from "@/lib/wp/data/wp-post"
 
 export async function wpGetAllPostsAction(language = "ID") {
   const [res, err] = await wpHttp<WpGetAllPostsResponse>(QUERY_WP_ALL_POSTS, {

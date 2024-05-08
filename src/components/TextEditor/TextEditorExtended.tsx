@@ -1,8 +1,10 @@
 // TODO: translate with useScopeI18n
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import * as React from "react"
+
+import { TextEditorExtension } from "./TextEditorExtension"
+import { TextEditorMenu } from "./TextEditorMenu"
 import {
   EditorContent as TextEditorContent,
   useEditor as useTextEditor,
@@ -11,6 +13,11 @@ import { useController } from "react-hook-form"
 
 import { TextEditorExtension } from "./TextEditorExtension"
 import { TextEditorMenu } from "./TextEditorMenu"
+import {
+  EditorContent as TextEditorContent,
+  useEditor as useTextEditor,
+} from "@tiptap/react"
+import { useController } from "react-hook-form"
 
 interface TextEditorExtendedProps {
   control: any

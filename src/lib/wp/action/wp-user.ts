@@ -1,10 +1,18 @@
+import { wpHttp } from "./http"
+import type { WpAuthorsDataProps } from "./wp-types"
 import {
   QUERY_WP_ALL_USERS,
   QUERY_WP_USERS_BY_ID,
   QUERY_WP_USERS_BY_SLUG,
 } from "@/lib/wp/data/wp-user"
+
 import { wpHttp } from "./http"
 import type { WpAuthorsDataProps } from "./wp-types"
+import {
+  QUERY_WP_ALL_USERS,
+  QUERY_WP_USERS_BY_ID,
+  QUERY_WP_USERS_BY_SLUG,
+} from "@/lib/wp/data/wp-user"
 
 export async function wpGetUserBySlugAction(slug: string) {
   const [res, err] = await wpHttp<{ data: { user: WpAuthorsDataProps } }>(

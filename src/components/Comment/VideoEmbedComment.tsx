@@ -1,27 +1,46 @@
 //TODO: add delete option for user and admin
-
 import * as React from "react"
+
 import dynamic from "next/dynamic"
 import NextLink from "next/link"
-import type {
-  User,
-  VideoEmbedComment as VideoEmbedCommentProps,
-} from "@prisma/client"
-import { useForm, type SubmitHandler } from "react-hook-form"
 
-import Image from "@/components/image"
+import EditVideoEmbedComment from "./EditVideoEmbedComment"
+import ReplyVideoEmbedComment from "./ReplyVideoEmbedComment"
 import { Button } from "@/components/UI/Button"
-import { Icon } from "@/components/ui/icon"
-import { handleCloseModal, handleOpenModal } from "@/components/ui/modal"
 import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast/UseToast"
+import Image from "@/components/image"
+import { Icon } from "@/components/ui/icon"
+import { handleCloseModal, handleOpenModal } from "@/components/ui/modal"
 import { useSession } from "@/lib/auth/client"
 import type { AuthSession } from "@/lib/auth/utils"
 import { api } from "@/lib/trpc/react"
 import { cn } from "@/lib/utils/style"
 import type { LanguageType } from "@/lib/validation/language"
+import type {
+  User,
+  VideoEmbedComment as VideoEmbedCommentProps,
+} from "@prisma/client"
+import { type SubmitHandler, useForm } from "react-hook-form"
+
 import EditVideoEmbedComment from "./EditVideoEmbedComment"
 import ReplyVideoEmbedComment from "./ReplyVideoEmbedComment"
+import { Button } from "@/components/UI/Button"
+import { Textarea } from "@/components/UI/Textarea"
+import { toast } from "@/components/UI/Toast/UseToast"
+import Image from "@/components/image"
+import { Icon } from "@/components/ui/icon"
+import { handleCloseModal, handleOpenModal } from "@/components/ui/modal"
+import { useSession } from "@/lib/auth/client"
+import type { AuthSession } from "@/lib/auth/utils"
+import { api } from "@/lib/trpc/react"
+import { cn } from "@/lib/utils/style"
+import type { LanguageType } from "@/lib/validation/language"
+import type {
+  User,
+  VideoEmbedComment as VideoEmbedCommentProps,
+} from "@prisma/client"
+import { type SubmitHandler, useForm } from "react-hook-form"
 
 const DateWrapper = dynamic(
   async () => {

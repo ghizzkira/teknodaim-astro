@@ -1,8 +1,12 @@
+import { articles } from "./article"
+import { users } from "./user"
 import { relations, sql } from "drizzle-orm"
 import { sqliteTable, text } from "drizzle-orm/sqlite-core"
 
 import { articles } from "./article"
 import { users } from "./user"
+import { relations, sql } from "drizzle-orm"
+import { sqliteTable, text } from "drizzle-orm/sqlite-core"
 
 export const articleComments = sqliteTable("article_comments", {
   id: text("id").primaryKey(),

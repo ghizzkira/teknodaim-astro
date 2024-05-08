@@ -1,4 +1,3 @@
-import type { UrlObject } from "url"
 import * as React from "react"
 
 import { AlertDelete } from "@/components/AlertDelete"
@@ -12,6 +11,20 @@ import {
 } from "@/components/UI/DropdownMenu"
 import { Icon } from "@/components/UI/Icon"
 import { useI18n } from "@/lib/locales/client"
+import type { UrlObject } from "url"
+
+import { AlertDelete } from "@/components/AlertDelete"
+import { Button } from "@/components/UI/Button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/UI/DropdownMenu"
+import { Icon } from "@/components/UI/Icon"
+import { useI18n } from "@/lib/locales/client"
+import type { UrlObject } from "url"
 
 interface DashboardShowOptionsProps {
   onDelete: () => void

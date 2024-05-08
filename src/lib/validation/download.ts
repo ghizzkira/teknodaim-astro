@@ -1,7 +1,10 @@
+import { LANGUAGE_TYPE } from "./language"
+import { STATUS_TYPE } from "./status"
 import { z } from "zod"
 
 import { LANGUAGE_TYPE } from "./language"
 import { STATUS_TYPE } from "./status"
+import { z } from "zod"
 
 export const DOWNLOAD_TYPE = ["app", "game"] as const
 

@@ -1,15 +1,25 @@
 import * as React from "react"
 
+import WpPostCard from "./WpPostCard"
 import PlaceholderPostCard from "@/components/Placeholder/PlaceholderPostCard"
 // import type { LanguageType } from "@/lib/validation/language"
 import { wpGetPostsByAuthorSlugAction } from "@/lib/wp/action/wp-post"
 import type {
-  WpInfinitePostsProps,
   WPPageInfoProps,
+  WpInfinitePostsProps,
   WpSinglePostDataProps,
 } from "@/lib/wp/action/wp-types"
 import { splitUriWP, wpPrimaryCategorySlug } from "@/lib/wp/helper"
+
 import WpPostCard from "./WpPostCard"
+import PlaceholderPostCard from "@/components/Placeholder/PlaceholderPostCard"
+import { wpGetPostsByAuthorSlugAction } from "@/lib/wp/action/wp-post"
+import type {
+  WPPageInfoProps,
+  WpInfinitePostsProps,
+  WpSinglePostDataProps,
+} from "@/lib/wp/action/wp-types"
+import { splitUriWP, wpPrimaryCategorySlug } from "@/lib/wp/helper"
 
 interface InfiniteScrollWpPostsAuthorProps
   extends React.HTMLAttributes<HTMLDivElement> {

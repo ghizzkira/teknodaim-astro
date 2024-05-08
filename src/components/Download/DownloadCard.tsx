@@ -1,4 +1,11 @@
 import * as React from "react"
+
+import Image from "@/components/Image"
+import Link from "@/components/Link"
+import { Button } from "@/components/UI/Button"
+import { Icon } from "@/components/UI/Icon"
+import { cn } from "@/lib/utils/style"
+import type { LanguageType } from "@/lib/validation/language"
 import type {
   DownloadFile as DownloadFileProps,
   Download as DownloadProps,
@@ -11,6 +18,11 @@ import { Button } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
 import { cn } from "@/lib/utils/style"
 import type { LanguageType } from "@/lib/validation/language"
+import type {
+  DownloadFile as DownloadFileProps,
+  Download as DownloadProps,
+  Media as MediaProps,
+} from "@prisma/client"
 
 function getIconOperatingSystem(operatingSystem: string) {
   switch (operatingSystem) {

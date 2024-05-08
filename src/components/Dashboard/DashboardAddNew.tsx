@@ -1,11 +1,16 @@
 "use client"
 
-import type { UrlObject } from "url"
 import * as React from "react"
 
 import { Button } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
 import { useI18n } from "@/lib/locales/client"
+import type { UrlObject } from "url"
+
+import { Button } from "@/components/UI/Button"
+import { Icon } from "@/components/UI/Icon"
+import { useI18n } from "@/lib/locales/client"
+import type { UrlObject } from "url"
 
 interface DashboardAddNewProps extends React.HTMLAttributes<HTMLDivElement> {
   url: string | UrlObject

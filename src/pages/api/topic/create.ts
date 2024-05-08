@@ -1,8 +1,12 @@
 import type { APIContext, APIRoute } from "astro"
+
+import { createTopic } from "@/lib/action/topic"
+import { createTopicSchema } from "@/lib/validation/topic"
 import { z } from "zod"
 
 import { createTopic } from "@/lib/action/topic"
 import { createTopicSchema } from "@/lib/validation/topic"
+import { z } from "zod"
 
 export const POST: APIRoute = async (context: APIContext) => {
   try {

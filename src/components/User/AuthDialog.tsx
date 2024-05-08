@@ -9,6 +9,15 @@ import {
 } from "@/components/UI/Dialog"
 import { Icon } from "@/components/UI/Icon"
 
+import { Button } from "@/components/UI/Button"
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/UI/Dialog"
+import { Icon } from "@/components/UI/Icon"
+
 const AuthModal: React.FunctionComponent = () => {
   return (
     <>

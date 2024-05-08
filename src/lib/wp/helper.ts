@@ -1,5 +1,7 @@
 import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
 
+import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
+
 export const splitUriWP = (uri: string, slug: string) => {
   let newString = uri
   const globalUri = new RegExp(

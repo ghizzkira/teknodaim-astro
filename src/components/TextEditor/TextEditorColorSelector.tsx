@@ -1,4 +1,13 @@
 import * as React from "react"
+
+import { Button } from "@/components/UI/Button"
+import { Icon } from "@/components/UI/Icon"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/UI/Popover"
+import { ScrollArea } from "@/components/UI/ScrollArea"
 import type { Editor as TextEditor } from "@tiptap/core"
 
 import { Button } from "@/components/UI/Button"
@@ -9,6 +18,7 @@ import {
   PopoverTrigger,
 } from "@/components/UI/Popover"
 import { ScrollArea } from "@/components/UI/ScrollArea"
+import type { Editor as TextEditor } from "@tiptap/core"
 
 export interface BubbleColorMenuItem {
   name: string

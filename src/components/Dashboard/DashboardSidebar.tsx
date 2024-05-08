@@ -1,5 +1,4 @@
 import * as React from "react"
-import type { User } from "lucia"
 
 import LanguageSwitcher from "@/components/LanguageSwitcher"
 import Sidebar from "@/components/Layout/Sidebar"
@@ -13,6 +12,19 @@ import { useOnClickOutside } from "@/hooks/useOnClickOutside"
 // import { logout } from "@/lib/auth/utils"
 import { useI18n } from "@/lib/locales/client"
 import type { LanguageType } from "@/lib/validation/language"
+import type { User } from "lucia"
+
+import LanguageSwitcher from "@/components/LanguageSwitcher"
+import Sidebar from "@/components/Layout/Sidebar"
+import SidebarItem from "@/components/Layout/SidebarItem"
+import SidebarToggle from "@/components/Layout/SidebarToggle"
+import SidebarToggleItem from "@/components/Layout/SidebarToggleItem"
+import { Button } from "@/components/UI/Button"
+import { Icon } from "@/components/UI/Icon"
+import { useOnClickOutside } from "@/hooks/useOnClickOutside"
+import { useI18n } from "@/lib/locales/client"
+import type { LanguageType } from "@/lib/validation/language"
+import type { User } from "lucia"
 
 interface DashboardSidebarProps
   extends React.HtmlHTMLAttributes<HTMLDivElement> {

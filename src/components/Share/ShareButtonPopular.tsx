@@ -1,12 +1,20 @@
 import * as React from "react"
 
-import { Button } from "@/components/UI/Button"
-import { Icon } from "@/components/UI/Icon"
 import { ShareButtonEmail } from "./ShareButtonEmail"
 import { ShareButtonFacebook } from "./ShareButtonFacebook"
 import { ShareButtonTelegram } from "./ShareButtonTelegram"
 import { ShareButtonTwitter } from "./ShareButtonTwitter"
 import { ShareButtonWhatsApp } from "./ShareButtonWhatsapp"
+import { Button } from "@/components/UI/Button"
+import { Icon } from "@/components/UI/Icon"
+
+import { ShareButtonEmail } from "./ShareButtonEmail"
+import { ShareButtonFacebook } from "./ShareButtonFacebook"
+import { ShareButtonTelegram } from "./ShareButtonTelegram"
+import { ShareButtonTwitter } from "./ShareButtonTwitter"
+import { ShareButtonWhatsApp } from "./ShareButtonWhatsapp"
+import { Button } from "@/components/UI/Button"
+import { Icon } from "@/components/UI/Icon"
 
 interface ShareButtonPopularProps {
   url: string

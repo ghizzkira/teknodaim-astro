@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
+import { wpGetAllTagsSiteMap } from "@/lib/wp/action/wp-tag"
+import type { WpTagsDataProps } from "@/lib/wp/action/wp-types"
 
 import { wpGetAllTagsSiteMap } from "@/lib/wp/action/wp-tag"
 import type { WpTagsDataProps } from "@/lib/wp/action/wp-types"

@@ -2,6 +2,10 @@ import dayjs from "dayjs"
 import LocalizedFormat from "dayjs/plugin/localizedFormat"
 import relativeTime from "dayjs/plugin/relativeTime"
 
+import dayjs from "dayjs"
+import LocalizedFormat from "dayjs/plugin/localizedFormat"
+import relativeTime from "dayjs/plugin/relativeTime"
+
 export const formatDate = (data: string | Date, format: string) => {
   dayjs.extend(LocalizedFormat)
 

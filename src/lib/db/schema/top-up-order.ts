@@ -1,3 +1,9 @@
+import {
+  PAYMENT_PROVIDER_TYPE,
+  TOP_UP_PAYMENT_STATUS_TYPE,
+  TOP_UP_PROVIDER_TYPE,
+  TOP_UP_STATUS_TYPE,
+} from "@/lib/validation/top-up-order"
 import { sql } from "drizzle-orm"
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core"
 
@@ -7,6 +13,8 @@ import {
   TOP_UP_PROVIDER_TYPE,
   TOP_UP_STATUS_TYPE,
 } from "@/lib/validation/top-up-order"
+import { sql } from "drizzle-orm"
+import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core"
 
 export const topUpOrders = sqliteTable("top_up_orders", {
   id: text("id").primaryKey(),

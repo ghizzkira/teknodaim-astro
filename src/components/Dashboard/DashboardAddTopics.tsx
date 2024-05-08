@@ -1,6 +1,17 @@
 // TODO: handle arrow down
-
 import * as React from "react"
+
+import { Button } from "@/components/UI/Button"
+import { FormLabel, FormMessage } from "@/components/UI/Form"
+import { Icon } from "@/components/UI/Icon"
+import { Input } from "@/components/UI/Input"
+import { Skeleton } from "@/components/UI/Skeleton"
+import { toast } from "@/components/UI/Toast/useToast"
+import type { SelectTopic } from "@/lib/db/schema/topic"
+import { useI18n, useScopedI18n } from "@/lib/locales/client"
+import { api } from "@/lib/trpc/react"
+import type { LanguageType } from "@/lib/validation/language"
+import type { TopicType } from "@/lib/validation/topic"
 import { useController } from "react-hook-form"
 
 import { Button } from "@/components/UI/Button"
@@ -14,6 +25,7 @@ import { useI18n, useScopedI18n } from "@/lib/locales/client"
 import { api } from "@/lib/trpc/react"
 import type { LanguageType } from "@/lib/validation/language"
 import type { TopicType } from "@/lib/validation/topic"
+import { useController } from "react-hook-form"
 
 interface DashboardAddTopicsProps extends React.HTMLAttributes<HTMLDivElement> {
   topics: string[]

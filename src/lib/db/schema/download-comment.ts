@@ -1,8 +1,12 @@
+import { downloads } from "./download"
+import { users } from "./user"
 import { relations, sql } from "drizzle-orm"
 import { sqliteTable, text } from "drizzle-orm/sqlite-core"
 
 import { downloads } from "./download"
 import { users } from "./user"
+import { relations, sql } from "drizzle-orm"
+import { sqliteTable, text } from "drizzle-orm/sqlite-core"
 
 export const downloadComments = sqliteTable("download_comments", {
   id: text("id").primaryKey(),

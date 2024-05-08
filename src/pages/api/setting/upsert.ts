@@ -1,8 +1,12 @@
 import type { APIContext, APIRoute } from "astro"
+
+import { upsertSetting } from "@/lib/action/setting"
+import { upsertSettingSchema } from "@/lib/validation/setting"
 import { z } from "zod"
 
 import { upsertSetting } from "@/lib/action/setting"
 import { upsertSettingSchema } from "@/lib/validation/setting"
+import { z } from "zod"
 
 export const POST: APIRoute = async (context: APIContext) => {
   try {

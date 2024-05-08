@@ -1,8 +1,12 @@
 import * as React from "react"
 
-import type { SelectAd as AdDataProps } from "@/lib/db/schema/ad"
 import Adsense from "./Adsense"
 import PlainAd from "./PlainAd"
+import type { SelectAd as AdDataProps } from "@/lib/db/schema/ad"
+
+import Adsense from "./Adsense"
+import PlainAd from "./PlainAd"
+import type { SelectAd as AdDataProps } from "@/lib/db/schema/ad"
 
 export interface AdProps extends React.HTMLAttributes<HTMLDivElement> {
   ad: Partial<AdDataProps>

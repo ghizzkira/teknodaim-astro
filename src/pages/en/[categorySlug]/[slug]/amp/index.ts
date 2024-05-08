@@ -1,4 +1,20 @@
 import type { APIContext } from "astro"
+
+import {
+  getWpCommentsByWpPostSlug,
+  getWpCommentsCountByWpPostSlug,
+} from "@/lib/action/wp-comment"
+import { santizeCharacter } from "@/lib/amp/sanitize"
+import { basecolor, htmlStyle } from "@/lib/amp/style"
+import { transformHtmlToAMP } from "@/lib/amp/transform-html-to-amp"
+import { formatDateFromNow } from "@/lib/utils/date"
+import { generateJsonLdSchema } from "@/lib/utils/schema"
+import {
+  wpGetPostBySlugAction,
+  wpGetPostsByCategorySlugAction,
+} from "@/lib/wp/action/wp-post"
+import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
+import { splitUriWP, wpPrimaryCategorySlug } from "@/lib/wp/helper"
 import { z } from "zod"
 
 import {
@@ -16,6 +32,7 @@ import {
 } from "@/lib/wp/action/wp-post"
 import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
 import { splitUriWP, wpPrimaryCategorySlug } from "@/lib/wp/helper"
+import { z } from "zod"
 
 const inputSchema = z.object({
   wpPostSlug: z.string(),

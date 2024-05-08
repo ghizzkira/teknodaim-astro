@@ -1,8 +1,12 @@
 import * as React from "react"
+
+import { Icon } from "@/components/UI/Icon"
+import { cn } from "@/lib/utils/style"
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"
 
 import { Icon } from "@/components/UI/Icon"
 import { cn } from "@/lib/utils/style"
+import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"
 
 export type DropdownMenuProps = React.ComponentPropsWithoutRef<
   typeof DropdownMenuPrimitive.Root

@@ -1,7 +1,10 @@
 import * as React from "react"
+
+import { toast } from "@/components/UI/Toast/useToast"
 import type { User } from "lucia"
 
 import { toast } from "@/components/UI/Toast/useToast"
+import type { User } from "lucia"
 
 export function useSession() {
   const [session, setSession] = React.useState<{ user: User } | null>(null)

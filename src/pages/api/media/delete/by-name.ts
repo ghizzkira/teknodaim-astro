@@ -1,9 +1,14 @@
 import type { APIContext, APIRoute } from "astro"
+
+import { deleteMediaByName } from "@/lib/action/media"
+import { r2Client } from "@/lib/r2"
 import { DeleteObjectCommand } from "@aws-sdk/client-s3"
 import { z } from "zod"
 
 import { deleteMediaByName } from "@/lib/action/media"
 import { r2Client } from "@/lib/r2"
+import { DeleteObjectCommand } from "@aws-sdk/client-s3"
+import { z } from "zod"
 
 export const DELETE: APIRoute = async (context: APIContext) => {
   try {

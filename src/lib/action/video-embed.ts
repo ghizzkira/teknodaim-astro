@@ -1,13 +1,11 @@
-import { and, count, eq, sql } from "drizzle-orm"
-
 import { initializeDB } from "@/lib/db"
 import { medias } from "@/lib/db/schema/media"
 import { topics } from "@/lib/db/schema/topic"
 import { users } from "@/lib/db/schema/user"
 import {
   videoEmbedAuthors,
-  videoEmbeds,
   videoEmbedTopics,
+  videoEmbeds,
 } from "@/lib/db/schema/video-embed"
 import { cuid, uniqueCharacter } from "@/lib/utils/id"
 import { slugify } from "@/lib/utils/slug"
@@ -16,6 +14,25 @@ import type {
   UpdateVideoEmbed,
   VideoEmbedType,
 } from "@/lib/validation/video-embed"
+import { and, count, eq, sql } from "drizzle-orm"
+
+import { initializeDB } from "@/lib/db"
+import { medias } from "@/lib/db/schema/media"
+import { topics } from "@/lib/db/schema/topic"
+import { users } from "@/lib/db/schema/user"
+import {
+  videoEmbedAuthors,
+  videoEmbedTopics,
+  videoEmbeds,
+} from "@/lib/db/schema/video-embed"
+import { cuid, uniqueCharacter } from "@/lib/utils/id"
+import { slugify } from "@/lib/utils/slug"
+import type {
+  CreateVideoEmbed,
+  UpdateVideoEmbed,
+  VideoEmbedType,
+} from "@/lib/validation/video-embed"
+import { and, count, eq, sql } from "drizzle-orm"
 
 export const getVideoEmbedsDashboard = async (
   DB: D1Database,

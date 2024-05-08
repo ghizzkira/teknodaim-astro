@@ -1,7 +1,10 @@
 import * as React from "react"
-import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils/style"
+import { type VariantProps, cva } from "class-variance-authority"
+
+import { cn } from "@/lib/utils/style"
+import { type VariantProps, cva } from "class-variance-authority"
 
 export interface InputAddonProps
   extends React.HTMLAttributes<HTMLDivElement>,

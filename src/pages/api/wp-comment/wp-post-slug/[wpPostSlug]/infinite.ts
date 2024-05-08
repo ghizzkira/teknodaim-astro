@@ -1,7 +1,10 @@
 import type { APIRoute } from "astro"
+
+import { getWpCommentsByWpPostSlugInfinite } from "@/lib/action/wp-comment"
 import { z } from "zod"
 
 import { getWpCommentsByWpPostSlugInfinite } from "@/lib/action/wp-comment"
+import { z } from "zod"
 
 const inputSchema = z.object({
   wpPostSlug: z.string(),

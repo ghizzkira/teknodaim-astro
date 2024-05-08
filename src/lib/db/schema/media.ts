@@ -1,9 +1,14 @@
+import { articles } from "./article"
+import { topics } from "./topic"
+import { users } from "./user"
 import { relations, sql } from "drizzle-orm"
 import { sqliteTable, text } from "drizzle-orm/sqlite-core"
 
 import { articles } from "./article"
 import { topics } from "./topic"
 import { users } from "./user"
+import { relations, sql } from "drizzle-orm"
+import { sqliteTable, text } from "drizzle-orm/sqlite-core"
 
 export const medias = sqliteTable("medias", {
   id: text("id").primaryKey(),

@@ -4,9 +4,19 @@ import { Icon } from "@/components/UI/Icon"
 import {
   Tooltip,
   TooltipContent,
+  type TooltipProps,
   TooltipProvider,
   TooltipTrigger,
+} from "@/components/UI/Tooltip"
+import type { LanguageType } from "@/lib/validation/language"
+
+import { Icon } from "@/components/UI/Icon"
+import {
+  Tooltip,
+  TooltipContent,
   type TooltipProps,
+  TooltipProvider,
+  TooltipTrigger,
 } from "@/components/UI/Tooltip"
 import type { LanguageType } from "@/lib/validation/language"
 

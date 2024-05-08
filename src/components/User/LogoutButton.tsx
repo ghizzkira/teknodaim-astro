@@ -3,6 +3,9 @@ import { useState } from "react"
 import { Button } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
 
+import { Button } from "@/components/UI/Button"
+import { Icon } from "@/components/UI/Icon"
+
 const SignOutButton = () => {
   const [isLoading, setIsLoading] = useState(false)
 

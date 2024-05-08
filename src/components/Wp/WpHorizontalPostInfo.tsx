@@ -4,6 +4,10 @@ import Link from "@/components/Link"
 import type { LanguageType } from "@/lib/validation/language"
 import { wpAuthorPathBySlug } from "@/lib/wp/helper"
 
+import Link from "@/components/Link"
+import type { LanguageType } from "@/lib/validation/language"
+import { wpAuthorPathBySlug } from "@/lib/wp/helper"
+
 interface WpHorizontalPostInfoProps
   extends React.HTMLAttributes<HTMLDivElement> {
   authorName: string

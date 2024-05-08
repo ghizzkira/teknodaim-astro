@@ -2,6 +2,8 @@ import * as React from "react"
 
 import { Icon } from "@/components/UI/Icon"
 
+import { Icon } from "@/components/UI/Icon"
+
 // import { api } from "@/lib/trpc/react"
 
 interface WPPostViewProps extends React.HTMLAttributes<HTMLDivElement> {

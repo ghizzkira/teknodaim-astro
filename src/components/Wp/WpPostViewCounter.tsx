@@ -2,6 +2,8 @@ import * as React from "react"
 
 import type { UpsertWpPopularPost } from "@/lib/validation/wp-popular-post"
 
+import type { UpsertWpPopularPost } from "@/lib/validation/wp-popular-post"
+
 const WpPostViewCounter: React.FunctionComponent<UpsertWpPopularPost> = (
   props,
 ) => {

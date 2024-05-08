@@ -1,3 +1,11 @@
+import { initializeDB } from "@/lib/db"
+import { videoEmbeds } from "@/lib/db/schema/video-embed"
+import { videoEmbedComments } from "@/lib/db/schema/video-embed-comment"
+import { cuid } from "@/lib/utils/id"
+import type {
+  CreateVideoEmbedComment,
+  UpdateVideoEmbedComment,
+} from "@/lib/validation/video-embed-comment"
 import { and, count, eq, sql } from "drizzle-orm"
 
 import { initializeDB } from "@/lib/db"
@@ -8,6 +16,7 @@ import type {
   CreateVideoEmbedComment,
   UpdateVideoEmbedComment,
 } from "@/lib/validation/video-embed-comment"
+import { and, count, eq, sql } from "drizzle-orm"
 
 export const getVideoEmbedCommentsDashboard = async (
   DB: D1Database,

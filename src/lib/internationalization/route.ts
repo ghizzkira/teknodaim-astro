@@ -1,5 +1,7 @@
 import type { LanguageType } from "../validation/language"
 
+import type { LanguageType } from "../validation/language"
+
 export function rewriteUrlLocale(locale: LanguageType, uri: string) {
   if (locale === "en") {
     try {

@@ -4,6 +4,10 @@ import { Badge, type BadgeProps } from "@/components/UI/Badge"
 import { cn } from "@/lib/utils"
 import type { TopicVisibility } from "@/lib/validation/topic"
 
+import { Badge, type BadgeProps } from "@/components/UI/Badge"
+import { cn } from "@/lib/utils"
+import type { TopicVisibility } from "@/lib/validation/topic"
+
 interface DashboardTopicVisibilityBadgeProps extends BadgeProps {
   visibility: TopicVisibility
   children: React.ReactNode

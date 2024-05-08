@@ -1,8 +1,12 @@
 import type { APIContext, APIRoute } from "astro"
+
+import { getUserById, updateUser } from "@/lib/action/user"
+import { updateUserSchema } from "@/lib/validation/user"
 import { z } from "zod"
 
 import { getUserById, updateUser } from "@/lib/action/user"
 import { updateUserSchema } from "@/lib/validation/user"
+import { z } from "zod"
 
 export const PUT: APIRoute = async (context: APIContext) => {
   try {

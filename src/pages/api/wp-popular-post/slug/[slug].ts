@@ -1,7 +1,10 @@
 import type { APIRoute } from "astro"
+
+import { getWpPopularPostBySlug } from "@/lib/action/wp-popular-post"
 import { z } from "zod"
 
 import { getWpPopularPostBySlug } from "@/lib/action/wp-popular-post"
+import { z } from "zod"
 
 export const GET: APIRoute = async ({ locals, params }) => {
   try {

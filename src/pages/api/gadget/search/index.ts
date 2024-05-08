@@ -1,7 +1,10 @@
 import type { APIRoute } from "astro"
+
+import { searchGadgets } from "@/lib/action/gadget"
 import { z } from "zod"
 
 import { searchGadgets } from "@/lib/action/gadget"
+import { z } from "zod"
 
 export const GET: APIRoute = async ({ locals, request }) => {
   try {

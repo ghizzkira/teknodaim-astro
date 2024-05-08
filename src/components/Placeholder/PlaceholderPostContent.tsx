@@ -1,5 +1,8 @@
-import { Skeleton } from "@/components/UI/Skeleton"
 import PlaceholderPostCardSide from "./PlaceholderPostCardSide"
+import { Skeleton } from "@/components/UI/Skeleton"
+
+import PlaceholderPostCardSide from "./PlaceholderPostCardSide"
+import { Skeleton } from "@/components/UI/Skeleton"
 
 const PlaceholderPostContent: React.FunctionComponent = () => {
   return (

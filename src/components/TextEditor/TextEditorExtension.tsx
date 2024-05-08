@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
+import { TextEditorButton } from "./TextEditorButton"
+import { TextEditorCommandMenu } from "./TextEditorCommandMenu"
+import { TextEditorFacebookEmbed } from "./TextEditorFacebookEmbed"
+import { TextEditorXEmbed } from "./TextEditorXEmbed"
 import { Extension } from "@tiptap/core"
 import {
   Blockquote,
@@ -58,6 +61,59 @@ import { TextEditorButton } from "./TextEditorButton"
 import { TextEditorCommandMenu } from "./TextEditorCommandMenu"
 import { TextEditorFacebookEmbed } from "./TextEditorFacebookEmbed"
 import { TextEditorXEmbed } from "./TextEditorXEmbed"
+import { Extension } from "@tiptap/core"
+import {
+  Blockquote,
+  type BlockquoteOptions,
+} from "@tiptap/extension-blockquote"
+import { Bold, type BoldOptions } from "@tiptap/extension-bold"
+import {
+  BulletList,
+  type BulletListOptions,
+} from "@tiptap/extension-bullet-list"
+import {
+  CharacterCount,
+  type CharacterCountOptions,
+} from "@tiptap/extension-character-count"
+import { CodeBlock, type CodeBlockOptions } from "@tiptap/extension-code-block"
+import { Color } from "@tiptap/extension-color"
+import { Document } from "@tiptap/extension-document"
+import {
+  Dropcursor,
+  type DropcursorOptions,
+} from "@tiptap/extension-dropcursor"
+import Focus from "@tiptap/extension-focus"
+import { Gapcursor } from "@tiptap/extension-gapcursor"
+import { HardBreak, type HardBreakOptions } from "@tiptap/extension-hard-break"
+import { Heading, type HeadingOptions } from "@tiptap/extension-heading"
+import Highlight from "@tiptap/extension-highlight"
+import { History, type HistoryOptions } from "@tiptap/extension-history"
+import {
+  HorizontalRule,
+  type HorizontalRuleOptions,
+} from "@tiptap/extension-horizontal-rule"
+import { Image, type ImageOptions } from "@tiptap/extension-image"
+import { Italic, type ItalicOptions } from "@tiptap/extension-italic"
+import { Link, type LinkOptions } from "@tiptap/extension-link"
+import { ListItem, type ListItemOptions } from "@tiptap/extension-list-item"
+import {
+  OrderedList,
+  type OrderedListOptions,
+} from "@tiptap/extension-ordered-list"
+import { Paragraph, type ParagraphOptions } from "@tiptap/extension-paragraph"
+import {
+  Placeholder,
+  type PlaceholderOptions,
+} from "@tiptap/extension-placeholder"
+import { Strike, type StrikeOptions } from "@tiptap/extension-strike"
+import Table from "@tiptap/extension-table"
+import TableCell from "@tiptap/extension-table-cell"
+import TableHeader from "@tiptap/extension-table-header"
+import TableRow from "@tiptap/extension-table-row"
+import { Text } from "@tiptap/extension-text"
+import TextStyle from "@tiptap/extension-text-style"
+import { Underline, type UnderlineOptions } from "@tiptap/extension-underline"
+import { Youtube, type YoutubeOptions } from "@tiptap/extension-youtube"
 
 export interface TextEditorExtensionOptions {
   blockquote: Partial<BlockquoteOptions> | false

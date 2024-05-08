@@ -1,4 +1,7 @@
 import * as React from "react"
+
+import { XEmbed as TweetEmbed } from "react-social-media-embed"
+
 import { XEmbed as TweetEmbed } from "react-social-media-embed"
 
 interface TwitterEmbedProps {

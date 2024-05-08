@@ -1,7 +1,10 @@
 import * as React from "react"
+
+import { cn } from "@/lib/utils/style"
 import * as TooltipPrimitive from "@radix-ui/react-tooltip"
 
 import { cn } from "@/lib/utils/style"
+import * as TooltipPrimitive from "@radix-ui/react-tooltip"
 
 export type TooltipProps = React.ComponentPropsWithoutRef<
   typeof TooltipPrimitive.Root

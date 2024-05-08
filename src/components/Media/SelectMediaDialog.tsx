@@ -1,5 +1,7 @@
 import * as React from "react"
 
+import MediaList from "./MediaList"
+import UploadMedia from "./UploadMedia"
 import Image from "@/components/Image"
 import { Button } from "@/components/UI/Button"
 import {
@@ -11,8 +13,20 @@ import {
 } from "@/components/UI/Dialog"
 import { Input } from "@/components/UI/Input"
 import { ScrollArea } from "@/components/UI/ScrollArea"
+
 import MediaList from "./MediaList"
 import UploadMedia from "./UploadMedia"
+import Image from "@/components/Image"
+import { Button } from "@/components/UI/Button"
+import {
+  Dialog,
+  DialogContent,
+  DialogPortal,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/UI/Dialog"
+import { Input } from "@/components/UI/Input"
+import { ScrollArea } from "@/components/UI/ScrollArea"
 
 interface SelectMediaDialogProps {
   handleSelectUpdateMedia: (_media: {

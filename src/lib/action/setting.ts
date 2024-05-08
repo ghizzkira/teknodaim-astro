@@ -1,9 +1,14 @@
+import { initializeDB } from "@/lib/db"
+import { settings } from "@/lib/db/schema/setting"
+import { cuid } from "@/lib/utils/id"
+import type { UpsertSetting } from "@/lib/validation/setting"
 import { sql } from "drizzle-orm"
 
 import { initializeDB } from "@/lib/db"
 import { settings } from "@/lib/db/schema/setting"
 import { cuid } from "@/lib/utils/id"
 import type { UpsertSetting } from "@/lib/validation/setting"
+import { sql } from "drizzle-orm"
 
 export const getSettings = async (DB: D1Database) => {
   const db = initializeDB(DB)

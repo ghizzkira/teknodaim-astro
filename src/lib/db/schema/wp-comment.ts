@@ -1,7 +1,10 @@
+import { users } from "./user"
 import { relations, sql } from "drizzle-orm"
 import { sqliteTable, text } from "drizzle-orm/sqlite-core"
 
 import { users } from "./user"
+import { relations, sql } from "drizzle-orm"
+import { sqliteTable, text } from "drizzle-orm/sqlite-core"
 
 export const wpComments = sqliteTable("wp_comments", {
   id: text("id").primaryKey(),
