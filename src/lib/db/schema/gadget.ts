@@ -1,12 +1,8 @@
-import { medias } from "./media"
-import { STATUS_TYPE } from "@/lib/validation/status"
 import { sql } from "drizzle-orm"
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core"
 
-import { medias } from "./media"
 import { STATUS_TYPE } from "@/lib/validation/status"
-import { sql } from "drizzle-orm"
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core"
+import { medias } from "./media"
 
 export const gadgets = sqliteTable("gadgets", {
   id: text("id").primaryKey(),

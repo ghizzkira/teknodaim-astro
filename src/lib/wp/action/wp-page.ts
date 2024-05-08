@@ -2,10 +2,6 @@ import { QUERY_WP_PAGE_BY_URI } from "../data/wp-page"
 import { wpHttp } from "./http"
 import type { WPPage } from "./wp-types"
 
-import { QUERY_WP_PAGE_BY_URI } from "../data/wp-page"
-import { wpHttp } from "./http"
-import type { WPPage } from "./wp-types"
-
 export async function wpGetPageByUri(uri: string | undefined) {
   const [res, err] = await wpHttp<{ data: { page: WPPage } }>(
     QUERY_WP_PAGE_BY_URI,

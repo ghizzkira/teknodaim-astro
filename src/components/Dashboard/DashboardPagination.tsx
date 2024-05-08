@@ -1,15 +1,5 @@
 import * as React from "react"
-
 import { useSearchParams } from "next/navigation"
-
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationNextButton,
-  PaginationPreviousButton,
-} from "@/components/UI/Pagination"
-import { useI18n } from "@/lib/locales/client"
 
 import {
   Pagination,

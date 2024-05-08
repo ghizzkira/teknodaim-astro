@@ -4,10 +4,6 @@ import { AlertDelete } from "@/components/AlertDelete"
 import { Button } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
 
-import { AlertDelete } from "@/components/AlertDelete"
-import { Button } from "@/components/UI/Button"
-import { Icon } from "@/components/UI/Icon"
-
 interface DeleteMediaButtonProps {
   description: React.ReactNode
   onDelete: () => void

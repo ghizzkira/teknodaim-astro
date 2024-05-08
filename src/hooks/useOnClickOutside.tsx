@@ -2,8 +2,6 @@ import type * as React from "react"
 
 import { useEventListener } from "./useEventListener"
 
-import { useEventListener } from "./useEventListener"
-
 type EventType = "mousedown" | "mouseup" | "touchstart" | "touchend"
 
 export const useOnClickOutside = <T extends HTMLElement = HTMLElement>(

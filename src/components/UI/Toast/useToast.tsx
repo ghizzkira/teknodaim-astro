@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/array-type */
-import * as React from "react"
 
-import type { ToastActionElement, ToastProps } from "./Toast"
+import * as React from "react"
 
 import type { ToastActionElement, ToastProps } from "./Toast"
 

@@ -1,10 +1,7 @@
 import type { APIContext, APIRoute } from "astro"
-
-import { deleteWpComment } from "@/lib/action/wp-comment"
 import { z } from "zod"
 
 import { deleteWpComment } from "@/lib/action/wp-comment"
-import { z } from "zod"
 
 export const DELETE: APIRoute = async (context: APIContext) => {
   try {

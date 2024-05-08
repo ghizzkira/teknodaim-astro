@@ -1,10 +1,7 @@
 import * as React from "react"
 
-import { ShareButton, type ShareButtonProps } from "./ShareButton"
 import { Icon } from "@/components/UI/Icon"
-
 import { ShareButton, type ShareButtonProps } from "./ShareButton"
-import { Icon } from "@/components/UI/Icon"
 
 export const ShareButtonEmail: React.FunctionComponent<ShareButtonProps> = (
   props,

@@ -1,10 +1,7 @@
 import type { APIContext, APIRoute } from "astro"
-
-import { deleteDownload } from "@/lib/action/download"
 import { z } from "zod"
 
 import { deleteDownload } from "@/lib/action/download"
-import { z } from "zod"
 
 export const DELETE: APIRoute = async (context: APIContext) => {
   try {

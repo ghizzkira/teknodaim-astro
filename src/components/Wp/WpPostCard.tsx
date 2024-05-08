@@ -1,22 +1,15 @@
 import * as React from "react"
 
-import WpPostView from "./WpPostView"
 import BadgeIcon from "@/components/BadgeIcon"
 import Image from "@/components/Image"
 import Link from "@/components/Link"
 import { Icon } from "@/components/UI/Icon"
-import "@/lib/internationalization/route"
-import { formatDateFromNow } from "@/lib/utils/date"
-import type { LanguageType } from "@/lib/validation/language"
 
-import WpPostView from "./WpPostView"
-import BadgeIcon from "@/components/BadgeIcon"
-import Image from "@/components/Image"
-import Link from "@/components/Link"
-import { Icon } from "@/components/UI/Icon"
 import "@/lib/internationalization/route"
+
 import { formatDateFromNow } from "@/lib/utils/date"
 import type { LanguageType } from "@/lib/validation/language"
+import WpPostView from "./WpPostView"
 
 // const DateWrapper = dynamic(
 //   async () => {

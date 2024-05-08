@@ -3,9 +3,6 @@ import * as React from "react"
 import { Icon } from "@/components/UI/Icon"
 import { cn } from "@/lib/utils/style"
 
-import { Icon } from "@/components/UI/Icon"
-import { cn } from "@/lib/utils/style"
-
 interface SidebarToggleProps extends React.HTMLAttributes<HTMLLIElement> {
   icon?: React.ReactNode
   children?: React.ReactNode

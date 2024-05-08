@@ -1,10 +1,7 @@
 import type { APIContext, APIRoute } from "astro"
-
-import { deleteTopic } from "@/lib/action/topic"
 import { z } from "zod"
 
 import { deleteTopic } from "@/lib/action/topic"
-import { z } from "zod"
 
 export const DELETE: APIRoute = async (context: APIContext) => {
   try {

@@ -16,21 +16,6 @@ import type {
 } from "@/lib/wp/action/wp-types"
 import { wpPrimaryCategorySlug } from "@/lib/wp/helper"
 
-import Image from "@/components/Image"
-import Link from "@/components/Link"
-import PostInfo from "@/components/PostInfo"
-import StaticShare from "@/components/Share/StaticShare"
-import { Button } from "@/components/UI/Button"
-import { ButtonGroup } from "@/components/UI/ButtonGroup"
-import { cn } from "@/lib/utils/style"
-import type { LanguageType } from "@/lib/validation/language"
-import type {
-  WpCategoriesDataProps,
-  WpSinglePostDataProps,
-  WpTagsDataProps,
-} from "@/lib/wp/action/wp-types"
-import { wpPrimaryCategorySlug } from "@/lib/wp/helper"
-
 // const Ad = React.lazy(async () => await import("@/components/ad"))
 
 interface WpPostScrollProps {

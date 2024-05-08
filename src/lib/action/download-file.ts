@@ -1,15 +1,3 @@
-import { initializeDB } from "@/lib/db"
-import { downloadDownloadFiles, downloads } from "@/lib/db/schema/download"
-import {
-  downloadFileAuthors,
-  downloadFiles,
-} from "@/lib/db/schema/download-file"
-import { cuid, uniqueCharacter } from "@/lib/utils/id"
-import { slugify } from "@/lib/utils/slug"
-import type {
-  CreateDownloadFile,
-  UpdateDownloadFile,
-} from "@/lib/validation/download-file"
 import { and, count, eq } from "drizzle-orm"
 
 import { initializeDB } from "@/lib/db"
@@ -24,7 +12,6 @@ import type {
   CreateDownloadFile,
   UpdateDownloadFile,
 } from "@/lib/validation/download-file"
-import { and, count, eq } from "drizzle-orm"
 
 export const getDownloadFilesDashboard = async (
   DB: D1Database,

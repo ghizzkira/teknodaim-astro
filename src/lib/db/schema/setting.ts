@@ -1,9 +1,6 @@
 import { sql } from "drizzle-orm"
 import { sqliteTable, text } from "drizzle-orm/sqlite-core"
 
-import { sql } from "drizzle-orm"
-import { sqliteTable, text } from "drizzle-orm/sqlite-core"
-
 export const settings = sqliteTable("settings", {
   id: text("id").primaryKey(),
   key: text("key").unique().notNull(),

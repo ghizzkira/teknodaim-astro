@@ -1,14 +1,9 @@
-import { initializeDB } from "@/lib/db"
-import { ads } from "@/lib/db/schema/ad"
-import { cuid } from "@/lib/utils/id"
-import type { AdPosition, CreateAd, UpdateAd } from "@/lib/validation/ad"
 import { count, eq, sql } from "drizzle-orm"
 
 import { initializeDB } from "@/lib/db"
 import { ads } from "@/lib/db/schema/ad"
 import { cuid } from "@/lib/utils/id"
 import type { AdPosition, CreateAd, UpdateAd } from "@/lib/validation/ad"
-import { count, eq, sql } from "drizzle-orm"
 
 export const getAdsDashboard = async (
   DB: D1Database,

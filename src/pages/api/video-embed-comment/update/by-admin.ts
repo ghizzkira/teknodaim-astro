@@ -1,12 +1,8 @@
 import type { APIContext, APIRoute } from "astro"
-
-import { updateVideoEmbedComment } from "@/lib/action/video-embed-comment"
-import { updateVideoEmbedCommentSchema } from "@/lib/validation/video-embed-comment"
 import { z } from "zod"
 
 import { updateVideoEmbedComment } from "@/lib/action/video-embed-comment"
 import { updateVideoEmbedCommentSchema } from "@/lib/validation/video-embed-comment"
-import { z } from "zod"
 
 export const PUT: APIRoute = async (context: APIContext) => {
   try {

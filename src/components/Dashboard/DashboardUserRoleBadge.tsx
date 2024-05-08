@@ -4,10 +4,6 @@ import { Badge, type BadgeProps } from "@/components/UI/Badge"
 import { cn } from "@/lib/utils"
 import type { UserRole } from "@/lib/validation/user"
 
-import { Badge, type BadgeProps } from "@/components/UI/Badge"
-import { cn } from "@/lib/utils"
-import type { UserRole } from "@/lib/validation/user"
-
 interface DashboardUserRoleBadgeProps extends BadgeProps {
   role: UserRole
   children: React.ReactNode

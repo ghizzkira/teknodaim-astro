@@ -13,7 +13,7 @@ import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
 import { wpPrimaryCategorySlug } from "@/lib/wp/helper"
 
 export const prerender = false
-Astro.locals.cache(60)
+Astro.locals.cache(60);
 
 const { categorySlug, slug } = Astro.params
 
@@ -25,32 +25,36 @@ const { post: mainPost, otherLangPost } = await wpGetPostBySlugAction(
 )
 
 if (!mainPost && !otherLangPost) {
-  return Astro.redirect("/404")
+  return Astro.redirect('/404');
 }
 
 let post
 
 if (
-  mainPost &&
-  slug === mainPost.slug &&
-  mainPost.language.slug.toLocaleLowerCase() === "id"
-) {
-  post = mainPost
-} else if (
-  mainPost &&
-  slug === mainPost.slug &&
-  mainPost.language.slug.toLocaleLowerCase() !== "id"
-) {
-  if (otherLangPost?.slug) {
-    const { primaryCategory } = wpPrimaryCategorySlug(
-      otherLangPost?.categories as WpCategoriesDataProps[],
-    )
-    return Astro.redirect(`/${primaryCategory?.slug}/${otherLangPost.slug}`)
+    mainPost &&
+    slug === mainPost.slug &&
+    mainPost.language.slug.toLocaleLowerCase() === "id"
+  ) {
+    post = mainPost
+
+  } else if (
+    mainPost &&
+    slug === mainPost.slug &&
+    mainPost.language.slug.toLocaleLowerCase() !== "id"
+  ) {
+    if (otherLangPost?.slug) {
+
+      const { primaryCategory } = wpPrimaryCategorySlug(
+        otherLangPost?.categories as WpCategoriesDataProps[],
+      )
+       return Astro.redirect(
+        `/${primaryCategory?.slug}/${otherLangPost.slug}`
+      )
+    }
   }
-}
 
 if (!post) {
-  return Astro.redirect("/")
+   return Astro.redirect("/")
 }
 
 // FIX: to 7 days
@@ -109,23 +113,20 @@ const { primaryCategory } = wpPrimaryCategorySlug(
   post.categories as WpCategoriesDataProps[],
 )
 interface AlternateLink {
-  href: string
-  hrefLang: string
+  href: string;
+  hrefLang: string;
 }
 
-const langlist = [mainPost, otherLangPost]
-const alternatesList: AlternateLink[] = langlist.reduce(
-  (acc: AlternateLink[], list) => {
-    if (list?.language?.slug.toLocaleLowerCase() === "en") {
-      acc.push({
-        href: `${import.meta.env.PUBLIC_SITE_URL}/en/${categorySlug}/${list?.slug}`,
-        hrefLang: list.language.slug,
-      })
-    }
-    return acc
-  },
-  [],
-)
+const langlist = [mainPost, otherLangPost];
+const alternatesList: AlternateLink[] = langlist.reduce((acc: AlternateLink[], list) => {
+  if (list?.language?.slug.toLocaleLowerCase() ==="en") {
+    acc.push({
+      href: `${import.meta.env.PUBLIC_SITE_URL}/en/${categorySlug}/${list?.slug}`,
+      hrefLang: list.language.slug,
+    });
+  }
+  return acc;
+}, []);
 ---
 
 <MainLayout
@@ -163,12 +164,14 @@ const alternatesList: AlternateLink[] = langlist.reduce(
     authorImage={post.author.avatar.url}
     client:only="react"
   />
-  {
-    postJsonLd && (
-      <script type="application/ld+json" set:html={postJsonLdString} />
-    )
-  }
-  <SinglePost
+{
+  postJsonLd && (
+  <script
+      type="application/ld+json"
+      set:html={postJsonLdString}
+    ></script>
+   )
+}  <SinglePost
     posts={posts!}
     post={post}
     trendingPosts={trendingPosts}

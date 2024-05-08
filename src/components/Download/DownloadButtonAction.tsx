@@ -2,8 +2,6 @@ import * as React from "react"
 
 import { Button } from "@/components/UI/Button"
 
-import { Button } from "@/components/UI/Button"
-
 interface DownloadButtonActionProps
   extends React.HTMLAttributes<HTMLDivElement> {
   downloadLink: string

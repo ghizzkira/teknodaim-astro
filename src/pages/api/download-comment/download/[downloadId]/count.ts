@@ -1,10 +1,7 @@
 import type { APIRoute } from "astro"
-
-import { getDownloadCommentsCountByDownloadId } from "@/lib/action/download-comment"
 import { z } from "zod"
 
 import { getDownloadCommentsCountByDownloadId } from "@/lib/action/download-comment"
-import { z } from "zod"
 
 export const GET: APIRoute = async ({ locals, params }) => {
   try {

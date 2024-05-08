@@ -1,14 +1,9 @@
-import { articleAuthors, articleEditors } from "./article"
-import { userLinks } from "./user-link"
-import { USER_ROLE } from "@/lib/validation/user"
 import { relations, sql } from "drizzle-orm"
 import { integer, primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core"
 
+import { USER_ROLE } from "@/lib/validation/user"
 import { articleAuthors, articleEditors } from "./article"
 import { userLinks } from "./user-link"
-import { USER_ROLE } from "@/lib/validation/user"
-import { relations, sql } from "drizzle-orm"
-import { integer, primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core"
 
 export const users = sqliteTable("users", {
   id: text("id").primaryKey(),

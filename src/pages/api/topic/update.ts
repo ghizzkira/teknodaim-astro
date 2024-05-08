@@ -1,12 +1,8 @@
 import type { APIContext, APIRoute } from "astro"
-
-import { updateTopic } from "@/lib/action/topic"
-import { updateTopicSchema } from "@/lib/validation/topic"
 import { z } from "zod"
 
 import { updateTopic } from "@/lib/action/topic"
 import { updateTopicSchema } from "@/lib/validation/topic"
-import { z } from "zod"
 
 export const PUT: APIRoute = async (context: APIContext) => {
   try {

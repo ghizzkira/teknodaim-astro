@@ -1,13 +1,9 @@
 import * as React from "react"
 
 import Link from "@/components/Link"
-import "@/lib/internationalization/route"
-import { formatDateFromNow } from "@/lib/utils/date"
-import type { LanguageType } from "@/lib/validation/language"
-import { wpAuthorPathBySlug } from "@/lib/wp/helper"
 
-import Link from "@/components/Link"
 import "@/lib/internationalization/route"
+
 import { formatDateFromNow } from "@/lib/utils/date"
 import type { LanguageType } from "@/lib/validation/language"
 import { wpAuthorPathBySlug } from "@/lib/wp/helper"

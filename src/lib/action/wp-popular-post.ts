@@ -1,9 +1,3 @@
-import { initializeDB } from "@/lib/db"
-import { wpPopularPosts } from "@/lib/db/schema/wp-popular-post"
-import { formatDateTimeDB } from "@/lib/utils/date"
-import { cuid } from "@/lib/utils/id"
-import type { LanguageType } from "@/lib/validation/language"
-import type { UpsertWpPopularPost } from "@/lib/validation/wp-popular-post"
 import { and, count, eq, gte, lte, sql } from "drizzle-orm"
 
 import { initializeDB } from "@/lib/db"
@@ -12,7 +6,6 @@ import { formatDateTimeDB } from "@/lib/utils/date"
 import { cuid } from "@/lib/utils/id"
 import type { LanguageType } from "@/lib/validation/language"
 import type { UpsertWpPopularPost } from "@/lib/validation/wp-popular-post"
-import { and, count, eq, gte, lte, sql } from "drizzle-orm"
 
 export const getWpPopularPosts = async (
   DB: D1Database,

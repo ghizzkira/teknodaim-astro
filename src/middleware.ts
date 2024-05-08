@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/restrict-plus-operands */
-// import { verifyRequestOrigin } from "lucia"
-import { initializeAuth } from "@/lib/auth"
+
 import { defineMiddleware, sequence } from "astro:middleware"
 
+// import { verifyRequestOrigin } from "lucia"
+
 import { initializeAuth } from "@/lib/auth"
-import { defineMiddleware, sequence } from "astro:middleware"
 
 const excludedPaths = ["/api", "/auth/", "/sitemap", "/_image"]
 

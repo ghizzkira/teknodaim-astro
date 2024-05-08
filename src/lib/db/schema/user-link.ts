@@ -1,10 +1,7 @@
-import { users } from "./user"
 import { relations, sql } from "drizzle-orm"
 import { sqliteTable, text } from "drizzle-orm/sqlite-core"
 
 import { users } from "./user"
-import { relations, sql } from "drizzle-orm"
-import { sqliteTable, text } from "drizzle-orm/sqlite-core"
 
 export const userLinks = sqliteTable("user_links", {
   id: text("id").primaryKey(),

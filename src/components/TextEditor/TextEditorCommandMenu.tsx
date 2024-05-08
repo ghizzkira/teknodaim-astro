@@ -1,21 +1,14 @@
 /* eslint-disable @typescript-eslint/prefer-optional-chain */
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 import * as React from "react"
-
-import { Icon } from "@/components/UI/Icon"
-import SelectMediaDialog from "@/components/media/selectMediaDialog"
 import { Extension, type Range, type Editor as TextEditor } from "@tiptap/core"
 import { ReactRenderer } from "@tiptap/react"
 import Suggestion from "@tiptap/suggestion"
 import tippy from "tippy.js"
 
-import { Icon } from "@/components/UI/Icon"
 import SelectMediaDialog from "@/components/media/selectMediaDialog"
-import { Extension, type Range, type Editor as TextEditor } from "@tiptap/core"
-import { ReactRenderer } from "@tiptap/react"
-import Suggestion from "@tiptap/suggestion"
-import tippy from "tippy.js"
+import { Icon } from "@/components/UI/Icon"
 
 interface TextEditorCommandItemProps {
   title: string

@@ -1,10 +1,7 @@
-import { AD_POSITION, AD_TYPE } from "@/lib/validation/ad"
 import { sql } from "drizzle-orm"
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core"
 
 import { AD_POSITION, AD_TYPE } from "@/lib/validation/ad"
-import { sql } from "drizzle-orm"
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core"
 
 export const ads = sqliteTable("ads", {
   id: text("id").primaryKey(),

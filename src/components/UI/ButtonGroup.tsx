@@ -1,10 +1,7 @@
 import * as React from "react"
 
-import type { ButtonProps } from "./Button"
 import { cn, getValidChildren } from "@/lib/utils/style"
-
 import type { ButtonProps } from "./Button"
-import { cn, getValidChildren } from "@/lib/utils/style"
 
 export interface ButtonGroupProps extends React.HTMLAttributes<HTMLDivElement> {
   disabled?: boolean

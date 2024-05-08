@@ -4,10 +4,6 @@ import { Badge, type BadgeProps } from "@/components/UI/Badge"
 import { cn } from "@/lib/utils/style"
 import type { AdPosition } from "@/lib/validation/ad"
 
-import { Badge, type BadgeProps } from "@/components/UI/Badge"
-import { cn } from "@/lib/utils/style"
-import type { AdPosition } from "@/lib/validation/ad"
-
 interface DashboardAdPositionBadgeProps extends BadgeProps {
   position: AdPosition
   children: React.ReactNode

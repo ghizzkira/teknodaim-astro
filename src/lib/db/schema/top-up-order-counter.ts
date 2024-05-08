@@ -1,9 +1,6 @@
 import { sql } from "drizzle-orm"
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core"
 
-import { sql } from "drizzle-orm"
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core"
-
 export const topUpOrderCounters = sqliteTable("top_up_order_counters", {
   id: text("id").primaryKey(),
   brand: text("brand").unique().notNull(),

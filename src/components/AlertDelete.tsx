@@ -11,17 +11,6 @@ import {
   AlertDialogTitle,
 } from "@/components/UI/AlertDialog"
 
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/UI/AlertDialog"
-
 // import { useI18n } from "@/lib/locales/client"
 
 interface AlertDeleteProps extends React.HTMLAttributes<HTMLDivElement> {

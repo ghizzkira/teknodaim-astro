@@ -1,16 +1,10 @@
 import type { APIContext, APIRoute } from "astro"
-
-import { createMedia } from "@/lib/action/media"
-import { uploadImageToR2 } from "@/lib/r2"
-import { uniqueCharacter } from "@/lib/utils/id"
-import { slugifyFile } from "@/lib/utils/slug"
 import { z } from "zod"
 
 import { createMedia } from "@/lib/action/media"
 import { uploadImageToR2 } from "@/lib/r2"
 import { uniqueCharacter } from "@/lib/utils/id"
 import { slugifyFile } from "@/lib/utils/slug"
-import { z } from "zod"
 
 export const POST: APIRoute = async (context: APIContext) => {
   try {

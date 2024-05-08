@@ -1,16 +1,10 @@
 import * as React from "react"
 
-import Link from "./Link"
 import Image from "@/components/Image"
 import { Icon } from "@/components/UI/Icon"
 import { formatDateFromNow } from "@/lib/utils/date"
 import type { LanguageType } from "@/lib/validation/language"
-
 import Link from "./Link"
-import Image from "@/components/Image"
-import { Icon } from "@/components/UI/Icon"
-import { formatDateFromNow } from "@/lib/utils/date"
-import type { LanguageType } from "@/lib/validation/language"
 
 interface PostInfoProps extends React.HTMLAttributes<HTMLDivElement> {
   authorName: string

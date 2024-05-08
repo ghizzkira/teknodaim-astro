@@ -1,10 +1,7 @@
 import type { APIRoute } from "astro"
-
-import { searchVideoEmbedsDashboard } from "@/lib/action/video-embed"
 import { z } from "zod"
 
 import { searchVideoEmbedsDashboard } from "@/lib/action/video-embed"
-import { z } from "zod"
 
 export const GET: APIRoute = async ({ locals, request }) => {
   try {

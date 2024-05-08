@@ -1,6 +1,3 @@
-import { initializeDBWithoutSchema } from "@/lib/db"
-import { sessions, users } from "@/lib/db/schema"
-import type { UserRole } from "@/lib/validation/user"
 import { DrizzleSQLiteAdapter } from "@lucia-auth/adapter-drizzle"
 import { Google } from "arctic"
 import { Lucia } from "lucia"
@@ -8,9 +5,6 @@ import { Lucia } from "lucia"
 import { initializeDBWithoutSchema } from "@/lib/db"
 import { sessions, users } from "@/lib/db/schema"
 import type { UserRole } from "@/lib/validation/user"
-import { DrizzleSQLiteAdapter } from "@lucia-auth/adapter-drizzle"
-import { Google } from "arctic"
-import { Lucia } from "lucia"
 
 export function initializeAuth(D1: D1Database) {
   const adapter = new DrizzleSQLiteAdapter(

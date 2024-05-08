@@ -4,10 +4,6 @@ import { toast } from "@/components/UI/Toast/useToast"
 import type { SelectUser } from "@/lib/db/schema"
 import type { UpdateUser } from "@/lib/validation/user"
 
-import { toast } from "@/components/UI/Toast/useToast"
-import type { SelectUser } from "@/lib/db/schema"
-import type { UpdateUser } from "@/lib/validation/user"
-
 export function useUpdateComment({
   onSuccess,
   onError,

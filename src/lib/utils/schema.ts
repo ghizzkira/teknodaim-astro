@@ -2,10 +2,6 @@ import type { LanguageType } from "@/lib/validation/language"
 import type { WpSinglePostDataProps } from "@/lib/wp/action/wp-types"
 import { wpPrimaryCategorySlug } from "@/lib/wp/helper"
 
-import type { LanguageType } from "@/lib/validation/language"
-import type { WpSinglePostDataProps } from "@/lib/wp/action/wp-types"
-import { wpPrimaryCategorySlug } from "@/lib/wp/helper"
-
 export function generateJsonLdSchema(
   post: WpSinglePostDataProps,
   locale: LanguageType,

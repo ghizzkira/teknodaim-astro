@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-import { wpGetAllCategoriesSiteMapAction } from "@/lib/wp/action/wp-category"
-import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
 
 import { wpGetAllCategoriesSiteMapAction } from "@/lib/wp/action/wp-category"
 import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"

@@ -1,7 +1,5 @@
 import { z } from "zod"
 
-import { z } from "zod"
-
 const PAYMENT_TRIPAY_CLOSED_PAYMENT_CODE_TYPE = [
   "MYBVA",
   "PERMATAVA",

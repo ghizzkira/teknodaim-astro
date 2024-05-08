@@ -1,6 +1,5 @@
 import * as React from "react"
 
-import ArticleScroll from "./article-scroll"
 import LoadingProgress from "@/components/LoadingProgress"
 import ParseContent from "@/components/ParseContent"
 import { type SelectArticle as ArticleProps } from "@/lib/db/schema/article"
@@ -11,17 +10,7 @@ import { type SelectUser as UserProps } from "@/lib/db/schema/user"
 import { splitReactNodes } from "@/lib/utils/content"
 import type { AdType } from "@/lib/validation/ad"
 import type { LanguageType } from "@/lib/validation/language"
-
 import ArticleScroll from "./article-scroll"
-import LoadingProgress from "@/components/LoadingProgress"
-import ParseContent from "@/components/ParseContent"
-import { type SelectArticle as ArticleProps } from "@/lib/db/schema/article"
-import { type SelectMedia as MediaProps } from "@/lib/db/schema/media"
-import { type SelectTopic as TopicProps } from "@/lib/db/schema/topic"
-import { type SelectUser as UserProps } from "@/lib/db/schema/user"
-import { splitReactNodes } from "@/lib/utils/content"
-import type { AdType } from "@/lib/validation/ad"
-import type { LanguageType } from "@/lib/validation/language"
 
 interface ParsedContentProps {
   firstContent: React.ReactNode[]

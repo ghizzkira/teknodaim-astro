@@ -1,10 +1,7 @@
 import type { APIRoute } from "astro"
-
-import { searchMedias } from "@/lib/action/media"
 import { z } from "zod"
 
 import { searchMedias } from "@/lib/action/media"
-import { z } from "zod"
 
 export const GET: APIRoute = async ({ locals, request }) => {
   try {

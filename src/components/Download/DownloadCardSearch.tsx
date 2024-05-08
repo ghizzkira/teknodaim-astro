@@ -6,12 +6,6 @@ import type { SelectDownload as DownloadProps } from "@/lib/db/schema/download"
 import type { SelectMedia as MediaProps } from "@/lib/db/schema/media"
 import type { LanguageType } from "@/lib/validation/language"
 
-import Image from "@/components/Image"
-import Link from "@/components/Link"
-import type { SelectDownload as DownloadProps } from "@/lib/db/schema/download"
-import type { SelectMedia as MediaProps } from "@/lib/db/schema/media"
-import type { LanguageType } from "@/lib/validation/language"
-
 type DownloadDataProps = Pick<DownloadProps, "title" | "slug"> & {
   featured_image: Pick<MediaProps, "url">
 }

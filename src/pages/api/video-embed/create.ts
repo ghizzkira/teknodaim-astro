@@ -1,12 +1,8 @@
 import type { APIContext, APIRoute } from "astro"
-
-import { createVideoEmbed } from "@/lib/action/video-embed"
-import { createVideoEmbedSchema } from "@/lib/validation/video-embed"
 import { z } from "zod"
 
 import { createVideoEmbed } from "@/lib/action/video-embed"
 import { createVideoEmbedSchema } from "@/lib/validation/video-embed"
-import { z } from "zod"
 
 export const POST: APIRoute = async (context: APIContext) => {
   try {

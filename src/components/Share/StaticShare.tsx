@@ -1,10 +1,7 @@
 import * as React from "react"
 
-import ShareButtonArticle from "./ShareButtonArticle"
 import type { LanguageType } from "@/lib/validation/language"
-
 import ShareButtonArticle from "./ShareButtonArticle"
-import type { LanguageType } from "@/lib/validation/language"
 
 interface StaticShareProps extends React.HTMLAttributes<HTMLDivElement> {
   title: string

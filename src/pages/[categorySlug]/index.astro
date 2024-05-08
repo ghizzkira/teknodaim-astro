@@ -1,48 +1,60 @@
 ---
-import Category from "@/components/Template/Category.astro"
 
+import Category from "@/components/Template/Category.astro"
+ 
 import MainLayout from "@/layouts/MainLayout.astro"
 import { getWpPopularPosts } from "@/lib/action/wp-popular-post"
 import { LANGUAGE_TYPE } from "@/lib/validation/language"
-import { wpGetCategoryBySlugAction } from "@/lib/wp/action/wp-category"
-import { wpGetPostsByCategoryIdAction } from "@/lib/wp/action/wp-post"
+ import {
+   wpGetCategoryBySlugAction,
+} from "@/lib/wp/action/wp-category"
+import {
+   wpGetPostsByCategoryIdAction,
+} from "@/lib/wp/action/wp-post"
 import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
 
+ 
 const DB = Astro.locals.runtime.env.DB
 const { categorySlug } = Astro.params
 
-Astro.locals.cache(60)
+ 
+Astro.locals.cache(60);
+
+
 
 export const prerender = false
 const { category: main_category, other_lang_category } =
   await wpGetCategoryBySlugAction(categorySlug as unknown as string)
 
+ 
 if (!main_category && !other_lang_category) {
-  return Astro.redirect("/404")
+  return Astro.redirect('/404');
 }
-let category
+let category 
+
+
 
 if (
-  main_category &&
-  categorySlug === main_category.slug &&
-  main_category.language.slug.toLocaleLowerCase() === "id"
-) {
-  category = main_category
-} else if (
-  other_lang_category &&
-  categorySlug === other_lang_category.slug &&
-  other_lang_category.language.slug.toLocaleLowerCase() === "id"
-) {
-  category = other_lang_category
-} else if (
-  main_category &&
-  categorySlug === main_category.slug &&
-  main_category.language.slug.toLocaleLowerCase() !== "id"
-) {
-  if (other_lang_category) {
-    return Astro.redirect(`/${other_lang_category.slug}`)
-  }
-}
+    main_category &&
+    categorySlug === main_category.slug &&
+    main_category.language.slug.toLocaleLowerCase() === "id"
+  ) {
+    category = main_category
+  } else if (
+    other_lang_category &&
+    categorySlug === other_lang_category.slug &&
+    other_lang_category.language.slug.toLocaleLowerCase() === "id"
+  ) {
+    category = other_lang_category
+  } else if (
+    main_category &&
+    categorySlug === main_category.slug &&
+    main_category.language.slug.toLocaleLowerCase() !== "id"
+  ) {
+    if (other_lang_category) {
+      return Astro.redirect(`/${other_lang_category.slug}`)
+    }
+  } 
 
 if (!category) {
   return Astro.redirect("/")
@@ -110,56 +122,49 @@ const { posts, pageInfo } = await wpGetPostsByCategoryIdAction(
 //   })
 
 interface AlternateLink {
-  href: string
-  hrefLang: string
+  href: string;
+  hrefLang: string;
 }
 
-const langlist = [main_category, other_lang_category]
-const alternatesList: AlternateLink[] = langlist.reduce(
-  (acc: AlternateLink[], list) => {
-    if (list?.language?.slug.toLocaleLowerCase() === "en") {
-      acc.push({
-        href: `${import.meta.env.PUBLIC_SITE_URL}/en/${list?.slug}`,
-        hrefLang: list.language.slug,
-      })
-    }
-    return acc
-  },
-  [],
-)
+const langlist = [main_category, other_lang_category];
+ const alternatesList: AlternateLink[] = langlist.reduce((acc: AlternateLink[], list) => {
+  if (list?.language?.slug.toLocaleLowerCase() ==="en") {
+    acc.push({
+      href: `${import.meta.env.PUBLIC_SITE_URL}/en/${list?.slug}`,
+      hrefLang: list.language.slug,
+    });
+  }
+  return acc;
+}, []);
 ---
 
-<MainLayout
-  locale="id"
-  seo={{
-    title: category?.name,
-    description: category?.description,
-    languageAlternates: alternatesList,
-    canonical: `${import.meta.env.PUBLIC_SITE_URL}/${category?.slug}`,
-    openGraph: {
-      basic: {
-        title: category?.name!,
-        url: `${import.meta.env.PUBLIC_SITE_URL}/${category?.slug}`,
-        type: "article",
-        image: "",
-      },
-      optional: {
-        description: category?.description,
-        locale: "id",
-      },
+<MainLayout 
+locale="id"
+seo={{
+  title: category?.name,
+  description: category?.description,
+  languageAlternates:alternatesList,
+  canonical: `${import.meta.env.PUBLIC_SITE_URL}/${category?.slug}`,
+  openGraph: {
+    basic: {
+      title: category?.name!,
+      url: `${import.meta.env.PUBLIC_SITE_URL}/${category?.slug}`,
+      type: "article",
+      image: "",
     },
-  }}
->
+    optional: {
+      description: category?.description,
+      locale: "id",
+    },
+  },
+}}>
   {
     categoryJsonLd && (
-      <script type="application/ld+json" set:html={categoryJsonLd} />
-    )
+    <script
+        type="application/ld+json"
+        set:html={categoryJsonLd}
+      ></script>
+     )
   }
-  <Category
-    posts={posts}
-    pageInfo={pageInfo}
-    category={category}
-    locale="id"
-    trendingPosts={trendingPosts}
-  />
+  <Category posts={posts} pageInfo={pageInfo} category={category} locale="id" trendingPosts={trendingPosts} />
 </MainLayout>

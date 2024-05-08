@@ -2,8 +2,6 @@ import * as React from "react"
 
 import Link from "@/components/Link"
 
-import Link from "@/components/Link"
-
 interface SidebarToggleItemProps {
   children?: React.ReactNode
   href: string

@@ -1,20 +1,12 @@
-import { medias } from "./media"
-import { topics } from "./topic"
-import { users } from "./user"
-import { videoEmbedComments } from "./video-embed-comment"
-import { STATUS_TYPE } from "@/lib/validation/status"
-import { VIDEO_EMBED_TYPE } from "@/lib/validation/video-embed"
 import { relations, sql } from "drizzle-orm"
 import { primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core"
 
+import { STATUS_TYPE } from "@/lib/validation/status"
+import { VIDEO_EMBED_TYPE } from "@/lib/validation/video-embed"
 import { medias } from "./media"
 import { topics } from "./topic"
 import { users } from "./user"
 import { videoEmbedComments } from "./video-embed-comment"
-import { STATUS_TYPE } from "@/lib/validation/status"
-import { VIDEO_EMBED_TYPE } from "@/lib/validation/video-embed"
-import { relations, sql } from "drizzle-orm"
-import { primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core"
 
 export const videoEmbeds = sqliteTable("video_embeds", {
   id: text("id").primaryKey(),

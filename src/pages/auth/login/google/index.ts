@@ -1,10 +1,7 @@
 import type { APIContext } from "astro"
-
-import { googleOAuth } from "@/lib/auth"
 import { generateCodeVerifier, generateState } from "arctic"
 
 import { googleOAuth } from "@/lib/auth"
-import { generateCodeVerifier, generateState } from "arctic"
 
 export async function GET(context: APIContext): Promise<Response> {
   const state = generateState()

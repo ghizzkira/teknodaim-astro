@@ -1,34 +1,12 @@
-import { initializeDB } from "@/lib/db"
-import {
-  downloadAuthors,
-  downloadDownloadFiles,
-  downloadTopics,
-  downloadTranslations,
-  downloads,
-} from "@/lib/db/schema/download"
-import { downloadFiles } from "@/lib/db/schema/download-file"
-import { medias } from "@/lib/db/schema/media"
-import { topics } from "@/lib/db/schema/topic"
-import { users } from "@/lib/db/schema/user"
-import { trimText } from "@/lib/utils/content"
-import { cuid, uniqueCharacter } from "@/lib/utils/id"
-import { slugify } from "@/lib/utils/slug"
-import type {
-  CreateDownload,
-  DownloadType,
-  TranslateDownload,
-  UpdateDownload,
-} from "@/lib/validation/download"
-import type { LanguageType } from "@/lib/validation/language"
 import { and, count, desc, eq, sql } from "drizzle-orm"
 
 import { initializeDB } from "@/lib/db"
 import {
   downloadAuthors,
   downloadDownloadFiles,
+  downloads,
   downloadTopics,
   downloadTranslations,
-  downloads,
 } from "@/lib/db/schema/download"
 import { downloadFiles } from "@/lib/db/schema/download-file"
 import { medias } from "@/lib/db/schema/media"
@@ -44,7 +22,6 @@ import type {
   UpdateDownload,
 } from "@/lib/validation/download"
 import type { LanguageType } from "@/lib/validation/language"
-import { and, count, desc, eq, sql } from "drizzle-orm"
 
 export const getDownloadTranslationById = async (
   DB: D1Database,

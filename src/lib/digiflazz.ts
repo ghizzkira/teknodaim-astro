@@ -1,7 +1,5 @@
 import createDigiflazzConfig from "digiflazz-sdk"
 
-import createDigiflazzConfig from "digiflazz-sdk"
-
 export const digiflazz = createDigiflazzConfig({
   username: import.meta.env.DIGIFLAZZ_USERNAME!,
   key:

@@ -1,7 +1,5 @@
 import { resizeImage } from "@/lib/utils/image/resize"
 
-import { resizeImage } from "@/lib/utils/image/resize"
-
 export async function uploadMultipleMediaAction(datas: Blob[]) {
   const formData = new FormData()
   for (const file of datas) {

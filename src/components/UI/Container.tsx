@@ -2,8 +2,6 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils/style"
 
-import { cn } from "@/lib/utils/style"
-
 export interface ContainerProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export const Container: React.FunctionComponent<ContainerProps> = (props) => {

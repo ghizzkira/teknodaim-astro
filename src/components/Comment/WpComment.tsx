@@ -1,7 +1,6 @@
 import * as React from "react"
+import { useForm, type SubmitHandler } from "react-hook-form"
 
-import EditWPComment from "./EditWpComment"
-import ReplyWpComment from "./ReplyWpComment"
 import { AlertDelete } from "@/components/AlertDelete"
 import Image from "@/components/Image"
 import Link from "@/components/Link"
@@ -23,32 +22,8 @@ import {
 } from "@/hooks/useWpComments"
 import { formatDateFromNow } from "@/lib/utils/date"
 import type { LanguageType } from "@/lib/validation/language"
-import { type SubmitHandler, useForm } from "react-hook-form"
-
 import EditWPComment from "./EditWpComment"
 import ReplyWpComment from "./ReplyWpComment"
-import { AlertDelete } from "@/components/AlertDelete"
-import Image from "@/components/Image"
-import Link from "@/components/Link"
-import { Button } from "@/components/UI/Button"
-import { Icon } from "@/components/UI/Icon"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/UI/Popover"
-import { Textarea } from "@/components/UI/Textarea"
-import { toast } from "@/components/UI/Toast/useToast"
-import { useSession } from "@/hooks/useSession"
-import {
-  useGetWpCommentByWpSlugInfinite,
-  useGetWpCommentCountByWpSlug,
-  useWpCreateComment,
-  useWpDeleteComment,
-} from "@/hooks/useWpComments"
-import { formatDateFromNow } from "@/lib/utils/date"
-import type { LanguageType } from "@/lib/validation/language"
-import { type SubmitHandler, useForm } from "react-hook-form"
 
 interface WpCommentFormProps {
   wp_post_slug: string

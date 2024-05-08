@@ -2,8 +2,6 @@ import * as React from "react"
 
 import { Skeleton } from "@/components/UI/Skeleton"
 
-import { Skeleton } from "@/components/UI/Skeleton"
-
 interface PlaceholderContainerProps {
   children: React.ReactNode
 }

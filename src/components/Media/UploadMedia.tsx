@@ -1,20 +1,12 @@
 import * as React from "react"
+import { useForm } from "react-hook-form"
 
-import { uploadMultipleMediaAction } from "./action"
 import { Button } from "@/components/UI/Button"
 import { DropZone } from "@/components/UI/DropZone"
 import { Form } from "@/components/UI/Form"
 import { toast } from "@/components/UI/Toast/useToast"
 import { cn } from "@/lib/utils/style"
-import { useForm } from "react-hook-form"
-
 import { uploadMultipleMediaAction } from "./action"
-import { Button } from "@/components/UI/Button"
-import { DropZone } from "@/components/UI/DropZone"
-import { Form } from "@/components/UI/Form"
-import { toast } from "@/components/UI/Toast/useToast"
-import { cn } from "@/lib/utils/style"
-import { useForm } from "react-hook-form"
 
 interface FormValues {
   files: FileList

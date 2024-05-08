@@ -1,10 +1,7 @@
 import type { APIRoute } from "astro"
-
-import { getArticleCommentsByArticleId } from "@/lib/action/article-comment"
 import { z } from "zod"
 
 import { getArticleCommentsByArticleId } from "@/lib/action/article-comment"
-import { z } from "zod"
 
 const inputSchema = z.object({
   articleId: z.string(),

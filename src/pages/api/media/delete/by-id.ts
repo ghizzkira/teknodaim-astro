@@ -1,10 +1,7 @@
 import type { APIContext, APIRoute } from "astro"
-
-import { deleteMediaById } from "@/lib/action/media"
 import { z } from "zod"
 
 import { deleteMediaById } from "@/lib/action/media"
-import { z } from "zod"
 
 export const DELETE: APIRoute = async (context: APIContext) => {
   try {

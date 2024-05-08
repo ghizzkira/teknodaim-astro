@@ -1,12 +1,8 @@
 import type { APIRoute } from "astro"
-
-import { searchTopicsDashboard } from "@/lib/action/topic"
-import { languageType } from "@/lib/validation/language"
 import { z } from "zod"
 
 import { searchTopicsDashboard } from "@/lib/action/topic"
 import { languageType } from "@/lib/validation/language"
-import { z } from "zod"
 
 export const GET: APIRoute = async ({ locals, params, request }) => {
   try {

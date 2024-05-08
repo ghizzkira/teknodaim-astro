@@ -1,15 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from "react"
 
+import { cn, getValidChildren } from "@/lib/utils/style"
 import { Input, type InputElementSizes } from "./Input"
 import { InputLeftAddon, InputRightAddon } from "./InputAddon"
 import { InputLeftElement, InputRightElement } from "./InputElement"
-import { cn, getValidChildren } from "@/lib/utils/style"
-
-import { Input, type InputElementSizes } from "./Input"
-import { InputLeftAddon, InputRightAddon } from "./InputAddon"
-import { InputLeftElement, InputRightElement } from "./InputElement"
-import { cn, getValidChildren } from "@/lib/utils/style"
 
 export interface InputGroupProps extends React.HTMLAttributes<HTMLDivElement> {
   size?: InputElementSizes

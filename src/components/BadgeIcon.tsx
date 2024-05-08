@@ -1,12 +1,8 @@
 import * as React from "react"
 
-import Link from "./Link"
 import { Icon } from "@/components/UI/Icon"
 import type { LanguageType } from "@/lib/validation/language"
-
 import Link from "./Link"
-import { Icon } from "@/components/UI/Icon"
-import type { LanguageType } from "@/lib/validation/language"
 
 interface BadgeIconProps extends React.HTMLAttributes<HTMLDivElement> {
   name: string

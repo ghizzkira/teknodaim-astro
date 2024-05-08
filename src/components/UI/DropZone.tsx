@@ -3,9 +3,6 @@ import * as React from "react"
 import { Icon } from "@/components/UI/Icon"
 import { cn } from "@/lib/utils/style"
 
-import { Icon } from "@/components/UI/Icon"
-import { cn } from "@/lib/utils/style"
-
 export interface DropZoneProps extends React.HTMLAttributes<HTMLDivElement> {
   placeholder?: string
   description?: string

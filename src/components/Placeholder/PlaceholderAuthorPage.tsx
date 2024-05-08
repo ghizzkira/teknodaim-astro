@@ -1,8 +1,5 @@
-import PlaceholderPostCard from "./PlaceholderPostCard"
 import { Skeleton } from "@/components/UI/Skeleton"
-
 import PlaceholderPostCard from "./PlaceholderPostCard"
-import { Skeleton } from "@/components/UI/Skeleton"
 
 const PlaceholderAuthorPage: React.FunctionComponent = () => {
   return (

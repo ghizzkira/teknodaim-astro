@@ -1,10 +1,7 @@
 import type { APIRoute } from "astro"
-
-import { searchUsers } from "@/lib/action/user"
 import { z } from "zod"
 
 import { searchUsers } from "@/lib/action/user"
-import { z } from "zod"
 
 export const GET: APIRoute = async ({ locals, request }) => {
   try {

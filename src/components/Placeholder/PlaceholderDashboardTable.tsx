@@ -1,7 +1,5 @@
 import { Skeleton } from "@/components/UI/Skeleton"
 
-import { Skeleton } from "@/components/UI/Skeleton"
-
 const PlaceholderDashboardTable: React.FunctionComponent = () => {
   return (
     <div className="w-full px-4 pt-10">

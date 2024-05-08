@@ -1,10 +1,7 @@
 import type { APIContext, APIRoute } from "astro"
-
-import { deleteUser } from "@/lib/action/user"
 import { z } from "zod"
 
 import { deleteUser } from "@/lib/action/user"
-import { z } from "zod"
 
 export const DELETE: APIRoute = async (context: APIContext) => {
   try {

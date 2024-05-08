@@ -1,12 +1,8 @@
 import type { APIContext, APIRoute } from "astro"
-
-import { createArticleComment } from "@/lib/action/article-comment"
-import { createArticleCommentSchema } from "@/lib/validation/article-comment"
 import { z } from "zod"
 
 import { createArticleComment } from "@/lib/action/article-comment"
 import { createArticleCommentSchema } from "@/lib/validation/article-comment"
-import { z } from "zod"
 
 export const POST: APIRoute = async (context: APIContext) => {
   try {

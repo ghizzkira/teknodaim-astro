@@ -7,13 +7,6 @@ import { Icon } from "@/components/UI/Icon"
 import UserMenu from "@/components/User/UserMenu"
 import type { LanguageType } from "@/lib/validation/language"
 
-import Image from "@/components/Image"
-import Link from "@/components/Link"
-import { Button } from "@/components/UI/Button"
-import { Icon } from "@/components/UI/Icon"
-import UserMenu from "@/components/User/UserMenu"
-import type { LanguageType } from "@/lib/validation/language"
-
 interface DashboardTopNavProps extends React.HTMLAttributes<HTMLDivElement> {
   toggleSideNav?: () => void
   locale: LanguageType

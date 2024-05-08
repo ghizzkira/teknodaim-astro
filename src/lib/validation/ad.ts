@@ -1,7 +1,5 @@
 import { z } from "zod"
 
-import { z } from "zod"
-
 export const AD_POSITION = [
   "home_below_header",
   "article_below_header",

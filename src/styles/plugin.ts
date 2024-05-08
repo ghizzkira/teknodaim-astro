@@ -1,7 +1,5 @@
 import plugin from "tailwindcss/plugin"
 
-import plugin from "tailwindcss/plugin"
-
 export const stylePlugin = plugin(
   function ({ addBase }) {
     addBase({

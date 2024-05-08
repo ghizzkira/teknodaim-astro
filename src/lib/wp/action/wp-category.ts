@@ -1,26 +1,14 @@
-import { wpHttp } from "./http"
-import type {
-  WpCategoriesDataProps,
-  WpCategoriesEdgesDataProps,
-} from "./wp-types"
 import {
   QUERY_WP_ALL_CATEGORIES,
   QUERY_WP_ALL_CATEGORIES_SITEMAP,
   QUERY_WP_CATEGORY_BY_SLUG,
   QUERY_WP_SEARCH_CATEGORIES,
 } from "@/lib/wp/data/wp-category"
-
 import { wpHttp } from "./http"
 import type {
   WpCategoriesDataProps,
   WpCategoriesEdgesDataProps,
 } from "./wp-types"
-import {
-  QUERY_WP_ALL_CATEGORIES,
-  QUERY_WP_ALL_CATEGORIES_SITEMAP,
-  QUERY_WP_CATEGORY_BY_SLUG,
-  QUERY_WP_SEARCH_CATEGORIES,
-} from "@/lib/wp/data/wp-category"
 
 export async function wpGetAllCategoriesAction() {
   const [res, err] = await wpHttp<{

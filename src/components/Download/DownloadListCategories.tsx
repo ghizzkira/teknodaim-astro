@@ -1,10 +1,4 @@
 import * as React from "react"
-
-import Image from "@/components/Image"
-import Link from "@/components/Link"
-import { Button } from "@/components/UI/Button"
-import { Icon } from "@/components/UI/Icon"
-import type { LanguageType } from "@/lib/validation/language"
 import type { Media as MediaProps, Topic as TopicProps } from "@prisma/client"
 
 import Image from "@/components/Image"
@@ -12,7 +6,6 @@ import Link from "@/components/Link"
 import { Button } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
 import type { LanguageType } from "@/lib/validation/language"
-import type { Media as MediaProps, Topic as TopicProps } from "@prisma/client"
 
 type TopicDataProps = Partial<TopicProps> & {
   featured_image: Pick<MediaProps, "url"> | null

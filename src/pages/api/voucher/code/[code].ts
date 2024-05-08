@@ -1,10 +1,7 @@
 import type { APIRoute } from "astro"
-
-import { getVoucherByCode } from "@/lib/action/voucher"
 import { z } from "zod"
 
 import { getVoucherByCode } from "@/lib/action/voucher"
-import { z } from "zod"
 
 export const GET: APIRoute = async ({ locals, params }) => {
   try {

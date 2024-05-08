@@ -6,12 +6,6 @@ import { type SelectArticle as ArticleProps } from "@/lib/db/schema/article"
 import { type SelectMedia as MediaProps } from "@/lib/db/schema/media"
 import type { LanguageType } from "@/lib/validation/language"
 
-import Image from "@/components/Image"
-import Link from "@/components/Link"
-import { type SelectArticle as ArticleProps } from "@/lib/db/schema/article"
-import { type SelectMedia as MediaProps } from "@/lib/db/schema/media"
-import type { LanguageType } from "@/lib/validation/language"
-
 export interface ArticleCardFeaturedProps {
   article: Pick<ArticleProps, "title" | "slug"> & {
     featured_image?: Pick<MediaProps, "url">

@@ -1,9 +1,5 @@
 import * as React from "react"
 
-import WpPostBody from "./WpPostBody"
-import WpPostInfo from "./WpPostInfo"
-import WpPostView from "./WpPostView"
-import WpPostViewCounter from "./WpPostViewCounter"
 import BadgeIcon from "@/components/BadgeIcon"
 import Image from "@/components/Image"
 import Link from "@/components/Link"
@@ -13,7 +9,9 @@ import StaticShare from "@/components/Share/StaticShare"
 import { Button } from "@/components/UI/Button"
 // import { ButtonGroup } from "@/components/UI/ButtonGroup"
 import { Skeleton } from "@/components/UI/Skeleton"
+
 import "@/lib/internationalization/route"
+
 import { cn } from "@/lib/utils/style"
 import type { LanguageType } from "@/lib/validation/language"
 import type {
@@ -26,30 +24,10 @@ import {
   wpPrimaryCategorySlug,
   wpTagPathBySlug,
 } from "@/lib/wp/helper"
-
 import WpPostBody from "./WpPostBody"
 import WpPostInfo from "./WpPostInfo"
 import WpPostView from "./WpPostView"
 import WpPostViewCounter from "./WpPostViewCounter"
-import BadgeIcon from "@/components/BadgeIcon"
-import Image from "@/components/Image"
-import Link from "@/components/Link"
-import StaticShare from "@/components/Share/StaticShare"
-import { Button } from "@/components/UI/Button"
-import { Skeleton } from "@/components/UI/Skeleton"
-import "@/lib/internationalization/route"
-import { cn } from "@/lib/utils/style"
-import type { LanguageType } from "@/lib/validation/language"
-import type {
-  WpCategoriesDataProps,
-  WpSinglePostDataProps,
-  WpTagsDataProps,
-} from "@/lib/wp/action/wp-types"
-import {
-  splitUriWP,
-  wpPrimaryCategorySlug,
-  wpTagPathBySlug,
-} from "@/lib/wp/helper"
 
 // import WpPostViewCounter from "./WpPostViewCounter"
 

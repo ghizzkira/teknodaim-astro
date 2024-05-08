@@ -1,10 +1,7 @@
 import type { APIRoute } from "astro"
-
-import { getSettingByKey } from "@/lib/action/setting"
 import { z } from "zod"
 
 import { getSettingByKey } from "@/lib/action/setting"
-import { z } from "zod"
 
 export const GET: APIRoute = async ({ locals, params }) => {
   try {

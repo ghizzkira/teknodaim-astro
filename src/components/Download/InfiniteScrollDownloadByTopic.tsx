@@ -1,12 +1,8 @@
 import * as React from "react"
 
-import DownloadCard from "./DownloadCard"
 import { Button } from "@/components/UI/Button"
 import { api } from "@/lib/trpc/react"
-
 import DownloadCard from "./DownloadCard"
-import { Button } from "@/components/UI/Button"
-import { api } from "@/lib/trpc/react"
 
 interface InfiniteScrollDownloadByTopicProps
   extends React.HTMLAttributes<HTMLDivElement> {

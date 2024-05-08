@@ -1,17 +1,11 @@
 import * as React from "react"
 
-import ArticleCardHorizontal from "./article-card-horizontal"
-import ArticleCardVertical from "./article-card-vertical"
 import LoadingProgress from "@/components/LoadingProgress"
 import PlaceholderPostCard from "@/components/Placeholder/PlaceholderPostCard"
 // import { api } from "@/lib/trpc/react"
 import type { LanguageType } from "@/lib/validation/language"
-
 import ArticleCardHorizontal from "./article-card-horizontal"
 import ArticleCardVertical from "./article-card-vertical"
-import LoadingProgress from "@/components/LoadingProgress"
-import PlaceholderPostCard from "@/components/Placeholder/PlaceholderPostCard"
-import type { LanguageType } from "@/lib/validation/language"
 
 interface InfiniteScrollArticleProps
   extends React.HTMLAttributes<HTMLDivElement> {

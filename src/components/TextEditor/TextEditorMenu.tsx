@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
 import * as React from "react"
+import { BubbleMenu } from "@tiptap/react"
 
-import { TextEditorColorSelector } from "./TextEditorColorSelector"
 import { Button } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
 import {
@@ -10,18 +11,7 @@ import {
   PopoverTrigger,
 } from "@/components/UI/Popover"
 import { ScrollArea } from "@/components/UI/ScrollArea"
-import { BubbleMenu } from "@tiptap/react"
-
 import { TextEditorColorSelector } from "./TextEditorColorSelector"
-import { Button } from "@/components/UI/Button"
-import { Icon } from "@/components/UI/Icon"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/UI/Popover"
-import { ScrollArea } from "@/components/UI/ScrollArea"
-import { BubbleMenu } from "@tiptap/react"
 
 export function TextEditorMenu(props: any) {
   const { editor } = props

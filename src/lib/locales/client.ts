@@ -1,7 +1,5 @@
 import { defaultLang, translations } from "./translations"
 
-import { defaultLang, translations } from "./translations"
-
 export function getLangFromUrl(url: URL) {
   const [, lang] = url.pathname.split("/")
   if (lang in translations) return lang as keyof typeof translations

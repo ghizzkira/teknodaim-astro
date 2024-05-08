@@ -1,24 +1,14 @@
-import { downloadComments } from "./download-comment"
-import { downloadFiles } from "./download-file"
-import { medias } from "./media"
-import { topics } from "./topic"
-import { users } from "./user"
-import { DOWNLOAD_SCHEMA_JSON, DOWNLOAD_TYPE } from "@/lib/validation/download"
-import { LANGUAGE_TYPE } from "@/lib/validation/language"
-import { STATUS_TYPE } from "@/lib/validation/status"
 import { relations, sql } from "drizzle-orm"
 import { primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core"
 
+import { DOWNLOAD_SCHEMA_JSON, DOWNLOAD_TYPE } from "@/lib/validation/download"
+import { LANGUAGE_TYPE } from "@/lib/validation/language"
+import { STATUS_TYPE } from "@/lib/validation/status"
 import { downloadComments } from "./download-comment"
 import { downloadFiles } from "./download-file"
 import { medias } from "./media"
 import { topics } from "./topic"
 import { users } from "./user"
-import { DOWNLOAD_SCHEMA_JSON, DOWNLOAD_TYPE } from "@/lib/validation/download"
-import { LANGUAGE_TYPE } from "@/lib/validation/language"
-import { STATUS_TYPE } from "@/lib/validation/status"
-import { relations, sql } from "drizzle-orm"
-import { primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core"
 
 export const downloadTranslations = sqliteTable("download_translations", {
   id: text("id").primaryKey(),

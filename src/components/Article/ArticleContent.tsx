@@ -11,17 +11,6 @@ import { type SelectArticle as ArticleProps } from "@/lib/db/schema/article"
 import { cn } from "@/lib/utils/style"
 import type { LanguageType } from "@/lib/validation/language"
 
-import Ad from "@/components/Ad"
-import Image from "@/components/Image"
-import Link from "@/components/Link"
-import StaticShare from "@/components/Share/StaticShare"
-import { Button } from "@/components/UI/Button"
-import { ButtonGroup } from "@/components/UI/ButtonGroup"
-import { type SelectAd as AdProps } from "@/lib/db/schema/ad"
-import { type SelectArticle as ArticleProps } from "@/lib/db/schema/article"
-import { cn } from "@/lib/utils/style"
-import type { LanguageType } from "@/lib/validation/language"
-
 interface ArticleContentProps {
   postData: {
     id: string

@@ -1,12 +1,8 @@
 import type { APIContext, APIRoute } from "astro"
-
-import { getWpCommentById, updateWpComment } from "@/lib/action/wp-comment"
-import { updateWpCommentSchema } from "@/lib/validation/wp-comment"
 import { z } from "zod"
 
 import { getWpCommentById, updateWpComment } from "@/lib/action/wp-comment"
 import { updateWpCommentSchema } from "@/lib/validation/wp-comment"
-import { z } from "zod"
 
 export const PUT: APIRoute = async (context: APIContext) => {
   try {

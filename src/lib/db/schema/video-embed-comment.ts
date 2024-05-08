@@ -1,12 +1,8 @@
-import { users } from "./user"
-import { videoEmbeds } from "./video-embed"
 import { relations, sql } from "drizzle-orm"
 import { sqliteTable, text } from "drizzle-orm/sqlite-core"
 
 import { users } from "./user"
 import { videoEmbeds } from "./video-embed"
-import { relations, sql } from "drizzle-orm"
-import { sqliteTable, text } from "drizzle-orm/sqlite-core"
 
 export const videoEmbedComments = sqliteTable("video_embed_comments", {
   id: text("id").primaryKey(),

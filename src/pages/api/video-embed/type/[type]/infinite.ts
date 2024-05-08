@@ -1,12 +1,8 @@
 import type { APIRoute } from "astro"
-
-import { getVideoEmbedsByTypeInfinite } from "@/lib/action/video-embed"
-import { videoEmbedType } from "@/lib/validation/video-embed"
 import { z } from "zod"
 
 import { getVideoEmbedsByTypeInfinite } from "@/lib/action/video-embed"
 import { videoEmbedType } from "@/lib/validation/video-embed"
-import { z } from "zod"
 
 const inputSchema = z.object({
   type: videoEmbedType,

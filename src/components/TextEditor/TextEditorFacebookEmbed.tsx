@@ -1,8 +1,4 @@
-import { Node, type Editor as TextEditor, mergeAttributes } from "@tiptap/core"
-import { NodeViewWrapper, ReactNodeViewRenderer } from "@tiptap/react"
-import { FacebookEmbed } from "react-social-media-embed"
-
-import { Node, type Editor as TextEditor, mergeAttributes } from "@tiptap/core"
+import { mergeAttributes, Node, type Editor as TextEditor } from "@tiptap/core"
 import { NodeViewWrapper, ReactNodeViewRenderer } from "@tiptap/react"
 import { FacebookEmbed } from "react-social-media-embed"
 

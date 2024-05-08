@@ -5,11 +5,6 @@ import { ShareButtonFacebook } from "./ShareButtonFacebook"
 import { ShareButtonTwitter } from "./ShareButtonTwitter"
 import { ShareButtonWhatsApp } from "./ShareButtonWhatsapp"
 
-import { ShareButtonEmail } from "./ShareButtonEmail"
-import { ShareButtonFacebook } from "./ShareButtonFacebook"
-import { ShareButtonTwitter } from "./ShareButtonTwitter"
-import { ShareButtonWhatsApp } from "./ShareButtonWhatsapp"
-
 interface ShareButtonArticleProps {
   url: string
   text?: string

@@ -2,8 +2,6 @@ import type { APIContext } from "astro"
 
 import { initializeAuth } from "@/lib/auth"
 
-import { initializeAuth } from "@/lib/auth"
-
 export async function POST(context: APIContext): Promise<Response> {
   const DB = context.locals.runtime.env.DB
   const auth = initializeAuth(DB)

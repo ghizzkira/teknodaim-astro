@@ -1,9 +1,6 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-import type { APIRoute } from "astro"
 
-import { wpGetPostsSitemapAction } from "@/lib/wp/action/wp-post"
-import type { WpMapPostDataProps } from "@/lib/wp/action/wp-types"
-import { splitUriWP } from "@/lib/wp/helper"
+import type { APIRoute } from "astro"
 
 import { wpGetPostsSitemapAction } from "@/lib/wp/action/wp-post"
 import type { WpMapPostDataProps } from "@/lib/wp/action/wp-types"

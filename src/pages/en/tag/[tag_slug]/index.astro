@@ -1,25 +1,32 @@
 ---
 import Tag from "@/components/Template/Tag.astro"
-
+ 
 import MainLayout from "@/layouts/MainLayout.astro"
 import { getWpPopularPosts } from "@/lib/action/wp-popular-post"
-import { wpGetPostsByTagIdAction } from "@/lib/wp/action/wp-post"
-import { wpGetTagBySlugAction } from "@/lib/wp/action/wp-tag"
-
+ import { wpGetPostsByTagIdAction } from "@/lib/wp/action/wp-post"
+import {
+   wpGetTagBySlugAction,
+} from "@/lib/wp/action/wp-tag"
+ 
+ 
 export const prerender = false
 
-Astro.locals.cache(60)
+Astro.locals.cache(60);
 
 const DB = Astro.locals.runtime.env.DB
 const { tag_slug } = Astro.params
 
+ 
+
+ 
+
 const { tag: main_tag, other_lang_tag } = await wpGetTagBySlugAction(tag_slug)
 
 if (!main_tag && !other_lang_tag) {
-  return Astro.redirect("/404")
+  return Astro.redirect('/404');
 }
 
-let tag
+let tag 
 
 // if (locale === "id") {
 //   if (
@@ -41,34 +48,34 @@ let tag
 //   ) {
 //     if (other_lang_tag)
 //       Astro.redirect(`/id/tag/${other_lang_tag?.slug}`)
-//   }
+//   } 
 // } else if (locale === "en") {
-
+ 
 // }
 
 if (
-  main_tag &&
-  tag_slug === main_tag.slug &&
-  main_tag.language.slug.toLocaleLowerCase() === "en"
-) {
-  tag = main_tag
-} else if (
-  other_lang_tag &&
-  tag_slug === other_lang_tag.slug &&
-  other_lang_tag.language.slug.toLocaleLowerCase() === "en"
-) {
-  tag = other_lang_tag
-} else if (
-  main_tag &&
-  tag_slug === main_tag.slug &&
-  main_tag.language.slug.toLocaleLowerCase() !== "en"
-) {
-  if (other_lang_tag) {
-    Astro.redirect(`/en/tag/${other_lang_tag.slug}`)
-  }
-}
+    main_tag &&
+    tag_slug === main_tag.slug &&
+    main_tag.language.slug.toLocaleLowerCase() === "en"
+  ) {
+    tag = main_tag
+  } else if (
+    other_lang_tag &&
+    tag_slug === other_lang_tag.slug &&
+    other_lang_tag.language.slug.toLocaleLowerCase() === "en"
+  ) {
+    tag = other_lang_tag
+  } else if (
+    main_tag &&
+    tag_slug === main_tag.slug &&
+    main_tag.language.slug.toLocaleLowerCase() !== "en"
+  ) {
+    if (other_lang_tag) {
+      Astro.redirect(`/en/tag/${other_lang_tag.slug}`)
+    }
+  } 
 
-if (!tag) {
+if (!tag){
   return Astro.redirect("/")
 }
 const postJsonLdString = tag?.seo?.schema?.raw
@@ -86,7 +93,7 @@ const trendingPosts = await getWpPopularPosts(DB, {
   page: 1,
   perPage: 10,
 })
-
+ 
 // const adsBelowHeader = await api.ad.byPosition("topic_below_header")
 // const hidePostsData = await api.setting.byKey("filter_post")
 
@@ -106,55 +113,48 @@ const trendingPosts = await getWpPopularPosts(DB, {
 //     locale === "id" ? parsedData?.categories?.id : parsedData?.categories?.en
 // }
 interface AlternateLink {
-  href: string
-  hrefLang: string
+  href: string;
+  hrefLang: string;
 }
 
-const langlist = [main_tag, other_lang_tag]
-const alternatesList: AlternateLink[] = langlist.reduce(
-  (acc: AlternateLink[], list) => {
-    if (list?.language?.slug.toLocaleLowerCase() === "id") {
-      acc.push({
-        href: `${import.meta.env.PUBLIC_SITE_URL}/tag/${list?.slug}`,
-        hrefLang: list.language.slug,
-      })
-    }
-    return acc
-  },
-  [],
-)
+const langlist = [main_tag, other_lang_tag];
+ const alternatesList: AlternateLink[] = langlist.reduce((acc: AlternateLink[], list) => {
+  if (list?.language?.slug.toLocaleLowerCase() ==="id") {
+    acc.push({
+      href: `${import.meta.env.PUBLIC_SITE_URL}/tag/${list?.slug}`,
+      hrefLang: list.language.slug,
+    });
+  }
+  return acc;
+}, []);
 ---
 
-<MainLayout
-  locale={"en"}
-  seo={{
-    title: tag?.name,
+<MainLayout locale={"en"}  seo={{
+  title: tag?.name,
     description: tag?.description,
-    languageAlternates: alternatesList,
-    canonical: `${import.meta.env.PUBLIC_SITE_URL}/tag/${tag?.slug}`,
-    openGraph: {
-      basic: {
-        title: tag?.name,
-        url: `${import.meta.env.PUBLIC_SITE_URL}/tag/${tag?.slug}`,
-        type: "article",
-        image: "",
-      },
-      optional: {
-        description: tag?.description,
-        locale: "en",
-      },
+  languageAlternates: alternatesList,
+  canonical: `${import.meta.env.PUBLIC_SITE_URL}/tag/${tag?.slug}`,
+  openGraph: {
+    basic: {
+      title: tag?.name,
+      url:  `${import.meta.env.PUBLIC_SITE_URL}/tag/${tag?.slug}`,
+      type: "article",
+      image: "",
     },
-  }}
+    optional: {
+      description: tag?.description,
+      locale: "en",
+    },
+  },
+}}
 >
-  {
-    postJsonLd && (
-      <script type="application/ld+json" set:html={postJsonLdString} />
-    )
-  }
-  <Tag
-    posts={posts}
-    pageInfo={pageInfo}
-    locale="en"
-    trendingPosts={trendingPosts}
-  />
+{
+  postJsonLd && (
+  <script
+      type="application/ld+json"
+      set:html={postJsonLdString}
+    ></script>
+   )
+}
+<Tag posts={posts} pageInfo={pageInfo}   locale="en" trendingPosts={trendingPosts} />
 </MainLayout>

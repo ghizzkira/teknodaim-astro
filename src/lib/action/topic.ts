@@ -1,21 +1,8 @@
-import { initializeDB } from "@/lib/db"
-import { articleTopics } from "@/lib/db/schema/article"
-import { topicTranslations, topics } from "@/lib/db/schema/topic"
-import { cuid, uniqueCharacter } from "@/lib/utils/id"
-import { slugify } from "@/lib/utils/slug"
-import type { LanguageType } from "@/lib/validation/language"
-import type {
-  CreateTopic,
-  TopicType,
-  TopicVisibility,
-  TranslateTopic,
-  UpdateTopic,
-} from "@/lib/validation/topic"
 import { and, count, desc, eq, sql } from "drizzle-orm"
 
 import { initializeDB } from "@/lib/db"
 import { articleTopics } from "@/lib/db/schema/article"
-import { topicTranslations, topics } from "@/lib/db/schema/topic"
+import { topics, topicTranslations } from "@/lib/db/schema/topic"
 import { cuid, uniqueCharacter } from "@/lib/utils/id"
 import { slugify } from "@/lib/utils/slug"
 import type { LanguageType } from "@/lib/validation/language"
@@ -26,7 +13,6 @@ import type {
   TranslateTopic,
   UpdateTopic,
 } from "@/lib/validation/topic"
-import { and, count, desc, eq, sql } from "drizzle-orm"
 
 export const getTopciTranslationById = async (
   DB: D1Database,

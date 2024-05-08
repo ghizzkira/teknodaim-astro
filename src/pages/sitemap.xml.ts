@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/restrict-template-expressions */
-import { wpGetTotalPosts } from "@/lib/wp/action/wp-post"
 
 import { wpGetTotalPosts } from "@/lib/wp/action/wp-post"
 

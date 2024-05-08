@@ -1,7 +1,5 @@
 import { z } from "zod"
 
-import { z } from "zod"
-
 export const MENU_POSITION = [
   "sidebar_all",
   "sidebar_all_amp",

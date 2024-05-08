@@ -1,10 +1,7 @@
 import type { APIRoute } from "astro"
-
-import { getWpCommentsCountByWpPostSlug } from "@/lib/action/wp-comment"
 import { z } from "zod"
 
 import { getWpCommentsCountByWpPostSlug } from "@/lib/action/wp-comment"
-import { z } from "zod"
 
 export const GET: APIRoute = async ({ locals, params }) => {
   try {

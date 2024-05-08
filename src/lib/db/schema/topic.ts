@@ -1,18 +1,11 @@
-import { articleTopics } from "./article"
-import { medias } from "./media"
-import { LANGUAGE_TYPE } from "@/lib/validation/language"
-import { STATUS_TYPE } from "@/lib/validation/status"
-import { TOPIC_TYPE, TOPIC_VISIBILITY } from "@/lib/validation/topic"
 import { relations, sql } from "drizzle-orm"
 import { sqliteTable, text } from "drizzle-orm/sqlite-core"
 
-import { articleTopics } from "./article"
-import { medias } from "./media"
 import { LANGUAGE_TYPE } from "@/lib/validation/language"
 import { STATUS_TYPE } from "@/lib/validation/status"
 import { TOPIC_TYPE, TOPIC_VISIBILITY } from "@/lib/validation/topic"
-import { relations, sql } from "drizzle-orm"
-import { sqliteTable, text } from "drizzle-orm/sqlite-core"
+import { articleTopics } from "./article"
+import { medias } from "./media"
 
 export const topicTranslations = sqliteTable("topic_translations", {
   id: text("id").primaryKey(),

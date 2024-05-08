@@ -1,10 +1,7 @@
-import { LANGUAGE_TYPE } from "@/lib/validation/language"
 import { sql } from "drizzle-orm"
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core"
 
 import { LANGUAGE_TYPE } from "@/lib/validation/language"
-import { sql } from "drizzle-orm"
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core"
 
 export const wpPopularPosts = sqliteTable("wp_popular_posts", {
   id: text("id").primaryKey(),

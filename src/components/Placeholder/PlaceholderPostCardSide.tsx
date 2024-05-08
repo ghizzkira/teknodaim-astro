@@ -1,7 +1,5 @@
 import { Skeleton } from "@/components/UI/Skeleton"
 
-import { Skeleton } from "@/components/UI/Skeleton"
-
 const PlaceholderPostCardSide: React.FunctionComponent = () => {
   return (
     <div className="mb-4 flex w-full border-separate flex-col rounded-lg">

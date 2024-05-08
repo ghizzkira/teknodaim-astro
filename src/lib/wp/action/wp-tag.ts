@@ -1,20 +1,11 @@
-import { wpHttp } from "./http"
-import type { WpGetAllTagsResponse, WpTagsDataProps } from "./wp-types"
 import {
   QUERY_WP_ALL_TAGS,
   QUERY_WP_ALL_TAGS_SITEMAP,
   QUERY_WP_SEARCH_TAGS,
   QUERY_WP_TAG_BY_SLUG,
 } from "@/lib/wp/data/wp-tag"
-
 import { wpHttp } from "./http"
 import type { WpGetAllTagsResponse, WpTagsDataProps } from "./wp-types"
-import {
-  QUERY_WP_ALL_TAGS,
-  QUERY_WP_ALL_TAGS_SITEMAP,
-  QUERY_WP_SEARCH_TAGS,
-  QUERY_WP_TAG_BY_SLUG,
-} from "@/lib/wp/data/wp-tag"
 
 export async function wpGetAllTagsAction() {
   const [res, err] = await wpHttp<{ data: WpGetAllTagsResponse }>(

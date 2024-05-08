@@ -4,10 +4,6 @@ import { toast } from "@/components/UI/Toast/useToast"
 import type { SelectSetting } from "@/lib/db/schema"
 import type { UpsertSetting } from "@/lib/validation/setting"
 
-import { toast } from "@/components/UI/Toast/useToast"
-import type { SelectSetting } from "@/lib/db/schema"
-import type { UpsertSetting } from "@/lib/validation/setting"
-
 export function useUpdateSetting({
   onSuccess,
   onError,

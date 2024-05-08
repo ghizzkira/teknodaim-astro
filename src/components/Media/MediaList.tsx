@@ -1,16 +1,10 @@
 import * as React from "react"
 
-import CopyMediaLinkButton from "./CopyMediaLinkButton"
-import DeleteMediaButton from "./DeleteMediaButton"
 import Image from "@/components/Image"
 import LoadingProgress from "@/components/LoadingProgress"
 import { toast } from "@/components/UI/Toast/useToast"
-
 import CopyMediaLinkButton from "./CopyMediaLinkButton"
 import DeleteMediaButton from "./DeleteMediaButton"
-import Image from "@/components/Image"
-import LoadingProgress from "@/components/LoadingProgress"
-import { toast } from "@/components/UI/Toast/useToast"
 
 interface MediaListProps extends React.HTMLAttributes<HTMLDivElement> {
   selectMedia?: (_media: { name: string; id: string; url: string }) => void

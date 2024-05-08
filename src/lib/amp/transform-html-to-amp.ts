@@ -1,22 +1,13 @@
-import {
-  allowedAMPAttributes,
-  allowedAMPClasses,
-  allowedAMPTags,
-} from "./sanitize"
-import ParseAMPContent from "@/components/ParseAMPContent"
-import { splitReactNodes } from "@/lib/utils/content"
-import type { WpSinglePostDataProps } from "@/lib/wp/action/wp-types"
 import sanitizeHtml from "sanitize-html"
 
+import ParseAMPContent from "@/components/ParseAMPContent"
+import { splitReactNodes } from "@/lib/utils/content"
+import type { WpSinglePostDataProps } from "@/lib/wp/action/wp-types"
 import {
   allowedAMPAttributes,
   allowedAMPClasses,
   allowedAMPTags,
 } from "./sanitize"
-import ParseAMPContent from "@/components/ParseAMPContent"
-import { splitReactNodes } from "@/lib/utils/content"
-import type { WpSinglePostDataProps } from "@/lib/wp/action/wp-types"
-import sanitizeHtml from "sanitize-html"
 
 export async function transformHtmlToAMP(post: WpSinglePostDataProps) {
   const { renderToString } = (await import("react-dom/server")).default

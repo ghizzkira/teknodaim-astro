@@ -1,10 +1,7 @@
 import type { APIRoute } from "astro"
-
-import { getGadgetsPublishedInfinite } from "@/lib/action/gadget"
 import { z } from "zod"
 
 import { getGadgetsPublishedInfinite } from "@/lib/action/gadget"
-import { z } from "zod"
 
 const inputSchema = z.object({
   limit: z.number().optional(),

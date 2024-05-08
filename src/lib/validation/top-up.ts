@@ -1,7 +1,5 @@
 import { z } from "zod"
 
-import { z } from "zod"
-
 export const TOPUP_DIGFLAZZ_TRANSACTION_TYPE = [
   "inq-pasca",
   "pay-pasca",

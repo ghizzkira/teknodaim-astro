@@ -1,8 +1,6 @@
-import { LANGUAGE_TYPE } from "./language"
 import { z } from "zod"
 
 import { LANGUAGE_TYPE } from "./language"
-import { z } from "zod"
 
 export const wpPopularPostInput = {
   title: z

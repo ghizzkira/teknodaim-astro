@@ -13,7 +13,7 @@ if (data) {
   settings = { ...parsedData }
 }
 if (!user?.role.includes("admin" || "author")) {
-  return Astro.redirect("/")
+ return Astro.redirect("/")
 }
 ---
 

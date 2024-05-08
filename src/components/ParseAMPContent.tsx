@@ -1,10 +1,7 @@
 import * as React from "react"
-
-import TwitterAMPEmbed from "./Embed/TwitterAMPEmbed"
 import { Parser, ProcessNodeDefinitions } from "html-to-react"
 
 import TwitterAMPEmbed from "./Embed/TwitterAMPEmbed"
-import { Parser, ProcessNodeDefinitions } from "html-to-react"
 
 const htmlToReactParser = Parser()
 

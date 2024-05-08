@@ -1,7 +1,5 @@
 import { z } from "zod"
 
-import { z } from "zod"
-
 export const USER_ROLE = ["user", "member", "author", "admin"] as const
 
 export const userRole = z.enum(USER_ROLE)

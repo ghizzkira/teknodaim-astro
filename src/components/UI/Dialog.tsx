@@ -1,12 +1,8 @@
 import * as React from "react"
-
-import { Icon } from "@/components/UI/Icon"
-import { cn } from "@/lib/utils/style"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
 
 import { Icon } from "@/components/UI/Icon"
 import { cn } from "@/lib/utils/style"
-import * as DialogPrimitive from "@radix-ui/react-dialog"
 
 export const Dialog = DialogPrimitive.Root
 

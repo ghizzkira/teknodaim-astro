@@ -1,7 +1,4 @@
 import * as React from "react"
-
-import { type IconType } from "react-icons"
-
 import { type IconType } from "react-icons"
 
 export const IndonesiaFlag: IconType = (

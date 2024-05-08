@@ -10,16 +10,6 @@ import {
 import { cn } from "@/lib/utils/style"
 import type { LanguageType } from "@/lib/validation/language"
 
-import { Button, buttonVariants } from "@/components/UI/Button"
-import { Icon } from "@/components/UI/Icon"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/UI/Popover"
-import { cn } from "@/lib/utils/style"
-import type { LanguageType } from "@/lib/validation/language"
-
 const LanguageSwitcher = ({ locale }: { locale: LanguageType }) => {
   const [pathname, setPathname] = React.useState<string | null>(null)
   React.useEffect(() => {

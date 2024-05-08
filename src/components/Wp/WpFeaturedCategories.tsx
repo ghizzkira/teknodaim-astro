@@ -7,13 +7,6 @@ import { cn } from "@/lib/utils/style"
 import type { LanguageType } from "@/lib/validation/language"
 import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
 
-import Link from "@/components/Link"
-import { Button } from "@/components/UI/Button"
-import { Icon } from "@/components/UI/Icon"
-import { cn } from "@/lib/utils/style"
-import type { LanguageType } from "@/lib/validation/language"
-import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
-
 interface WpFeaturedCategoriesProps
   extends React.HTMLAttributes<HTMLDivElement> {
   categories?: WpCategoriesDataProps[]

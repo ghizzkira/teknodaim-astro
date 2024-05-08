@@ -5,11 +5,6 @@ import { Icon } from "@/components/UI/Icon"
 import { toast } from "@/components/UI/Toast/useToast"
 import { copyToClipboard } from "@/lib/utils/content"
 
-import { Button } from "@/components/UI/Button"
-import { Icon } from "@/components/UI/Icon"
-import { toast } from "@/components/UI/Toast/useToast"
-import { copyToClipboard } from "@/lib/utils/content"
-
 interface CopyMediaLinkButton {
   url: string
 }

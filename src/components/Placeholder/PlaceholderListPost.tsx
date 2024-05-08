@@ -1,9 +1,6 @@
 import PlaceholderPostCard from "./PlaceholderPostCard"
 import PlaceholderPostCardSide from "./PlaceholderPostCardSide"
 
-import PlaceholderPostCard from "./PlaceholderPostCard"
-import PlaceholderPostCardSide from "./PlaceholderPostCardSide"
-
 const PlaceholderListPost: React.FunctionComponent = () => {
   return (
     <div className="mx-auto mt-5 flex w-full pt-5 md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]">

@@ -1,22 +1,13 @@
-import { articleComments } from "./article-comment"
-import { medias } from "./media"
-import { topics } from "./topic"
-import { users } from "./user"
-import { ARTICLE_VISIBILITY } from "@/lib/validation/article"
-import { LANGUAGE_TYPE } from "@/lib/validation/language"
-import { STATUS_TYPE } from "@/lib/validation/status"
 import { relations, sql } from "drizzle-orm"
 import { primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core"
 
+import { ARTICLE_VISIBILITY } from "@/lib/validation/article"
+import { LANGUAGE_TYPE } from "@/lib/validation/language"
+import { STATUS_TYPE } from "@/lib/validation/status"
 import { articleComments } from "./article-comment"
 import { medias } from "./media"
 import { topics } from "./topic"
 import { users } from "./user"
-import { ARTICLE_VISIBILITY } from "@/lib/validation/article"
-import { LANGUAGE_TYPE } from "@/lib/validation/language"
-import { STATUS_TYPE } from "@/lib/validation/status"
-import { relations, sql } from "drizzle-orm"
-import { primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core"
 
 export const articleTranslations = sqliteTable("article_translations", {
   id: text("id").primaryKey(),

@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
-
 /* eslint-disable @typescript-eslint/unbound-method */
-import * as React from "react"
 
-import { useCallbackRef } from "./useCallbackRef"
+import * as React from "react"
 
 import { useCallbackRef } from "./useCallbackRef"
 

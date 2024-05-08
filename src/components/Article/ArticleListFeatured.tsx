@@ -1,16 +1,10 @@
 import * as React from "react"
 
-import ArticleCardFeatured from "./ArticleCardFeatured"
 import { Button } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
 import { type SelectArticle as ArticleProps } from "@/lib/db/schema/article"
 import { type SelectMedia as MediaProps } from "@/lib/db/schema/media"
-
 import ArticleCardFeatured from "./ArticleCardFeatured"
-import { Button } from "@/components/UI/Button"
-import { Icon } from "@/components/UI/Icon"
-import { type SelectArticle as ArticleProps } from "@/lib/db/schema/article"
-import { type SelectMedia as MediaProps } from "@/lib/db/schema/media"
 
 type ArticleDataProps = Pick<ArticleProps, "title" | "slug"> & {
   featured_image: Pick<MediaProps, "url">
