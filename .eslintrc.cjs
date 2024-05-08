@@ -2,16 +2,21 @@
 const config = {
   extends: [
     "eslint:recommended",
+    "plugin:astro/recommended",
     "plugin:@typescript-eslint/recommended-type-checked",
     "plugin:@typescript-eslint/stylistic-type-checked",
     "plugin:prettier/recommended",
-    "plugin:astro/recommended",
     "prettier",
   ],
-  settings: {
-    "import/resolver": {
-      typescript: { project: ["./tsconfig.json"] },
-    },
+  env: {
+    es2022: true,
+    node: true,
+  },
+  parser: "@typescript-eslint/parser",
+  parserOptions: {
+    sourceType: "module",
+    project: true,
+    ecmaVersion: 6,
   },
   overrides: [
     {
@@ -27,16 +32,12 @@ const config = {
       },
     },
   ],
-  env: {
-    es2022: true,
-    node: true,
+  plugins: ["@typescript-eslint", "import"],
+  settings: {
+    "import/resolver": {
+      typescript: { project: ["./tsconfig.json"] },
+    },
   },
-  parser: "@typescript-eslint/parser",
-  parserOptions: {
-    project: true,
-    ecmaVersion: 6,
-  },
-  plugins: ["@typescript-eslint", "import", "prettier"],
   rules: {
     "prettier/prettier": "warn",
     "import/no-unresolved": "off",
@@ -105,7 +106,6 @@ const config = {
     "**/*.config.js",
     "**/*.config.cjs",
     "**/*.config.mjs",
-    ".astro",
     "dist",
     "pnpm-lock.yaml",
   ],
