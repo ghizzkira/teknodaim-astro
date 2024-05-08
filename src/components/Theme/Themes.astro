@@ -12,21 +12,13 @@ export interface Props {
 const { defaultTheme = "light" } = Astro.props as Props
 ---
 
-<script type="module" define:vars={{ defaultTheme }}>
+<script is:inline type="module">
   const n = "theme",
     r = window.matchMedia("(prefers-color-scheme: dark)")
   function d() {
-    return r.matches ? "dark" : defaultTheme
+    return r.matches ? "dark" : "light"
   }
-  function switchIcon() {
-    if (d() !== "dark") {
-      document.getElementById("light-icon").style.display = "block"
-      document.getElementById("dark-icon").style.display = "none"
-    } else {
-      document.getElementById("light-icon").style.display = "none"
-      document.getElementById("dark-icon").style.display = "block"
-    }
-  }
+
   function a(e) {
     const o = e !== void 0 ? e : localStorage.getItem(n)
     return o != null ? o : d()
@@ -45,18 +37,10 @@ const { defaultTheme = "light" } = Astro.props as Props
     e.detail
       ? (localStorage.setItem(n, e.detail), t(e.detail))
       : (localStorage.removeItem(n), t(a(e.detail)))
-    switchIcon()
   }
   document.addEventListener("set-theme", c),
     window.addEventListener("storage", l),
     r.addEventListener("change", m),
-    document.addEventListener("astro:after-swap", m),
-    t(a())
-
-  document.addEventListener("astro:after-swap", () => {
-    switchIcon()
-  })
-  document.addEventListener("DOMContentLoaded", () => {
-    switchIcon()
-  })
+    document.addEventListener("DOMContentLoaded", m)
+  t(a())
 </script>

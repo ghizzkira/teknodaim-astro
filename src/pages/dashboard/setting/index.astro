@@ -257,7 +257,7 @@ if (!user?.role.includes("admin" || "author")) {
         input.reportValidity()
       })
     })
-    formEl.addEventListener("submit", function (event) {
+    formEl.addEventListener("submit", async function (event) {
       event.preventDefault()
       if (!formEl.checkValidity()) {
         formEl.reportValidity()
@@ -271,7 +271,7 @@ if (!user?.role.includes("admin" || "author")) {
         value: JSON.stringify({ ...settings }),
       }
 
-     await fetch("/api/setting/upsert", {
+      await fetch("/api/setting/upsert", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

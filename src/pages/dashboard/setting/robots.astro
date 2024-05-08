@@ -67,7 +67,7 @@ if (!user?.role.includes("admin" || "author")) {
   const formEl = document.getElementById("form-robots-txt")
 
   if (formEl) {
-    formEl.addEventListener("submit", function (event) {
+    formEl.addEventListener("submit", async function (event) {
       event.preventDefault()
 
       const robotsTxt = document.getElementById("robots_txt").value
