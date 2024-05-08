@@ -1,6 +1,6 @@
 /** @typedef  {import("prettier").Config} PrettierConfig */
 /** @typedef {import("prettier-plugin-tailwindcss").PluginOptions} TailwindConfig */
-/** @typedef  {import("@ianvs/prettier-plugin-sort-imports").PluginConfig} SortImportsConfig */
+/** @typedef  {import("@trivago/prettier-plugin-sort-imports").PluginConfig} SortImportsConfig */
 
 /** @type { PrettierConfig | SortImportsConfig | TailwindConfig } */
 const config = {
@@ -13,9 +13,18 @@ const config = {
   tabWidth: 2,
   trailingComma: "all",
   plugins: [
-    "@ianvs/prettier-plugin-sort-imports",
-    "prettier-plugin-tailwindcss",
     "prettier-plugin-astro",
+    "@trivago/prettier-plugin-sort-imports",
+    "prettier-plugin-astro-organize-imports",
+    "prettier-plugin-tailwindcss",
+  ],
+  overrides: [
+    {
+      files: "*.astro",
+      options: {
+        parser: "astro",
+      },
+    },
   ],
   importOrder: [
     "^(react/(.*)$)|^(react$)|^(react-native(.*)$)",
@@ -29,8 +38,8 @@ const config = {
     "^[../]",
     "^[./]",
   ],
-  importOrderParserPlugins: ["typescript", "jsx", "decorators-legacy"],
-  importOrderTypeScriptVersion: "5.2.2",
+  importOrderSeparation: true,
+  importOrderSortSpecifiers: true,
 }
 
 export default config
