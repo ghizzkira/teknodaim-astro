@@ -13,12 +13,13 @@ export async function GET(context: APIContext) {
     const parsedData = JSON.parse(settings.value)
     settingsValue = { ...parsedData }
   }
-  const value = settingsValue
-    ? settingsValue.robots_txt
-    : `User-Agent: *
-  Disallow: /`
+  const value: string =
+    settingsValue && typeof settingsValue?.robots_txt === "string"
+      ? settingsValue?.robots_txt
+      : `User-Agent: *
+Disallow: /`
 
-  return new Response(JSON.stringify(value), {
+  return new Response(value, {
     status: 200,
     headers: {
       "Cache-control": "public, s-maxage=86400, stale-while-revalidate",
