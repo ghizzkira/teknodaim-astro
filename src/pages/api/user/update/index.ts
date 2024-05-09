@@ -6,7 +6,6 @@ import { updateUserSchema } from "@/lib/validation/user"
 
 export const PUT: APIRoute = async (context: APIContext) => {
   try {
-    //@ts-ignore
     const DB = context.locals.runtime.env.DB
     const body = await context.request.json()
     const parsedInput = updateUserSchema.parse(body)

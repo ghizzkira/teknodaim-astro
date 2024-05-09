@@ -41,7 +41,6 @@ const validate = defineMiddleware(async (req, next) => {
 })
 export const auth = defineMiddleware(async (context, next) => {
   const url = new URL(context.request.url)
-  //@ts-ignore
   const DB = context.locals.runtime.env.DB
   const auth = initializeAuth(DB)
 

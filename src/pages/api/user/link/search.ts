@@ -6,7 +6,7 @@ import { searchUserLinks } from "@/lib/action/user-link"
 export const GET: APIRoute = async (context: APIContext) => {
   try {
     const user = context.locals.user
-    //@ts-ignore
+
     const DB = context.locals.runtime.env.DB
 
     if (!user) {

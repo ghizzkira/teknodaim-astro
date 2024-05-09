@@ -5,7 +5,6 @@ import { searchVideoEmbeds } from "@/lib/action/video-embed"
 
 export const GET: APIRoute = async ({ locals, request }) => {
   try {
-    //@ts-ignore
     const DB = locals.runtime.env.DB
 
     const url = new URL(request.url)

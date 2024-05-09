@@ -3,7 +3,6 @@ import type { APIContext } from "astro"
 import { getSettingByKey } from "@/lib/action/setting"
 
 export async function GET(context: APIContext) {
-  //@ts-ignore
   const DB = context.locals.runtime.env.DB
 
   const settings = await getSettingByKey(DB, "robots_txt")

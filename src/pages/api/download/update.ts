@@ -6,7 +6,6 @@ import { updateDownloadSchema } from "@/lib/validation/download"
 
 export const PUT: APIRoute = async (context: APIContext) => {
   try {
-    //@ts-ignore
     const DB = context.locals.runtime.env.DB
     const user = context.locals.user
 

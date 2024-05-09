@@ -12,7 +12,6 @@ export const PUT: APIRoute = async (context: APIContext) => {
     const body = await context.request.json()
     const parsedInput = updateVideoEmbedCommentSchema.parse(body)
 
-    //@ts-ignore
     const DB = context.locals.runtime.env.DB
     const user = context.locals.user
 

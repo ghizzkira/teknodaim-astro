@@ -5,7 +5,6 @@ import { getVoucherByCode } from "@/lib/action/voucher"
 
 export const GET: APIRoute = async ({ locals, params }) => {
   try {
-    //@ts-ignore
     const DB = locals.runtime.env.DB
 
     const code = params.code

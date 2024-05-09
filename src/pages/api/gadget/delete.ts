@@ -6,7 +6,7 @@ import { deleteGadget } from "@/lib/action/gadget"
 export const DELETE: APIRoute = async (context: APIContext) => {
   try {
     const user = context.locals.user
-    //@ts-ignore
+
     const DB = context.locals.runtime.env.DB
 
     if (!user?.role?.includes("admin")) {

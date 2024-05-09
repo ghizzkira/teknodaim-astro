@@ -25,7 +25,6 @@ const inputSchema = z.object({
 export const GET = async (context: APIContext) => {
   const { params } = context
   const { slug, categorySlug } = params
-  //@ts-ignore
   const DB = context.locals.runtime.env.DB
 
   const { post: mainPost, otherLangPost } = await wpGetPostBySlugAction(slug!)

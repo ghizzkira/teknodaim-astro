@@ -12,7 +12,7 @@ export const DELETE: APIRoute = async (context: APIContext) => {
     const parsedInput = z.string().parse(body)
 
     const user = context.locals.user
-    //@ts-ignore
+
     const DB = context.locals.runtime.env.DB
 
     const downloadComment = await getDownloadCommentById(DB, parsedInput)

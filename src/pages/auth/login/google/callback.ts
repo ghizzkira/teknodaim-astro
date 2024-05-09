@@ -17,7 +17,6 @@ interface GoogleUser {
 export async function GET(context: APIContext): Promise<Response> {
   const code = context.url.searchParams.get("code")
   const state = context.url.searchParams.get("state")
-  //@ts-ignore
   const DB = context.locals.runtime.env.DB
 
   const storedState = context.cookies.get("state")?.value ?? null

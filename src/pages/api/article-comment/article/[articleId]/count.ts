@@ -5,7 +5,6 @@ import { getArticleCommentsCountByArticleId } from "@/lib/action/article-comment
 
 export const GET: APIRoute = async ({ params, locals }) => {
   try {
-    //@ts-ignore
     const DB = locals.runtime.env.DB
 
     const articleId = params.articleId

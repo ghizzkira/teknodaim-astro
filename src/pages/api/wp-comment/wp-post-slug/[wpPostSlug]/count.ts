@@ -5,7 +5,6 @@ import { getWpCommentsCountByWpPostSlug } from "@/lib/action/wp-comment"
 
 export const GET: APIRoute = async ({ locals, params }) => {
   try {
-    //@ts-ignore
     const DB = locals.runtime.env.DB
 
     const wpPostSlug = params.wpPostSlug

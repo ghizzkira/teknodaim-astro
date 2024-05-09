@@ -6,7 +6,6 @@ import { languageType } from "@/lib/validation/language"
 
 export const GET: APIRoute = async ({ locals, params, request }) => {
   try {
-    //@ts-ignore
     const DB = locals.runtime.env.DB
 
     const language = params.language

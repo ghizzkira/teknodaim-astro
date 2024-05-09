@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/consistent-type-definitions */
+/* eslint-disable @typescript-eslint/consistent-type-imports */
+/* eslint-disable @typescript-eslint/triple-slash-reference */
+
 /// <reference types="astro/client" />
-// eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../.astro/types.d.ts" />
-type Runtime = import("@astrojs/cloudflare").AdvancedRuntime<ENV>
 
 type User = import("lucia").User &
   import("@/lib/validation/user").UpdateUser & {
@@ -18,6 +20,8 @@ declare namespace App {
 
 type D1Database = import("@cloudflare/workers-types/experimental").D1Database
 
-interface ENV {
+type ENV = {
   DB: D1Database
 }
+
+type Runtime = import("@astrojs/cloudflare").Runtime<ENV>
