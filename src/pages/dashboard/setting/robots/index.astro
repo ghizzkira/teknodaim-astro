@@ -6,7 +6,7 @@ import { getSettingByKey } from "@/lib/action/setting"
 
 const user = Astro.locals.user
 const DB = Astro.locals.runtime.env.DB
-const data = await getSettingByKey(DB, "ads_txt")
+const data = await getSettingByKey(DB, "robots_txt")
 
 let settings
 
@@ -22,18 +22,18 @@ if (!user?.role?.includes("admin" || "author")) {
 <DashboardLayout
   locale="id"
   seo={{
-    title: "Ads.txt Setting",
-    description: "Ads.txt Setting",
-    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/setting/ads`,
+    title: "Robots.txt Setting",
+    description: "Robots.txt Setting",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/setting/robots`,
     openGraph: {
       basic: {
-        title: `Ads.txt Setting | `,
-        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/setting/ads`,
+        title: `Robots.txt Setting | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/setting/robots`,
         type: "website",
         image: "",
       },
       optional: {
-        description: "Ads.txt Setting",
+        description: "Robots.txt Setting",
         locale: "ID",
       },
     },
@@ -42,17 +42,17 @@ if (!user?.role?.includes("admin" || "author")) {
   <div class="mx-4 flex w-full flex-col">
     <div class="mb-[100px] mt-4 flex items-end justify-end">
       <div class="flex-1 space-y-4">
-        <h1>Ads.txt Settings</h1>
+        <h1>Robots.txt Settings</h1>
         <hr />
-        <form id="form-ads-txt" method="POST">
+        <form id="form-robots-txt" method="POST">
           <div class="mb-3 space-y-3">
-            <label>ads.txt data</label>
+            <label>robots.txt data</label>
             <Textarea
-              id="ads_txt"
-              name="ads_txt"
-              defaultValue={settings.ads_txt}
+              id="robots_txt"
+              name="robots_txt"
+              defaultValue={settings.robots_txt}
               className="max-w-xl"
-              placeholder="Enter ads.txt"
+              placeholder="Enter robots.txt"
               required
             />
           </div>
@@ -64,17 +64,17 @@ if (!user?.role?.includes("admin" || "author")) {
   </div>
 </DashboardLayout>
 <script is:inline>
-  const formEl = document.getElementById("form-ads-txt")
+  const formEl = document.getElementById("form-robots-txt")
 
   if (formEl) {
     formEl.addEventListener("submit", async function (event) {
       event.preventDefault()
 
-      const adsTxt = document.getElementById("ads_txt").value
+      const robotsTxt = document.getElementById("robots_txt").value
 
       const keyValues = {
-        key: "ads_txt",
-        value: JSON.stringify({ ads_txt: adsTxt }),
+        key: "robots_txt",
+        value: JSON.stringify({ robots_txt: robotsTxt }),
       }
       await fetch("/api/setting/upsert", {
         method: "POST",
@@ -89,7 +89,7 @@ if (!user?.role?.includes("admin" || "author")) {
             document.dispatchEvent(
               new CustomEvent("showNotification", {
                 detail: {
-                  message: "somthing error went updating ads.txt",
+                  message: "something error went updating robots.txt",
                   type: "warning",
                 },
               }),
@@ -98,7 +98,7 @@ if (!user?.role?.includes("admin" || "author")) {
             document.dispatchEvent(
               new CustomEvent("showNotification", {
                 detail: {
-                  message: "ads.txt has been updated",
+                  message: "robots.txt has been updated",
                   type: "success",
                 },
               }),
@@ -110,7 +110,7 @@ if (!user?.role?.includes("admin" || "author")) {
           document.dispatchEvent(
             new CustomEvent("showNotification", {
               detail: {
-                message: "something error went updating ads.txt",
+                message: "something error went updating robots.txt",
                 type: "warning",
               },
             }),
