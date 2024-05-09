@@ -45,7 +45,7 @@ const TextEditorFacebookWrapper = (
       onClick={handleClick}
       className="pointer-events-none max-w-[calc(101%-10px)]"
     >
-      {/* Fix Later */}
+      {/* TODO : change to cloudflare-friendly module */}
       {/* <FacebookEmbed
         placeholderDisabled
         url={node.attrs.facebookUrl}

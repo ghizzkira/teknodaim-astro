@@ -1,5 +1,3 @@
-//Fix later
-
 import * as React from "react"
 
 import {
@@ -13,8 +11,6 @@ import {
   AlertDialogTitle,
 } from "@/components/UI/AlertDialog"
 
-// import { useI18n } from "@/lib/locales/client"
-
 interface AlertDeleteProps extends React.HTMLAttributes<HTMLDivElement> {
   title?: string
   description?: React.ReactNode
@@ -27,8 +23,6 @@ export const AlertDelete: React.FunctionComponent<AlertDeleteProps> = (
   props,
 ) => {
   const { description, isOpen, onClose, className, onDelete } = props
-
-  // const t = useI18n(locale)
 
   function handleDeleteAndClose() {
     onDelete()
@@ -45,11 +39,9 @@ export const AlertDelete: React.FunctionComponent<AlertDeleteProps> = (
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogAction onClick={handleDeleteAndClose} variant="danger">
-              {/* {t("yes")} */}
+              Yes
             </AlertDialogAction>
-            <AlertDialogCancel onClick={onClose}>
-              {/* {t("cancel")} */}
-            </AlertDialogCancel>
+            <AlertDialogCancel onClick={onClose}>Cancel</AlertDialogCancel>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

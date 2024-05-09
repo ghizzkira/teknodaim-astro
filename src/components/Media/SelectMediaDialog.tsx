@@ -1,5 +1,3 @@
-// Fix later
-
 import * as React from "react"
 
 import { Button } from "@/components/UI/Button"
@@ -34,7 +32,7 @@ const SelectMediaDialog: React.FunctionComponent<SelectMediaDialogProps> = (
   const [toggleUpload, setToggleUpload] = React.useState<boolean>(false)
   const [searched, setSearched] = React.useState<boolean>(false)
   const [_searchQuery, setSearchQuery] = React.useState<string>("")
-
+  //TODO: connect to api
   // const { data: resultMedias } = api.media.search.useQuery(searchQuery)
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {

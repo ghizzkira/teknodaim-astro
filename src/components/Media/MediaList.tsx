@@ -1,5 +1,3 @@
-// Fix later
-
 import * as React from "react"
 
 // import Image from "@/components/Image"
@@ -17,6 +15,7 @@ interface MediaListProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const MediaList: React.FunctionComponent<MediaListProps> = () => {
+  //TODO: connect to api
   // const prevToggleRef = React.useRef(toggleUpload)
 
   // const loadMoreRef = React.useRef<HTMLDivElement>(null)

@@ -1,5 +1,3 @@
-// Fix later
-
 import * as React from "react"
 
 interface TwitterEmbedProps {
@@ -15,6 +13,7 @@ const TwitterEmbed = ({ children }: TwitterEmbedProps) => {
       if (match?.[1]) {
         return (
           <span className="flex justify-center">
+            {/* TODO : change to cloudflare-friendly module */}
             {/* <TweetEmbed url={href} /> */}
           </span>
         )
