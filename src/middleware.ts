@@ -4,8 +4,7 @@ import { defineMiddleware, sequence } from "astro:middleware"
 
 import { initializeAuth } from "@/lib/auth"
 import type { User } from "lucia"
-
-const excludedPaths = ["/api", "/auth/", "/sitemap", "/_image"]
+import { excludedPaths } from "@/lib/utils/excluded-path"
 
 type Path = string
 
