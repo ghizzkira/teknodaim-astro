@@ -14,35 +14,35 @@ export const prerender = false
 Astro.locals.cache(60)
 
 const DB = Astro.locals.runtime.env.DB
-const { tag_slug } = Astro.params
+const { tagSlug } = Astro.params
 
-const { tag: main_tag, other_lang_tag } = await wpGetTagBySlugAction(tag_slug)
+const { tag: mainTag, otherLangTag } = await wpGetTagBySlugAction(tagSlug)
 
-if (!main_tag && !other_lang_tag) {
+if (!mainTag && !otherLangTag) {
   return Astro.redirect("/404")
 }
 
 let tag
 
 if (
-  main_tag &&
-  tag_slug === main_tag.slug &&
-  main_tag.language.slug.toLocaleLowerCase() === "en"
+  mainTag &&
+  tagSlug === mainTag.slug &&
+  mainTag.language.slug.toLocaleLowerCase() === "en"
 ) {
-  tag = main_tag
+  tag = mainTag
 } else if (
-  other_lang_tag &&
-  tag_slug === other_lang_tag.slug &&
-  other_lang_tag.language.slug.toLocaleLowerCase() === "en"
+  otherLangTag &&
+  tagSlug === otherLangTag.slug &&
+  otherLangTag.language.slug.toLocaleLowerCase() === "en"
 ) {
-  tag = other_lang_tag
+  tag = otherLangTag
 } else if (
-  main_tag &&
-  tag_slug === main_tag.slug &&
-  main_tag.language.slug.toLocaleLowerCase() !== "en"
+  mainTag &&
+  tagSlug === mainTag.slug &&
+  mainTag.language.slug.toLocaleLowerCase() !== "en"
 ) {
-  if (other_lang_tag) {
-    Astro.redirect(`/en/tag/${other_lang_tag.slug}`)
+  if (otherLangTag) {
+    Astro.redirect(`/en/tag/${otherLangTag.slug}`)
   }
 }
 
@@ -89,7 +89,7 @@ interface AlternateLink {
   hrefLang: string
 }
 
-const langlist = [main_tag, other_lang_tag]
+const langlist = [mainTag, otherLangTag]
 const alternatesList: AlternateLink[] = langlist.reduce(
   (acc: AlternateLink[], list) => {
     if (list?.language?.slug.toLocaleLowerCase() === "id") {

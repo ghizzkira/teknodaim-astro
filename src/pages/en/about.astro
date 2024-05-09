@@ -15,20 +15,17 @@ import WpFeaturedCategories from "@/components/Wp/WpFeaturedCategories"
 
 Astro.locals.cache(60)
 
-const { page: main_page, other_lang_page } = await wpGetPageByUri("/about/")
-if (!main_page && !other_lang_page) {
+const { page: mainPage, otherLangPage } = await wpGetPageByUri("/about/")
+if (!mainPage && !otherLangPage) {
   Astro.redirect("/404")
 }
 
 let page = null
 
-if (main_page && main_page?.language?.slug.toLocaleLowerCase() === "id") {
-  page = main_page
-} else if (
-  main_page &&
-  main_page?.language?.slug.toLocaleLowerCase() !== "id"
-) {
-  page = other_lang_page?.[0]
+if (mainPage && mainPage?.language?.slug.toLocaleLowerCase() === "id") {
+  page = mainPage
+} else if (mainPage && mainPage?.language?.slug.toLocaleLowerCase() !== "id") {
+  page = otherLangPage?.[0]
 }
 
 const DB = Astro.locals.runtime.env.DB
