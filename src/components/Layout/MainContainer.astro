@@ -40,6 +40,7 @@ interface Props {
   settings?: Record<string, string>
   user?: User | null
 }
+
 const {
   locale,
   headerType = "default",
@@ -122,7 +123,7 @@ const {
       }
       siteTitle={settings?.siteTitle}
       supportEmail={settings?.supportEmail}
-      whatsappNumber={settings?.whatsappNumber as number}
+      whatsappNumber={parseInt(settings?.whatsappNumber!)}
       locale={locale}
     />
   )

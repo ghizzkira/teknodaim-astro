@@ -1,5 +1,5 @@
 ---
-import { Children } from "react"
+import React, { Children } from "react"
 
 import WpComment from "@/components/Comment/WpComment"
 import ParseContent from "@/components/ParseContent"
@@ -15,7 +15,7 @@ import type {
   WpCategoriesDataProps,
   WpSinglePostDataProps,
 } from "@/lib/wp/action/wp-types"
-import { splitUriWP, wpPrimaryCategorySlug } from "@/lib/wp/helper"
+import WpFeaturedCategories from "@/components/Wp/WpFeaturedCategories"
 
 interface Props {
   posts: WpSinglePostDataProps[]
@@ -24,8 +24,18 @@ interface Props {
   categoryPosts: WpSinglePostDataProps[]
   slug: string
   locale: LanguageType
+  featuredCategories?: WpCategoriesDataProps[]
 }
-const { posts, locale, post, trendingPosts, categoryPosts, slug } = Astro.props
+
+const {
+  posts,
+  locale,
+  post,
+  trendingPosts,
+  categoryPosts,
+  slug,
+  featuredCategories,
+} = Astro.props
 
 let postData
 
@@ -90,19 +100,19 @@ const { firstContent, secondContent } = splitReactNodes(
 //     }
 //   }
 // }
-
-const { primaryCategory } = wpPrimaryCategorySlug(
-  post.categories as WpCategoriesDataProps[],
-)
 ---
 
-<!-- {
-    featuredCategories && Array.isArray(featuredCategories) && (
-      <div class="block sm:hidden">
-        <WpFeaturedCategories categories={featuredCategories} />
-      </div>
-    )
-  } -->
+{
+  featuredCategories && Array.isArray(featuredCategories) && (
+    <div class="block sm:hidden">
+      <WpFeaturedCategories
+        client:load
+        locale={locale}
+        categories={featuredCategories}
+      />
+    </div>
+  )
+}
 <div
   class="mx-auto flex w-full pt-5 md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]"
 >

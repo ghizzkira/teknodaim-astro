@@ -13,6 +13,7 @@ const inputSchema = z.object({
 export const GET: APIRoute = async ({ locals, request, params }) => {
   try {
     const DB = locals.runtime.env.DB
+
     const language = params.language
 
     const url = new URL(request.url)

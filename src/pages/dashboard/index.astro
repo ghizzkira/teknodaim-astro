@@ -18,7 +18,7 @@ const topics = await getTopicsCount(DB)
 const medias = await getMediasCount(DB)
 const ads = await getAdsCount(DB)
 const users = await getUsersCount(DB)
-if (!user?.role.includes("admin" || "author")) {
+if (!user?.role?.includes("admin" || "author")) {
   return Astro.redirect("/")
 }
 //TODO: change layout
@@ -29,7 +29,7 @@ if (!user?.role.includes("admin" || "author")) {
   seo={{
     title: "Dashboard",
     description: "Dashboard",
-     
+
     canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard`,
     openGraph: {
       basic: {
@@ -44,44 +44,44 @@ if (!user?.role.includes("admin" || "author")) {
       },
     },
   }}
-><div class="mx-4 my-8 w-full">
-  <h2 class="text-3xl">Statistics</h2>
-  <div class="my-8 grid grid-cols-2 gap-3 md:grid-cols-5">
-    <DashboardBox>
-      <DashboardBoxIconWrapper>
-        <Icon.Article />
-      </DashboardBoxIconWrapper>
-      <DashboardBoxCount>{articles}</DashboardBoxCount>
-      <DashboardBoxDescription>articles</DashboardBoxDescription>
-    </DashboardBox>
-    <DashboardBox>
-      <DashboardBoxIconWrapper>
-        <Icon.Topic />
-      </DashboardBoxIconWrapper>
-      <DashboardBoxCount>{topics}</DashboardBoxCount>
-      <DashboardBoxDescription>topics</DashboardBoxDescription>
-    </DashboardBox>
-    <DashboardBox>
-      <DashboardBoxIconWrapper>
-        <Icon.Media />
-      </DashboardBoxIconWrapper>
-      <DashboardBoxCount>{medias}</DashboardBoxCount>
-      <DashboardBoxDescription>medias</DashboardBoxDescription>
-    </DashboardBox>
-    <DashboardBox>
-      <DashboardBoxIconWrapper>
-        <Icon.Ads />
-      </DashboardBoxIconWrapper>
-      <DashboardBoxCount>{ads}</DashboardBoxCount>
-      <DashboardBoxDescription>ads</DashboardBoxDescription>
-    </DashboardBox>
-    <DashboardBox>
-      <DashboardBoxIconWrapper>
-        <Icon.User />
-      </DashboardBoxIconWrapper>
-      <DashboardBoxCount>{users}</DashboardBoxCount>
-      <DashboardBoxDescription>users</DashboardBoxDescription>
-    </DashboardBox>
-  </div></div>
- 
+  ><div class="mx-4 my-8 w-full">
+    <h2 class="text-3xl">Statistics</h2>
+    <div class="my-8 grid grid-cols-2 gap-3 md:grid-cols-5">
+      <DashboardBox>
+        <DashboardBoxIconWrapper>
+          <Icon.Article />
+        </DashboardBoxIconWrapper>
+        <DashboardBoxCount>{articles}</DashboardBoxCount>
+        <DashboardBoxDescription>articles</DashboardBoxDescription>
+      </DashboardBox>
+      <DashboardBox>
+        <DashboardBoxIconWrapper>
+          <Icon.Topic />
+        </DashboardBoxIconWrapper>
+        <DashboardBoxCount>{topics}</DashboardBoxCount>
+        <DashboardBoxDescription>topics</DashboardBoxDescription>
+      </DashboardBox>
+      <DashboardBox>
+        <DashboardBoxIconWrapper>
+          <Icon.Media />
+        </DashboardBoxIconWrapper>
+        <DashboardBoxCount>{medias}</DashboardBoxCount>
+        <DashboardBoxDescription>medias</DashboardBoxDescription>
+      </DashboardBox>
+      <DashboardBox>
+        <DashboardBoxIconWrapper>
+          <Icon.Ads />
+        </DashboardBoxIconWrapper>
+        <DashboardBoxCount>{ads}</DashboardBoxCount>
+        <DashboardBoxDescription>ads</DashboardBoxDescription>
+      </DashboardBox>
+      <DashboardBox>
+        <DashboardBoxIconWrapper>
+          <Icon.User />
+        </DashboardBoxIconWrapper>
+        <DashboardBoxCount>{users}</DashboardBoxCount>
+        <DashboardBoxDescription>users</DashboardBoxDescription>
+      </DashboardBox>
+    </div>
+  </div>
 </DashboardLayout>

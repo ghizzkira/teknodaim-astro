@@ -33,8 +33,7 @@ const WpVerticalCarousel: React.FunctionComponent<WpVerticalCarouselProps> = (
     return () => {
       clearInterval(interval)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [articles])
 
   const handleNext = () => {
     setCurrentArticleIndex((prevIndex) => (prevIndex + 1) % articles.length)

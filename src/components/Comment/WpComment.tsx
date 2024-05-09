@@ -215,7 +215,10 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
                                   {comment?.author?.name}
                                 </div>
                                 <div className="text-xs text-foreground">
-                                  {formatDateFromNow(comment.createdAt, locale)}
+                                  {formatDateFromNow(
+                                    comment.createdAt!,
+                                    locale,
+                                  )}
                                 </div>
                               </div>
                               <span className="text-[14px]">
@@ -240,7 +243,7 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
                                     wp_post_slug={wp_post_slug ?? ""}
                                     reply_to_id={comment?.id ?? ""}
                                     avatar={session?.user?.image}
-                                    username={session?.user?.username}
+                                    username={session?.user?.username!}
                                     onSuccess={() => {
                                       refetchCount()
                                       updateComment()
@@ -348,7 +351,7 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
                                     </div>
                                     <div className="text-xs text-foreground">
                                       {formatDateFromNow(
-                                        comment.createdAt,
+                                        comment.createdAt!,
                                         locale,
                                       )}
                                     </div>
@@ -377,9 +380,9 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
                                         wp_post_slug={wp_post_slug ?? ""}
                                         reply_to_id={comment?.id ?? ""}
                                         avatar={session?.user?.image}
-                                        username={session?.user?.username}
+                                        username={session?.user?.username!}
                                         onSuccess={() => {
-                                          refetch: refetchCount()
+                                          refetchCount()
                                           updateComment()
                                           setIsReplyied("")
                                         }}

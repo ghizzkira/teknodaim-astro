@@ -1,9 +1,9 @@
 import * as React from "react"
 import type {
-  DownloadFile as DownloadFileProps,
-  Download as DownloadProps,
-  Media as MediaProps,
-} from "@prisma/client"
+  SelectDownloadFile as DownloadFileProps,
+  SelectDownload as DownloadProps,
+  SelectMedia as MediaProps,
+} from "@/lib/db/schema"
 
 import Image from "@/components/Image"
 import Link from "@/components/Link"
@@ -37,8 +37,8 @@ function getIconOperatingSystem(operatingSystem: string) {
 
 interface DownloadCardProps extends React.HTMLAttributes<HTMLDivElement> {
   download: Partial<DownloadProps> & {
-    featured_image: Pick<MediaProps, "url">
-    download_files?: Partial<DownloadFileProps>[]
+    featuredImage?: Pick<MediaProps, "url">
+    downloadFiles?: Partial<DownloadFileProps>[]
   }
   className?: string
   locale: LanguageType
@@ -47,16 +47,10 @@ interface DownloadCardProps extends React.HTMLAttributes<HTMLDivElement> {
 const DownloadCard: React.FunctionComponent<DownloadCardProps> = (props) => {
   const { download, className, locale } = props
 
-  const {
-    operating_system,
-    slug,
-    title,
-    type,
-    featured_image,
-    download_files,
-  } = download
+  const { operatingSystem, slug, title, type, featuredImage, downloadFiles } =
+    download
 
-  const icon = getIconOperatingSystem(operating_system!)
+  const icon = getIconOperatingSystem(operatingSystem!)
 
   return (
     <div
@@ -74,7 +68,7 @@ const DownloadCard: React.FunctionComponent<DownloadCardProps> = (props) => {
         >
           <div className="relative aspect-[4/3] w-full">
             <Image
-              src={featured_image?.url!}
+              src={featuredImage?.url!}
               className="object-cover"
               alt={title!}
               width={"50"}
@@ -101,12 +95,12 @@ const DownloadCard: React.FunctionComponent<DownloadCardProps> = (props) => {
         </h3>
       </Link>
       <div className="mb-3 mt-6 flex justify-between px-3">
-        {download_files && (
+        {downloadFiles && (
           <>
             <p className="inline-block whitespace-normal">
-              {download_files[0]?.price}
+              {downloadFiles[0]?.price}
             </p>
-            <p className="text-[14px]">{download_files[0]?.file_size}</p>
+            <p className="text-[14px]">{downloadFiles[0]?.fileSize}</p>
           </>
         )}
       </div>

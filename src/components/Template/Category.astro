@@ -16,26 +16,34 @@ import type {
   WPPageInfoProps,
   WpSinglePostDataProps,
 } from "@/lib/wp/action/wp-types"
+import WpFeaturedCategories from "@/components/Wp/WpFeaturedCategories"
 
 interface Props {
   posts?: WpSinglePostDataProps[] | null
   pageInfo?: WPPageInfoProps | null
-  locale?: LanguageType
+  locale: LanguageType
   trendingPosts?: Partial<UpsertWpPopularPost>[]
   category?: WpCategoriesDataProps
+  featuredCategories?: WpCategoriesDataProps[]
 }
-const { posts, pageInfo, locale, trendingPosts, category } = Astro.props
+
+const { posts, pageInfo, locale, trendingPosts, category, featuredCategories } =
+  Astro.props
 const listPost = posts?.slice(0, posts?.length - 1)
 const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
 ---
 
-<!-- {
-    featuredCategories && (
-      <div class="block sm:hidden">
-        <WpFeaturedCategories categories={featuredCategories} />
-      </div>
-    )
-  } -->
+{
+  featuredCategories && Array.isArray(featuredCategories) && (
+    <div class="block sm:hidden">
+      <WpFeaturedCategories
+        client:load
+        locale={locale}
+        categories={featuredCategories}
+      />
+    </div>
+  )
+}
 <section class="fade-up-element mt-5 flex w-full flex-col">
   <div
     class={cn(
@@ -50,7 +58,7 @@ const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator
-          className="inline-flex text-background list-none"
+          className="inline-flex list-none text-background"
         /><BreadcrumbItem>
           <BreadcrumbLink className="text-[12px] text-background">
             {category?.name}

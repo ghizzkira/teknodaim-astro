@@ -1,6 +1,5 @@
 import { mergeAttributes, Node, type Editor as TextEditor } from "@tiptap/core"
 import { NodeViewWrapper, ReactNodeViewRenderer } from "@tiptap/react"
-import { XEmbed } from "react-social-media-embed"
 
 export const TextEditorXEmbed = Node.create({
   name: "textEditorXEmbed",
@@ -34,7 +33,7 @@ interface TextEditorXEmbedWrapperProps {
 }
 
 const TextEditorXEmbedWrapper = (props: TextEditorXEmbedWrapperProps) => {
-  const { node, editor } = props
+  const { editor } = props
 
   const handleClick = () => {
     editor.chain().focus().run()
@@ -45,7 +44,8 @@ const TextEditorXEmbedWrapper = (props: TextEditorXEmbedWrapperProps) => {
       className="pointer-events-none max-w-[calc(100%-10px)]"
       onClick={handleClick}
     >
-      <XEmbed placeholderDisabled url={node.attrs.tweetUrl} />
+      {/* FIX Later */}
+      {/* <XEmbed placeholderDisabled url={node.attrs.tweetUrl} /> */}
     </NodeViewWrapper>
   )
 }

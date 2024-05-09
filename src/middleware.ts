@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/restrict-plus-operands */
-
 import { defineMiddleware, sequence } from "astro:middleware"
 
 // import { verifyRequestOrigin } from "lucia"
 
 import { initializeAuth } from "@/lib/auth"
+import type { User } from "lucia"
 
 const excludedPaths = ["/api", "/auth/", "/sitemap", "/_image"]
 
@@ -92,7 +91,7 @@ export const auth = defineMiddleware(async (context, next) => {
     )
   }
   context.locals.session = session
-  context.locals.user = user
+  context.locals.user = user as User & { role: UserRole }
 
   if (
     !url.pathname.endsWith("/") &&

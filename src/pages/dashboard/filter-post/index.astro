@@ -12,8 +12,8 @@ if (data) {
   const parsedData = JSON.parse(data.value)
   settings = { ...parsedData }
 }
-if (!user?.role.includes("admin" || "author")) {
- return Astro.redirect("/")
+if (!user?.role?.includes("admin" || "author")) {
+  return Astro.redirect("/")
 }
 ---
 
@@ -73,7 +73,7 @@ if (!user?.role.includes("admin" || "author")) {
       </div>
     </div>
   </div>
-  <script is:inline type="module" define:vars={{ settings }}>
+  <script is:inline define:vars={{ settings }}>
     document.addEventListener("DOMContentLoaded", function () {
       const queryInput = document.getElementById("query")
       const queryError = document.getElementById("queryError")

@@ -15,6 +15,7 @@ import type {
   WpTagsDataProps,
 } from "@/lib/wp/action/wp-types"
 import { wpPrimaryCategorySlug } from "@/lib/wp/helper"
+import type { SelectAd } from "@/lib/db/schema"
 
 // const Ad = React.lazy(async () => await import("@/components/ad"))
 
@@ -41,10 +42,10 @@ interface WpPostScrollProps {
   }
   posts: WpSinglePostDataProps[]
   isWP?: boolean
-  adsSingleArticleAbove?: any
-  adsSingleArticleBelow?: any
-  adsSingleArticleInline?: any
-  adsSingleArticlePopUp?: any
+  adsSingleArticleAbove?: SelectAd
+  adsSingleArticleBelow?: SelectAd
+  adsSingleArticleInline?: SelectAd
+  adsSingleArticlePopUp?: SelectAd
   locale: LanguageType
   firstContent: React.ReactNode | null
 }
@@ -53,9 +54,7 @@ const WpPostScroll = React.memo(
   React.forwardRef<HTMLDivElement, WpPostScrollProps>((props, ref) => {
     const {
       postData,
-      adsSingleArticleAbove,
-      adsSingleArticleBelow,
-      adsSingleArticleInline,
+
       locale,
       firstContent,
     } = props

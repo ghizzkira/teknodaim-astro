@@ -1,5 +1,4 @@
 import * as React from "react"
-import { useSearchParams } from "next/navigation"
 
 import {
   Pagination,
@@ -8,7 +7,6 @@ import {
   PaginationNextButton,
   PaginationPreviousButton,
 } from "@/components/UI/Pagination"
-import { useI18n } from "@/lib/locales/client"
 
 interface DashboardPaginationProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -23,12 +21,9 @@ const DashboardPagination: React.FunctionComponent<DashboardPaginationProps> = (
 ) => {
   const { currentPage, lastPage, paramsName = "page" } = props
 
-  const searchParams = useSearchParams()
-
-  const t = useI18n(locale)
-
   function updatePage(page: number) {
-    const params = new URLSearchParams(searchParams.toString())
+    const path = window.location.pathname
+    const params = new URLSearchParams(path?.toString())
     params.set(paramsName, page.toString())
     window.history.pushState(null, "", `?${params.toString()}`)
   }
@@ -46,7 +41,7 @@ const DashboardPagination: React.FunctionComponent<DashboardPaginationProps> = (
                   />
                 </PaginationItem>
               )}
-              <span>{`${t("page")} ${currentPage} ${t("of")} ${lastPage}`}</span>
+              <span>{`Page ${currentPage} of ${lastPage}`}</span>
               {currentPage !== lastPage && (
                 <PaginationItem>
                   <PaginationNextButton

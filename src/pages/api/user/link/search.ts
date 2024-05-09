@@ -6,6 +6,7 @@ import { searchUserLinks } from "@/lib/action/user-link"
 export const GET: APIRoute = async (context: APIContext) => {
   try {
     const user = context.locals.user
+
     const DB = context.locals.runtime.env.DB
 
     if (!user) {
@@ -23,7 +24,7 @@ export const GET: APIRoute = async (context: APIContext) => {
     const parsedInput = z.string().parse(searchQuery)
 
     const data = await searchUserLinks(DB, {
-      userId: userId,
+      userId: userId!,
       searchQuery: parsedInput,
     })
 

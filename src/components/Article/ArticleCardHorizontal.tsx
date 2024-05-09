@@ -59,6 +59,7 @@ const ArticleCardHorizontal: React.FunctionComponent<
               name={topics[0]?.title!}
               slug={topics[0]?.slug!}
               className={stylesIcons}
+              locale={"en"}
             />
           </div>
         </div>

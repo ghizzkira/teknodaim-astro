@@ -8,6 +8,7 @@ import { topicType } from "@/lib/validation/topic"
 export const GET: APIRoute = async ({ locals, params, request }) => {
   try {
     const DB = locals.runtime.env.DB
+
     const language = params.language
     const type = params.type
 

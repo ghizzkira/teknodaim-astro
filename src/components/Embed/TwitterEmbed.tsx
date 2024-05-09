@@ -1,5 +1,4 @@
 import * as React from "react"
-import { XEmbed as TweetEmbed } from "react-social-media-embed"
 
 interface TwitterEmbedProps {
   children: React.ReactNode
@@ -14,7 +13,8 @@ const TwitterEmbed = ({ children }: TwitterEmbedProps) => {
       if (match?.[1]) {
         return (
           <span className="flex justify-center">
-            <TweetEmbed url={href} />
+            {/* TODO : change to cloudflare-friendly module */}
+            {/* <TweetEmbed url={href} /> */}
           </span>
         )
       }
@@ -35,7 +35,7 @@ export const TwitterEmbedFromTipTap = (props: { tweetUrl: string }) => {
   if (match) {
     return (
       <span className="flex justify-center">
-        <TweetEmbed url={tweetUrl} />
+        {/* <TweetEmbed url={tweetUrl} /> */}
       </span>
     )
   }

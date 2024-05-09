@@ -12,6 +12,7 @@ const inputSchema = z.object({
 export const GET: APIRoute = async ({ locals, params, request }) => {
   try {
     const DB = locals.runtime.env.DB
+
     const videoEmbedId = params.videoEmbedId
 
     const url = new URL(request.url)

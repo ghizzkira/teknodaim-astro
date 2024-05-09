@@ -8,7 +8,7 @@ export const DELETE: APIRoute = async (context: APIContext) => {
     const DB = context.locals.runtime.env.DB
     const user = context.locals.user
 
-    if (!user?.role.includes("admin")) {
+    if (!user?.role?.includes("admin")) {
       return new Response(null, {
         status: 401,
       })

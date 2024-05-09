@@ -94,7 +94,7 @@ export async function wpGetTagBySlugAction(slug: string | undefined) {
 
     return {
       tag: null,
-      other_lang_tag: null,
+      otherLangTag: null,
       err: err instanceof Error ? err.message : "An error occurred",
     }
   }
@@ -113,7 +113,7 @@ export async function wpGetTagBySlugAction(slug: string | undefined) {
 
   return {
     tag: tag,
-    other_lang_tag: translations ?? null,
+    otherLangTag: translations ?? null,
     err: null,
   }
 }

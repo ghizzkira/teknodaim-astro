@@ -13,7 +13,7 @@ import type { LanguageType } from "@/lib/validation/language"
 const LanguageSwitcher = ({ locale }: { locale: LanguageType }) => {
   const [pathname, setPathname] = React.useState<string | null>(null)
   React.useEffect(() => {
-    if (typeof window !== undefined) {
+    if (window) {
       const currentUrl = new URL(window.location.href)
       let pathname = currentUrl.pathname
 

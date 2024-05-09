@@ -10,13 +10,14 @@ import type {
 } from "@/lib/wp/action/wp-types"
 import { splitUriWP, wpPrimaryCategorySlug } from "@/lib/wp/helper"
 import WpPostCard from "./WpPostCard"
+import type { LanguageType } from "@/lib/validation/language"
 
 interface InfiniteScrollWpPostsAuthorProps
   extends React.HTMLAttributes<HTMLDivElement> {
   id?: string
   posts: WpSinglePostDataProps[]
   pageInfo: WPPageInfoProps
-  language: string
+  language: LanguageType
   filteredQueries?: string[]
 }
 

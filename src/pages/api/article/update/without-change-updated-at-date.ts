@@ -9,7 +9,7 @@ export const PUT: APIRoute = async (context: APIContext) => {
     const DB = context.locals.runtime.env.DB
     const user = context.locals.user
 
-    if (!user?.role.includes("admin" || "author")) {
+    if (!user?.role?.includes("admin" || "author")) {
       return new Response(null, {
         status: 402,
       })

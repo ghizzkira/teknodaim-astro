@@ -100,7 +100,7 @@ export async function wpGetCategoryBySlugAction(slug: string) {
 
     return {
       category: null,
-      other_lang_category: null,
+      otherLangCategory: null,
       err: err instanceof Error ? err.message : "An error occurred",
     }
   }
@@ -115,11 +115,11 @@ export async function wpGetCategoryBySlugAction(slug: string) {
     ({ node = {} }) => node,
   )[0] as unknown as WpCategoriesDataProps
 
-  const translations = category?.translations[0]
+  const translations = category?.translations?.[0]
 
   return {
     category: category,
-    other_lang_category: translations ?? null,
+    otherLangCategory: translations ?? null,
     err: null,
   }
 }

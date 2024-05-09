@@ -7,8 +7,8 @@ import { ReactRenderer } from "@tiptap/react"
 import Suggestion from "@tiptap/suggestion"
 import tippy from "tippy.js"
 
-import SelectMediaDialog from "@/components/media/selectMediaDialog"
 import { Icon } from "@/components/UI/Icon"
+import SelectMediaDialog from "@/components/Media/SelectMediaDialog"
 
 interface TextEditorCommandItemProps {
   title: string
@@ -160,7 +160,7 @@ const getSuggestionItems = ({ query }: { query: string }) => {
       title: "X",
       description: "Add X Tweet.",
       searchTerms: ["x"],
-      icon: <Icon.X size={18} />,
+      icon: <Icon.Twitter size={18} />,
       command: ({ editor, range }: TextEditorCommandProps) => {
         editor.chain().focus().deleteRange(range).run()
         const url = prompt("Enter X Tweet URL")

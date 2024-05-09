@@ -7,9 +7,10 @@ import { createMenuSchema } from "@/lib/validation/menu"
 export const POST: APIRoute = async (context: APIContext) => {
   try {
     const user = context.locals.user
+
     const DB = context.locals.runtime.env.DB
 
-    if (!user?.role.includes("admin")) {
+    if (!user?.role?.includes("admin")) {
       return new Response(null, {
         status: 401,
       })

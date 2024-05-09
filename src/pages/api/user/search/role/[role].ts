@@ -7,6 +7,7 @@ import { userRole } from "@/lib/validation/user"
 export const GET: APIRoute = async ({ locals, params, request }) => {
   try {
     const DB = locals.runtime.env.DB
+
     const role = params.role
 
     const url = new URL(request.url)

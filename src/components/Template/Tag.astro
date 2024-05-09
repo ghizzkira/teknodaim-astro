@@ -12,29 +12,38 @@ import type { LanguageType } from "@/lib/validation/language"
 import type { UpsertWpPopularPost } from "@/lib/validation/wp-popular-post"
 import type {
   WPPageInfoProps,
+  WpCategoriesDataProps,
   WpSinglePostDataProps,
   WpTagsDataProps,
 } from "@/lib/wp/action/wp-types"
+import WpFeaturedCategories from "@/components/Wp/WpFeaturedCategories"
 
 interface Props {
   posts?: WpSinglePostDataProps[] | null
   pageInfo?: WPPageInfoProps | null
-  locale?: LanguageType
+  locale: LanguageType
   trendingPosts?: Partial<UpsertWpPopularPost>[]
   tag?: WpTagsDataProps
+  featuredCategories?: WpCategoriesDataProps[]
 }
-const { posts, pageInfo, locale, trendingPosts, tag } = Astro.props
+
+const { posts, pageInfo, locale, trendingPosts, tag, featuredCategories } =
+  Astro.props
 const listPost = posts?.slice(0, posts?.length - 1)
 const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
 ---
 
-<!-- {
-    featuredCategories && Array.isArray(featuredCategories) && (
-      <div class="block w-full sm:hidden">
-        <WpFeaturedCategories categories={featuredCategories} />
-      </div>
-    )
-  } -->
+{
+  featuredCategories && Array.isArray(featuredCategories) && (
+    <div class="block sm:hidden">
+      <WpFeaturedCategories
+        client:load
+        locale={locale}
+        categories={featuredCategories}
+      />
+    </div>
+  )
+}
 <section class="fade-up-element flex w-full flex-col">
   <div
     class="relative mb-10 flex flex-col bg-gradient-to-r from-main to-main/80 py-10"
@@ -48,7 +57,7 @@ const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
             })
         } -->
       <Breadcrumb
-        className="text-background text-[12px] inline-flex items-center"
+        className="inline-flex items-center text-[12px] text-background"
       >
         <BreadcrumbItem>
           <BreadcrumbLink className="text-background" href="/">
@@ -56,7 +65,7 @@ const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
           </BreadcrumbLink>
         </BreadcrumbItem>
         <BreadcrumbSeparator
-          className="inline-flex text-background list-none"
+          className="inline-flex list-none text-background"
         />
         <BreadcrumbItem>
           <BreadcrumbLink className="text-background" href={`/${tag?.slug}`}>

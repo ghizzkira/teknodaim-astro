@@ -5,11 +5,13 @@
 <script type="module" is:inline>
   let notif = document.createElement("div")
   notif.style.position = "fixed"
-  notif.style.bottom = "20px"
+  notif.style.bottom = "-100px"
   notif.style.right = "20px"
-  notif.style.padding = "15px"
+  notif.style.padding = "24px"
   notif.style.borderRadius = "5px"
   notif.style.zIndex = "1000"
+  notif.style.fontSize = "14px"
+  notif.style.transition = "bottom 0.5s, opacity 0.5s, right 0.5s"
 
   document.addEventListener("showNotification", function (e) {
     notif.innerText = e.detail.message
@@ -31,12 +33,19 @@
 
     document.body.appendChild(notif)
 
+    setTimeout(function () {
+      notif.style.bottom = "20px"
+    }, 100)
+
     let timeoutId = setTimeout(function () {
       notif.style.opacity = "0"
+      notif.style.right = "calc(-100% + 20px)"
+
       setTimeout(function () {
         if (document.body.contains(notif)) {
           document.body.removeChild(notif)
           notif.style.opacity = "1"
+          notif.style.right = "20px"
         }
       }, 500)
     }, 3000)

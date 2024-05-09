@@ -6,6 +6,7 @@ import { getWpPopularPostBySlug } from "@/lib/action/wp-popular-post"
 export const GET: APIRoute = async ({ locals, params }) => {
   try {
     const DB = locals.runtime.env.DB
+
     const slug = params.slug
     const parsedInput = z.string().parse(slug)
     const data = await getWpPopularPostBySlug(DB, parsedInput)

@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/UI/DropdownMenu"
 import { Icon } from "@/components/UI/Icon"
-import { useI18n } from "@/lib/locales/client"
+import Link from "@/components/Link"
 
 interface DashboardShowOptionsProps {
   onDelete: () => void
@@ -26,8 +26,6 @@ const DashboardShowOptions: React.FC<DashboardShowOptionsProps> = (props) => {
 
   const [openDialog, setOpenDialog] = React.useState<boolean>(false)
 
-  const t = useI18n(locale)
-
   return (
     <>
       <DropdownMenu>
@@ -39,33 +37,33 @@ const DashboardShowOptions: React.FC<DashboardShowOptionsProps> = (props) => {
         <DropdownMenuContent align="end" className="w-[150px] p-2">
           <DropdownMenuItem onClick={() => setOpenDialog(true)}>
             <Icon.Delete className="mr-2 size-4" />
-            {t("delete")}
+            Delete
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
-            <NextLink href={editUrl}>
+            <Link href={editUrl as string} locale={"id"}>
               <Icon.Edit className="mr-2 size-4" />
-              {t("edit")}
-            </NextLink>
+              Edit
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           {translateUrl && (
             <>
               <DropdownMenuItem asChild>
-                <NextLink href={translateUrl}>
-                  <Icon.Language className="mr-2 size-4" />
-                  {t("translate")}
-                </NextLink>
+                <Link href={translateUrl as string} locale={"id"}>
+                  <Icon.Add className="mr-2 size-4" />
+                  Translate
+                </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
             </>
           )}
           {viewUrl && (
             <DropdownMenuItem asChild>
-              <NextLink href={viewUrl} target="_blank">
-                <Icon.View className="mr-2 size-4" />
-                {t("view")}
-              </NextLink>
+              <Link locale="id" href={viewUrl as string}>
+                <Icon.ViewSidebar className="mr-2 size-4" />
+                View
+              </Link>
             </DropdownMenuItem>
           )}
         </DropdownMenuContent>

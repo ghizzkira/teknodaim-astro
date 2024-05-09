@@ -1,72 +1,55 @@
 ---
-
+import JsonLdScript from "@/components/JsonLdScript"
 import Category from "@/components/Template/Category.astro"
- 
+
 import MainLayout from "@/layouts/MainLayout.astro"
-import { getWpPopularPosts } from "@/lib/action/wp-popular-post"
-import { LANGUAGE_TYPE } from "@/lib/validation/language"
- import {
-   wpGetCategoryBySlugAction,
-} from "@/lib/wp/action/wp-category"
-import {
-   wpGetPostsByCategoryIdAction,
-} from "@/lib/wp/action/wp-post"
+import { getSettingByKey } from "@/lib/action/setting"
+import { getWpPopularPostsLast7Days } from "@/lib/action/wp-popular-post"
+import { wpGetCategoryBySlugAction } from "@/lib/wp/action/wp-category"
+import { wpGetPostsByCategoryIdAction } from "@/lib/wp/action/wp-post"
 import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
 
- 
 const DB = Astro.locals.runtime.env.DB
 const { categorySlug } = Astro.params
 
- 
-Astro.locals.cache(60);
-
-
+Astro.locals.cache(60)
 
 export const prerender = false
-const { category: main_category, other_lang_category } =
+const { category: mainCategory, otherLangCategory } =
   await wpGetCategoryBySlugAction(categorySlug as unknown as string)
 
- 
-if (!main_category && !other_lang_category) {
-  return Astro.redirect('/404');
+if (!mainCategory && !otherLangCategory) {
+  return Astro.redirect("/404")
 }
-let category 
-
-
+let category
 
 if (
-    main_category &&
-    categorySlug === main_category.slug &&
-    main_category.language.slug.toLocaleLowerCase() === "id"
-  ) {
-    category = main_category
-  } else if (
-    other_lang_category &&
-    categorySlug === other_lang_category.slug &&
-    other_lang_category.language.slug.toLocaleLowerCase() === "id"
-  ) {
-    category = other_lang_category
-  } else if (
-    main_category &&
-    categorySlug === main_category.slug &&
-    main_category.language.slug.toLocaleLowerCase() !== "id"
-  ) {
-    if (other_lang_category) {
-      return Astro.redirect(`/${other_lang_category.slug}`)
-    }
-  } 
+  mainCategory &&
+  categorySlug === mainCategory.slug &&
+  mainCategory.language.slug.toLocaleLowerCase() === "id"
+) {
+  category = mainCategory
+} else if (
+  otherLangCategory &&
+  categorySlug === otherLangCategory.slug &&
+  otherLangCategory.language.slug.toLocaleLowerCase() === "id"
+) {
+  category = otherLangCategory
+} else if (
+  mainCategory &&
+  categorySlug === mainCategory.slug &&
+  mainCategory.language.slug.toLocaleLowerCase() !== "id"
+) {
+  if (otherLangCategory) {
+    return Astro.redirect(`/${otherLangCategory.slug}`)
+  }
+}
 
 if (!category) {
   return Astro.redirect("/")
 }
 
-// const trendingPosts = await api.wpPopularPost.last7Days({
-//   language: locale,
-//   page: 1,
-//   per_page: 10,
-// })
-// FIX: to 7 days
-const trendingPosts = await getWpPopularPosts(DB, {
+const trendingPosts = await getWpPopularPostsLast7Days(DB, {
   language: "id",
   page: 1,
   perPage: 10,
@@ -99,14 +82,13 @@ const { posts, pageInfo } = await wpGetPostsByCategoryIdAction(
 //   per_page: 10,
 // })
 
-// const data = await api.setting.byKey("featured_categories")
+const categories = await getSettingByKey(DB, "featured_categories")
 
-// let featuredCategories: WpCategoriesDataProps[] | undefined
-// if (data) {
-//   const parsedData = JSON.parse(data.value)
-//   featuredCategories =
-//     locale === "id" ? parsedData?.categories?.id : parsedData?.categories?.en
-// }
+let featuredCategories: WpCategoriesDataProps[] | undefined
+if (categories) {
+  const parsedData = JSON.parse(categories.value)
+  featuredCategories = parsedData?.categories?.id
+}
 
 // const filtered_featured_posts =
 //   queriesFilter?.queries &&
@@ -122,49 +104,53 @@ const { posts, pageInfo } = await wpGetPostsByCategoryIdAction(
 //   })
 
 interface AlternateLink {
-  href: string;
-  hrefLang: string;
+  href: string
+  hrefLang: string
 }
 
-const langlist = [main_category, other_lang_category];
- const alternatesList: AlternateLink[] = langlist.reduce((acc: AlternateLink[], list) => {
-  if (list?.language?.slug.toLocaleLowerCase() ==="en") {
-    acc.push({
-      href: `${import.meta.env.PUBLIC_SITE_URL}/en/${list?.slug}`,
-      hrefLang: list.language.slug,
-    });
-  }
-  return acc;
-}, []);
+const langlist = [mainCategory, otherLangCategory]
+const alternatesList: AlternateLink[] = langlist.reduce(
+  (acc: AlternateLink[], list) => {
+    if (list?.language?.slug.toLocaleLowerCase() === "en") {
+      acc.push({
+        href: `${import.meta.env.PUBLIC_SITE_URL}/en/${list?.slug}`,
+        hrefLang: list.language.slug,
+      })
+    }
+    return acc
+  },
+  [],
+)
 ---
 
-<MainLayout 
-locale="id"
-seo={{
-  title: category?.name,
-  description: category?.description,
-  languageAlternates:alternatesList,
-  canonical: `${import.meta.env.PUBLIC_SITE_URL}/${category?.slug}`,
-  openGraph: {
-    basic: {
-      title: category?.name!,
-      url: `${import.meta.env.PUBLIC_SITE_URL}/${category?.slug}`,
-      type: "article",
-      image: "",
+<MainLayout
+  locale="id"
+  seo={{
+    title: category?.name,
+    description: category?.description,
+    languageAlternates: alternatesList,
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/${category?.slug}`,
+    openGraph: {
+      basic: {
+        title: category?.name!,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/${category?.slug}`,
+        type: "article",
+        image: "",
+      },
+      optional: {
+        description: category?.description,
+        locale: "id",
+      },
     },
-    optional: {
-      description: category?.description,
-      locale: "id",
-    },
-  },
-}}>
-  {
-    categoryJsonLd && (
-    <script
-        type="application/ld+json"
-        set:html={categoryJsonLd}
-      ></script>
-     )
-  }
-  <Category posts={posts} pageInfo={pageInfo} category={category} locale="id" trendingPosts={trendingPosts} />
+  }}
+>
+  {categoryJsonLd && <JsonLdScript jsonld={categoryJsonLd} />}
+  <Category
+    posts={posts}
+    pageInfo={pageInfo}
+    category={category}
+    locale="id"
+    trendingPosts={trendingPosts}
+    featuredCategories={featuredCategories}
+  />
 </MainLayout>

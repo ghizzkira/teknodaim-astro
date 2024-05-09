@@ -7,6 +7,7 @@ import { createUserLinkSchema } from "@/lib/validation/user-link"
 export const POST: APIRoute = async (context: APIContext) => {
   try {
     const user = context.locals.user
+
     const DB = context.locals.runtime.env.DB
 
     if (user?.role !== "admin") {

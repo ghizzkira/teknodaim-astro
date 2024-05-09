@@ -1,35 +1,31 @@
 ---
 import { Image } from "astro:assets"
-import sanitizeHtml from "sanitize-html"
 
 import ParseContent from "@/components/ParseContent"
 import WpPostBody from "@/components/Wp/WpPostBody"
 import WpPostCardSide from "@/components/Wp/WpPostCardSide.astro"
 import MainLayout from "@/layouts/MainLayout.astro"
 import { getWpPopularPostsLast7Days } from "@/lib/action/wp-popular-post"
-import {
-  allowedAMPAttributes,
-  allowedAMPClasses,
-  allowedAMPTags,
-} from "@/lib/amp/sanitize"
+
 import { wpGetPageByUri } from "@/lib/wp/action/wp-page"
+import JsonLdScript from "@/components/JsonLdScript"
+import { getSettingByKey } from "@/lib/action/setting"
+import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
+import WpFeaturedCategories from "@/components/Wp/WpFeaturedCategories"
 
 Astro.locals.cache(60)
 
-const { page: main_page, other_lang_page } = await wpGetPageByUri("/about/")
-if (!main_page && !other_lang_page) {
+const { page: mainPage, otherLangPage } = await wpGetPageByUri("/about/")
+if (!mainPage && !otherLangPage) {
   Astro.redirect("/404")
 }
 
 let page = null
 
-if (main_page && main_page?.language?.slug.toLocaleLowerCase() === "id") {
-  page = main_page
-} else if (
-  main_page &&
-  main_page?.language?.slug.toLocaleLowerCase() !== "id"
-) {
-  page = other_lang_page?.[0]
+if (mainPage && mainPage?.language?.slug.toLocaleLowerCase() === "id") {
+  page = mainPage
+} else if (mainPage && mainPage?.language?.slug.toLocaleLowerCase() !== "id") {
+  page = otherLangPage?.[0]
 }
 
 const DB = Astro.locals.runtime.env.DB
@@ -46,22 +42,13 @@ const postJsonLd = postJsonLdString
   ?.replace(regexId, import.meta.env.PUBLIC_DOMAIN)
   ?.replace(regexEn, import.meta.env.PUBLIC_EN_SUBDOMAIN)
 
-const firstCleanHtml = sanitizeHtml(page?.content!, {
-  allowedTags: allowedAMPTags,
-  allowedAttributes: allowedAMPAttributes,
-  selfClosing: ["source", "track", "br"],
-  //   allowedClasses: allowedAMPClasses,
-})
-// const adsBelowHeader = await api.ad.byPosition("article_below_header")
+const categories = await getSettingByKey(DB, "featured_categories")
 
-// const data = await api.setting.byKey("featured_categories")
-
-// let featuredCategories: WpCategoriesDataProps[] | undefined
-// if (data) {
-//   const parsedData = JSON.parse(data.value)
-//   featuredCategories =
-//     locale === "id" ? parsedData?.categories?.id : parsedData?.categories?.en
-// }
+let featuredCategories: WpCategoriesDataProps[] | undefined
+if (categories) {
+  const parsedData = JSON.parse(categories.value)
+  featuredCategories = parsedData?.categories?.en
+}
 ---
 
 <MainLayout
@@ -87,22 +74,14 @@ const firstCleanHtml = sanitizeHtml(page?.content!, {
     },
   }}
 >
+  {postJsonLd && <JsonLdScript jsonld={postJsonLd} />}
   {
-    postJsonLd && (
-      <script
-        is:inline
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: postJsonLd }}
-      />
-    )
-  }
-  <!-- {
     featuredCategories && Array.isArray(featuredCategories) && (
       <div class="block sm:hidden">
-        <WpFeaturedCategories categories={featuredCategories} />
+        <WpFeaturedCategories locale="en" categories={featuredCategories} />
       </div>
     )
-  } -->
+  }
   <div
     class="mx-auto flex w-full pt-5 md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]"
   >

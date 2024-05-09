@@ -6,6 +6,7 @@ import { getDownloadCommentsCountByDownloadId } from "@/lib/action/download-comm
 export const GET: APIRoute = async ({ locals, params }) => {
   try {
     const DB = locals.runtime.env.DB
+
     const downloadId = params.downloadId
     const parsedInput = z.string().parse(downloadId)
 

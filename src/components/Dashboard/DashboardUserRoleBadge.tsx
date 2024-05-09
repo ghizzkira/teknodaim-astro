@@ -1,7 +1,7 @@
 import * as React from "react"
 
 import { Badge, type BadgeProps } from "@/components/UI/Badge"
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils/style"
 import type { UserRole } from "@/lib/validation/user"
 
 interface DashboardUserRoleBadgeProps extends BadgeProps {

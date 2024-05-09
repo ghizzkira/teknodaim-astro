@@ -16,9 +16,9 @@ export interface ArticleCardFeaturedProps {
 const ArticleCardFeatured: React.FunctionComponent<ArticleCardFeaturedProps> = (
   props,
 ) => {
-  const { article } = props
+  const { article, locale } = props
 
-  const { title, featured_image, slug, locale } = article
+  const { title, featured_image, slug } = article
 
   return (
     <>

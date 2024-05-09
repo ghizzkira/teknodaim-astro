@@ -17,6 +17,7 @@ declare namespace App {
   interface Locals extends Runtime {
     session: import("lucia").Session | null
     user: UserType
+    cache(_seconds: number): void
   }
 }
 

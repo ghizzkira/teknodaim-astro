@@ -1,24 +1,23 @@
 ---
- 
+import JsonLdScript from "@/components/JsonLdScript"
 import Author from "@/components/Template/Author.astro"
 import MainLayout from "@/layouts/MainLayout.astro"
- 
+import { getSettingByKey } from "@/lib/action/setting"
+
 import { wpGetPostsByAuthorSlugAction } from "@/lib/wp/action/wp-post"
-import {
- wpGetUserBySlugAction,
- } from "@/lib/wp/action/wp-user"
+import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
+import { wpGetUserBySlugAction } from "@/lib/wp/action/wp-user"
 
 const { slug } = Astro.params
 
 export const prerender = false
 
-Astro.locals.cache(60);
-
-
+Astro.locals.cache(60)
+const DB = Astro.locals.runtime.env.DB
 const { user } = await wpGetUserBySlugAction(slug as unknown as string)
 
 if (!user) {
-return Astro.redirect("/404")
+  return Astro.redirect("/404")
 }
 // const userData = await api.user.byUsername({
 //   username: slug,
@@ -50,14 +49,13 @@ const postJsonLd = postJsonLdString
 //   queriesFilter = { ...parsedData }
 // }
 
-// const data = await api.setting.byKey("featured_categories")
+const categories = await getSettingByKey(DB, "featured_categories")
 
-// let featuredCategories: WpCategoriesDataProps[] | undefined
-// if (data) {
-//   const parsedData = JSON.parse(data.value)
-//   featuredCategories =
-//     locale === "id" ? parsedData?.categories?.id : parsedData?.categories?.en
-// }
+let featuredCategories: WpCategoriesDataProps[] | undefined
+if (categories) {
+  const parsedData = JSON.parse(categories.value)
+  featuredCategories = parsedData?.categories?.id
+}
 ---
 
 <MainLayout
@@ -86,20 +84,13 @@ const postJsonLd = postJsonLdString
     },
   }}
 >
-{
-  postJsonLd && (
-  <script
-      type="application/ld+json"
-      set:html={postJsonLdString}
-    ></script>
-   )
-}
+  {postJsonLd && <JsonLdScript jsonld={postJsonLdString} />}
   <Author
-  posts={posts}
-  pageInfo={pageInfo}  
-  locale={"id"}
-  user={user}
-  slug={slug!}
-
+    posts={posts}
+    pageInfo={pageInfo}
+    locale={"id"}
+    user={user}
+    slug={slug!}
+    featuredCategories={featuredCategories}
   />
 </MainLayout>

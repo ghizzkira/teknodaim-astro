@@ -15,7 +15,7 @@ export async function wpGetPageByUri(uri: string | undefined) {
 
     return {
       page: null,
-      other_lang_page: null,
+      otherLangPage: null,
       err: err instanceof Error ? err.message : "An error occurred",
     }
   }
@@ -23,7 +23,7 @@ export async function wpGetPageByUri(uri: string | undefined) {
   if (!res?.data.page) {
     return {
       page: null,
-      other_lang_page: null,
+      otherLangPage: null,
       err: "Something Error",
     }
   }
@@ -31,7 +31,7 @@ export async function wpGetPageByUri(uri: string | undefined) {
   const translations = page?.translations
   return {
     page: page,
-    other_lang_page: translations ?? null,
+    otherLangPage: translations ?? null,
     err: null,
   }
 }

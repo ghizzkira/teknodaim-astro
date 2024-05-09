@@ -1,19 +1,10 @@
-// TODO: handle arrow down
-
+// TODO: handle arrow down , conncect to api
 import * as React from "react"
-import { useForm } from "react-hook-form"
+// import { useForm } from "react-hook-form"
 
-import { Button } from "@/components/UI/Button"
-import { FormLabel, FormMessage } from "@/components/UI/Form"
-import { Icon } from "@/components/UI/Icon"
-import { Input } from "@/components/UI/Input"
-import { toast } from "@/components/UI/Toast/useToast"
-import { useI18n, useScopedI18n } from "@/lib/locales/client"
-import { api } from "@/lib/trpc/react"
-
-interface FormValues {
-  name: string
-}
+// interface FormValues {
+//   name: string
+// }
 
 interface DashboardAddAuthorsProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -33,106 +24,99 @@ interface DashboardAddAuthorsProps
   >
 }
 
-interface FormValues {
-  name: string
-}
+const DashboardAddAuthors: React.FunctionComponent<
+  DashboardAddAuthorsProps
+> = () => {
+  // const { authors, addAuthors, selectedAuthors, addSelectedAuthors } = props
 
-const DashboardAddAuthors: React.FunctionComponent<DashboardAddAuthorsProps> = (
-  props,
-) => {
-  const { authors, addAuthors, selectedAuthors, addSelectedAuthors } = props
+  // const [searchQuery, setSearchQuery] = React.useState<string>("")
 
-  const [searchQuery, setSearchQuery] = React.useState<string>("")
+  // const { data: searchResults } = api.user.search.useQuery(searchQuery, {
+  //   enabled: !!searchQuery,
+  // })
 
-  const t = useI18n(locale)
-  const ts = useScopedI18n("user")
+  // const form = useForm<FormValues>({ mode: "all", reValidateMode: "onChange" })
 
-  const { data: searchResults } = api.user.search.useQuery(searchQuery, {
-    enabled: !!searchQuery,
-  })
+  // const assignAuthor = React.useCallback(
+  //   (id: string) => {
+  //     const checkedAuthors = [...authors]
+  //     const index = checkedAuthors.indexOf(id)
+  //     if (index === -1) {
+  //       checkedAuthors.push(id)
+  //     } else {
+  //       checkedAuthors.splice(index, 1)
+  //     }
+  //     addAuthors(checkedAuthors)
+  //   },
+  //   [addAuthors, authors],
+  // )
 
-  const form = useForm<FormValues>({ mode: "all", reValidateMode: "onChange" })
+  // const onSubmit = React.useCallback(
+  //   (values: FormValues) => {
+  //     setSearchQuery(values.name)
+  //     if (searchResults) {
+  //       const searchResult = searchResults?.find(
+  //         (topic) => topic.name === values.name,
+  //       )
+  //       if (searchResult) {
+  //         if (
+  //           !selectedAuthors.some((author) => author.name === searchResult.name)
+  //         ) {
+  //           const resultValue = {
+  //             id: searchResult.id,
+  //             name: searchResult.name!,
+  //           }
+  //           assignAuthor(searchResult.id)
+  //           addSelectedAuthors((prev) => [...prev, resultValue])
+  //         }
+  //         setSearchQuery("")
+  //       }
+  //     }
+  //   },
+  //   [addSelectedAuthors, assignAuthor, searchResults, selectedAuthors],
+  // )
 
-  const assignAuthor = React.useCallback(
-    (id: string) => {
-      const checkedAuthors = [...authors]
-      const index = checkedAuthors.indexOf(id)
-      if (index === -1) {
-        checkedAuthors.push(id)
-      } else {
-        checkedAuthors.splice(index, 1)
-      }
-      addAuthors(checkedAuthors)
-    },
-    [addAuthors, authors],
-  )
+  // const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   e.preventDefault()
+  //   setSearchQuery(e.target.value)
+  // }
 
-  const onSubmit = React.useCallback(
-    (values: FormValues) => {
-      setSearchQuery(values.name)
-      if (searchResults) {
-        const searchResult = searchResults?.find(
-          (topic) => topic.name === values.name,
-        )
-        if (searchResult) {
-          if (
-            !selectedAuthors.some((author) => author.name === searchResult.name)
-          ) {
-            const resultValue = {
-              id: searchResult.id,
-              name: searchResult.name!,
-            }
-            assignAuthor(searchResult.id)
-            addSelectedAuthors((prev) => [...prev, resultValue])
-          }
-          setSearchQuery("")
-        }
-      }
-    },
-    [addSelectedAuthors, assignAuthor, searchResults, selectedAuthors],
-  )
+  // const handleSelectandAssign = (value: { id: string; name: string }) => {
+  //   if (!selectedAuthors.some((author) => author.name === value.name)) {
+  //     setSearchQuery("")
+  //     assignAuthor(value.id)
+  //     addSelectedAuthors((prev) => [...prev, value])
+  //   } else {
+  //     toast({
+  //       variant: "danger",
+  //       description: value.name + ` ${t("already_used")}`,
+  //     })
+  //     setSearchQuery("")
+  //   }
+  // }
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.preventDefault()
-    setSearchQuery(e.target.value)
-  }
+  // const handleEnter = (event: { key: string; preventDefault: () => void }) => {
+  //   if (event.key === "Enter") {
+  //     form.setValue("name", searchQuery)
+  //     event.preventDefault()
+  //     form.handleSubmit(onSubmit)()
+  //     setSearchQuery("")
+  //   }
+  // }
 
-  const handleSelectandAssign = (value: { id: string; name: string }) => {
-    if (!selectedAuthors.some((author) => author.name === value.name)) {
-      setSearchQuery("")
-      assignAuthor(value.id)
-      addSelectedAuthors((prev) => [...prev, value])
-    } else {
-      toast({
-        variant: "danger",
-        description: value.name + ` ${t("already_used")}`,
-      })
-      setSearchQuery("")
-    }
-  }
+  // const handleRemoveValue = (value: { id: string }) => {
+  //   const filteredResult = selectedAuthors.filter(
+  //     (item) => item.id !== value.id,
+  //   )
 
-  const handleEnter = (event: { key: string; preventDefault: () => void }) => {
-    if (event.key === "Enter") {
-      form.setValue("name", searchQuery)
-      event.preventDefault()
-      form.handleSubmit(onSubmit)()
-      setSearchQuery("")
-    }
-  }
-
-  const handleRemoveValue = (value: { id: string }) => {
-    const filteredResult = selectedAuthors.filter(
-      (item) => item.id !== value.id,
-    )
-
-    const filteredData = authors.filter((item) => item !== value.id)
-    addSelectedAuthors(filteredResult)
-    addAuthors(filteredData)
-  }
+  //   const filteredData = authors.filter((item) => item !== value.id)
+  //   addSelectedAuthors(filteredResult)
+  //   addAuthors(filteredData)
+  // }
 
   return (
     <div className="my-2 flex max-w-xl flex-col space-y-2">
-      <FormLabel>{t("authors")}</FormLabel>
+      {/* <FormLabel>{t("authors")}</FormLabel>
       <div className="rounded-md border border-muted/30 bg-muted/100">
         <div className="parent-focus flex max-w-[300px] flex-row flex-wrap items-center justify-start gap-2 p-2">
           {selectedAuthors.length > 0 &&
@@ -192,7 +176,7 @@ const DashboardAddAuthors: React.FunctionComponent<DashboardAddAuthorsProps> = (
             })}
           </ul>
         )}
-      </div>
+      </div> */}
     </div>
   )
 }

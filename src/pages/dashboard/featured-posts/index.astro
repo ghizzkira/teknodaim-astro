@@ -1,0 +1,51 @@
+---
+import { DashboardAddFeaturedPosts } from "@/components/Dashboard/DashboardAddFeaturedPosts"
+import DashboardLayout from "@/layouts/DashboardLayout.astro"
+import { getSettingByKey } from "@/lib/action/setting"
+import type { UpsertWpPopularPost } from "@/lib/validation/wp-popular-post"
+
+const user = Astro.locals.user
+const DB = Astro.locals.runtime.env.DB
+const filterPostData = await getSettingByKey(DB, "filter_post")
+let initialFilterPost: { queries: string[] } | undefined
+if (filterPostData) {
+  const parsedData = JSON.parse(filterPostData.value)
+  initialFilterPost = { ...parsedData }
+}
+const featuredPostsData = await getSettingByKey(DB, "featured_posts")
+let initialFeaturedPosts: Record<string, UpsertWpPopularPost[]> | undefined
+if (featuredPostsData) {
+  const parsedData = JSON.parse(featuredPostsData.value)
+  initialFeaturedPosts = parsedData?.posts
+}
+if (!user?.role?.includes("admin" || "author")) {
+  return Astro.redirect("/")
+}
+---
+
+<DashboardLayout
+  locale="id"
+  seo={{
+    title: "Featured Posts",
+    description: "Featured Posts",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/featured-post`,
+    openGraph: {
+      basic: {
+        title: `Featured Posts | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/featured-post`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: "Featured Posts",
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <DashboardAddFeaturedPosts
+    client:load
+    featuredPosts={initialFeaturedPosts}
+    filteredQueries={initialFilterPost?.queries}
+  />
+</DashboardLayout>

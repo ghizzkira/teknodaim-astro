@@ -1,5 +1,8 @@
 import * as React from "react"
-import type { Media as MediaProps, Topic as TopicProps } from "@prisma/client"
+import type {
+  SelectMedia as MediaProps,
+  SelectTopic as TopicProps,
+} from "@/lib/db/schema"
 
 import Image from "@/components/Image"
 import Link from "@/components/Link"
@@ -105,6 +108,8 @@ const DownloadListCategories: React.FunctionComponent<
                   src={category.featured_image.url as string}
                   className="relative h-[135px] w-[70px]"
                   alt={category.title!}
+                  width={"100"}
+                  height={"65"}
                 />
               )}
               <div className="flex w-[inherit] flex-col items-center justify-center">
