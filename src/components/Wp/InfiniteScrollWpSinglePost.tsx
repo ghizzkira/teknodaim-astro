@@ -12,6 +12,7 @@ import type {
 } from "@/lib/wp/action/wp-types"
 import { splitUriWP, wpPrimaryCategorySlug } from "@/lib/wp/helper"
 import WpPostScroll from "./WpPostScroll"
+import type { SelectAd } from "@/lib/db/schema"
 
 interface ParsedContentProps {
   firstContent: React.ReactNode[]
@@ -21,28 +22,19 @@ interface InfiniteScrollWpSinglePost {
   posts: WpSinglePostDataProps[]
   post: WpSinglePostDataProps
   //fix
-  adsBelowHeader: any[]
+  adsBelowHeader: SelectAd[]
   locale: LanguageType
-  adsSingleArticleAbove: any[]
-  adsSingleArticleBelow: any[]
-  adsSingleArticleInline: any[]
-  adsSingleArticlePopUp: any[]
+  adsSingleArticleAbove: SelectAd[]
+  adsSingleArticleBelow: SelectAd[]
+  adsSingleArticleInline: SelectAd[]
+  adsSingleArticlePopUp: SelectAd[]
   filteredQueries?: string[]
 }
 
 const InfiniteScrollWpSinglePost: React.FunctionComponent<
   InfiniteScrollWpSinglePost
 > = (props) => {
-  const {
-    posts,
-    post,
-    adsSingleArticleAbove,
-    adsSingleArticleBelow,
-    adsSingleArticleInline,
-    adsSingleArticlePopUp,
-    locale,
-    filteredQueries,
-  } = props
+  const { posts, post, locale, filteredQueries } = props
 
   const { categories } = post
   const { primaryCategory } = wpPrimaryCategorySlug(categories)
@@ -143,10 +135,10 @@ const InfiniteScrollWpSinglePost: React.FunctionComponent<
             posts={posts}
             ref={articleRef}
             postData={postDatas}
-            adsSingleArticleAbove={adsSingleArticleAbove}
-            adsSingleArticleBelow={adsSingleArticleBelow}
-            adsSingleArticleInline={adsSingleArticleInline}
-            adsSingleArticlePopUp={adsSingleArticlePopUp}
+            // adsSingleArticleAbove={adsSingleArticleAbove}
+            // adsSingleArticleBelow={adsSingleArticleBelow}
+            // adsSingleArticleInline={adsSingleArticleInline}
+            // adsSingleArticlePopUp={adsSingleArticlePopUp}
             isWP={true}
             firstContent={parsedContents[i]?.firstContent}
           />

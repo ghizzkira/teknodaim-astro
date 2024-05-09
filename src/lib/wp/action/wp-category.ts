@@ -115,7 +115,7 @@ export async function wpGetCategoryBySlugAction(slug: string) {
     ({ node = {} }) => node,
   )[0] as unknown as WpCategoriesDataProps
 
-  const translations = category?.translations[0]
+  const translations = category?.translations?.[0]
 
   return {
     category: category,

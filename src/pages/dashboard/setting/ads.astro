@@ -12,10 +12,10 @@ let settings
 
 if (data) {
   const parsedData = JSON.parse(data.value)
-   settings = { ...parsedData }
+  settings = { ...parsedData }
 }
-if (!user?.role.includes("admin" || "author")) {
- return Astro.redirect("/")
+if (!user?.role?.includes("admin" || "author")) {
+  return Astro.redirect("/")
 }
 ---
 
@@ -45,7 +45,7 @@ if (!user?.role.includes("admin" || "author")) {
         <h1>Ads.txt Settings</h1>
         <hr />
         <form id="form-ads-txt" method="POST">
-          <div class="space-y-3 mb-3">
+          <div class="mb-3 space-y-3">
             <label>ads.txt data</label>
             <Textarea
               id="ads_txt"
@@ -63,7 +63,7 @@ if (!user?.role.includes("admin" || "author")) {
     </div>
   </div>
 </DashboardLayout>
-<script type="module" is:inline>
+<script is:inline>
   const formEl = document.getElementById("form-ads-txt")
 
   if (formEl) {
@@ -76,7 +76,7 @@ if (!user?.role.includes("admin" || "author")) {
         key: "ads_txt",
         value: JSON.stringify({ ads_txt: adsTxt }),
       }
-     await fetch("/api/setting/upsert", {
+      await fetch("/api/setting/upsert", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -95,12 +95,12 @@ if (!user?.role.includes("admin" || "author")) {
               }),
             )
           } else {
-             document.dispatchEvent(
+            document.dispatchEvent(
               new CustomEvent("showNotification", {
                 detail: {
                   message: "ads.txt has been updated",
                   type: "success",
-                }, // success, warning, danger
+                },
               }),
             )
           }

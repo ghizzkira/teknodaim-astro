@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/restrict-plus-operands */
-
 import { defineMiddleware, sequence } from "astro:middleware"
 
 // import { verifyRequestOrigin } from "lucia"
@@ -43,6 +41,7 @@ const validate = defineMiddleware(async (req, next) => {
 })
 export const auth = defineMiddleware(async (context, next) => {
   const url = new URL(context.request.url)
+  //@ts-ignore
   const DB = context.locals.runtime.env.DB
   const auth = initializeAuth(DB)
 

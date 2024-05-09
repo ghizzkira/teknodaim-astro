@@ -1,11 +1,8 @@
-"use client"
-
 import type { UrlObject } from "url"
 import * as React from "react"
 
 import { Button } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
-import { useI18n } from "@/lib/locales/client"
 
 interface DashboardAddNewProps extends React.HTMLAttributes<HTMLDivElement> {
   url: string | UrlObject
@@ -14,13 +11,11 @@ interface DashboardAddNewProps extends React.HTMLAttributes<HTMLDivElement> {
 const DashboardAddNew: React.FC<DashboardAddNewProps> = (props) => {
   const { url } = props
 
-  const t = useI18n(locale)
-
   return (
     <Button variant="ghost" asChild>
-      <a aria-label={t("add_new")} href={url}>
+      <a aria-label="add_new" href={url as string}>
         <Icon.Add className="mr-2" />
-        {t("add_new")}
+        add new
       </a>
     </Button>
   )

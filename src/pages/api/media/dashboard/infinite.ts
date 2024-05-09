@@ -11,9 +11,10 @@ const inputSchema = z.object({
 export const GET: APIRoute = async ({ locals, request }) => {
   try {
     const user = locals.user
+    //@ts-ignore
     const DB = locals.runtime.env.DB
 
-    if (!user?.role.includes("admin")) {
+    if (!user?.role?.includes("admin")) {
       return new Response(null, {
         status: 401,
       })

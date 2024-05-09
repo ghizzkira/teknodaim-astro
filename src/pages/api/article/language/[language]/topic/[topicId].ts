@@ -21,6 +21,7 @@ export const GET: APIRoute = async ({ locals, params, request }) => {
     const page = parseInt(queryParams.get("page") ?? "1")
     const perPage = parseInt(queryParams.get("perPage") ?? "10")
 
+    //@ts-ignore
     const DB = locals.runtime.env.DB
 
     const parsedInput = inputSchema.parse({

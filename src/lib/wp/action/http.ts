@@ -25,7 +25,7 @@ export const wpHttp = async <T>(
     }
 
     const data = await res.json()
-    return [data, null]
+    return [data as T, null]
   } catch (err) {
     console.error(url.href, err)
     return [null, err as Error]

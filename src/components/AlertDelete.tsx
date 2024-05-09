@@ -1,3 +1,5 @@
+//Fix later
+
 import * as React from "react"
 
 import {
@@ -39,10 +41,7 @@ export const AlertDelete: React.FunctionComponent<AlertDeleteProps> = (
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete {description}</AlertDialogTitle>
-            <AlertDialogDescription>
-              {/* eslint-disable @typescript-eslint/restrict-template-expressions */}
-              {/* {`${t("delete_prompt")} ${description}?`} */}
-            </AlertDialogDescription>
+            <AlertDialogDescription></AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogAction onClick={handleDeleteAndClose} variant="danger">

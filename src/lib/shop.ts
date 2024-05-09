@@ -1,4 +1,4 @@
-import type { DigiflazzPriceListPrePaidResponse } from "./db/action/top-up"
+import type { DigiflazzPriceListPrePaidResponse } from "./action/top-up"
 import { slugify } from "./utils/slug"
 
 export function addPricesProperties(item: DigiflazzPriceListPrePaidResponse) {

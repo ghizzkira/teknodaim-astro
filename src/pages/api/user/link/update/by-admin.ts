@@ -10,6 +10,7 @@ export const PUT: APIRoute = async (context: APIContext) => {
     const parsedInput = updateUserLinkSchema.parse(body)
 
     const user = context.locals.user
+    //@ts-ignore
     const DB = context.locals.runtime.env.DB
 
     if (user?.role !== "admin") {

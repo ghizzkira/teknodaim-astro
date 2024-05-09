@@ -12,6 +12,7 @@ const inputSchema = z.object({
 export const GET: APIRoute = async ({ locals, params, request }) => {
   try {
     const authorId = params.authorId
+    //@ts-ignore
     const DB = locals.runtime.env.DB
 
     const url = new URL(request.url)

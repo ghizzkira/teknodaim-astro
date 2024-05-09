@@ -1,8 +1,10 @@
 ---
+import JsonLdScript from "@/components/JsonLdScript"
 import SinglePost from "@/components/Template/SinglePost.astro"
 import WpPostViewCounter from "@/components/Wp/WpPostViewCounter"
 import MainLayout from "@/layouts/MainLayout.astro"
-import { getWpPopularPosts } from "@/lib/action/wp-popular-post"
+import { getSettingByKey } from "@/lib/action/setting"
+import { getWpPopularPostsLast7Days } from "@/lib/action/wp-popular-post"
 import {
   wpGetAllPostsAction,
   // wpGetAllPostsSlugAction,
@@ -13,7 +15,7 @@ import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
 import { wpPrimaryCategorySlug } from "@/lib/wp/helper"
 
 export const prerender = false
-Astro.locals.cache(60);
+Astro.locals.cache(60)
 
 const { categorySlug, slug } = Astro.params
 
@@ -25,44 +27,40 @@ const { post: mainPost, otherLangPost } = await wpGetPostBySlugAction(
 )
 
 if (!mainPost && !otherLangPost) {
-  return Astro.redirect('/404');
+  return Astro.redirect("/404")
 }
 
 let post
 
 if (
-    mainPost &&
-    slug === mainPost.slug &&
-    mainPost.language.slug.toLocaleLowerCase() === "id"
-  ) {
-    post = mainPost
-
-  } else if (
-    mainPost &&
-    slug === mainPost.slug &&
-    mainPost.language.slug.toLocaleLowerCase() !== "id"
-  ) {
-    if (otherLangPost?.slug) {
-
-      const { primaryCategory } = wpPrimaryCategorySlug(
-        otherLangPost?.categories as WpCategoriesDataProps[],
-      )
-       return Astro.redirect(
-        `/${primaryCategory?.slug}/${otherLangPost.slug}`
-      )
-    }
+  mainPost &&
+  slug === mainPost.slug &&
+  mainPost.language.slug.toLocaleLowerCase() === "id"
+) {
+  post = mainPost
+} else if (
+  mainPost &&
+  slug === mainPost.slug &&
+  mainPost.language.slug.toLocaleLowerCase() !== "id"
+) {
+  if (otherLangPost?.slug) {
+    const { primaryCategory } = wpPrimaryCategorySlug(
+      otherLangPost?.categories as WpCategoriesDataProps[],
+    )
+    return Astro.redirect(`/${primaryCategory?.slug}/${otherLangPost.slug}`)
   }
-
-if (!post) {
-   return Astro.redirect("/")
 }
 
-// FIX: to 7 days
-const trendingPosts = await getWpPopularPosts(DB, {
+if (!post) {
+  return Astro.redirect("/")
+}
+
+const trendingPosts = await getWpPopularPostsLast7Days(DB, {
   language: "id",
   page: 1,
   perPage: 10,
 })
+
 const regexId = new RegExp(import.meta.env.PUBLIC_WP_DOMAIN, "g")
 const regexEn = new RegExp(import.meta.env.PUBLIC_WP_EN_SUBDOMAIN, "g")
 const postJsonLdString = post?.seo?.schema?.raw
@@ -77,26 +75,13 @@ const { posts: categoryPosts } = await wpGetPostsByCategorySlugAction(
   post?.id,
 )
 
-// const adsBelowHeader = await api.ad.byPosition("article_below_header")
-// const adsSingleArticleAbove = await api.ad.byPosition(
-//   "single_article_above_content",
-// )
-// const adsSingleArticleBelow = await api.ad.byPosition(
-//   "single_article_below_content",
-// )
-// const adsSingleArticleInline = await api.ad.byPosition(
-//   "single_article_middle_content",
-// )
-// const adsSingleArticlePopUp = await api.ad.byPosition("single_article_pop_up")
-// const data = await api.setting.byKey("featured_categories")
+const categories = await getSettingByKey(DB, "featured_categories")
 
-// let featuredCategories: WpCategoriesDataProps[] | undefined
-// if (data) {
-//   const parsedData = JSON.parse(data.value)
-//   featuredCategories =
-//     locale === "id" ? parsedData?.categories?.id : parsedData?.categories?.en
-// }
-
+let featuredCategories: WpCategoriesDataProps[] | undefined
+if (categories) {
+  const parsedData = JSON.parse(categories.value)
+  featuredCategories = parsedData?.categories?.id
+}
 // let gadgetData
 // const gadgetByCategory = await api.gadget.byWpCategorySlug(categorySlug)
 // gadgetData = gadgetByCategory
@@ -112,21 +97,25 @@ const { posts: categoryPosts } = await wpGetPostsByCategorySlugAction(
 const { primaryCategory } = wpPrimaryCategorySlug(
   post.categories as WpCategoriesDataProps[],
 )
+
 interface AlternateLink {
-  href: string;
-  hrefLang: string;
+  href: string
+  hrefLang: string
 }
 
-const langlist = [mainPost, otherLangPost];
-const alternatesList: AlternateLink[] = langlist.reduce((acc: AlternateLink[], list) => {
-  if (list?.language?.slug.toLocaleLowerCase() ==="en") {
-    acc.push({
-      href: `${import.meta.env.PUBLIC_SITE_URL}/en/${categorySlug}/${list?.slug}`,
-      hrefLang: list.language.slug,
-    });
-  }
-  return acc;
-}, []);
+const langlist = [mainPost, otherLangPost]
+const alternatesList: AlternateLink[] = langlist.reduce(
+  (acc: AlternateLink[], list) => {
+    if (list?.language?.slug.toLocaleLowerCase() === "en") {
+      acc.push({
+        href: `${import.meta.env.PUBLIC_SITE_URL}/en/${categorySlug}/${list?.slug}`,
+        hrefLang: list.language.slug,
+      })
+    }
+    return acc
+  },
+  [],
+)
 ---
 
 <MainLayout
@@ -164,19 +153,14 @@ const alternatesList: AlternateLink[] = langlist.reduce((acc: AlternateLink[], l
     authorImage={post.author.avatar.url}
     client:only="react"
   />
-{
-  postJsonLd && (
-  <script
-      type="application/ld+json"
-      set:html={postJsonLdString}
-    ></script>
-   )
-}  <SinglePost
+  {postJsonLd && <JsonLdScript jsonld={postJsonLdString} />}
+  <SinglePost
     posts={posts!}
     post={post}
     trendingPosts={trendingPosts}
     categoryPosts={categoryPosts!}
     slug={slug!}
     locale={"id"}
+    featuredCategories={featuredCategories}
   />
 </MainLayout>

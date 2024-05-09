@@ -7,12 +7,13 @@ export const DELETE: APIRoute = async (context: APIContext) => {
   try {
     const user = context.locals.user
 
-    if (!user?.role.includes("admin")) {
+    if (!user?.role?.includes("admin")) {
       return new Response(null, {
         status: 401,
       })
     }
 
+    //@ts-ignore
     const DB = context.locals.runtime.env.DB
     const body = await context.request.json()
     const parsedInput = z.string().parse(body)

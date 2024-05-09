@@ -12,7 +12,9 @@ const inputSchema = z.object({
 
 export const GET: APIRoute = async ({ locals, request }) => {
   try {
+    //@ts-ignore
     const DB = locals.runtime.env.DB
+
     const parsedInput = inputSchema.parse(request.body)
     const data = await getWpPopularPostsLast30Days(DB, parsedInput)
 

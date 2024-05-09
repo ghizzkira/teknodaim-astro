@@ -6,12 +6,13 @@ import Image from "@/components/Image"
 import Link from "@/components/Link"
 import { Icon } from "@/components/UI/Icon"
 import type { LanguageType } from "@/lib/validation/language"
+import type { SelectUser } from "@/lib/db/schema"
 
 // type UserDataProps = Pick<UserProps, "name" | "username" | "image">
 
 interface UserCardSearchProps {
   locale: LanguageType
-  user: any
+  user: SelectUser
 }
 
 const UserCardSearch: React.FunctionComponent<UserCardSearchProps> = (
@@ -24,7 +25,7 @@ const UserCardSearch: React.FunctionComponent<UserCardSearchProps> = (
   return (
     <Link
       locale={locale}
-      aria-label={username}
+      aria-label={username!}
       href={
         locale === "id"
           ? `${import.meta.env.PUBLIC_SITE_URL}/user/${username}`

@@ -7,6 +7,7 @@ import { createUserLinkSchema } from "@/lib/validation/user-link"
 export const POST: APIRoute = async (context: APIContext) => {
   try {
     const user = context.locals.user
+    //@ts-ignore
     const DB = context.locals.runtime.env.DB
 
     if (!user) {
@@ -17,7 +18,7 @@ export const POST: APIRoute = async (context: APIContext) => {
 
     const body = await context.request.json()
     const parsedInput = createUserLinkSchema.parse(body)
-    const data = await createUserLink(DB, { userId: user?.id, ...parsedInput })
+    const data = await createUserLink(DB, { userId: user?.id!, ...parsedInput })
 
     return new Response(JSON.stringify(data), {
       status: 200,

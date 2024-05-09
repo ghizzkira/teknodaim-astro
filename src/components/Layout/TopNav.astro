@@ -65,11 +65,11 @@ const {
         </div>
         <div
           class={cn(
-            "grow-1 ml-2 flex flex-row space-x-2 pr-2 md:ml-auto",
+            "grow-1 ml-2 flex flex-row space-x-3 pr-2 md:ml-auto",
             headerType === "shorts" ? "hidden md:block" : "flex",
           )}
         >
-          <div class="items-center hidden lg:flex space-x-2">
+          <div class="hidden items-center space-x-4 lg:flex">
             {
               facebookUsername && (
                 <Button
@@ -202,7 +202,7 @@ const {
               )
             }
           </div>
-          <div class="items-center flex space-x-2">
+          <div class="ml-4 flex items-center space-x-2">
             <div class="flex items-center">
               <ThemeSwitcher />
             </div>

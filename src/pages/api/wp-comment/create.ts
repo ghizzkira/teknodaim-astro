@@ -6,6 +6,7 @@ import { createWpCommentSchema } from "@/lib/validation/wp-comment"
 
 export const POST: APIRoute = async (context: APIContext) => {
   try {
+    //@ts-ignore
     const DB = context.locals.runtime.env.DB
     const user = context.locals.user
 

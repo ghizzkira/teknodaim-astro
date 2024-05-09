@@ -1,13 +1,18 @@
 /// <reference types="astro/client" />
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../.astro/types.d.ts" />
+type Runtime = import("@astrojs/cloudflare").AdvancedRuntime<ENV>
 
-type Runtime = import("@astrojs/cloudflare").Runtime<Env>
+type User = import("lucia").User &
+  import("@/lib/validation/user").UpdateUser & {
+    role: import("@/lib/validation/user").UserRole
+  }
 
 declare namespace App {
   interface Locals extends Runtime {
     session: import("lucia").Session | null
-    user: import("lucia").User | null
-    cache(seconds: number): void
+    user: Partial<User> | null
+    cache(_seconds: number): void
   }
 }
 

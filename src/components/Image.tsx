@@ -37,15 +37,7 @@ const addQueryParamToURL = ({
 }
 
 const Image = (props: ImageProps) => {
-  const {
-    src,
-    alt,
-    sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 800px",
-    decoding,
-    width,
-    height,
-    ...rest
-  } = props
+  const { src, alt, decoding, width, height, ...rest } = props
 
   return (
     <img

@@ -59,7 +59,6 @@ const WpPostCard: React.FunctionComponent<WpPostCardProps> = React.memo(
       categoryName,
       categoryUri,
       type = "horizontal",
-      srcSet,
     } = props
 
     const stylesIcons = `md:right-unset absolute right-[5px] top-[5px] z-[5] h-[32px] w-[32px] rounded-full p-1.5 text-[13px] leading-[32px] md:left-[-10px] md:top-[-10px] md:h-[44px] md:w-[44px] md:p-3 md:text-[26px] md:leading-[44px]`

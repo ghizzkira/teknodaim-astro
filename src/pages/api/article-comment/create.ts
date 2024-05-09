@@ -7,6 +7,7 @@ import { createArticleCommentSchema } from "@/lib/validation/article-comment"
 export const POST: APIRoute = async (context: APIContext) => {
   try {
     const user = context.locals.user
+    //@ts-ignore
     const DB = context.locals.runtime.env.DB
 
     const body = await context.request.json()

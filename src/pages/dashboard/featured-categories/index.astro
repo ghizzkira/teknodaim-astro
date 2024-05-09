@@ -1,0 +1,47 @@
+---
+import { DashboardAddFeaturedCategories } from "@/components/Dashboard/DashboardAddFeaturedCategories"
+import DashboardLayout from "@/layouts/DashboardLayout.astro"
+import { getSettingByKey } from "@/lib/action/setting"
+import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
+
+const user = Astro.locals.user
+const DB = Astro.locals.runtime.env.DB
+
+const featuredCategoriesData = await getSettingByKey(DB, "featured_categories")
+let initialFeaturedCategories:
+  | Record<string, WpCategoriesDataProps[]>
+  | undefined
+if (featuredCategoriesData) {
+  const parsedData = JSON.parse(featuredCategoriesData.value)
+  initialFeaturedCategories = parsedData?.categories
+}
+if (!user?.role?.includes("admin" || "author")) {
+  return Astro.redirect("/")
+}
+---
+
+<DashboardLayout
+  locale="id"
+  seo={{
+    title: "Featured Categories",
+    description: "Featured Categories",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/featured-categories`,
+    openGraph: {
+      basic: {
+        title: `Featured Categories | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/featured-categories`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: "Featured Categories",
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <DashboardAddFeaturedCategories
+    client:load
+    featuredCategories={initialFeaturedCategories}
+  />
+</DashboardLayout>

@@ -98,7 +98,7 @@ const ArticleListFeatured: React.FunctionComponent<ArticleListFeaturedProps> = (
               className={`inline-block whitespace-normal pr-[15px]`}
               key={article.slug}
             >
-              <ArticleCardFeatured article={article} />
+              <ArticleCardFeatured article={article} locale={"id"} />
             </div>
           )
         })}

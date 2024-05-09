@@ -1,17 +1,22 @@
 ---
+import JsonLdScript from "@/components/JsonLdScript"
 import Homepage from "@/components/Template/Homepage.astro"
 import MainLayout from "@/layouts/MainLayout.astro"
 import { getSettingByKey } from "@/lib/action/setting"
-import { getWpPopularPosts } from "@/lib/action/wp-popular-post"
+import {
+  getWpPopularPostsLast1Day,
+  getWpPopularPostsLast7Days,
+} from "@/lib/action/wp-popular-post"
+import type { UpsertWpPopularPost } from "@/lib/validation/wp-popular-post"
 import { wpGetAllPostsAction } from "@/lib/wp/action/wp-post"
+import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
 
 const DB = Astro.locals.runtime.env.DB
 
 Astro.locals.cache(60)
 
 const { posts, pageInfo } = await wpGetAllPostsAction("EN")
-// FIX: to 7 days
-const trendingPosts = await getWpPopularPosts(DB, {
+const trendingPosts = await getWpPopularPostsLast7Days(DB, {
   language: "en",
   page: 1,
   perPage: 10,
@@ -30,67 +35,53 @@ if (data) {
     siteSettings = { ...parsedData, ...parsedDataShop }
   }
 }
-// const data = await apsi.setting.byKey("featured_posts")
 
-// let featured: WpPopularPostProps[] | undefined
-// if (data) {
-//   const parsedData = JSON.parse(data.value)
-//   featured = locale === "id" ? parsedData?.posts?.id : parsedData?.posts?.en
-// }
+const filterPostData = await getSettingByKey(DB, "filter_post")
+let initialFilterPost: { queries: string[] } | undefined
+if (filterPostData) {
+  const parsedData = JSON.parse(filterPostData.value)
+  initialFilterPost = { ...parsedData }
+}
+const featuredPostsData = await getSettingByKey(DB, "featured_posts")
+let initialFeaturedPosts: UpsertWpPopularPost[] | undefined
+if (featuredPostsData) {
+  const parsedData = JSON.parse(featuredPostsData.value)
+  initialFeaturedPosts = parsedData?.posts?.en
+}
+const hotPosts = await getWpPopularPostsLast1Day(DB, {
+  language: "en",
+  page: 1,
+  perPage: 10,
+})
 
-// const filterPostDatas = await api.setting.byKey("filter_post")
-// let queriesFilter: { queries: string[] } | undefined
+const featured_posts = initialFeaturedPosts
+  ? initialFeaturedPosts
+  : trendingPosts && trendingPosts?.length > 3
+    ? trendingPosts
+    : hotPosts
+      ? hotPosts
+      : null
+const filteredFeaturedPosts = initialFilterPost?.queries
+  ? featured_posts?.filter((post) => {
+      if (initialFilterPost?.queries) {
+        for (const word of initialFilterPost?.queries) {
+          if (post.title.toLowerCase().includes(word.toLocaleLowerCase())) {
+            return false
+          }
+        }
+      }
+      return true
+    })
+  : featured_posts
 
-// if (filterPostDatas) {
-//   const parsedData = JSON.parse(filterPostDatas.value)
-//   queriesFilter = { ...parsedData }
-// }
+const categories = await getSettingByKey(DB, "featured_categories")
 
-// const hotPosts = await api.wpPopularPost.last1Day({
-//   language: locale,
-//   page: 1,
-//   per_page: 10,
-// })
+let featuredCategories: WpCategoriesDataProps[] | undefined
+if (categories) {
+  const parsedData = JSON.parse(categories.value)
+  featuredCategories = parsedData?.categories?.en
+}
 
-// const featured_posts = featured
-//   ? featured
-//   : trendingPosts && trendingPosts?.length > 3
-//     ? trendingPosts
-//     : hotPosts && hotPosts?.length > 3
-//       ? hotPosts
-//       : null
-// const filtered_featured_posts = queriesFilter?.queries
-//   ? featured_posts?.filter((post) => {
-//       if (queriesFilter?.queries) {
-//         for (const word of queriesFilter?.queries) {
-//           if (post.title.toLowerCase().includes(word.toLocaleLowerCase())) {
-//             return false
-//           }
-//         }
-//       }
-//       return true
-//     })
-//   : featured_posts
-
-// const carouselData = posts?.slice(0, 10)?.filter((post) => {
-//   if (queriesFilter?.queries) {
-//     for (const word of queriesFilter?.queries) {
-//       if (post.title.toLowerCase().includes(word.toLocaleLowerCase())) {
-//         return false
-//       }
-//     }
-//   }
-//   return true
-// })
-
-// const categories = await api.setting.byKey("featured_categories")
-
-// let featuredCategories: WpCategoriesDataProps[] | undefined
-// if (categories) {
-//   const parsedData = JSON.parse(categories.value)
-//   featuredCategories =
-//     locale === "id" ? parsedData?.categories?.id : parsedData?.categories?.en
-// }
 const breadcrumbJson = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
@@ -145,12 +136,15 @@ const searchBoxJsonLd = {
     },
   }}
 >
-  <script type="application/json" set:html={JSON.stringify(breadcrumbJson)} />
-  <script type="application/json" set:html={JSON.stringify(searchBoxJsonLd)} />
+  <JsonLdScript jsonld={JSON.stringify(breadcrumbJson)} />
+  <JsonLdScript jsonld={JSON.stringify(searchBoxJsonLd)} />
   <Homepage
     locale={"en"}
     posts={posts}
+    posts={posts}
+    featuredPosts={filteredFeaturedPosts}
     pageInfo={pageInfo}
     trendingPosts={trendingPosts}
+    featuredCategories={featuredCategories}
   />
 </MainLayout>

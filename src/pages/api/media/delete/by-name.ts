@@ -8,9 +8,10 @@ import { r2Client } from "@/lib/r2"
 export const DELETE: APIRoute = async (context: APIContext) => {
   try {
     const user = context.locals.user
+    //@ts-ignore
     const DB = context.locals.runtime.env.DB
 
-    if (!user?.role.includes("admin")) {
+    if (!user?.role?.includes("admin")) {
       return new Response(null, {
         status: 401,
       })

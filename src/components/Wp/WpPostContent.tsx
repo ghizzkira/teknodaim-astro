@@ -27,7 +27,6 @@ import {
 import WpPostBody from "./WpPostBody"
 import WpPostInfo from "./WpPostInfo"
 import WpPostView from "./WpPostView"
-import WpPostViewCounter from "./WpPostViewCounter"
 
 // import WpPostViewCounter from "./WpPostViewCounter"
 

@@ -1,5 +1,5 @@
 import * as React from "react"
-import type { Topic as TopicProps } from "@prisma/client"
+import type { SelectTopic as TopicProps } from "@/lib/db/schema"
 
 import Link from "@/components/Link"
 import { Icon } from "@/components/UI/Icon"

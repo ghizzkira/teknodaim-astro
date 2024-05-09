@@ -1,9 +1,9 @@
 import * as React from "react"
 import type {
-  DownloadFile as DownloadFileProps,
-  Download as DownloadProps,
-  Media as MediaProps,
-} from "@prisma/client"
+  SelectDownloadFile as DownloadFileProps,
+  SelectDownload as DownloadProps,
+  SelectMedia as MediaProps,
+} from "@/lib/db/schema"
 
 import { Button } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
@@ -103,7 +103,8 @@ const DownloadList: React.FunctionComponent<DownloadListProps> = (props) => {
             <React.Fragment key={download.id}>
               <DownloadCard
                 className="h-[280px] w-[200px]"
-                download={download}
+                download={download!}
+                locale={"id"}
               />
             </React.Fragment>
           )

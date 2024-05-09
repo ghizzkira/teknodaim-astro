@@ -7,7 +7,6 @@ const Logo: React.FunctionComponent<LogoProps> = () => {
     <span className="relative inline-block h-[23px] w-[120px]">
       <img
         loading="eager"
-        fetchpriority="high"
         sizes="(max-width: 768px) 30vw, (max-width: 1200px) 20vw, 33vw"
         alt={import.meta.env.PUBLIC_SITE_TITLE}
         src={import.meta.env.PUBLIC_LOGO_URL}

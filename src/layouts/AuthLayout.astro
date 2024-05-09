@@ -9,6 +9,7 @@ import { getSettingByKey } from "@/lib/action/setting"
 interface Props {
   seo?: SeoProps
 }
+
 const DB = Astro.locals.runtime.env.DB
 const data = await getSettingByKey(DB, "settings")
 const dataShop = await getSettingByKey(DB, "shop_settings")
@@ -67,7 +68,7 @@ const titleDefault =
       }
     </script>
   </head>
-  <body class="antialiased font-400 font-sans">
+  <body class="font-400 font-sans antialiased">
     <slot />
   </body>
 </html>

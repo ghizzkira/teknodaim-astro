@@ -5,23 +5,24 @@ import ParseContent from "@/components/ParseContent"
 import InfiniteScrollWpPostsAuthor from "@/components/Wp/InfiniteScrollWpPostsAuthor"
 import WpListPost from "@/components/Wp/WpListPost.astro"
 import type { LanguageType } from "@/lib/validation/language"
-import type { UpsertWpPopularPost } from "@/lib/validation/wp-popular-post"
 import type {
   WpAuthorsDataProps,
+  WpCategoriesDataProps,
   WPPageInfoProps,
   WpSinglePostDataProps,
-  WpTagsDataProps,
 } from "@/lib/wp/action/wp-types"
+import WpFeaturedCategories from "@/components/Wp/WpFeaturedCategories"
 
 interface Props {
   posts?: WpSinglePostDataProps[] | null
   pageInfo?: WPPageInfoProps | null
-  locale?: LanguageType
+  locale: LanguageType
   user: WpAuthorsDataProps
   slug: string
+  featuredCategories?: WpCategoriesDataProps[]
 }
 
-const { posts, pageInfo, locale, user, slug } = Astro.props
+const { posts, pageInfo, locale, user, slug, featuredCategories } = Astro.props
 
 const listPost = posts?.slice(0, posts?.length - 1)
 const infinitePosts = posts?.slice(posts?.length - 1, posts?.length)
@@ -32,13 +33,17 @@ const parsedDescription = ParseContent({
 })
 ---
 
-<!-- {
-    featuredCategories && Array.isArray(featuredCategories) && (
-      <div class="block w-full sm:hidden">
-        <WpFeaturedCategories categories={featuredCategories} />
-      </div>
-    )
-  } -->
+{
+  featuredCategories && Array.isArray(featuredCategories) && (
+    <div class="block sm:hidden">
+      <WpFeaturedCategories
+        client:load
+        locale={locale}
+        categories={featuredCategories}
+      />
+    </div>
+  )
+}
 <section class="fade-up-element flex w-full flex-col pt-5">
   <section
     class="mx-auto flex w-full flex-col md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] lg:flex-row lg:px-4 min-[1200px]:max-w-[1170px]"

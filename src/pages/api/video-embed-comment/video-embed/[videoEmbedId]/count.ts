@@ -5,7 +5,9 @@ import { getVideoEmbedCommentsCountByVideoEmbedId } from "@/lib/action/video-emb
 
 export const GET: APIRoute = async ({ locals, params }) => {
   try {
+    //@ts-ignore
     const DB = locals.runtime.env.DB
+
     const videoEmbedId = params.videoEmbedId
     const parsedInput = z.string().parse(videoEmbedId)
 

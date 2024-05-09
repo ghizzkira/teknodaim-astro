@@ -43,7 +43,7 @@ export function useUpdateSetting({
 }
 
 export function useGetSettingByKey(key: string) {
-  const [data, setData] = React.useState(null)
+  const [data, setData] = React.useState<SelectSetting | null>(null)
   const [isLoading, setIsLoading] = React.useState(false)
 
   const handleGetSettingByKey = async () => {
@@ -52,7 +52,7 @@ export function useGetSettingByKey(key: string) {
       const response = await fetch(`/api/setting/key/${key}`, {
         method: "GET",
       })
-      const data = await response.json()
+      const data = (await response.json()) as SelectSetting
       if (data) {
         setData(data)
       }

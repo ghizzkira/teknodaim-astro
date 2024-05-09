@@ -6,7 +6,9 @@ import { upsertWpPopularPostSchema } from "@/lib/validation/wp-popular-post"
 
 export const POST: APIRoute = async ({ locals, request }) => {
   try {
+    //@ts-ignore
     const DB = locals.runtime.env.DB
+
     const body = await request.json()
     const parsedInput = upsertWpPopularPostSchema.parse(body)
     const data = await upsertWpPopularPost(DB, parsedInput)

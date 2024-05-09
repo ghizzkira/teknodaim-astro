@@ -5,14 +5,11 @@ declare global {
     "set-theme": CustomEvent<Theme | null>
   }
 }
-export interface Props {
-  defaultTheme?: Theme
-}
-
-const { defaultTheme = "light" } = Astro.props as Props
 ---
 
 <script is:inline type="module">
+  const theme = localStorage.getItem("theme") || "light"
+  document.documentElement.setAttribute("class", theme)
   const n = "theme",
     r = window.matchMedia("(prefers-color-scheme: dark)")
   function d() {
@@ -27,20 +24,11 @@ const { defaultTheme = "light" } = Astro.props as Props
     document.documentElement.setAttribute("class", e),
       (document.documentElement.style.colorScheme = e)
   }
-  function l(e) {
-    e.key === n && t(a(e.newValue))
-  }
-  function m() {
-    t(a())
-  }
+
   function c(e) {
     e.detail
       ? (localStorage.setItem(n, e.detail), t(e.detail))
       : (localStorage.removeItem(n), t(a(e.detail)))
   }
-  document.addEventListener("set-theme", c),
-    window.addEventListener("storage", l),
-    r.addEventListener("change", m),
-    document.addEventListener("DOMContentLoaded", m)
-  t(a())
+  document.addEventListener("set-theme", c)
 </script>

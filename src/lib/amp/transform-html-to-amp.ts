@@ -40,7 +40,7 @@ export async function transformHtmlToAMP(post: WpSinglePostDataProps) {
   return { firstCleanHtml, secondCleanHtml }
 }
 export function transformHtmlTags():
-  | { [tagName: string]: string | sanitizeHtml.Transformer }
+  | Record<string, string | sanitizeHtml.Transformer>
   | undefined {
   return {
     span: function (tagName, attribs) {

@@ -25,6 +25,7 @@ const inputSchema = z.object({
 export const GET = async (context: APIContext) => {
   const { params } = context
   const { slug, categorySlug } = params
+  //@ts-ignore
   const DB = context.locals.runtime.env.DB
 
   const { post: mainPost, otherLangPost } = await wpGetPostBySlugAction(slug!)
@@ -58,7 +59,7 @@ export const GET = async (context: APIContext) => {
     }
   }
   if (!post) {
-    Response.redirect("/")
+    return context.redirect("/")
   }
   const { posts: categoryPosts } = await wpGetPostsByCategorySlugAction(
     categorySlug!,
@@ -167,7 +168,7 @@ export const GET = async (context: APIContext) => {
                                   ${comment?.author?.name}
                               </h1>
                               <div class="amp-comment-date">
-                                  ${formatDateFromNow(comment.createdAt, "en")}
+                                  ${formatDateFromNow(comment.createdAt!, "en")}
                               </div>
                           </div>
                           <span class="amp-comment-content">
@@ -192,7 +193,7 @@ export const GET = async (context: APIContext) => {
                                   ${reply?.author?.name}
                               </h1>
                               <div class="amp-comment-date">
-                                  ${formatDateFromNow(reply.createdAt, "en")}
+                                  ${formatDateFromNow(reply.createdAt!, "en")}
                               </div>
                           </div>
                           <span class="amp-comment-content">${reply.content}</span>
@@ -253,10 +254,8 @@ export const GET = async (context: APIContext) => {
           content="sha384-HLjhGFoQL5ruBX6qnMC1eyKy-QVvXvGLwT0Pe55bKhv3Ov21f0S15eWC0gwkcxHg">
         <title>${post.title}</title>
         <link rel="canonical" href="${
-          "en" === "en"
-            ? import.meta.env.PUBLIC_SITE_URL
-            : import.meta.env.PUBLIC_EN_SITE_URL
-        }${splitUriWP(post.uri, post.slug)}/">
+          import.meta.env.PUBLIC_SITE_URL
+        }/en${splitUriWP(post.uri, post.slug)}/">
         <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
         <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style>
         <noscript>

@@ -8,12 +8,13 @@ export const POST: APIRoute = async (context: APIContext) => {
   try {
     const user = context.locals.user
 
-    if (!user?.role.includes("admin" || "author")) {
+    if (!user?.role?.includes("admin" || "author")) {
       return new Response(null, {
         status: 401,
       })
     }
 
+    //@ts-ignore
     const DB = context.locals.runtime.env.DB
     const body = await context.request.json()
     const parsedInput = createGadgetSchema.parse(body)

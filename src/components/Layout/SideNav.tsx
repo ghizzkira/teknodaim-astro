@@ -45,7 +45,6 @@ interface SideNavProps {
 
 const SideNav: React.FunctionComponent<SideNavProps> = (props) => {
   const {
-    isMain,
     // menuSideBarAll,
     // menuSideBarByLang,
     // menuSideBarShopAll,

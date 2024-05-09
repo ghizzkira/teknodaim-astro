@@ -1,6 +1,5 @@
 import { mergeAttributes, Node, type Editor as TextEditor } from "@tiptap/core"
 import { NodeViewWrapper, ReactNodeViewRenderer } from "@tiptap/react"
-import { FacebookEmbed } from "react-social-media-embed"
 
 export const TextEditorFacebookEmbed = Node.create({
   name: "textEditorFacebookEmbed",
@@ -36,7 +35,7 @@ interface TextEditorFacebookEmbedWrapperProps {
 const TextEditorFacebookWrapper = (
   props: TextEditorFacebookEmbedWrapperProps,
 ) => {
-  const { node, editor } = props
+  const { editor } = props
   const handleClick = () => {
     editor.chain().focus().run()
   }
@@ -46,11 +45,12 @@ const TextEditorFacebookWrapper = (
       onClick={handleClick}
       className="pointer-events-none max-w-[calc(101%-10px)]"
     >
-      <FacebookEmbed
+      {/* Fix Later */}
+      {/* <FacebookEmbed
         placeholderDisabled
         url={node.attrs.facebookUrl}
         width="76%"
-      />
+      /> */}
     </NodeViewWrapper>
   )
 }

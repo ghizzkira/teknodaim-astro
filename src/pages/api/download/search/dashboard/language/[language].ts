@@ -8,7 +8,9 @@ export const GET: APIRoute = async ({ locals, params, request }) => {
   try {
     const language = params.language
 
+    //@ts-ignore
     const DB = locals.runtime.env.DB
+
     const url = new URL(request.url)
     const queryParams = new URLSearchParams(url.search)
     const searchQuery = queryParams.get("query")

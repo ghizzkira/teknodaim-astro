@@ -1,6 +1,8 @@
+// Fix later
+
 import * as React from "react"
 
-import { Icon } from "@/components/UI/Icon"
+// import { Icon } from "@/components/UI/Icon"
 
 // import { api } from "@/lib/trpc/react"
 
@@ -8,8 +10,8 @@ interface WPPostViewProps extends React.HTMLAttributes<HTMLDivElement> {
   post_slug: string
 }
 
-const WpPostView: React.FunctionComponent<WPPostViewProps> = (props) => {
-  const { post_slug, className } = props
+const WpPostView: React.FunctionComponent<WPPostViewProps> = () => {
+  // const { post_slug, className } = props
   // const { data } = api.wpPopularPost.bySlug.useQuery(post_slug)
 
   return (

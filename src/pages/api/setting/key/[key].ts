@@ -5,7 +5,9 @@ import { getSettingByKey } from "@/lib/action/setting"
 
 export const GET: APIRoute = async ({ locals, params }) => {
   try {
+    //@ts-ignore
     const DB = locals.runtime.env.DB
+
     const key = params.key
     const parsedInput = z.string().parse(key)
     const data = await getSettingByKey(DB, parsedInput)

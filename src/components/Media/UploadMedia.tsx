@@ -23,9 +23,6 @@ const UploadMedia: React.FunctionComponent<UploadMediaProps> = (props) => {
   const [loading, setLoading] = React.useState<boolean>(false)
   const [previewImages, setPreviewImages] = React.useState<string[]>([])
 
-  const t = useI18n(locale)
-  const ts = useScopedI18n("media")
-
   const form = useForm<FormValues>()
   const watchedFiles = form.watch("files")
 
@@ -62,10 +59,10 @@ const UploadMedia: React.FunctionComponent<UploadMediaProps> = (props) => {
       setToggleUpload && setToggleUpload((prev) => !prev)
       setPreviewImages([])
       form.reset()
-      toast({ variant: "success", description: ts("upload_success") })
+      toast({ variant: "success", description: "Upload success" })
     } else if (error) {
       console.log(error)
-      toast({ variant: "danger", description: ts("upload_failed") })
+      toast({ variant: "danger", description: "Upload failed" })
     }
 
     setLoading(false)
@@ -112,7 +109,7 @@ const UploadMedia: React.FunctionComponent<UploadMediaProps> = (props) => {
               aria-label="Submit"
               loading={loading}
             >
-              {t("submit")}
+              Submit
             </Button>
           </div>
         </div>

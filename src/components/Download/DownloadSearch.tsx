@@ -1,5 +1,4 @@
 import * as React from "react"
-import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
@@ -18,8 +17,6 @@ const DownloadSearch: React.FunctionComponent<DownloadSearchProps> = (
 
   const [query, setQuery] = React.useState<string>("")
 
-  const router = useRouter()
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value)
   }
@@ -29,7 +26,7 @@ const DownloadSearch: React.FunctionComponent<DownloadSearchProps> = (
     if (onSearch) {
       onSearch(query)
     } else {
-      router.push(`/download/search?q=${encodeURIComponent(query)}`)
+      window.location.replace(`/download/search?q=${encodeURIComponent(query)}`)
     }
   }
 

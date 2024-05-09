@@ -1,50 +1,25 @@
 import * as React from "react"
 // import { useQuery } from "@tanstack/react-query"
-import type {
-  DaftarHargaPostPaidReturnProps,
-  DaftarHargaPrePaidReturnProps,
-} from "digiflazz-sdk"
 
-// import ArticleCardSearch from "@/components/article/article-card-search"
-// import DownloadCardSearch from "@/components/download/download-card-search"
-// import ShopCardSearch from "@/components/shop/shop-card-search"
-// import TopicCardSearch from "@/components/topic/topic-card-search"
 import { Button } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
 import { Input } from "@/components/UI/Input"
 import { InputRightElement } from "@/components/UI/InputElement"
 import { InputGroup } from "@/components/UI/InputGroup"
-// import UserCardSearch from "@/components/user/user-card-search"
-// import VideoEmbedCardSearch from "@/components/video-embed/video-embed-card-search"
-import WpPostCardSearch from "@/components/Wp/WpPostCardSearch"
-// import { api } from "@/lib/trpc/react"
+
 import type { LanguageType } from "@/lib/validation/language"
-import { wpGetPostsBySearchAction } from "@/lib/wp/action/wp-post"
-import { splitUriWP, wpPrimaryCategorySlug } from "@/lib/wp/helper"
-
-type DigiflazzPriceListPostPaidResponse =
-  DaftarHargaPostPaidReturnProps["data"][number] & { thumbnail_image?: string }
-
-type DigiflazzPriceListPrePaidResponse =
-  DaftarHargaPrePaidReturnProps["data"][number] & { thumbnail_image?: string }
 
 interface SearchTopNavProps {
   locale: LanguageType
 }
 
 const SearchTopNav: React.FunctionComponent<SearchTopNavProps> = React.memo(
-  (props) => {
-    const { locale } = props
-
-    const [searchQuery, setSearchQuery] = React.useState<string>("")
+  () => {
+    const [_searchQuery, setSearchQuery] = React.useState<string>("")
     const [searched, setSearched] = React.useState<boolean>(false)
 
-    const [products, setProducts] = React.useState<
-      (DigiflazzPriceListPrePaidResponse | DigiflazzPriceListPostPaidResponse)[]
-    >([])
     const [showSearchMobile, setShowSearchMobile] =
       React.useState<boolean>(false)
-    const [_isProducts, SetIsProducts] = React.useState<boolean>(false)
 
     // const { data: productsData, isSuccess } = api.setting.byKey.useQuery(
     //   "products",
@@ -121,9 +96,9 @@ const SearchTopNav: React.FunctionComponent<SearchTopNavProps> = React.memo(
       }
     }
 
-    const filteredList = products.filter((list) => {
-      return list.brand.toLowerCase().includes(searchQuery.toLowerCase())
-    })
+    // const filteredList = products.filter((list) => {
+    //   return list.brand.toLowerCase().includes(searchQuery.toLowerCase())
+    // })
 
     const handleHideSearch = (event: MouseEvent) => {
       const target = event.target as HTMLElement

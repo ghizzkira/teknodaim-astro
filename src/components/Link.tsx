@@ -9,6 +9,7 @@ interface LinkProps extends React.HtmlHTMLAttributes<HTMLAnchorElement> {
   href: string
   locale: LanguageType
 }
+
 const Link = (props: LinkProps) => {
   const { children, className, href, locale, ...rest } = props
   return (

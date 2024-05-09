@@ -1,6 +1,5 @@
 ---
 import { SEO, type Props as SeoProps } from "astro-seo"
-import { ViewTransitions } from "astro:transitions"
 
 import "@/styles/globals.css"
 
@@ -11,6 +10,7 @@ import DashboardSidebar from "@/components/Dashboard/DashboardSidebar"
 import { Toaster } from "@/components/UI/Toast/Toaster"
 import { getSettingByKey } from "@/lib/action/setting"
 import Toast from "@/components/UI/Toast/Toast.astro"
+
 interface Props {
   seo?: SeoProps
   locale: LanguageType
@@ -44,9 +44,9 @@ const titleDefault =
   "Teknodaim"
 
 if (!user) {
-    return new Response(null, {
+  return new Response(null, {
     status: 404,
-    statusText: 'Not found'
+    statusText: "Not found",
   })
 }
 ---
@@ -65,7 +65,6 @@ if (!user) {
     />
     <link rel="icon" type="image/svg+xml" href="/icon/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <ViewTransitions fallback="swap" />
     <script
       is:inline
       type="text/partytown"
@@ -85,7 +84,7 @@ if (!user) {
     </script>
     <Toast />
   </head>
-  <body class="antialiased font-400 font-sans">
+  <body class="font-400 font-sans antialiased">
     <Toaster client:load />
     <DashboardContainer client:load
       ><Fragment slot="sidebar"
