@@ -5,15 +5,18 @@
 /// <reference types="astro/client" />
 /// <reference path="../.astro/types.d.ts" />
 
-type User = import("lucia").User &
-  import("@/lib/validation/user").UpdateUser & {
-    role: import("@/lib/validation/user").UserRole
-  }
+type UserRole = "user" | "member" | "author" | "admin"
+
+type UserType =
+  | (import("lucia").User & {
+      role: UserRole
+    })
+  | null
 
 declare namespace App {
   interface Locals extends Runtime {
     session: import("lucia").Session | null
-    user: Partial<User> | null
+    user: UserType
     cache(_seconds: number): void
   }
 }
