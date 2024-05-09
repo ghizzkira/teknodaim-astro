@@ -50,7 +50,7 @@ if (!user?.role?.includes("admin" || "author")) {
             <Textarea
               id="ads_txt"
               name="ads_txt"
-              defaultValue={settings.ads_txt}
+              defaultValue={settings?.ads_txt ?? ""}
               className="max-w-xl"
               placeholder="Enter ads.txt"
               required
