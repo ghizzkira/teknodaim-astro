@@ -5,10 +5,18 @@
 /// <reference types="astro/client" />
 /// <reference path="../.astro/types.d.ts" />
 
+type UserRole = "user" | "member" | "author" | "admin"
+
+type UserType =
+  | (import("lucia").User & {
+      role: UserRole
+    })
+  | null
+
 declare namespace App {
   interface Locals extends Runtime {
     session: import("lucia").Session | null
-    user: import("lucia").User | null
+    user: UserType
   }
 }
 
