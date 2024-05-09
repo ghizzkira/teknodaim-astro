@@ -89,7 +89,7 @@ if (!user?.role?.includes("admin" || "author")) {
             document.dispatchEvent(
               new CustomEvent("showNotification", {
                 detail: {
-                  message: "something error went updating ads.txt",
+                  message: "An error occurred while updating ads.txt",
                   type: "warning",
                 },
               }),

@@ -282,7 +282,7 @@ if (!user?.role?.includes("admin" || "author")) {
               document.dispatchEvent(
                 new CustomEvent("showNotification", {
                   detail: {
-                    message: "something error went updating robots.txt",
+                    message: "An error occurred while updating robots.txt",
                     type: "warning",
                   },
                 }),

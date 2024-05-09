@@ -151,7 +151,7 @@ if (!user?.role?.includes("admin" || "author")) {
               document.dispatchEvent(
                 new CustomEvent("showNotification", {
                   detail: {
-                    message: "somthing error went updating filter post",
+                    message: "An error occurred while updating filter post",
                     type: "warning",
                   },
                 }),
