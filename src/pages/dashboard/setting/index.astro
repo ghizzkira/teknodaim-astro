@@ -56,7 +56,7 @@ if (!user?.role?.includes("admin" || "author")) {
             <Input
               type="text"
               name="siteTitle"
-              defaultValue={settings?.siteTitle}
+              defaultValue={settings?.siteTitle ?? ""}
               className="max-w-xl"
               placeholder="Enter Title"
               required
@@ -67,7 +67,7 @@ if (!user?.role?.includes("admin" || "author")) {
             <Input
               type="text"
               name="siteTagline"
-              defaultValue={settings?.siteTagline}
+              defaultValue={settings?.siteTagline ?? ""}
               className="max-w-xl"
               placeholder="Enter Tagline Username"
               required
@@ -77,7 +77,7 @@ if (!user?.role?.includes("admin" || "author")) {
             <label>Site Description</label>
             <Textarea
               name="siteDescription"
-              defaultValue={settings?.siteDescription}
+              defaultValue={settings?.siteDescription ?? ""}
               className="max-w-xl"
               placeholder="Description"
               required
@@ -88,7 +88,7 @@ if (!user?.role?.includes("admin" || "author")) {
             <Input
               type="text"
               name="siteMetaTitle"
-              defaultValue={settings?.siteMetaTitle}
+              defaultValue={settings?.siteMetaTitle ?? ""}
               className="max-w-xl"
               placeholder="Enter Meta Title"
               required
@@ -99,7 +99,7 @@ if (!user?.role?.includes("admin" || "author")) {
             <Textarea
               name="siteMetaDescription"
               className="max-w-xl"
-              defaultValue={settings?.siteMetaDescription}
+              defaultValue={settings?.siteMetaDescription ?? ""}
               placeholder="Enter Meta Description"
               required
             />
@@ -109,7 +109,7 @@ if (!user?.role?.includes("admin" || "author")) {
             <Input
               type="email"
               name="email"
-              defaultValue={settings?.email}
+              defaultValue={settings?.email ?? ""}
               pattern="^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$"
               className="max-w-xl"
               placeholder="Enter Email"
@@ -121,7 +121,7 @@ if (!user?.role?.includes("admin" || "author")) {
             <Input
               type="email"
               name="supportEmail"
-              defaultValue={settings?.supportEmail}
+              defaultValue={settings?.supportEmail ?? ""}
               className="max-w-xl"
               pattern="^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}$"
               placeholder="Enter Support Email"
@@ -133,7 +133,7 @@ if (!user?.role?.includes("admin" || "author")) {
             <Input
               type="number"
               name="whatsappNumber"
-              defaultValue={settings?.whatsappNumber}
+              defaultValue={settings?.whatsappNumber ?? ""}
               className="max-w-xl"
               placeholder="Enter Whatsapp Number"
               required
@@ -144,7 +144,7 @@ if (!user?.role?.includes("admin" || "author")) {
             <Input
               type="text"
               name="facebookUsername"
-              defaultValue={settings?.facebookUsername}
+              defaultValue={settings?.facebookUsername ?? ""}
               className="max-w-xl"
               placeholder="Enter Facebook Username"
               required
@@ -155,7 +155,7 @@ if (!user?.role?.includes("admin" || "author")) {
             <Input
               type="text"
               name="twitterUsername"
-              defaultValue={settings?.twitterUsername}
+              defaultValue={settings?.twitterUsername ?? ""}
               className="max-w-xl"
               placeholder="Enter Twitter Username"
               required
@@ -166,7 +166,7 @@ if (!user?.role?.includes("admin" || "author")) {
             <Input
               type="text"
               name="instagramUsername"
-              defaultValue={settings?.instagramUsername}
+              defaultValue={settings?.instagramUsername ?? ""}
               className="max-w-xl"
               placeholder="Enter Instagram Username"
               required
@@ -177,7 +177,7 @@ if (!user?.role?.includes("admin" || "author")) {
             <Input
               type="text"
               name="tiktokUsername"
-              defaultValue={settings?.tiktokUsername}
+              defaultValue={settings?.tiktokUsername ?? ""}
               className="max-w-xl"
               placeholder="Enter Tiktok Username"
               required
@@ -189,7 +189,7 @@ if (!user?.role?.includes("admin" || "author")) {
               type="text"
               name="whatsappChannel"
               className="max-w-xl"
-              defaultValue={settings?.whatsappChannel}
+              defaultValue={settings?.whatsappChannel ?? ""}
               placeholder="Enter WhatsApp Channel"
               required
             />
@@ -199,7 +199,7 @@ if (!user?.role?.includes("admin" || "author")) {
             <Input
               type="text"
               name="pinterestUsername"
-              defaultValue={settings?.pinterestUsername}
+              defaultValue={settings?.pinterestUsername ?? ""}
               className="max-w-xl"
               placeholder="Enter Pinterest Username"
               required
@@ -210,7 +210,7 @@ if (!user?.role?.includes("admin" || "author")) {
             <Input
               type="text"
               name="youtubeChannel"
-              defaultValue={settings?.youtubeChannel}
+              defaultValue={settings?.youtubeChannel ?? ""}
               className="max-w-xl"
               placeholder="Enter Youtube Channel"
               required
