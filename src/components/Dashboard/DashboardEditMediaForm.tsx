@@ -64,7 +64,7 @@ export default function EditMediaForm(props: EditMediaProps) {
             <Image
               src={media.url}
               alt={media.name}
-              className="rounded-lg border-2 border-muted/30 object-cover"
+              className="aspect-video h-auto w-full rounded-lg border-2 border-muted/30 object-cover"
               sizes="(max-width: 768px) 30vw, (max-width: 1200px) 20vw, 33vw"
               width="100"
               height="100"
@@ -97,7 +97,7 @@ export default function EditMediaForm(props: EditMediaProps) {
                       })
                     }}
                   >
-                    <Icon.Copy aria-label="Copy Link" className="ml-2" />
+                    <Icon.Copy aria-label="Copy Link" className="mr-2" />
                     Copy Link
                   </Button>
                 </div>

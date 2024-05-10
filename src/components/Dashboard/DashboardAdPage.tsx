@@ -42,15 +42,15 @@ const DashboardAdPage = (props: DashboardAdPageProps) => {
           <Table className="table-fixed border-collapse border-spacing-0">
             <TableHeader>
               <TableRow>
-                <TableHead>title</TableHead>
+                <TableHead>Title</TableHead>
                 <TableHead className="hidden w-[100px] whitespace-nowrap lg:table-cell">
-                  type
+                  Type
                 </TableHead>
                 <TableHead className="hidden whitespace-nowrap lg:table-cell">
-                  position
+                  Position
                 </TableHead>
                 <TableHead className="hidden w-[80px] whitespace-nowrap lg:table-cell">
-                  active
+                  Active
                 </TableHead>
               </TableRow>
             </TableHeader>

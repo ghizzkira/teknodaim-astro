@@ -5,6 +5,7 @@ import { toast } from "@/components/UI/Toast/useToast"
 import CopyMediaLinkButton from "./CopyMediaLinkButton"
 import DeleteMediaButton from "./DeleteMediaButton"
 import { useDeleteMedia, useGetMediasInfinite } from "@/hooks/useMedia"
+import Image from "@/components/Image"
 
 interface MediaListProps extends React.HTMLAttributes<HTMLDivElement> {
   selectMedia?: (_media: { name: string; id: string; url: string }) => void
@@ -56,12 +57,10 @@ const MediaList: React.FunctionComponent<MediaListProps> = (props) => {
     }
   }, [handleObserver, isLibrary, data])
 
-  // const ts = useScopedI18n("media")
-
   const { handleDeleteMedia: deleteMedia } = useDeleteMedia({
     onSuccess: () => {
       updateMedias()
-      toast({ variant: "success", description: "delete_success" })
+      toast({ variant: "success", description: "Success deleting media" })
     },
   })
 
@@ -85,12 +84,12 @@ const MediaList: React.FunctionComponent<MediaListProps> = (props) => {
                       aria-label={media.name}
                       href={`/dashboard/media/edit/${media.id}`}
                     >
-                      <img
+                      <Image
                         key={media.id}
                         src={media.url}
                         alt={media.name}
                         sizes="(max-width: 768px) 30vw, (max-width: 1200px) 20vw, 33vw"
-                        className="!relative aspect-[1/1] h-[200px] w-full max-w-[unset] rounded-sm border-2 border-muted/30 bg-muted/30 object-cover"
+                        className="!relative aspect-[1/1] !h-[200px] !w-auto max-w-[unset] rounded-sm border-2 border-muted/30 bg-muted/30 object-cover"
                         width="100"
                         height="100"
                       />
@@ -112,7 +111,7 @@ const MediaList: React.FunctionComponent<MediaListProps> = (props) => {
                     }}
                     key={i}
                   >
-                    <img
+                    <Image
                       key={media.id}
                       src={media.url}
                       alt={media.name}
@@ -121,7 +120,7 @@ const MediaList: React.FunctionComponent<MediaListProps> = (props) => {
                       sizes="(max-width: 768px) 30vw,
                     (max-width: 1200px) 20vw,
                     33vw"
-                      className="!relative aspect-[1/1] h-[200px] w-full max-w-[unset] cursor-pointer rounded-sm border-2 border-muted/30 bg-muted/30 object-cover"
+                      className="!relative aspect-[1/1] !h-[200px] !w-auto max-w-[unset] cursor-pointer rounded-sm border-2 border-muted/30 bg-muted/30 object-cover"
                     />
                   </div>
                 )
