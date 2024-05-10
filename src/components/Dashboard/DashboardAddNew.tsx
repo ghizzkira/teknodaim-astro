@@ -15,7 +15,7 @@ const DashboardAddNew: React.FC<DashboardAddNewProps> = (props) => {
     <Button variant="ghost" asChild>
       <a aria-label="add_new" href={url as string}>
         <Icon.Add className="mr-2" />
-        add new
+        Add new
       </a>
     </Button>
   )

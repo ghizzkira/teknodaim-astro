@@ -1,76 +1,23 @@
 import * as React from "react"
 
 import { toast } from "@/components/UI/Toast/useToast"
-import type { SelectWpComment } from "@/lib/db/schema/wp-comment"
-import type {
-  CreateWpComment,
-  UpdateWpComment,
-} from "@/lib/validation/wp-comment"
-import type { SelectUser } from "@/lib/db/schema"
+import type { UploadMedia, UpdateMedia } from "@/lib/validation/media"
+import type { SelectMedia } from "@/lib/db/schema"
 
-export function useWpCreateComment({
+export function useUploadMedia({
   onSuccess,
   onError,
 }: {
-  input?: CreateWpComment & { authorId: string }
+  input?: UploadMedia
   onSuccess?: () => void
   onError?: () => void
 }) {
   const [isLoading, setIsLoading] = React.useState(false)
 
-  const handleCreateComment = async ({
-    wpPostSlug,
-    content,
-    replyToId,
-  }: {
-    wpPostSlug: string
-    content: string
-    replyToId?: string | null | undefined
-  }) => {
+  const handleUploadMedia = async (input?: UploadMedia) => {
     setIsLoading(true)
     try {
-      const response = await fetch("/api/wp-comment/create", {
-        method: "POST",
-        body: JSON.stringify({
-          wpPostSlug,
-          content,
-          replyToId,
-        }),
-      })
-      const data = await response.json()
-      if (data) {
-        onSuccess && onSuccess()
-      }
-      return data
-    } catch (error) {
-      onError && onError()
-      toast({
-        description: "Error when creating comment, try again",
-        variant: "warning",
-      })
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  return { isLoading, handleCreateComment }
-}
-
-export function useWpUpdateComment({
-  input,
-  onSuccess,
-  onError,
-}: {
-  input?: UpdateWpComment & { authorId: string }
-  onSuccess?: () => void
-  onError?: () => void
-}) {
-  const [isLoading, setIsLoading] = React.useState(false)
-
-  const handleUpdateComment = async () => {
-    setIsLoading(true)
-    try {
-      const response = await fetch("/api/wp-comment/create", {
+      const response = await fetch("/api/media/create", {
         method: "POST",
         body: JSON.stringify(input),
       })
@@ -81,29 +28,68 @@ export function useWpUpdateComment({
       return data
     } catch (error) {
       onError && onError()
+      toast({
+        description: "Error when creating media, try again",
+        variant: "warning",
+      })
     } finally {
       setIsLoading(false)
     }
   }
 
-  return { isLoading, handleUpdateComment }
+  return { isLoading, handleUploadMedia }
 }
-export function useWpDeleteComment({
+
+export function useUpdateMedia({
   onSuccess,
   onError,
 }: {
-  input?: CreateWpComment & { authorId: string }
+  input?: UpdateMedia
   onSuccess?: () => void
   onError?: () => void
 }) {
   const [isLoading, setIsLoading] = React.useState(false)
 
-  const handleDeleteComment = async (comment_id: string) => {
+  const handleUpdateMedia = async (input?: UpdateMedia) => {
     setIsLoading(true)
     try {
-      const response = await fetch("/api/wp-comment/delete", {
+      const response = await fetch("/api/media/update", {
+        method: "PUT",
+        body: JSON.stringify(input),
+      })
+      const data = await response.json()
+      if (data) {
+        onSuccess && onSuccess()
+      }
+      return data
+    } catch (error) {
+      onError && onError()
+      toast({
+        description: "Error when updating media, try again",
+        variant: "warning",
+      })
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  return { isLoading, handleUpdateMedia }
+}
+export function useDeleteMedia({
+  onSuccess,
+  onError,
+}: {
+  onSuccess?: () => void
+  onError?: () => void
+}) {
+  const [isLoading, setIsLoading] = React.useState(false)
+
+  const handleDeleteMedia = async (mediaName: string) => {
+    setIsLoading(true)
+    try {
+      const response = await fetch("/api/media/delete/by-name", {
         method: "DELETE",
-        body: JSON.stringify(comment_id),
+        body: JSON.stringify(mediaName),
       })
       const data = await response.json()
 
@@ -116,7 +102,7 @@ export function useWpDeleteComment({
       return data
     } catch (error) {
       toast({
-        description: "Error when deleting comment, try again",
+        description: "Error when deleting media, try again",
         variant: "warning",
       })
     } finally {
@@ -124,29 +110,30 @@ export function useWpDeleteComment({
     }
   }
 
-  return { isLoading, handleDeleteComment }
+  return { isLoading, handleDeleteMedia }
 }
-export function useGetWpCommentCountByWpSlug(slug: string) {
-  const [data, setData] = React.useState<number | null>(null)
+
+export function useGetMediasSearch(query?: string) {
+  const [data, setData] = React.useState<SelectMedia[]>([])
   const [isLoading, setIsLoading] = React.useState(false)
 
-  const handleGetWpCommentCountByWpSlug = async () => {
+  const handleGetMediasInfinite = async () => {
     setIsLoading(true)
     try {
+      const searchParams = new URLSearchParams()
+      searchParams.set("query", query ?? "")
+
       const response = await fetch(
-        `/api/wp-comment/wp-post-slug/${slug}/count`,
+        `/api/media/search?${searchParams.toString()}`,
         {
           method: "GET",
         },
       )
-      const data = await response.json()
-      if (typeof data === "number") {
-        setData(data)
-      }
-      return data
+      const results = (await response.json()) as SelectMedia[]
+      return results
     } catch (error) {
       toast({
-        description: "Error when getting count, try again",
+        description: "Error when getting medias, try again",
         variant: "warning",
       })
     } finally {
@@ -154,30 +141,22 @@ export function useGetWpCommentCountByWpSlug(slug: string) {
     }
   }
 
-  const refetch = () => {
-    handleGetWpCommentCountByWpSlug()
-  }
-
   React.useEffect(() => {
-    handleGetWpCommentCountByWpSlug()
-  }, [])
-
-  return { data, isLoading, refetch }
+    const livesearch = async () => {
+      if (query) {
+        const results = await handleGetMediasInfinite()
+        if (Array.isArray(results)) {
+          setData([...results])
+        }
+      }
+    }
+    livesearch()
+  }, [query, data])
+  return { data, isLoading, refetch: handleGetMediasInfinite }
 }
-
-type WpComment = SelectWpComment & { author: SelectUser } & {
-  replies?: (SelectWpComment & { author: SelectUser })[]
-}
-
-export function useGetWpCommentByWpSlugInfinite({
-  slug,
-  limit,
-}: {
-  slug: string
-  limit: number
-}) {
-  const [comments, setComments] = React.useState<
-    { wpComments: WpComment[]; cursor: string; page: number }[] | []
+export function useGetMediasInfinite({ limit }: { limit: number }) {
+  const [data, setData] = React.useState<
+    { medias: SelectMedia[]; cursor: string; page: number }[]
   >([])
   const [isLoading, setIsLoading] = React.useState(false)
   const [lastCursor, setLastCursor] = React.useState<null | string | undefined>(
@@ -187,47 +166,44 @@ export function useGetWpCommentByWpSlugInfinite({
   const loadMoreRef = React.useRef<HTMLDivElement>(null)
   const [hasNextPage, setHasNextPage] = React.useState(true)
 
-  const handleGetWpCommentsByWpSlugInfinite = async (
-    nextCursor?: string | null,
-  ) => {
+  const handleGetMediasInfinite = async (nextCursor?: string | null) => {
     setIsLoading(true)
     try {
       const searchParams = new URLSearchParams()
       searchParams.set("limit", limit.toString())
       searchParams.set("cursor", nextCursor ?? "")
-      searchParams.set("wpPostSlug", slug ?? "")
 
       const response = await fetch(
-        `/api/wp-comment/wp-post-slug/${slug}/infinite?${searchParams.toString()}`,
+        `/api/media/dashboard/infinite?${searchParams.toString()}`,
         {
           method: "GET",
         },
       )
-      const data = (await response.json()) as {
+      const results = (await response.json()) as {
         nextCursor: string
-        wpComments: WpComment[]
+        medias: SelectMedia[]
       }
-      if (data?.wpComments) {
-        setComments([
-          ...comments,
+      if (Array.isArray(results?.medias)) {
+        setData([
+          ...data,
           {
-            wpComments: data?.wpComments,
-            cursor: data?.nextCursor,
+            medias: results?.medias,
+            cursor: results?.nextCursor,
             page: page + 1,
           },
         ])
         setPage(page + 1)
       }
 
-      if (data?.nextCursor) {
-        setLastCursor(data?.nextCursor)
+      if (results?.nextCursor) {
+        setLastCursor(results?.nextCursor)
       } else {
         setLastCursor(null)
         setHasNextPage(false)
       }
     } catch (error) {
       toast({
-        description: "Error when getting comment, try again",
+        description: "Error when getting medias, try again",
         variant: "warning",
       })
     } finally {
@@ -239,7 +215,7 @@ export function useGetWpCommentByWpSlugInfinite({
     (entries: IntersectionObserverEntry[]) => {
       const [target] = entries
       if (target?.isIntersecting && lastCursor !== undefined) {
-        handleGetWpCommentsByWpSlugInfinite(lastCursor)
+        handleGetMediasInfinite(lastCursor)
       }
     },
     [],
@@ -258,47 +234,42 @@ export function useGetWpCommentByWpSlugInfinite({
     }
   }, [handleObserver])
 
-  const fetchCommentsByPage = async (limit: number, cursor = "") => {
+  const fetchMediasByPage = async (limit: number, cursor = "") => {
+    const searchParams = new URLSearchParams()
+    searchParams.set("limit", limit.toString())
+    searchParams.set("cursor", cursor ?? "")
+
     const response = await fetch(
-      `/api/wp-comment/wp-post-slug/${slug}/infinite`,
+      `/api/media/dashboard/infinite?${searchParams.toString()}`,
       {
-        method: "POST",
-        body: JSON.stringify({
-          wpPostSlug: slug,
-          limit: limit,
-          cursor: cursor,
-        }),
+        method: "GET",
       },
     )
     const data = (await response.json()) as {
       nextCursor: string
-      wpComments: WpComment[]
+      medias: SelectMedia[]
     }
     return data
   }
 
-  const handleGetWpCommentsByWpSlugInfiniteRefetch = async (
-    totalPages: number,
-  ) => {
+  const handleGetMediasInfiniteRefetch = async (totalPages: number) => {
     setIsLoading(true)
     let cursor = ""
-    const allComments = [...comments]
+    const allMedias = [...data]
 
     for (let page = 1; page <= totalPages; page++) {
       try {
-        const data = await fetchCommentsByPage(limit, cursor)
-        if (data?.wpComments) {
-          if (page <= allComments.length) {
-            // Update existing page
-            allComments[page - 1] = {
-              wpComments: data?.wpComments,
+        const data = await fetchMediasByPage(limit, cursor)
+        if (data?.medias) {
+          if (page <= allMedias.length) {
+            allMedias[page - 1] = {
+              medias: data?.medias,
               cursor: data?.nextCursor,
               page: page,
             }
           } else {
-            // Add new page
-            allComments.push({
-              wpComments: data?.wpComments,
+            allMedias.push({
+              medias: data?.medias,
               cursor: data?.nextCursor,
               page: page,
             })
@@ -311,32 +282,32 @@ export function useGetWpCommentByWpSlugInfinite({
         }
       } catch (error) {
         toast({
-          description: "Error when getting comment, try again",
+          description: "Error when getting medias, try again",
           variant: "warning",
         })
       }
     }
 
-    setComments(allComments)
-    setPage(allComments.length)
-    setLastCursor(allComments[allComments.length - 1]?.cursor)
+    setData(allMedias)
+    setPage(allMedias.length)
+    setLastCursor(allMedias[allMedias.length - 1]?.cursor)
     setIsLoading(false)
   }
 
   const refetch = () => {
-    handleGetWpCommentsByWpSlugInfiniteRefetch(page + 1)
+    handleGetMediasInfiniteRefetch(page + 1)
   }
 
   const fetchNextPage = () => {
-    handleGetWpCommentsByWpSlugInfinite(lastCursor)
+    handleGetMediasInfinite(lastCursor)
   }
 
   React.useEffect(() => {
-    handleGetWpCommentsByWpSlugInfinite("")
+    handleGetMediasInfinite("")
   }, [])
 
   return {
-    comments,
+    data,
     isLoading,
     refetch,
     fetchNextPage,

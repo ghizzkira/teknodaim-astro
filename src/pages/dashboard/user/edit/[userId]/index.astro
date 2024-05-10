@@ -1,0 +1,47 @@
+---
+import EditUserForm from "@/components/Dashboard/DashboardEditUserForm"
+import DashboardLayout from "@/layouts/DashboardLayout.astro"
+import { getUserById } from "@/lib/action/user"
+
+const currentUser = Astro.locals.user
+const DB = Astro.locals.runtime.env.DB
+
+const { userId } = Astro.params
+const user = await getUserById(DB, userId!)
+if (!user) {
+  return Astro.redirect("/404")
+}
+---
+
+<DashboardLayout
+  locale="id"
+  seo={{
+    title: "Edit User",
+    description: "Edit User",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/user/edit/${userId}`,
+    openGraph: {
+      basic: {
+        title: `Edit User | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/user/edit/${userId}`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: "Edit User",
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <div class="mx-4 flex w-full flex-col">
+    <div class="mb-[100px] mt-4 flex items-end justify-end">
+      <div class="flex-1 space-y-4">
+        <EditUserForm
+          currentUserRole={currentUser?.role!}
+          user={user}
+          client:load
+        />
+      </div>
+    </div>
+  </div></DashboardLayout
+>

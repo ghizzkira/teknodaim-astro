@@ -1,0 +1,39 @@
+---
+import CreateAdForm from "@/components/Dashboard/DashboardCreateAdForm"
+import DashboardLayout from "@/layouts/DashboardLayout.astro"
+
+const user = Astro.locals.user
+
+if (!user?.role?.includes("admin" || "author")) {
+  return Astro.redirect("/")
+}
+---
+
+<DashboardLayout
+  locale="id"
+  seo={{
+    title: "Create Ad",
+    description: "Create Ad",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/ad/new`,
+    openGraph: {
+      basic: {
+        title: `Create Ad | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/ad/new`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: "Create Ad",
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <div class="mx-4 flex w-full flex-col">
+    <div class="mb-[100px] mt-4 flex items-end justify-end">
+      <div class="flex-1 space-y-4">
+        <CreateAdForm client:load />
+      </div>
+    </div>
+  </div></DashboardLayout
+>

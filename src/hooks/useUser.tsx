@@ -12,10 +12,17 @@ export function useUpdateUser({
 }) {
   const [isLoading, setIsLoading] = React.useState(false)
 
-  const handleUpdateComment = async (input: UpdateUser) => {
+  const handleUpdateUser = async (
+    input: UpdateUser,
+    currentUserRole: UserRole,
+  ) => {
     setIsLoading(true)
+    const path =
+      currentUserRole !== "admin"
+        ? "/api/user/update"
+        : "/api/user/update/by-admin"
     try {
-      const response = await fetch("/api/user/update", {
+      const response = await fetch(path, {
         method: "PUT",
         body: JSON.stringify(input),
       })
@@ -29,7 +36,7 @@ export function useUpdateUser({
     } catch (error) {
       onError && onError()
       toast({
-        description: "Error when updating comment, try again",
+        description: "Error when updating user, try again",
         variant: "warning",
       })
     } finally {
@@ -37,7 +44,7 @@ export function useUpdateUser({
     }
   }
 
-  return { isLoading, handleUpdateComment }
+  return { isLoading, handleUpdateUser }
 }
 export function useDeleteUser({
   onSuccess,
@@ -49,12 +56,12 @@ export function useDeleteUser({
 }) {
   const [isLoading, setIsLoading] = React.useState(false)
 
-  const handleDeleteComment = async (comment_id: string) => {
+  const handleDeleteUser = async (userId: string) => {
     setIsLoading(true)
     try {
       const response = await fetch("/api/user/delete", {
         method: "DELETE",
-        body: JSON.stringify(comment_id),
+        body: JSON.stringify(userId),
       })
       const data = await response.json()
 
@@ -67,7 +74,7 @@ export function useDeleteUser({
       return data
     } catch (error) {
       toast({
-        description: "Error when deleting comment, try again",
+        description: "Error when deleting user, try again",
         variant: "warning",
       })
     } finally {
@@ -75,7 +82,7 @@ export function useDeleteUser({
     }
   }
 
-  return { isLoading, handleDeleteComment }
+  return { isLoading, handleDeleteUser }
 }
 export function useGetUserCountBySlug(slug: string) {
   const [data, setData] = React.useState<number | null>(null)

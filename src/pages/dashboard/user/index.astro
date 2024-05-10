@@ -1,0 +1,53 @@
+---
+import DashboardUserPage from "@/components/Dashboard/DashboardUserPage"
+import DashboardLayout from "@/layouts/DashboardLayout.astro"
+import { getUsersCount, getUsersDashboard } from "@/lib/action/user"
+
+const user = Astro.locals.user
+const DB = Astro.locals.runtime.env.DB
+const url = Astro.url
+
+const searchParams = new URLSearchParams(url.searchParams)
+const page = searchParams.get("page")
+const currentPage =
+  page && typeof parseInt(page) === "number" ? parseInt(page) : 1
+const usersCount = await getUsersCount(DB)
+const users = await getUsersDashboard(DB, {
+  page: currentPage,
+  perPage: 10,
+})
+if (!user?.role?.includes("admin" || "author")) {
+  return Astro.redirect("/")
+}
+const lastPage = usersCount && Math.ceil(usersCount / 10)
+---
+
+<DashboardLayout
+  locale="id"
+  seo={{
+    title: "Users",
+    description: "Users",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/user`,
+    openGraph: {
+      basic: {
+        title: `Users | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/user`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: "Users",
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <DashboardUserPage
+    currentUserRole={user?.role!}
+    users={users}
+    page={currentPage}
+    lastPage={lastPage}
+    paramsName="page"
+    client:load
+  />
+</DashboardLayout>

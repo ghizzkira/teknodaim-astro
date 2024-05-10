@@ -14,7 +14,7 @@ import { Icon } from "@/components/UI/Icon"
 import Link from "@/components/Link"
 
 interface DashboardShowOptionsProps {
-  onDelete: () => void
+  onDelete?: () => void
   editUrl: string | UrlObject
   translateUrl?: string | UrlObject
   viewUrl?: string | UrlObject
@@ -35,11 +35,15 @@ const DashboardShowOptions: React.FC<DashboardShowOptionsProps> = (props) => {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-[150px] p-2">
-          <DropdownMenuItem onClick={() => setOpenDialog(true)}>
-            <Icon.Delete className="mr-2 size-4" />
-            Delete
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
+          {onDelete && (
+            <>
+              <DropdownMenuItem onClick={() => setOpenDialog(true)}>
+                <Icon.Delete className="mr-2 size-4" />
+                Delete
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+            </>
+          )}
           <DropdownMenuItem asChild>
             <Link href={editUrl as string} locale={"id"}>
               <Icon.Edit className="mr-2 size-4" />
@@ -68,13 +72,15 @@ const DashboardShowOptions: React.FC<DashboardShowOptionsProps> = (props) => {
           )}
         </DropdownMenuContent>
       </DropdownMenu>
-      <AlertDelete
-        description={description}
-        isOpen={openDialog}
-        className="max-w-[366px]"
-        onDelete={onDelete}
-        onClose={() => setOpenDialog(false)}
-      />
+      {onDelete && (
+        <AlertDelete
+          description={description}
+          isOpen={openDialog}
+          className="max-w-[366px]"
+          onDelete={onDelete}
+          onClose={() => setOpenDialog(false)}
+        />
+      )}
     </>
   )
 }

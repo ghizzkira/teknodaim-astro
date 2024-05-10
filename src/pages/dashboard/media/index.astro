@@ -1,0 +1,33 @@
+---
+import DashboardMediaContent from "@/components/Dashboard/DashboardMediaPage"
+import DashboardLayout from "@/layouts/DashboardLayout.astro"
+
+const user = Astro.locals.user
+
+if (!user?.role?.includes("admin" || "author")) {
+  return Astro.redirect("/")
+}
+---
+
+<DashboardLayout
+  locale="id"
+  seo={{
+    title: "Medias",
+    description: "Medias",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/media`,
+    openGraph: {
+      basic: {
+        title: `Medias | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/media`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: "Medias",
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <DashboardMediaContent client:load />
+</DashboardLayout>
