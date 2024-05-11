@@ -1,7 +1,10 @@
 ---
-import DashboardAdPage from "@/components/Dashboard/Ad/DashboardAdPage"
+import DashboardUserExpertisePage from "@/components/Dashboard/UserExpertise/DashboardUserExpertiseContent"
 import DashboardLayout from "@/layouts/DashboardLayout.astro"
-import { getAdsCount, getAdsDashboard } from "@/lib/action/ad"
+import {
+  getUserLinksCount,
+  getUserLinksDashboard,
+} from "@/lib/action/user-link"
 
 const user = Astro.locals.user
 const DB = Astro.locals.runtime.env.DB
@@ -11,39 +14,39 @@ const searchParams = new URLSearchParams(url.searchParams)
 const page = searchParams.get("page")
 const currentPage =
   page && typeof parseInt(page) === "number" ? parseInt(page) : 1
-const adsCount = await getAdsCount(DB)
-const ads = await getAdsDashboard(DB, {
+const userExpertisesCount = await getUserLinksCount(DB)
+const userExpertises = await getUserLinksDashboard(DB, {
   page: currentPage,
   perPage: 10,
 })
 if (!user?.role?.includes("admin" || "author" || "user")) {
   return Astro.redirect("/")
 }
-const lastPage = adsCount && Math.ceil(adsCount / 10)
+const lastPage = userExpertisesCount && Math.ceil(userExpertisesCount / 10)
 ---
 
 <DashboardLayout
   locale="id"
   seo={{
-    title: "Ads",
-    description: "Ads",
-    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/ad`,
+    title: "User Expertises",
+    description: "User Expertises",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/user-expertise`,
     openGraph: {
       basic: {
-        title: `Ads | `,
-        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/ad`,
+        title: `User Expertises | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/user-expertise`,
         type: "website",
         image: "",
       },
       optional: {
-        description: "Ads",
+        description: "User Expertises",
         locale: "ID",
       },
     },
   }}
 >
-  <DashboardAdPage
-    ads={ads}
+  <DashboardUserExpertisePage
+    userExpertises={userExpertises}
     page={currentPage}
     lastPage={lastPage}
     paramsName="page"

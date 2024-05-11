@@ -1,0 +1,46 @@
+---
+import EditUserExpertiseForm from "@/components/Dashboard/UserExpertise/DashboardEditUserExpertiseForm"
+import DashboardLayout from "@/layouts/DashboardLayout.astro"
+import { getUserLinksById } from "@/lib/action/user-link"
+
+const user = Astro.locals.user
+const DB = Astro.locals.runtime.env.DB
+
+if (!user?.role?.includes("admin" || "author")) {
+  return Astro.redirect("/")
+}
+const { userExpertiseId } = Astro.params
+const userExpertise = await getUserLinksById(DB, userExpertiseId!)
+if (!userExpertise) {
+  return Astro.redirect("/404")
+}
+---
+
+<DashboardLayout
+  locale="id"
+  seo={{
+    title: "Edit User Expertise",
+    description: "Edit User Expertise",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/user-expertise/edit/${userExpertiseId}`,
+    openGraph: {
+      basic: {
+        title: `Edit User Expertise | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/user-expertise/edit/${userExpertiseId}`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: "Edit User Expertise",
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <div class="mx-4 flex w-full flex-col">
+    <div class="mb-[100px] mt-4 flex items-end justify-end">
+      <div class="flex-1 space-y-4">
+        <EditUserExpertiseForm userExpertise={userExpertise} client:load />
+      </div>
+    </div>
+  </div></DashboardLayout
+>

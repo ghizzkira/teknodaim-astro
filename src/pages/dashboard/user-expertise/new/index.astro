@@ -1,5 +1,5 @@
 ---
-import CreateAdForm from "@/components/Dashboard/Ad/DashboardCreateAdForm"
+import CreateUserExpertiseForm from "@/components/Dashboard/UserExpertise/DashboardCreateUserExpertiseForm"
 import DashboardLayout from "@/layouts/DashboardLayout.astro"
 
 const user = Astro.locals.user
@@ -12,18 +12,18 @@ if (!user?.role?.includes("admin" || "author")) {
 <DashboardLayout
   locale="id"
   seo={{
-    title: "Create Ad",
-    description: "Create Ad",
-    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/ad/new`,
+    title: "Create User Expertise",
+    description: "Create User Expertise",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/user-expertise/new`,
     openGraph: {
       basic: {
-        title: `Create Ad | `,
-        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/ad/new`,
+        title: `Create User Expertise | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/user-expertise/new`,
         type: "website",
         image: "",
       },
       optional: {
-        description: "Create Ad",
+        description: "Create User Expertise",
         locale: "ID",
       },
     },
@@ -32,7 +32,7 @@ if (!user?.role?.includes("admin" || "author")) {
   <div class="mx-4 flex w-full flex-col">
     <div class="mb-[100px] mt-4 flex items-end justify-end">
       <div class="flex-1 space-y-4">
-        <CreateAdForm client:load />
+        <CreateUserExpertiseForm client:load />
       </div>
     </div>
   </div></DashboardLayout
