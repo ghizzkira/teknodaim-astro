@@ -4,7 +4,7 @@ import DashboardLayout from "@/layouts/DashboardLayout.astro"
 
 const user = Astro.locals.user
 
-if (!user?.role?.includes("admin" || "author")) {
+if (!user?.role?.includes("admin" || "author" || "user")) {
   return Astro.redirect("/")
 }
 ---

@@ -135,10 +135,7 @@ export function useDeleteArticle({
 
       return data
     } catch (error) {
-      toast({
-        description: "Error when deleting article, try again",
-        variant: "warning",
-      })
+      onError && onError()
     } finally {
       setIsLoading(false)
     }

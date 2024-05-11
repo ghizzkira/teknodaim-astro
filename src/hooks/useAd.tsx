@@ -45,7 +45,7 @@ export function useUpdateAd({
 }: {
   input?: UpdateAd
   onSuccess?: () => void
-  onError?: () => void
+  onError: () => void
 }) {
   const [isLoading, setIsLoading] = React.useState(false)
 
@@ -79,7 +79,7 @@ export function useDeleteAd({
   onError,
 }: {
   onSuccess?: () => void
-  onError?: () => void
+  onError: () => void
 }) {
   const [isLoading, setIsLoading] = React.useState(false)
 
@@ -100,10 +100,7 @@ export function useDeleteAd({
 
       return data
     } catch (error) {
-      toast({
-        description: "Error when deleting ad, try again",
-        variant: "warning",
-      })
+      onError && onError()
     } finally {
       setIsLoading(false)
     }

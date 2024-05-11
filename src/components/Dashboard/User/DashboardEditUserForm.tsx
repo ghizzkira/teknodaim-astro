@@ -24,7 +24,7 @@ import {
 } from "@/components/UI/Select"
 import type { InsertUser } from "@/lib/db/schema"
 import { useUpdateUser } from "@/hooks/useUser"
-import Image from "../Image"
+import Image from "../../Image"
 import { formatDate } from "@/lib/utils/date"
 import TextEditor from "@/components/TextEditor/TextEditor"
 

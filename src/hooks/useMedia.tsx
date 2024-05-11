@@ -10,7 +10,7 @@ export function useUploadMedia({
 }: {
   input?: UploadMedia
   onSuccess?: () => void
-  onError?: () => void
+  onError: () => void
 }) {
   const [isLoading, setIsLoading] = React.useState(false)
 
@@ -28,10 +28,6 @@ export function useUploadMedia({
       return data
     } catch (error) {
       onError && onError()
-      toast({
-        description: "Error when creating media, try again",
-        variant: "warning",
-      })
     } finally {
       setIsLoading(false)
     }
@@ -46,7 +42,7 @@ export function useUpdateMedia({
 }: {
   input?: UpdateMedia
   onSuccess?: () => void
-  onError?: () => void
+  onError: () => void
 }) {
   const [isLoading, setIsLoading] = React.useState(false)
 
@@ -64,10 +60,6 @@ export function useUpdateMedia({
       return data
     } catch (error) {
       onError && onError()
-      toast({
-        description: "Error when updating media, try again",
-        variant: "warning",
-      })
     } finally {
       setIsLoading(false)
     }
@@ -101,10 +93,7 @@ export function useDeleteMedia({
 
       return data
     } catch (error) {
-      toast({
-        description: "Error when deleting media, try again",
-        variant: "warning",
-      })
+      onError && onError()
     } finally {
       setIsLoading(false)
     }

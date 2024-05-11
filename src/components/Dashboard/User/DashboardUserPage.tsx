@@ -8,9 +8,9 @@ import {
   TableRow,
   TableHeader,
 } from "@/components/UI/Table"
-import DashboardHeading from "./DashboardHeading"
-import DashboardPagination from "./DashboardPagination"
-import DashboardShowOptions from "./DashboardShowOptions"
+import DashboardHeading from "@/components/Dashboard/DashboardHeading"
+import DashboardPagination from "@/components/Dashboard/DashboardPagination"
+import DashboardShowOptions from "@/components/Dashboard/DashboardShowOptions"
 import { toast } from "@/components/UI/Toast/useToast"
 import { useDeleteUser } from "@/hooks/useUser"
 import { Badge } from "@/components/UI/Badge"

@@ -95,10 +95,7 @@ export function useDeleteGadget({
 
       return data
     } catch (error) {
-      toast({
-        description: "Error when deleting gadget, try again",
-        variant: "warning",
-      })
+      onError && onError()
     } finally {
       setIsLoading(false)
     }

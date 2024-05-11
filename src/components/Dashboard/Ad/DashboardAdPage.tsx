@@ -8,11 +8,11 @@ import {
   TableRow,
   TableHeader,
 } from "@/components/UI/Table"
-import DashboardAdPositionBadge from "./DashboardAdPositionBadge"
-import DashboardAddNew from "./DashboardAddNew"
-import DashboardHeading from "./DashboardHeading"
-import DashboardPagination from "./DashboardPagination"
-import DashboardShowOptions from "./DashboardShowOptions"
+import DashboardAdPositionBadge from "@/components/Dashboard/DashboardAdPositionBadge"
+import DashboardAddNew from "@/components/Dashboard/DashboardAddNew"
+import DashboardHeading from "@/components/Dashboard/DashboardHeading"
+import DashboardPagination from "@/components/Dashboard/DashboardPagination"
+import DashboardShowOptions from "@/components/Dashboard/DashboardShowOptions"
 import { useDeleteAd } from "@/hooks/useAd"
 import { toast } from "@/components/UI/Toast/useToast"
 
@@ -29,6 +29,12 @@ const DashboardAdPage = (props: DashboardAdPageProps) => {
     onSuccess: () => {
       toast({ variant: "success", description: "Success deleting ad" })
       window.location.reload()
+    },
+    onError: () => {
+      toast({
+        description: "Error when deleting ad, try again",
+        variant: "warning",
+      })
     },
   })
   return (

@@ -51,6 +51,12 @@ export default function EditAdForm(props: EditAdFormProps) {
     onSuccess: () => {
       toast({ variant: "success", description: "Success updating ad" })
     },
+    onError: () => {
+      toast({
+        description: "Error when updating ad, try again",
+        variant: "warning",
+      })
+    },
   })
 
   const form = useForm<FormValues>({

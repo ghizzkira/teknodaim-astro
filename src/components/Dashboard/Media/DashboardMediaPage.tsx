@@ -7,8 +7,8 @@ import CopyMediaLinkButton from "@/components/Media/CopyMediaLinkButton"
 import DeleteMediaButton from "@/components/Media/DeleteMediaButton"
 import Image from "@/components/Image"
 import MediaList from "@/components/Media/MediaList"
-import DashboardAddNew from "./DashboardAddNew"
-import DashboardHeading from "./DashboardHeading"
+import DashboardAddNew from "@/components/Dashboard/DashboardAddNew"
+import DashboardHeading from "@/components/Dashboard/DashboardHeading"
 
 export default function DashboardMediaContent() {
   const [searchQuery, setSearchQuery] = React.useState<string | null>(null)

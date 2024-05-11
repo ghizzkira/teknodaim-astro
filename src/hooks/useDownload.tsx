@@ -135,10 +135,7 @@ export function useDeleteDownload({
 
       return data
     } catch (error) {
-      toast({
-        description: "Error when deleting download, try again",
-        variant: "warning",
-      })
+      onError && onError()
     } finally {
       setIsLoading(false)
     }

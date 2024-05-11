@@ -1,6 +1,5 @@
 import * as React from "react"
 
-import { toast } from "@/components/UI/Toast/useToast"
 import type {
   CreateTopic,
   UpdateTopic,
@@ -13,7 +12,7 @@ export function useCreateTopic({
 }: {
   input?: CreateTopic
   onSuccess?: () => void
-  onError?: () => void
+  onError: () => void
 }) {
   const [isLoading, setIsLoading] = React.useState(false)
 
@@ -31,10 +30,6 @@ export function useCreateTopic({
       return data
     } catch (error) {
       onError && onError()
-      toast({
-        description: "Error when creating topic, try again",
-        variant: "warning",
-      })
     } finally {
       setIsLoading(false)
     }
@@ -49,7 +44,7 @@ export function useTranslateTopic({
 }: {
   input?: TranslateTopic
   onSuccess?: () => void
-  onError?: () => void
+  onError: () => void
 }) {
   const [isLoading, setIsLoading] = React.useState(false)
 
@@ -67,10 +62,6 @@ export function useTranslateTopic({
       return data
     } catch (error) {
       onError && onError()
-      toast({
-        description: "Error when creating topic, try again",
-        variant: "warning",
-      })
     } finally {
       setIsLoading(false)
     }
@@ -84,7 +75,7 @@ export function useUpdateTopic({
   onError,
 }: {
   onSuccess?: () => void
-  onError?: () => void
+  onError: () => void
 }) {
   const [isLoading, setIsLoading] = React.useState(false)
 
@@ -92,7 +83,7 @@ export function useUpdateTopic({
     setIsLoading(true)
     try {
       const response = await fetch("/api/topic/update", {
-        method: "POST",
+        method: "PUT",
         body: JSON.stringify(input),
       })
       const data = await response.json()
@@ -114,7 +105,7 @@ export function useDeleteTopic({
   onError,
 }: {
   onSuccess?: () => void
-  onError?: () => void
+  onError: () => void
 }) {
   const [isLoading, setIsLoading] = React.useState(false)
 
@@ -135,10 +126,7 @@ export function useDeleteTopic({
 
       return data
     } catch (error) {
-      toast({
-        description: "Error when deleting topic, try again",
-        variant: "warning",
-      })
+      onError && onError()
     } finally {
       setIsLoading(false)
     }

@@ -1,5 +1,5 @@
 ---
-import DashboardAdPage from "@/components/Dashboard/DashboardAdPage"
+import DashboardAdPage from "@/components/Dashboard/Ad/DashboardAdPage"
 import DashboardLayout from "@/layouts/DashboardLayout.astro"
 import { getAdsCount, getAdsDashboard } from "@/lib/action/ad"
 
@@ -16,8 +16,8 @@ const ads = await getAdsDashboard(DB, {
   page: currentPage,
   perPage: 10,
 })
-if (!user?.role?.includes("admin" || "author")) {
-  Astro.redirect("/")
+if (!user?.role?.includes("admin" || "author" || "user")) {
+  return Astro.redirect("/")
 }
 const lastPage = adsCount && Math.ceil(adsCount / 10)
 ---
@@ -50,3 +50,4 @@ const lastPage = adsCount && Math.ceil(adsCount / 10)
     client:load
   />
 </DashboardLayout>
+@/components/Dashboard/Ad/DashboardAdPage

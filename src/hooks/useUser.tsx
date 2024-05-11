@@ -2,6 +2,7 @@ import * as React from "react"
 
 import { toast } from "@/components/UI/Toast/useToast"
 import type { UpdateUser } from "@/lib/validation/user"
+import type { SelectUser } from "@/lib/db/schema"
 
 export function useUpdateUser({
   onSuccess,
@@ -118,4 +119,46 @@ export function useGetUserCountBySlug(slug: string) {
   }, [])
 
   return { data, isLoading, refetch }
+}
+
+export function useGetUsersSearch(query?: string) {
+  const [data, setData] = React.useState<SelectUser[]>([])
+  const [isLoading, setIsLoading] = React.useState(false)
+
+  const handleGetUsers = async () => {
+    setIsLoading(true)
+    try {
+      const searchParams = new URLSearchParams()
+      searchParams.set("query", query ?? "")
+
+      const response = await fetch(
+        `/api/user/search?${searchParams.toString()}`,
+        {
+          method: "GET",
+        },
+      )
+      const results = (await response.json()) as SelectUser[]
+      return results
+    } catch (error) {
+      toast({
+        description: "Error when getting userrs, try again",
+        variant: "warning",
+      })
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  React.useEffect(() => {
+    const livesearch = async () => {
+      if (query) {
+        const results = await handleGetUsers()
+        if (Array.isArray(results)) {
+          setData([...results])
+        }
+      }
+    }
+    livesearch()
+  }, [query, data])
+  return { data, isLoading, refetch: handleGetUsers }
 }

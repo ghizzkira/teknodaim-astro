@@ -18,7 +18,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "../UI/Form"
+} from "@/components/UI/Form"
 import { copyToClipboard } from "@/lib/utils/content"
 
 interface FormValues {
@@ -46,6 +46,12 @@ export default function EditMediaForm(props: EditMediaProps) {
     onSuccess: () => {
       toast({ variant: "success", description: "update_success" })
       window.location.replace(`/dashboard/media`)
+    },
+    onError: () => {
+      toast({
+        description: "Error when updating media, try again",
+        variant: "warning",
+      })
     },
   })
 
