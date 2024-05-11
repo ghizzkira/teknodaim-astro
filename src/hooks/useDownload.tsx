@@ -118,12 +118,12 @@ export function useDeleteDownload({
 }) {
   const [isLoading, setIsLoading] = React.useState(false)
 
-  const handleDeleteDownload = async (adId: string) => {
+  const handleDeleteDownload = async (downloadId: string) => {
     setIsLoading(true)
     try {
       const response = await fetch("/api/download/delete", {
         method: "DELETE",
-        body: JSON.stringify(adId),
+        body: JSON.stringify(downloadId),
       })
       const data = await response.json()
 

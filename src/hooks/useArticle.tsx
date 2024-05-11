@@ -118,12 +118,12 @@ export function useDeleteArticle({
 }) {
   const [isLoading, setIsLoading] = React.useState(false)
 
-  const handleDeleteArticle = async (adId: string) => {
+  const handleDeleteArticle = async (articleId: string) => {
     setIsLoading(true)
     try {
       const response = await fetch("/api/article/delete", {
         method: "DELETE",
-        body: JSON.stringify(adId),
+        body: JSON.stringify(articleId),
       })
       const data = await response.json()
 

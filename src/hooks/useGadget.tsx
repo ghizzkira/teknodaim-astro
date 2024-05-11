@@ -78,12 +78,12 @@ export function useDeleteGadget({
 }) {
   const [isLoading, setIsLoading] = React.useState(false)
 
-  const handleDeleteGadget = async (adId: string) => {
+  const handleDeleteGadget = async (gadgetId: string) => {
     setIsLoading(true)
     try {
       const response = await fetch("/api/gadget/delete", {
         method: "DELETE",
-        body: JSON.stringify(adId),
+        body: JSON.stringify(gadgetId),
       })
       const data = await response.json()
 

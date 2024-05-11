@@ -109,12 +109,12 @@ export function useDeleteTopic({
 }) {
   const [isLoading, setIsLoading] = React.useState(false)
 
-  const handleDeleteTopic = async (adId: string) => {
+  const handleDeleteTopic = async (topicId: string) => {
     setIsLoading(true)
     try {
       const response = await fetch("/api/topic/delete", {
         method: "DELETE",
-        body: JSON.stringify(adId),
+        body: JSON.stringify(topicId),
       })
       const data = await response.json()
 

@@ -14,7 +14,6 @@ const searchParams = new URLSearchParams(url.searchParams)
 const page = searchParams.get("page")
 const language = searchParams.get("language")
 const currentLanguage = language && language === "en" ? "en" : "id"
-console.log(currentLanguage, language)
 const currentPage =
   page && typeof parseInt(page) === "number" ? parseInt(page) : 1
 const topicsCount = await getTopicsCountByLanguage(DB, currentLanguage)
