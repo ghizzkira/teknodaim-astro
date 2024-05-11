@@ -74,12 +74,12 @@ export function useDeleteUserExpertise({
 }) {
   const [isLoading, setIsLoading] = React.useState(false)
 
-  const handleDeleteUserExpertise = async (adId: string) => {
+  const handleDeleteUserExpertise = async (userExpertiseId: string) => {
     setIsLoading(true)
     try {
       const response = await fetch("/api/user/link/delete", {
         method: "DELETE",
-        body: JSON.stringify(adId),
+        body: JSON.stringify(userExpertiseId),
       })
       const data = await response.json()
 
