@@ -63,8 +63,17 @@ export function DashboardAddFeaturedCategories(
 
   const { handleUpdateSetting: createSettingAction } = useUpdateSetting({
     onSuccess: () => {
-      toast({ variant: "success", description: "Settings has been updated" })
+      toast({
+        variant: "success",
+        description: "Featuted categories has been updated",
+      })
       setLoading(false)
+    },
+    onError: () => {
+      toast({
+        description: "Error when updating featured categories, try again",
+        variant: "warning",
+      })
     },
   })
 

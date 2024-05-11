@@ -66,7 +66,16 @@ export function DashboardAddFeaturedPosts(
 
   const { handleUpdateSetting: createSettingAction } = useUpdateSetting({
     onSuccess: () => {
-      toast({ variant: "success", description: "Settings has been updated" })
+      toast({
+        variant: "success",
+        description: "Featured posts has been updated",
+      })
+    },
+    onError: () => {
+      toast({
+        description: "Error when creating featured posts, try again",
+        variant: "warning",
+      })
     },
   })
 

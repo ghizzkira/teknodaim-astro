@@ -1,0 +1,55 @@
+---
+import DashboardUserExpertisePage from "@/components/Dashboard/UserExpertise/DashboardUserExpertiseContent"
+import DashboardLayout from "@/layouts/DashboardLayout.astro"
+import {
+  getUserLinksCount,
+  getUserLinksDashboard,
+} from "@/lib/action/user-link"
+
+const user = Astro.locals.user
+const DB = Astro.locals.runtime.env.DB
+const url = Astro.url
+
+const searchParams = new URLSearchParams(url.searchParams)
+const page = searchParams.get("page")
+const currentPage =
+  page && typeof parseInt(page) === "number" ? parseInt(page) : 1
+const userExpertisesCount = await getUserLinksCount(DB)
+const userExpertises = await getUserLinksDashboard(DB, {
+  page: currentPage,
+  perPage: 10,
+})
+if (!user?.role?.includes("admin" || "author" || "user")) {
+  return Astro.redirect("/")
+}
+const lastPage = userExpertisesCount && Math.ceil(userExpertisesCount / 10)
+---
+
+<DashboardLayout
+  locale="id"
+  seo={{
+    title: "User Expertises",
+    description: "User Expertises",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/user-expertise`,
+    openGraph: {
+      basic: {
+        title: `User Expertises | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/user-expertise`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: "User Expertises",
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <DashboardUserExpertisePage
+    userExpertises={userExpertises}
+    page={currentPage}
+    lastPage={lastPage}
+    paramsName="page"
+    client:load
+  />
+</DashboardLayout>

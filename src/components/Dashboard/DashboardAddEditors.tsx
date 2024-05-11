@@ -1,6 +1,13 @@
-// TODO: handle arrow down , connect to api
+// TODO: handle arrow down
 
 import * as React from "react"
+import { FormLabel, FormMessage } from "@/components/UI/Form"
+import { Icon } from "@/components/UI/Icon"
+import { useForm } from "react-hook-form"
+import { Button } from "@/components/UI/Button"
+import { Input } from "@/components/UI/Input"
+import { toast } from "@/components/UI/Toast/useToast"
+import { useGetUsersSearch } from "@/hooks/useUser"
 
 interface DashboardAddEditorsProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -20,106 +27,101 @@ interface DashboardAddEditorsProps
   >
 }
 
-// interface FormValues {
-//   name: string
-// }
+interface FormValues {
+  name: string
+}
 
-const DashboardAddEditors: React.FunctionComponent<
-  DashboardAddEditorsProps
-> = () => {
-  // const { editors, addEditors, selectedEditors, addSelectedEditors } = props
+const DashboardAddEditors: React.FunctionComponent<DashboardAddEditorsProps> = (
+  props,
+) => {
+  const { editors, addEditors, selectedEditors, addSelectedEditors } = props
 
-  // const [searchQuery, setSearchQuery] = React.useState<string>("")
+  const [searchQuery, setSearchQuery] = React.useState<string>("")
 
-  // const t = useI18n(locale)
-  // const ts = useScopedI18n("user")
+  const { data: searchResults } = useGetUsersSearch(searchQuery)
 
-  // const { data: searchResults } = api.user.search.useQuery(searchQuery, {
-  //   enabled: !!searchQuery,
-  // })
+  const form = useForm<FormValues>({ mode: "all", reValidateMode: "onChange" })
 
-  // const form = useForm<FormValues>({ mode: "all", reValidateMode: "onChange" })
+  const assignEditor = React.useCallback(
+    (id: string) => {
+      const checkedEditors = [...editors]
+      const index = checkedEditors.indexOf(id)
+      if (index === -1) {
+        checkedEditors.push(id)
+      } else {
+        checkedEditors.splice(index, 1)
+      }
+      addEditors(checkedEditors)
+    },
+    [addEditors, editors],
+  )
 
-  // const assignEditor = React.useCallback(
-  //   (id: string) => {
-  //     const checkedEditors = [...editors]
-  //     const index = checkedEditors.indexOf(id)
-  //     if (index === -1) {
-  //       checkedEditors.push(id)
-  //     } else {
-  //       checkedEditors.splice(index, 1)
-  //     }
-  //     addEditors(checkedEditors)
-  //   },
-  //   [addEditors, editors],
-  // )
+  const onSubmit = React.useCallback(
+    (values: FormValues) => {
+      setSearchQuery(values.name)
+      if (searchResults) {
+        const searchResult = searchResults?.find(
+          (topic) => topic.name === values.name,
+        )
+        if (searchResult) {
+          if (
+            !selectedEditors.some((editor) => editor.name === searchResult.name)
+          ) {
+            const resultValue = {
+              id: searchResult.id,
+              name: searchResult.name!,
+            }
+            assignEditor(searchResult.id)
+            addSelectedEditors((prev) => [...prev, resultValue])
+          }
+          setSearchQuery("")
+        }
+      }
+    },
+    [addSelectedEditors, assignEditor, searchResults, selectedEditors],
+  )
 
-  // const onSubmit = React.useCallback(
-  //   (values: FormValues) => {
-  //     setSearchQuery(values.name)
-  //     if (searchResults) {
-  //       const searchResult = searchResults?.find(
-  //         (topic) => topic.name === values.name,
-  //       )
-  //       if (searchResult) {
-  //         if (
-  //           !selectedEditors.some((editor) => editor.name === searchResult.name)
-  //         ) {
-  //           const resultValue = {
-  //             id: searchResult.id,
-  //             name: searchResult.name!,
-  //           }
-  //           assignEditor(searchResult.id)
-  //           addSelectedEditors((prev) => [...prev, resultValue])
-  //         }
-  //         setSearchQuery("")
-  //       }
-  //     }
-  //   },
-  //   [addSelectedEditors, assignEditor, searchResults, selectedEditors],
-  // )
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault()
+    setSearchQuery(e.target.value)
+  }
 
-  // const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   e.preventDefault()
-  //   setSearchQuery(e.target.value)
-  // }
+  const handleSelectandAssign = (value: { id: string; name: string }) => {
+    if (!selectedEditors.some((editor) => editor.name === value.name)) {
+      setSearchQuery("")
+      assignEditor(value.id)
+      addSelectedEditors((prev) => [...prev, value])
+    } else {
+      toast({
+        variant: "danger",
+        description: value.name + ` already used`,
+      })
+      setSearchQuery("")
+    }
+  }
 
-  // const handleSelectandAssign = (value: { id: string; name: string }) => {
-  //   if (!selectedEditors.some((editor) => editor.name === value.name)) {
-  //     setSearchQuery("")
-  //     assignEditor(value.id)
-  //     addSelectedEditors((prev) => [...prev, value])
-  //   } else {
-  //     toast({
-  //       variant: "danger",
-  //       description: value.name + ` ${t("already_used")}`,
-  //     })
-  //     setSearchQuery("")
-  //   }
-  // }
+  const handleEnter = (event: { key: string; preventDefault: () => void }) => {
+    if (event.key === "Enter") {
+      form.setValue("name", searchQuery)
+      event.preventDefault()
+      form.handleSubmit(onSubmit)()
+      setSearchQuery("")
+    }
+  }
 
-  // const handleEnter = (event: { key: string; preventDefault: () => void }) => {
-  //   if (event.key === "Enter") {
-  //     form.setValue("name", searchQuery)
-  //     event.preventDefault()
-  //     form.handleSubmit(onSubmit)()
-  //     setSearchQuery("")
-  //   }
-  // }
+  const handleRemoveValue = (value: { id: string }) => {
+    const filteredResult = selectedEditors.filter(
+      (item) => item.id !== value.id,
+    )
 
-  // const handleRemoveValue = (value: { id: string }) => {
-  //   const filteredResult = selectedEditors.filter(
-  //     (item) => item.id !== value.id,
-  //   )
-
-  //   const filteredData = editors.filter((item) => item !== value.id)
-  //   addSelectedEditors(filteredResult)
-  //   addEditors(filteredData)
-  // }
+    const filteredData = editors.filter((item) => item !== value.id)
+    addSelectedEditors(filteredResult)
+    addEditors(filteredData)
+  }
 
   return (
     <div className="my-2 flex max-w-xl flex-col space-y-2">
-      {/* <FormLabel>{t("editors")}</FormLabel>
+      <FormLabel>Editors</FormLabel>
       <div className="rounded-md border border-muted/30 bg-muted/100">
         <div className="parent-focus flex max-w-[300px] flex-row flex-wrap items-center justify-start gap-2 p-2">
           {selectedEditors.length > 0 &&
@@ -145,14 +147,14 @@ const DashboardAddEditors: React.FunctionComponent<
           <Input
             type="text"
             {...form.register("name", {
-              required: selectedEditors.length === 0 && ts("editor_required"),
+              required: selectedEditors.length === 0 && "Editor is required",
             })}
             className="h-auto w-full min-w-[50px] max-w-full shrink grow basis-0 border-none !bg-transparent p-0 focus:border-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
             name="name"
             id="searchEditor"
             value={searchQuery}
             onKeyDown={handleEnter}
-            placeholder={ts("find_editors")}
+            placeholder="Find editors"
             onChange={handleSearchChange}
           />
           <FormMessage />
@@ -179,7 +181,7 @@ const DashboardAddEditors: React.FunctionComponent<
             })}
           </ul>
         )}
-      </div> */}
+      </div>
     </div>
   )
 }

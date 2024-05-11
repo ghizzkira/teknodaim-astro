@@ -1,0 +1,52 @@
+---
+import DashboardAdPage from "@/components/Dashboard/Ad/DashboardAdPage"
+import DashboardLayout from "@/layouts/DashboardLayout.astro"
+import { getAdsCount, getAdsDashboard } from "@/lib/action/ad"
+
+const user = Astro.locals.user
+const DB = Astro.locals.runtime.env.DB
+const url = Astro.url
+
+const searchParams = new URLSearchParams(url.searchParams)
+const page = searchParams.get("page")
+const currentPage =
+  page && typeof parseInt(page) === "number" ? parseInt(page) : 1
+const adsCount = await getAdsCount(DB)
+const ads = await getAdsDashboard(DB, {
+  page: currentPage,
+  perPage: 10,
+})
+if (!user?.role?.includes("admin" || "author" || "user")) {
+  return Astro.redirect("/")
+}
+const lastPage = adsCount && Math.ceil(adsCount / 10)
+---
+
+<DashboardLayout
+  locale="id"
+  seo={{
+    title: "Ads",
+    description: "Ads",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/ad`,
+    openGraph: {
+      basic: {
+        title: `Ads | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/ad`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: "Ads",
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <DashboardAdPage
+    ads={ads}
+    page={currentPage}
+    lastPage={lastPage}
+    paramsName="page"
+    client:load
+  />
+</DashboardLayout>
