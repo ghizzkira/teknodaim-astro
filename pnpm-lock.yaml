@@ -27,8 +27,8 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1
       '@aws-sdk/client-s3':
-        specifier: ^3.572.0
-        version: 3.572.0
+        specifier: ^3.574.0
+        version: 3.574.0
       '@lucia-auth/adapter-drizzle':
         specifier: ^1.0.7
         version: 1.0.7(lucia@3.2.0)
@@ -346,8 +346,8 @@ importers:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@3.4.3)
       tsx:
-        specifier: ^4.9.3
-        version: 4.9.3
+        specifier: ^4.9.4
+        version: 4.9.4
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
@@ -476,20 +476,20 @@ packages:
   '@aws-crypto/util@3.0.0':
     resolution: {integrity: sha512-2OJlpeJpCR48CC8r+uKVChzs9Iungj9wkZrl8Z041DWEWvyIHILYKCPNzJghKsivj+S3mLo6BVc7mBNzdxA46w==}
 
-  '@aws-sdk/client-s3@3.572.0':
-    resolution: {integrity: sha512-YLtJRVZN+ktOaseWeTtthmimRQoWxygdzRPFlb1HpDPX+akBrGkL7Mz69onpXKfqm9Loz3diUXHqKfpxRX9Pog==}
+  '@aws-sdk/client-s3@3.574.0':
+    resolution: {integrity: sha512-198QLFeJEs3xgCkLcGD8r0IVCR+BTjXGbVpDYC0DCU7vWjINR8igwwnuA5kbCHDALXvWmkX5MVuAlDuawsUn6w==}
     engines: {node: '>=16.0.0'}
 
-  '@aws-sdk/client-sso-oidc@3.572.0':
-    resolution: {integrity: sha512-S6C/S6xYesDakEuzYvlY1DMMKLtKQxdbbygq3hfeG2R0jUt9KpRLsQXK8qrBuVCKa3WcnjN/30hp4g/iUWFU/w==}
+  '@aws-sdk/client-sso-oidc@3.574.0':
+    resolution: {integrity: sha512-WcR8AnFhx7bqhYwfSl3OrF0Pu0LfHGgSOnmmORHqRF7ykguE09M/WUlCCjTGmZjJZ1we3uF5Xg8Jg12eiD+bmw==}
     engines: {node: '>=16.0.0'}
 
   '@aws-sdk/client-sso@3.572.0':
     resolution: {integrity: sha512-S+xhScao5MD79AkrcHmFpEDk+CgoiuB/31WFcTcnrTio5TOUONAaT0QyscOIwRp7BZ7Aez7TBM+loTteJ+TQvg==}
     engines: {node: '>=16.0.0'}
 
-  '@aws-sdk/client-sts@3.572.0':
-    resolution: {integrity: sha512-jCQuH2qkbWoSY4wckLSfzf3OPh7zc7ZckEbIGGVUQar/JVff6EIbpQ+uNG29DDEOpdPPd8rrJsVuUlA/nvJdXA==}
+  '@aws-sdk/client-sts@3.574.0':
+    resolution: {integrity: sha512-WNDSG9nipap/L1gGDkCQvU2u413HmVxMJKr41lBCibioz42Z4i6XkCr1etYwIjuVfGF6QPrsEsYLqRwlAC/BQg==}
     engines: {node: '>=16.0.0'}
 
   '@aws-sdk/core@3.572.0':
@@ -3030,28 +3030,28 @@ packages:
     peerDependencies:
       vite: ^4.2.0 || ^5.0.0
 
-  '@volar/kit@2.2.1':
-    resolution: {integrity: sha512-Ga1uqGfNATdJd0nlpRxFcJoew6xqJwkATvsPiAMvinmfmmJzkGLdVLZl8aNnaDq2TBId/+5daPbwBMAzdu1Sjw==}
+  '@volar/kit@2.2.2':
+    resolution: {integrity: sha512-mIPWV7sjuJPNL+TLnpQwFD6hW+D5tF4Axg+nv0wHjdxrik+ilWT5DnBomMftoekUF4+SxUqxMjU8kd7caOuT5Q==}
     peerDependencies:
       typescript: '*'
 
-  '@volar/language-core@2.2.1':
-    resolution: {integrity: sha512-iHJAZKcYldZgyS8gx6DfIZApViVBeqbf6iPhqoZpG5A6F4zsZiFldKfwaKaBA3/wnOTWE2i8VUbXywI1WywCPg==}
+  '@volar/language-core@2.2.2':
+    resolution: {integrity: sha512-GuvEL4JdxbnLVhPLICncCGT+tVW4cIz9GxXNeDofNnJ4iNTKhr5suGVsA1GLOne9PbraSjn8PlLt+pvLxuRVeQ==}
 
-  '@volar/language-server@2.2.1':
-    resolution: {integrity: sha512-29j2owXGUd9nk9+vuRbasoRp5XcRQSbzHUwBUh9Yhf9zkctTZZJDT+Q1wjBKI+5XohR7UVQCBEvmLp4L+WirwA==}
+  '@volar/language-server@2.2.2':
+    resolution: {integrity: sha512-9KwlCDNeFCoxTIhYOJNtpQA7M0JP0DHvvwXrqN8qNNEMJT1Oe0cic0C2tUCa/poCgkiXDbUxRldwamyuTZ6ZQg==}
 
-  '@volar/language-service@2.2.1':
-    resolution: {integrity: sha512-Zt0xELrxTJ+Aag44qkXSFRRIPh2XrhRTYaxUmZNY6QIIu5wWfroySK4LZaA6g7WhloGTrATstk3OxPS0RSlbRw==}
+  '@volar/language-service@2.2.2':
+    resolution: {integrity: sha512-uxooJqRhtESXaPAGs+YFJGAtZQuRO1KLG4LPPGrHHO1ZTkx0TfQPym6WNnBfVCcBXwnSlyFVv+IbAndR5oKz1w==}
 
-  '@volar/snapshot-document@2.2.1':
-    resolution: {integrity: sha512-ISq74JwzdPcjw7TjZZ9VdOYdgwPoX/X3Jus3emD4ftG59v0gomIp11yz7Ds65rUi/coss/uTPse+onXR+64rpg==}
+  '@volar/snapshot-document@2.2.2':
+    resolution: {integrity: sha512-JKj3aRpfoJZ84EeFN62PFw3jwKo2WTQnaemhWu/S4QNlw7q+IoDI1jNcgxZwblfBl0X5YGlRI1zYbwr8WidBTA==}
 
-  '@volar/source-map@2.2.1':
-    resolution: {integrity: sha512-w1Bgpguhbp7YTr7VUFu6gb4iAZjeEPsOX4zpgiuvlldbzvIWDWy4t0jVifsIsxZ99HAu+c3swiME7wt+GeNqhA==}
+  '@volar/source-map@2.2.2':
+    resolution: {integrity: sha512-vUwvZuSW6iN4JI9QRinh9EjFasx1TUtnaWMKwgWx08xz1PyYuNkLlWlrZXBZ5GGBhML0u230M/7X+AHY2h9yKg==}
 
-  '@volar/typescript@2.2.1':
-    resolution: {integrity: sha512-Z/tqluR7Hz5/5dCqQp7wo9C/6tSv/IYl+tTzgzUt2NjTq95bKSsuO4E+V06D0c+3aP9x5S9jggLqw451hpnc6Q==}
+  '@volar/typescript@2.2.2':
+    resolution: {integrity: sha512-WcwOREz7+uOrpjUrKhOMaOKKmyPdtqF95HWX7SE0d9hhBB1KkfahxhaAex5U9Bn43LfINHlycLoYCNEtfeKm0g==}
 
   '@vscode/emmet-helper@2.9.3':
     resolution: {integrity: sha512-rB39LHWWPQYYlYfpv9qCoZOVioPCftKXXqrsyqN1mTWZM6dTnONT63Db+03vgrBbHzJN45IrgS/AGxw9iiqfEw==}
@@ -3748,8 +3748,8 @@ packages:
   ecc-jsbn@0.1.2:
     resolution: {integrity: sha512-eh9O+hwRHNbG4BLTjEl3nw044CkGm5X6LoaCf7LPp7UU8Qrt47JYNi6nPX8xjW97TKGKm1ouctg0QSpZe9qrnw==}
 
-  electron-to-chromium@1.4.762:
-    resolution: {integrity: sha512-rrFvGweLxPwwSwJOjIopy3Vr+J3cIPtZzuc74bmlvmBIgQO3VYJDvVrlj94iKZ3ukXUH64Ex31hSfRTLqvjYJQ==}
+  electron-to-chromium@1.4.763:
+    resolution: {integrity: sha512-k4J8NrtJ9QrvHLRo8Q18OncqBCB7tIUyqxRcJnlonQ0ioHKYB988GcDFF3ZePmnb8eHEopDs/wPHR/iGAFgoUQ==}
 
   emits@3.0.0:
     resolution: {integrity: sha512-WJSCMaN/qjIkzWy5Ayu0MDENFltcu4zTPPnWqdFPOVBtsENVTN+A3d76G61yuiVALsMK+76MejdPrwmccv/wag==}
@@ -4612,8 +4612,8 @@ packages:
     resolution: {integrity: sha512-gFqAIbuKyyso/3G2qhiO2OM6shY6EPP/R0+mkDbyspxKazh8BXDC5FiFsUjlczgdNz/vfra0da2y+aHrusLG/Q==}
     hasBin: true
 
-  jose@5.2.4:
-    resolution: {integrity: sha512-6ScbIk2WWCeXkmzF6bRPmEuaqy1m8SbsRFMa/FLrSCkGIhj8OLVG/IH+XHVmNMx/KUo8cVWEE6oKR4dJ+S0Rkg==}
+  jose@5.3.0:
+    resolution: {integrity: sha512-IChe9AtAE79ru084ow8jzkN2lNrG3Ntfiv65Cvj9uOCE2m5LNsdHG+9EbxWxAoWRF9TgDOqLN5jm08++owDVRg==}
 
   js-base64@3.7.7:
     resolution: {integrity: sha512-7rCnleh0z2CkXhH67J8K1Ytz0b2Y+yxTPL+/KOJoa20hfnVQ/3/T6W/KflYI4bRHRagNeXeU2bkNGI3v1oS/lw==}
@@ -6063,8 +6063,8 @@ packages:
   tslib@2.6.2:
     resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
 
-  tsx@4.9.3:
-    resolution: {integrity: sha512-czVbetlILiyJZI5zGlj2kw9vFiSeyra9liPD4nG+Thh4pKTi0AmMEQ8zdV/L2xbIVKrIqif4sUNrsMAOksx9Zg==}
+  tsx@4.9.4:
+    resolution: {integrity: sha512-TlSJTVn2taGGDgdV3jAqCj7WQ/CafCB5p4SbG7W2Bl/0AJWH1ShJlBbc0y2lOFTjQEVAAULSTlmehw/Mwv3S/Q==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -6553,18 +6553,18 @@ snapshots:
     dependencies:
       '@astrojs/compiler': 2.8.0
       '@jridgewell/sourcemap-codec': 1.4.15
-      '@volar/kit': 2.2.1(typescript@5.4.5)
-      '@volar/language-core': 2.2.1
-      '@volar/language-server': 2.2.1
-      '@volar/language-service': 2.2.1
-      '@volar/typescript': 2.2.1
+      '@volar/kit': 2.2.2(typescript@5.4.5)
+      '@volar/language-core': 2.2.2
+      '@volar/language-server': 2.2.2
+      '@volar/language-service': 2.2.2
+      '@volar/typescript': 2.2.2
       fast-glob: 3.3.2
-      volar-service-css: 0.0.43(@volar/language-service@2.2.1)
-      volar-service-emmet: 0.0.43(@volar/language-service@2.2.1)
-      volar-service-html: 0.0.43(@volar/language-service@2.2.1)
-      volar-service-prettier: 0.0.43(@volar/language-service@2.2.1)(prettier@3.2.5)
-      volar-service-typescript: 0.0.43(@volar/language-service@2.2.1)
-      volar-service-typescript-twoslash-queries: 0.0.43(@volar/language-service@2.2.1)
+      volar-service-css: 0.0.43(@volar/language-service@2.2.2)
+      volar-service-emmet: 0.0.43(@volar/language-service@2.2.2)
+      volar-service-html: 0.0.43(@volar/language-service@2.2.2)
+      volar-service-prettier: 0.0.43(@volar/language-service@2.2.2)(prettier@3.2.5)
+      volar-service-typescript: 0.0.43(@volar/language-service@2.2.2)
+      volar-service-typescript-twoslash-queries: 0.0.43(@volar/language-service@2.2.2)
       vscode-html-languageservice: 5.2.0
       vscode-uri: 3.0.8
     optionalDependencies:
@@ -6643,8 +6643,8 @@ snapshots:
     dependencies:
       '@astrojs/compiler': 2.8.0
       '@jridgewell/sourcemap-codec': 1.4.15
-      '@volar/language-core': 2.2.1
-      '@volar/typescript': 2.2.1
+      '@volar/language-core': 2.2.2
+      '@volar/typescript': 2.2.2
       semver: 7.6.2
       vscode-languageserver-textdocument: 1.0.11
 
@@ -6655,7 +6655,7 @@ snapshots:
       '@panva/hkdf': 1.1.1
       '@types/cookie': 0.6.0
       cookie: 0.6.0
-      jose: 5.2.4
+      jose: 5.3.0
       oauth4webapi: 2.10.4
       preact: 10.11.3
       preact-render-to-string: 5.2.3(preact@10.11.3)
@@ -6721,15 +6721,15 @@ snapshots:
       '@aws-sdk/util-utf8-browser': 3.259.0
       tslib: 1.14.1
 
-  '@aws-sdk/client-s3@3.572.0':
+  '@aws-sdk/client-s3@3.574.0':
     dependencies:
       '@aws-crypto/sha1-browser': 3.0.0
       '@aws-crypto/sha256-browser': 3.0.0
       '@aws-crypto/sha256-js': 3.0.0
-      '@aws-sdk/client-sso-oidc': 3.572.0(@aws-sdk/client-sts@3.572.0)
-      '@aws-sdk/client-sts': 3.572.0
+      '@aws-sdk/client-sso-oidc': 3.574.0(@aws-sdk/client-sts@3.574.0)
+      '@aws-sdk/client-sts': 3.574.0
       '@aws-sdk/core': 3.572.0
-      '@aws-sdk/credential-provider-node': 3.572.0(@aws-sdk/client-sso-oidc@3.572.0)(@aws-sdk/client-sts@3.572.0)
+      '@aws-sdk/credential-provider-node': 3.572.0(@aws-sdk/client-sso-oidc@3.574.0)(@aws-sdk/client-sts@3.574.0)
       '@aws-sdk/middleware-bucket-endpoint': 3.568.0
       '@aws-sdk/middleware-expect-continue': 3.572.0
       '@aws-sdk/middleware-flexible-checksums': 3.572.0
@@ -6784,13 +6784,13 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
 
-  '@aws-sdk/client-sso-oidc@3.572.0(@aws-sdk/client-sts@3.572.0)':
+  '@aws-sdk/client-sso-oidc@3.574.0(@aws-sdk/client-sts@3.574.0)':
     dependencies:
       '@aws-crypto/sha256-browser': 3.0.0
       '@aws-crypto/sha256-js': 3.0.0
-      '@aws-sdk/client-sts': 3.572.0
+      '@aws-sdk/client-sts': 3.574.0
       '@aws-sdk/core': 3.572.0
-      '@aws-sdk/credential-provider-node': 3.572.0(@aws-sdk/client-sso-oidc@3.572.0)(@aws-sdk/client-sts@3.572.0)
+      '@aws-sdk/credential-provider-node': 3.572.0(@aws-sdk/client-sso-oidc@3.574.0)(@aws-sdk/client-sts@3.574.0)
       '@aws-sdk/middleware-host-header': 3.567.0
       '@aws-sdk/middleware-logger': 3.568.0
       '@aws-sdk/middleware-recursion-detection': 3.567.0
@@ -6873,13 +6873,13 @@ snapshots:
     transitivePeerDependencies:
       - aws-crt
 
-  '@aws-sdk/client-sts@3.572.0':
+  '@aws-sdk/client-sts@3.574.0':
     dependencies:
       '@aws-crypto/sha256-browser': 3.0.0
       '@aws-crypto/sha256-js': 3.0.0
-      '@aws-sdk/client-sso-oidc': 3.572.0(@aws-sdk/client-sts@3.572.0)
+      '@aws-sdk/client-sso-oidc': 3.574.0(@aws-sdk/client-sts@3.574.0)
       '@aws-sdk/core': 3.572.0
-      '@aws-sdk/credential-provider-node': 3.572.0(@aws-sdk/client-sso-oidc@3.572.0)(@aws-sdk/client-sts@3.572.0)
+      '@aws-sdk/credential-provider-node': 3.572.0(@aws-sdk/client-sso-oidc@3.574.0)(@aws-sdk/client-sts@3.574.0)
       '@aws-sdk/middleware-host-header': 3.567.0
       '@aws-sdk/middleware-logger': 3.568.0
       '@aws-sdk/middleware-recursion-detection': 3.567.0
@@ -6947,13 +6947,13 @@ snapshots:
       '@smithy/util-stream': 2.2.0
       tslib: 2.6.2
 
-  '@aws-sdk/credential-provider-ini@3.572.0(@aws-sdk/client-sso-oidc@3.572.0)(@aws-sdk/client-sts@3.572.0)':
+  '@aws-sdk/credential-provider-ini@3.572.0(@aws-sdk/client-sso-oidc@3.574.0)(@aws-sdk/client-sts@3.574.0)':
     dependencies:
-      '@aws-sdk/client-sts': 3.572.0
+      '@aws-sdk/client-sts': 3.574.0
       '@aws-sdk/credential-provider-env': 3.568.0
       '@aws-sdk/credential-provider-process': 3.572.0
-      '@aws-sdk/credential-provider-sso': 3.572.0(@aws-sdk/client-sso-oidc@3.572.0)
-      '@aws-sdk/credential-provider-web-identity': 3.568.0(@aws-sdk/client-sts@3.572.0)
+      '@aws-sdk/credential-provider-sso': 3.572.0(@aws-sdk/client-sso-oidc@3.574.0)
+      '@aws-sdk/credential-provider-web-identity': 3.568.0(@aws-sdk/client-sts@3.574.0)
       '@aws-sdk/types': 3.567.0
       '@smithy/credential-provider-imds': 2.3.0
       '@smithy/property-provider': 2.2.0
@@ -6964,14 +6964,14 @@ snapshots:
       - '@aws-sdk/client-sso-oidc'
       - aws-crt
 
-  '@aws-sdk/credential-provider-node@3.572.0(@aws-sdk/client-sso-oidc@3.572.0)(@aws-sdk/client-sts@3.572.0)':
+  '@aws-sdk/credential-provider-node@3.572.0(@aws-sdk/client-sso-oidc@3.574.0)(@aws-sdk/client-sts@3.574.0)':
     dependencies:
       '@aws-sdk/credential-provider-env': 3.568.0
       '@aws-sdk/credential-provider-http': 3.568.0
-      '@aws-sdk/credential-provider-ini': 3.572.0(@aws-sdk/client-sso-oidc@3.572.0)(@aws-sdk/client-sts@3.572.0)
+      '@aws-sdk/credential-provider-ini': 3.572.0(@aws-sdk/client-sso-oidc@3.574.0)(@aws-sdk/client-sts@3.574.0)
       '@aws-sdk/credential-provider-process': 3.572.0
-      '@aws-sdk/credential-provider-sso': 3.572.0(@aws-sdk/client-sso-oidc@3.572.0)
-      '@aws-sdk/credential-provider-web-identity': 3.568.0(@aws-sdk/client-sts@3.572.0)
+      '@aws-sdk/credential-provider-sso': 3.572.0(@aws-sdk/client-sso-oidc@3.574.0)
+      '@aws-sdk/credential-provider-web-identity': 3.568.0(@aws-sdk/client-sts@3.574.0)
       '@aws-sdk/types': 3.567.0
       '@smithy/credential-provider-imds': 2.3.0
       '@smithy/property-provider': 2.2.0
@@ -6991,10 +6991,10 @@ snapshots:
       '@smithy/types': 2.12.0
       tslib: 2.6.2
 
-  '@aws-sdk/credential-provider-sso@3.572.0(@aws-sdk/client-sso-oidc@3.572.0)':
+  '@aws-sdk/credential-provider-sso@3.572.0(@aws-sdk/client-sso-oidc@3.574.0)':
     dependencies:
       '@aws-sdk/client-sso': 3.572.0
-      '@aws-sdk/token-providers': 3.572.0(@aws-sdk/client-sso-oidc@3.572.0)
+      '@aws-sdk/token-providers': 3.572.0(@aws-sdk/client-sso-oidc@3.574.0)
       '@aws-sdk/types': 3.567.0
       '@smithy/property-provider': 2.2.0
       '@smithy/shared-ini-file-loader': 2.4.0
@@ -7004,9 +7004,9 @@ snapshots:
       - '@aws-sdk/client-sso-oidc'
       - aws-crt
 
-  '@aws-sdk/credential-provider-web-identity@3.568.0(@aws-sdk/client-sts@3.572.0)':
+  '@aws-sdk/credential-provider-web-identity@3.568.0(@aws-sdk/client-sts@3.574.0)':
     dependencies:
-      '@aws-sdk/client-sts': 3.572.0
+      '@aws-sdk/client-sts': 3.574.0
       '@aws-sdk/types': 3.567.0
       '@smithy/property-provider': 2.2.0
       '@smithy/types': 2.12.0
@@ -7120,9 +7120,9 @@ snapshots:
       '@smithy/types': 2.12.0
       tslib: 2.6.2
 
-  '@aws-sdk/token-providers@3.572.0(@aws-sdk/client-sso-oidc@3.572.0)':
+  '@aws-sdk/token-providers@3.572.0(@aws-sdk/client-sso-oidc@3.574.0)':
     dependencies:
-      '@aws-sdk/client-sso-oidc': 3.572.0(@aws-sdk/client-sts@3.572.0)
+      '@aws-sdk/client-sso-oidc': 3.574.0(@aws-sdk/client-sts@3.574.0)
       '@aws-sdk/types': 3.567.0
       '@smithy/property-provider': 2.2.0
       '@smithy/shared-ini-file-loader': 2.4.0
@@ -9410,25 +9410,25 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@volar/kit@2.2.1(typescript@5.4.5)':
+  '@volar/kit@2.2.2(typescript@5.4.5)':
     dependencies:
-      '@volar/language-service': 2.2.1
-      '@volar/typescript': 2.2.1
+      '@volar/language-service': 2.2.2
+      '@volar/typescript': 2.2.2
       typesafe-path: 0.2.2
       typescript: 5.4.5
       vscode-languageserver-textdocument: 1.0.11
       vscode-uri: 3.0.8
 
-  '@volar/language-core@2.2.1':
+  '@volar/language-core@2.2.2':
     dependencies:
-      '@volar/source-map': 2.2.1
+      '@volar/source-map': 2.2.2
 
-  '@volar/language-server@2.2.1':
+  '@volar/language-server@2.2.2':
     dependencies:
-      '@volar/language-core': 2.2.1
-      '@volar/language-service': 2.2.1
-      '@volar/snapshot-document': 2.2.1
-      '@volar/typescript': 2.2.1
+      '@volar/language-core': 2.2.2
+      '@volar/language-service': 2.2.2
+      '@volar/snapshot-document': 2.2.2
+      '@volar/typescript': 2.2.2
       '@vscode/l10n': 0.0.16
       path-browserify: 1.0.1
       request-light: 0.7.0
@@ -9437,25 +9437,25 @@ snapshots:
       vscode-languageserver-textdocument: 1.0.11
       vscode-uri: 3.0.8
 
-  '@volar/language-service@2.2.1':
+  '@volar/language-service@2.2.2':
     dependencies:
-      '@volar/language-core': 2.2.1
+      '@volar/language-core': 2.2.2
       vscode-languageserver-protocol: 3.17.5
       vscode-languageserver-textdocument: 1.0.11
       vscode-uri: 3.0.8
 
-  '@volar/snapshot-document@2.2.1':
+  '@volar/snapshot-document@2.2.2':
     dependencies:
       vscode-languageserver-protocol: 3.17.5
       vscode-languageserver-textdocument: 1.0.11
 
-  '@volar/source-map@2.2.1':
+  '@volar/source-map@2.2.2':
     dependencies:
       muggle-string: 0.4.1
 
-  '@volar/typescript@2.2.1':
+  '@volar/typescript@2.2.2':
     dependencies:
-      '@volar/language-core': 2.2.1
+      '@volar/language-core': 2.2.2
       path-browserify: 1.0.1
 
   '@vscode/emmet-helper@2.9.3':
@@ -9851,7 +9851,7 @@ snapshots:
   browserslist@4.23.0:
     dependencies:
       caniuse-lite: 1.0.30001617
-      electron-to-chromium: 1.4.762
+      electron-to-chromium: 1.4.763
       node-releases: 2.0.14
       update-browserslist-db: 1.0.15(browserslist@4.23.0)
 
@@ -10226,7 +10226,7 @@ snapshots:
       jsbn: 0.1.1
       safer-buffer: 2.1.2
 
-  electron-to-chromium@1.4.762: {}
+  electron-to-chromium@1.4.763: {}
 
   emits@3.0.0: {}
 
@@ -11365,7 +11365,7 @@ snapshots:
 
   jiti@1.21.0: {}
 
-  jose@5.2.4: {}
+  jose@5.3.0: {}
 
   js-base64@3.7.7:
     optional: true
@@ -13159,7 +13159,7 @@ snapshots:
 
   tslib@2.6.2: {}
 
-  tsx@4.9.3:
+  tsx@4.9.4:
     dependencies:
       esbuild: 0.20.2
       get-tsconfig: 4.7.5
@@ -13404,41 +13404,41 @@ snapshots:
     optionalDependencies:
       vite: 5.2.11(@types/node@20.12.11)
 
-  volar-service-css@0.0.43(@volar/language-service@2.2.1):
+  volar-service-css@0.0.43(@volar/language-service@2.2.2):
     dependencies:
       vscode-css-languageservice: 6.2.14
       vscode-languageserver-textdocument: 1.0.11
       vscode-uri: 3.0.8
     optionalDependencies:
-      '@volar/language-service': 2.2.1
+      '@volar/language-service': 2.2.2
 
-  volar-service-emmet@0.0.43(@volar/language-service@2.2.1):
+  volar-service-emmet@0.0.43(@volar/language-service@2.2.2):
     dependencies:
       '@vscode/emmet-helper': 2.9.3
       vscode-html-languageservice: '@johnsoncodehk/vscode-html-languageservice@5.2.0-34a5462'
     optionalDependencies:
-      '@volar/language-service': 2.2.1
+      '@volar/language-service': 2.2.2
 
-  volar-service-html@0.0.43(@volar/language-service@2.2.1):
+  volar-service-html@0.0.43(@volar/language-service@2.2.2):
     dependencies:
       vscode-html-languageservice: '@johnsoncodehk/vscode-html-languageservice@5.2.0-34a5462'
       vscode-languageserver-textdocument: 1.0.11
       vscode-uri: 3.0.8
     optionalDependencies:
-      '@volar/language-service': 2.2.1
+      '@volar/language-service': 2.2.2
 
-  volar-service-prettier@0.0.43(@volar/language-service@2.2.1)(prettier@3.2.5):
+  volar-service-prettier@0.0.43(@volar/language-service@2.2.2)(prettier@3.2.5):
     dependencies:
       vscode-uri: 3.0.8
     optionalDependencies:
-      '@volar/language-service': 2.2.1
+      '@volar/language-service': 2.2.2
       prettier: 3.2.5
 
-  volar-service-typescript-twoslash-queries@0.0.43(@volar/language-service@2.2.1):
+  volar-service-typescript-twoslash-queries@0.0.43(@volar/language-service@2.2.2):
     optionalDependencies:
-      '@volar/language-service': 2.2.1
+      '@volar/language-service': 2.2.2
 
-  volar-service-typescript@0.0.43(@volar/language-service@2.2.1):
+  volar-service-typescript@0.0.43(@volar/language-service@2.2.2):
     dependencies:
       path-browserify: 1.0.1
       semver: 7.6.2
@@ -13446,7 +13446,7 @@ snapshots:
       vscode-languageserver-textdocument: 1.0.11
       vscode-nls: 5.2.0
     optionalDependencies:
-      '@volar/language-service': 2.2.1
+      '@volar/language-service': 2.2.2
 
   vscode-css-languageservice@6.2.14:
     dependencies:
