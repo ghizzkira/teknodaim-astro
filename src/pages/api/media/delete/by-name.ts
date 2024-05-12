@@ -1,16 +1,18 @@
 import type { APIContext, APIRoute } from "astro"
-import { DeleteObjectCommand } from "@aws-sdk/client-s3"
+import { DeleteObjectCommand, S3Client } from "@aws-sdk/client-s3"
 import { z } from "zod"
 
 import { deleteMediaByName } from "@/lib/action/media"
-import { r2Client } from "@/lib/r2"
 
 export const DELETE: APIRoute = async (context: APIContext) => {
   try {
     const user = context.locals.user
 
     const DB = context.locals.runtime.env.DB
-
+    const R2_REGION = context.locals.runtime.env.R2_REGION
+    const R2_ACCOUNT_ID = context.locals.runtime.env.R2_ACCOUNT_ID
+    const R2_ACCESS_KEY = context.locals.runtime.env.R2_ACCESS_KEY
+    const R2_SECRET_KEY = context.locals.runtime.env.R2_SECRET_KEY
     if (!user?.role?.includes("admin")) {
       return new Response(null, {
         status: 401,
@@ -24,6 +26,15 @@ export const DELETE: APIRoute = async (context: APIContext) => {
       Bucket: import.meta.env.R2_BUCKET,
       Key: parsedInput,
     }
+    const r2Config = {
+      region: R2_REGION,
+      endpoint: `https://${R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
+      credentials: {
+        accessKeyId: R2_ACCESS_KEY,
+        secretAccessKey: R2_SECRET_KEY,
+      },
+    }
+    const r2Client = new S3Client(r2Config)
 
     await r2Client.send(new DeleteObjectCommand(fileProperties))
 
