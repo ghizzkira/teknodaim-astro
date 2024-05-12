@@ -73,10 +73,7 @@ const UploadMedia: React.FunctionComponent<UploadMediaProps> = (props) => {
       <div className="flex-1 space-y-4">
         <div id="media-upload" className="space-y-4">
           <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-4 md:mx-64"
-            >
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <DropZone
                 className={cn(previewImages.length > 0 && "hidden")}
                 {...form.register("files")}

@@ -1,5 +1,5 @@
 ---
-import EditMediaForm from "@/components/Dashboard/Media/DashboardEditMediaForm"
+import DashboardEditMediaForm from "@/components/Dashboard/Media/DashboardEditMediaForm"
 import DashboardLayout from "@/layouts/DashboardLayout.astro"
 import { getMediaById } from "@/lib/action/media"
 
@@ -38,7 +38,7 @@ if (!media) {
 >
   <div class="mb-[100px] mt-4 flex items-end justify-end">
     <div class="flex-1 space-y-4">
-      <EditMediaForm client:load media={media} />
+      <DashboardEditMediaForm client:load media={media} />
     </div>
   </div></DashboardLayout
 >
