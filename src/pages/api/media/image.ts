@@ -1,6 +1,6 @@
 import type { APIContext, APIRoute } from "astro"
 import { z } from "zod"
-
+import { Buffer } from "node:buffer"
 import { createMedia } from "@/lib/action/media"
 import { uploadImageToR2 } from "@/lib/r2"
 import { uniqueCharacter } from "@/lib/utils/id"

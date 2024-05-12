@@ -1,5 +1,5 @@
 ---
-import EditTopicForm from "@/components/Dashboard/Topic/DashboardEditTopicForm"
+import DashboardEditTopicForm from "@/components/Dashboard/Topic/DashboardEditTopicForm"
 import DashboardLayout from "@/layouts/DashboardLayout.astro"
 import { getTopicById } from "@/lib/action/topic"
 
@@ -39,7 +39,7 @@ if (!topic) {
   <div class="mx-4 flex w-full flex-col">
     <div class="mb-[100px] mt-4 flex items-end justify-end">
       <div class="flex-1 space-y-4">
-        <EditTopicForm topic={topic} client:load />
+        <DashboardEditTopicForm topic={topic} client:load />
       </div>
     </div>
   </div></DashboardLayout

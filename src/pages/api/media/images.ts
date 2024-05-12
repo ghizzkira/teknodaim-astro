@@ -1,5 +1,6 @@
 import type { APIContext, APIRoute } from "astro"
 import { z } from "zod"
+import { Buffer } from "node:buffer"
 
 import { createMedia } from "@/lib/action/media"
 import { uploadImageToR2 } from "@/lib/r2"
@@ -68,6 +69,6 @@ export const POST: APIRoute = async (context: APIContext) => {
     if (error instanceof z.ZodError) {
       return new Response(error.errors[0].message, { status: 422 })
     }
-    return new Response("Internal Server Error", { status: 500 })
+    return new Response(JSON.stringify(error), { status: 500 })
   }
 }
