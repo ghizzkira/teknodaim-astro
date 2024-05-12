@@ -90,8 +90,8 @@ const MediaList: React.FunctionComponent<MediaListProps> = (props) => {
                         alt={media.name}
                         sizes="(max-width: 768px) 30vw, (max-width: 1200px) 20vw, 33vw"
                         className="!relative aspect-[1/1] !h-[200px] !w-auto max-w-[unset] rounded-sm border-2 border-muted/30 bg-muted/30 object-cover"
-                        width="100"
-                        height="100"
+                        width="400"
+                        height="400"
                       />
                     </a>
                   </div>
@@ -115,8 +115,8 @@ const MediaList: React.FunctionComponent<MediaListProps> = (props) => {
                       key={media.id}
                       src={media.url}
                       alt={media.name}
-                      width="100"
-                      height="100"
+                      width="400"
+                      height="400"
                       sizes="(max-width: 768px) 30vw,
                     (max-width: 1200px) 20vw,
                     33vw"

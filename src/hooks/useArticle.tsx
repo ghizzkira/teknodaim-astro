@@ -61,8 +61,10 @@ export function useTranslateArticle({
         body: JSON.stringify(input),
       })
       const data = await response.json()
-      if (data) {
+      if (response.ok) {
         onSuccess && onSuccess()
+      } else {
+        onError && onError()
       }
       return data
     } catch (error) {
@@ -92,11 +94,11 @@ export function useUpdateArticle({
     setIsLoading(true)
     try {
       const response = await fetch("/api/article/update", {
-        method: "POST",
+        method: "PUT",
         body: JSON.stringify(input),
       })
       const data = await response.json()
-      if (data) {
+      if (response.ok) {
         onSuccess && onSuccess()
       }
       return data
@@ -127,7 +129,7 @@ export function useDeleteArticle({
       })
       const data = await response.json()
 
-      if (data) {
+      if (response.ok) {
         onSuccess && onSuccess()
       } else {
         onError && onError()

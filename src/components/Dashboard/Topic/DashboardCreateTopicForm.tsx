@@ -54,7 +54,7 @@ export default function CreateTopicForm() {
     onSuccess: () => {
       form.reset()
       toast({ variant: "success", description: "Success" })
-      window.location.replace("/dashboard/topic")
+      // window.location.replace("/dashboard/topic")
     },
     onError: () => {
       setLoading(false)
