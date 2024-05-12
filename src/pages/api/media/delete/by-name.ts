@@ -1,6 +1,7 @@
 import type { APIContext, APIRoute } from "astro"
 import { DeleteObjectCommand, S3Client } from "@aws-sdk/client-s3"
 import { z } from "zod"
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner"
 
 import { deleteMediaByName } from "@/lib/action/media"
 
@@ -13,6 +14,7 @@ export const DELETE: APIRoute = async (context: APIContext) => {
     const R2_ACCOUNT_ID = context.locals.runtime.env.R2_ACCOUNT_ID
     const R2_ACCESS_KEY = context.locals.runtime.env.R2_ACCESS_KEY
     const R2_SECRET_KEY = context.locals.runtime.env.R2_SECRET_KEY
+    const R2_BUCKET = context.locals.runtime.env.R2_BUCKET
     if (!user?.role?.includes("admin")) {
       return new Response(null, {
         status: 401,
@@ -23,7 +25,7 @@ export const DELETE: APIRoute = async (context: APIContext) => {
     const parsedInput = z.string().parse(body)
 
     const fileProperties = {
-      Bucket: import.meta.env.R2_BUCKET,
+      Bucket: R2_BUCKET,
       Key: parsedInput,
     }
     const r2Config = {
@@ -36,8 +38,14 @@ export const DELETE: APIRoute = async (context: APIContext) => {
     }
     const r2Client = new S3Client(r2Config)
 
-    await r2Client.send(new DeleteObjectCommand(fileProperties))
-
+    const url = await getSignedUrl(
+      r2Client,
+      new DeleteObjectCommand(fileProperties),
+      { expiresIn: 3600 },
+    )
+    await fetch(url, {
+      method: "DELETE",
+    })
     const data = await deleteMediaByName(DB, parsedInput)
 
     if (!data) {

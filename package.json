@@ -31,6 +31,7 @@
     "@astrojs/ts-plugin": "^1.7.0",
     "@auth/drizzle-adapter": "^1.0.1",
     "@aws-sdk/client-s3": "^3.572.0",
+    "@aws-sdk/s3-request-presigner": "^3.574.0",
     "@lucia-auth/adapter-drizzle": "^1.0.7",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-dialog": "^1.0.5",
