@@ -1,7 +1,7 @@
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3"
 
 export const r2Config = {
-  region: import.meta.env.R2_REGION,
+  region: "auto",
   endpoint: `https://${import.meta.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
   credentials: {
     accessKeyId: import.meta.env.R2_ACCESS_KEY,
