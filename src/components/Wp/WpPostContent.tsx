@@ -172,11 +172,10 @@ const WpPostContent: React.FunctionComponent<WpPostContentProps> = React.memo(
             <>
               <div className="relative aspect-video w-full">
                 <Image
-                  // priority={true}
                   src={featuredImageUrl}
                   className="max-w-auto relative aspect-video w-full overflow-hidden rounded-xl object-cover"
                   alt={featuredImageAlt}
-                  width={"1200"}
+                  width={"800"}
                   height={"800"}
                   fetchPriority="high"
                 />

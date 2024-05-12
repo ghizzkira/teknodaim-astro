@@ -4,14 +4,17 @@ import type {
   CreateTopic,
   UpdateTopic,
   TranslateTopic,
+  TopicType,
 } from "@/lib/validation/topic"
+import type { SelectTopic } from "@/lib/db/schema"
+import type { LanguageType } from "@/lib/validation/language"
 
 export function useCreateTopic({
   onSuccess,
   onError,
 }: {
   input?: CreateTopic
-  onSuccess?: () => void
+  onSuccess?: (_data: SelectTopic) => void
   onError: () => void
 }) {
   const [isLoading, setIsLoading] = React.useState(false)
@@ -23,9 +26,9 @@ export function useCreateTopic({
         method: "POST",
         body: JSON.stringify(input),
       })
-      const data = await response.json()
+      const data = (await response.json()) as SelectTopic
       if (data) {
-        onSuccess && onSuccess()
+        onSuccess && onSuccess(data)
       }
       return data
     } catch (error) {
@@ -133,4 +136,59 @@ export function useDeleteTopic({
   }
 
   return { isLoading, handleDeleteTopic }
+}
+
+export function useSearchTopicsByType({
+  query,
+  language,
+  type,
+}: {
+  query?: string
+  language: LanguageType
+  type: TopicType
+}) {
+  const [data, setData] = React.useState<SelectTopic[]>([])
+  const [isLoading, setIsLoading] = React.useState(false)
+
+  const handleGetTopics = async (query: string) => {
+    setIsLoading(true)
+    try {
+      const searchParams = new URLSearchParams()
+      searchParams.set("query", query ?? "")
+
+      const response = await fetch(
+        `/api/topic/search/language/${language}/type/${type}/${encodeURI(query!)}?${searchParams.toString()}`,
+        {
+          method: "GET",
+        },
+      )
+      const results = (await response.json()) as SelectTopic[]
+      setIsLoading(false)
+      return results
+    } catch (error) {
+      setData([])
+      setIsLoading(false)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  React.useEffect(() => {
+    const livesearch = async () => {
+      if (query) {
+        const results = await handleGetTopics(query)
+        if (Array.isArray(results)) {
+          setTimeout(() => {
+            setData([...results])
+          }, 500)
+        } else {
+          setTimeout(() => {
+            setData([])
+          }, 500)
+        }
+      }
+    }
+    livesearch()
+  }, [query, data])
+  return { data, isLoading, refetch: handleGetTopics }
 }

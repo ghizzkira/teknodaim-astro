@@ -1,339 +1,281 @@
-// // TODO: handle arrow down
-// TODO: connect to api
-// import * as React from "react"
-// import { useController } from "react-hook-form"
+// TODO: handle arrow down
+import * as React from "react"
+import { useController } from "react-hook-form"
 
-// import { Button } from "@/components/UI/Button"
-// import { FormLabel, FormMessage } from "@/components/UI/Form"
-// import { Icon } from "@/components/UI/Icon"
-// import { Input } from "@/components/UI/Input"
-// import { Skeleton } from "@/components/UI/Skeleton"
-// import { toast } from "@/components/UI/Toast/useToast"
-// import type { SelectTopic } from "@/lib/db/schema/topic"
-// import { useI18n, useScopedI18n } from "@/lib/locales/client"
-// import { api } from "@/lib/trpc/react"
-// import type { LanguageType } from "@/lib/validation/language"
-// import type { TopicType } from "@/lib/validation/topic"
+import { Button } from "@/components/UI/Button"
+import { FormLabel, FormMessage } from "@/components/UI/Form"
+import { Icon } from "@/components/UI/Icon"
+import { Input } from "@/components/UI/Input"
+import { Skeleton } from "@/components/UI/Skeleton"
+import { toast } from "@/components/UI/Toast/useToast"
 
-// interface DashboardAddTopicsProps extends React.HTMLAttributes<HTMLDivElement> {
-//   topics: string[]
-//   topicType: TopicType
-//   locale: LanguageType
-//   addTopics: React.Dispatch<React.SetStateAction<string[]>>
-//   mode?: "create" | "edit"
-//   selectedTopics: {
-//     id: string
-//     title: string
-//   }[]
-//   addSelectedTopics: React.Dispatch<
-//     React.SetStateAction<
-//       {
-//         id: string
-//         title: string
-//       }[]
-//     >
-//   >
-//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-//   control: any
-//   fieldName: string
-// }
+import type { LanguageType } from "@/lib/validation/language"
+import type { TopicType } from "@/lib/validation/topic"
+import { useCreateTopic, useSearchTopicsByType } from "@/hooks/useTopic"
 
-// const DashboardAddTopics: React.FunctionComponent<DashboardAddTopicsProps> = (
-//   props,
-// ) => {
-//   const {
-//     topics,
-//     topicType,
-//     mode = "create",
-//     addTopics,
-//     selectedTopics,
-//     addSelectedTopics,
-//     locale,
-//     control,
-//     fieldName,
-//   } = props
+interface DashboardAddTopicsProps extends React.HTMLAttributes<HTMLDivElement> {
+  topics: string[]
+  topicType: TopicType
+  locale: LanguageType
+  addTopics: React.Dispatch<React.SetStateAction<string[]>>
+  mode?: "create" | "edit"
+  selectedTopics: {
+    id: string
+    title: string
+  }[]
+  addSelectedTopics: React.Dispatch<
+    React.SetStateAction<
+      {
+        id: string
+        title: string
+      }[]
+    >
+  >
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  control: any
+  fieldName: string
+}
 
-//   const [topicId, setTopicId] = React.useState<string>("")
-//   const [searchQuery, setSearchQuery] = React.useState<string>("")
-//   const [loadingCreate, setLoadingCreate] = React.useState(false)
+const DashboardAddTopics: React.FunctionComponent<DashboardAddTopicsProps> = (
+  props,
+) => {
+  const {
+    topics,
+    topicType,
+    mode = "create",
+    addTopics,
+    selectedTopics,
+    addSelectedTopics,
+    locale,
+    control,
+    fieldName,
+  } = props
 
-//   const t = useI18n(locale)
-//   const ts = useScopedI18n("topic")
+  const [searchQuery, setSearchQuery] = React.useState<string>("")
+  const [loadingCreate, setLoadingCreate] = React.useState(false)
 
-//   const {
-//     field: { onChange },
-//   } = useController({
-//     control,
-//     name: fieldName,
-//     rules: { required: ts("required") },
-//   })
+  const {
+    field: { onChange },
+  } = useController({
+    control,
+    name: fieldName,
+    rules: { required: "Topic is required" },
+  })
 
-//   const handleLocaleChange = React.useCallback(() => {
-//     if (mode === "create") {
-//       setSearchQuery("")
-//       addTopics([])
-//       onChange([])
-//       addSelectedTopics([])
-//     }
-//     // eslint-disable-next-line react-hooks/exhaustive-deps
-//   }, [mode])
+  const handleLocaleChange = React.useCallback(() => {
+    if (mode === "create") {
+      setSearchQuery("")
+      addTopics([])
+      onChange([])
+      addSelectedTopics([])
+    }
+  }, [mode])
 
-//   React.useEffect(() => {
-//     handleLocaleChange()
-//   }, [handleLocaleChange, locale])
+  React.useEffect(() => {
+    handleLocaleChange()
+  }, [handleLocaleChange, locale])
 
-//   const assignTopic = React.useCallback(
-//     (id: string | never) => {
-//       const checkedTopics = [...topics]
-//       const index = checkedTopics.indexOf(id as never)
-//       if (index === -1) {
-//         checkedTopics.push(id as never)
-//       } else {
-//         checkedTopics.splice(index, 1)
-//       }
-//       addTopics(checkedTopics)
-//       onChange(checkedTopics)
-//     },
-//     [addTopics, onChange, topics],
-//   )
+  const assignTopic = React.useCallback(
+    (id: string | never) => {
+      const checkedTopics = [...topics]
+      const index = checkedTopics.indexOf(id as never)
+      if (index === -1) {
+        checkedTopics.push(id as never)
+      } else {
+        checkedTopics.splice(index, 1)
+      }
+      addTopics(checkedTopics)
+      onChange(checkedTopics)
+    },
+    [addTopics, onChange, topics],
+  )
+  const { data: searchResults } = useSearchTopicsByType({
+    query: searchQuery,
+    language: locale,
+    type: topicType,
+  })
 
-//   const { data: searchResults, isFetching: searchResultsIsLoading } =
-//     api.topic.searchByType.useQuery(
-//       {
-//         searchQuery: searchQuery,
-//         language: locale,
-//         type: topicType,
-//       },
-//       {
-//         enabled: !!searchQuery,
-//         refetchOnWindowFocus: false,
-//       },
-//     )
+  const { handleCreateTopic: createTopic } = useCreateTopic({
+    onSuccess: (data) => {
+      if (data?.id) {
+        addSelectedTopics((prev) => [...prev, { ...data, title: searchQuery }])
+        addTopics((prev: string[]) => [...prev, data?.id])
+        onChange([...topics, data?.id])
+        toast({ variant: "success", description: "Create success" })
+        setLoadingCreate(false)
+      }
+      setLoadingCreate(false)
+    },
+    onError: () => {
+      setLoadingCreate(false)
+      toast({
+        variant: "danger",
+        description: "Create failed",
+      })
+    },
+  })
 
-//   const { data, error, isSuccess, isError } =
-//     api.topic.topicTranslationById.useQuery(topicId, {
-//       enabled: !!topicId && !!searchQuery,
-//     })
+  const onSubmit = React.useCallback(() => {
+    if (searchResults) {
+      const searchResult = searchResults?.find(
+        (topic) => topic.title === searchQuery,
+      )
 
-//   React.useEffect(() => {
-//     if (isSuccess && data) {
-//       const topicById = data?.topics.find(
-//         (topicData) => topicData.language === locale,
-//       ) as SelectTopic
-//       if (topicById?.id) {
-//         addSelectedTopics((prev) => [
-//           ...prev,
-//           { ...topicById, title: searchQuery },
-//         ])
-//         addTopics((prev: string[]) => [...prev, topicById?.id])
-//         onChange([...topics, topicById?.id])
-//         toast({ variant: "success", description: ts("create_success") })
-//       } else {
-//         toast({ variant: "danger", description: t("something_went_wrong") })
-//       }
-//       setTopicId("")
-//       setSearchQuery("")
-//     } else if (isError && error) {
-//       toast({ variant: "danger", description: ts("find_failed") })
-//     }
-//     setLoadingCreate(false)
-//     // eslint-disable-next-line react-hooks/exhaustive-deps
-//   }, [isSuccess, isError, data, error])
+      if (searchResult) {
+        if (
+          !selectedTopics.some((topic) => topic.title === searchResult.title)
+        ) {
+          const resultValue = {
+            id: searchResult.id,
+            title: searchResult.title,
+          }
 
-//   const { mutate: createTopic } = api.topic.create.useMutation({
-//     onSuccess: (data) => {
-//       if (data) {
-//         setTopicId(data[0]?.id)
-//       }
-//     },
-//     onError: (error) => {
-//       setLoadingCreate(false)
-//       const errorData = error?.data?.zodError?.fieldErrors
+          assignTopic(searchResult.id)
+          addSelectedTopics((prev) => [...prev, resultValue])
+        } else {
+          toast({
+            variant: "danger",
+            description: searchQuery + ` already used`,
+          })
+          setSearchQuery("")
+        }
+        setSearchQuery("")
+      } else {
+        setLoadingCreate(true)
+        //FIX: show not found after creating topic
+        createTopic({
+          title: searchQuery,
+          type: topicType,
+          language: locale,
+          visibility: "public",
+          status: "published",
+        })
+      }
+    }
+  }, [
+    addSelectedTopics,
+    assignTopic,
+    createTopic,
+    locale,
+    searchQuery,
+    searchResults,
+    selectedTopics,
+    topicType,
+  ])
 
-//       if (errorData) {
-//         for (const field in errorData) {
-//           if (errorData.hasOwnProperty(field)) {
-//             errorData[field]?.forEach((errorMessage) => {
-//               toast({
-//                 variant: "danger",
-//                 description: errorMessage,
-//               })
-//             })
-//           }
-//         }
-//       } else {
-//         toast({
-//           variant: "danger",
-//           description: ts("create_failed"),
-//         })
-//       }
-//     },
-//   })
+  const handleEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      event.preventDefault()
+      setTimeout(onSubmit, 500)
+    }
+  }
 
-//   const onSubmit = React.useCallback(() => {
-//     if (searchResults) {
-//       const searchResult = searchResults?.find(
-//         (topic) => topic.title === searchQuery,
-//       )
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault()
+    setSearchQuery(e.target.value)
+  }
 
-//       if (searchResult) {
-//         if (
-//           !selectedTopics.some((topic) => topic.title === searchResult.title)
-//         ) {
-//           const resultValue = {
-//             id: searchResult.id,
-//             title: searchResult.title,
-//           }
+  const handleSelectandAssign = (value: { id: string; title: string }) => {
+    if (!selectedTopics.some((topic) => topic.title === value.title)) {
+      setSearchQuery("")
+      assignTopic(value.id)
+      addSelectedTopics((prev) => [...prev, value])
+    } else {
+      toast({
+        variant: "danger",
+        description: value.title + ` already used`,
+      })
+      setSearchQuery("")
+    }
+  }
 
-//           assignTopic(searchResult.id)
-//           addSelectedTopics((prev) => [...prev, resultValue])
-//         } else {
-//           toast({
-//             variant: "danger",
-//             description: searchQuery + ` ${t("already_used")}`,
-//           })
-//           setSearchQuery("")
-//         }
-//         setSearchQuery("")
-//       } else {
-//         setLoadingCreate(true)
-//         //FIX: show not found after creating topic
-//         createTopic({
-//           title: searchQuery,
-//           type: topicType,
-//           language: locale,
-//           visibility: "public",
-//           status: "published",
-//         })
-//       }
-//     }
-//     // eslint-disable-next-line react-hooks/exhaustive-deps
-//   }, [
-//     addSelectedTopics,
-//     assignTopic,
-//     createTopic,
-//     locale,
-//     searchQuery,
-//     searchResults,
-//     selectedTopics,
-//     topicType,
-//   ])
+  const handleRemoveValue = (value: { id: string }) => {
+    const filteredResult = selectedTopics.filter((item) => item.id !== value.id)
+    const filteredData = topics.filter((item) => item !== value.id)
+    addSelectedTopics(filteredResult)
+    addTopics(filteredData)
+    onChange(filteredData)
+  }
 
-//   const handleEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
-//     if (event.key === "Enter") {
-//       event.preventDefault()
-//       setTimeout(onSubmit, 500)
-//     }
-//   }
+  return (
+    <div className="space-y-2">
+      <FormLabel>Topics</FormLabel>
+      <div className="rounded-md border border-muted/30 bg-muted/100">
+        <div className="parent-focus flex max-w-[300px] flex-row flex-wrap items-center justify-start gap-2 p-2">
+          {selectedTopics.length > 0 &&
+            selectedTopics.map((topic) => {
+              return (
+                <div
+                  className="flex items-center gap-2 bg-muted/20 px-2 py-1 text-[14px] text-foreground"
+                  key={topic.id}
+                >
+                  <span>{topic.title}</span>
+                  <Button
+                    aria-label="Delete"
+                    onClick={() => handleRemoveValue(topic)}
+                    className="size-5 min-w-0 rounded-full bg-transparent text-foreground hover:bg-danger hover:text-white"
+                    size="icon"
+                  >
+                    <Icon.Close aria-label="Delete" />
+                  </Button>
+                </div>
+              )
+            })}
+          <Input
+            type="text"
+            className="h-auto w-full min-w-[50px] max-w-full shrink grow basis-0 border-none !bg-transparent p-0 focus:border-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+            name="topicTitle"
+            onKeyDown={handleEnter}
+            id="searchTopic"
+            value={searchQuery}
+            placeholder=" Enter topic"
+            onChange={handleSearchChange}
+          />
+        </div>
+        {loadingCreate && (
+          <div className="p-2">
+            <Skeleton className="h-4 w-full rounded-md bg-foreground/60" />
+            <p className="mt-2">{loadingCreate ? "creating" : "finding"}</p>
+          </div>
+        )}
+        {!loadingCreate &&
+        searchQuery &&
+        searchResults !== undefined &&
+        searchResults.length > 0 ? (
+          <ul className="border-t border-muted/30">
+            {searchResults.map((searchTopic) => {
+              const topicsData = {
+                id: searchTopic.id,
+                title: searchTopic.title,
+              }
+              return (
+                <li key={searchTopic.id} className="p-2 hover:bg-muted/50">
+                  <Button
+                    variant="ghost"
+                    type="button"
+                    aria-label={searchTopic.title}
+                    onClick={() => handleSelectandAssign(topicsData)}
+                  >
+                    {searchTopic.title}
+                  </Button>
+                </li>
+              )
+            })}
+          </ul>
+        ) : (
+          !loadingCreate &&
+          searchQuery &&
+          searchResults &&
+          searchResults.length < 1 && (
+            <div className="border-t border-muted/30 p-2">
+              <p>not found</p>
+            </div>
+          )
+        )}
+      </div>
+      <FormMessage />
+    </div>
+  )
+}
 
-//   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     e.preventDefault()
-//     setSearchQuery(e.target.value)
-//   }
-
-//   const handleSelectandAssign = (value: { id: string; title: string }) => {
-//     if (!selectedTopics.some((topic) => topic.title === value.title)) {
-//       setSearchQuery("")
-//       assignTopic(value.id)
-//       addSelectedTopics((prev) => [...prev, value])
-//     } else {
-//       toast({
-//         variant: "danger",
-//         description: value.title + ` ${t("already_used")}`,
-//       })
-//       setSearchQuery("")
-//     }
-//   }
-
-//   const handleRemoveValue = (value: { id: string }) => {
-//     const filteredResult = selectedTopics.filter((item) => item.id !== value.id)
-//     const filteredData = topics.filter((item) => item !== value.id)
-//     addSelectedTopics(filteredResult)
-//     addTopics(filteredData)
-//     onChange(filteredData)
-//   }
-
-//   return (
-//     <div className="space-y-2">
-//       <FormLabel>{t("topics")}</FormLabel>
-//       <div className="rounded-md border border-muted/30 bg-muted/100">
-//         <div className="parent-focus flex max-w-[300px] flex-row flex-wrap items-center justify-start gap-2 p-2">
-//           {selectedTopics.length > 0 &&
-//             selectedTopics.map((topic) => {
-//               return (
-//                 <div
-//                   className="flex items-center gap-2 bg-muted/20 px-2 py-1 text-[14px] text-foreground"
-//                   key={topic.id}
-//                 >
-//                   <span>{topic.title}</span>
-//                   <Button
-//                     aria-label={t("delete")}
-//                     onClick={() => handleRemoveValue(topic)}
-//                     className="size-5 min-w-0 rounded-full bg-transparent text-foreground hover:bg-danger hover:text-white"
-//                     size="icon"
-//                   >
-//                     <Icon.Close aria-label={t("delete")} />
-//                   </Button>
-//                 </div>
-//               )
-//             })}
-//           <Input
-//             type="text"
-//             className="h-auto w-full min-w-[50px] max-w-full shrink grow basis-0 border-none !bg-transparent p-0 focus:border-none focus:ring-0 focus-visible:ring-0 focus-visible:ring-offset-0"
-//             name="topicTitle"
-//             onKeyDown={handleEnter}
-//             id="searchTopic"
-//             value={searchQuery}
-//             placeholder={ts("enter")}
-//             onChange={handleSearchChange}
-//           />
-//         </div>
-//         {(searchResultsIsLoading || loadingCreate) && (
-//           <div className="p-2">
-//             <Skeleton className="h-4 w-full rounded-md bg-foreground/60" />
-//             <p className="mt-2">
-//               {loadingCreate ? ts("creating") : ts("finding")}
-//             </p>
-//           </div>
-//         )}
-//         {!searchResultsIsLoading &&
-//         !loadingCreate &&
-//         searchResults !== undefined &&
-//         searchResults.length > 0 ? (
-//           <ul className="border-t border-muted/30">
-//             {searchResults.map((searchTopic) => {
-//               const topicsData = {
-//                 id: searchTopic.id,
-//                 title: searchTopic.title,
-//               }
-//               return (
-//                 <li key={searchTopic.id} className="p-2 hover:bg-muted/50">
-//                   <Button
-//                     variant="ghost"
-//                     type="button"
-//                     aria-label={searchTopic.title}
-//                     onClick={() => handleSelectandAssign(topicsData)}
-//                   >
-//                     {searchTopic.title}
-//                   </Button>
-//                 </li>
-//               )
-//             })}
-//           </ul>
-//         ) : (
-//           !searchResultsIsLoading &&
-//           !loadingCreate &&
-//           searchResults !== undefined &&
-//           searchResults.length < 1 && (
-//             <div className="border-t border-muted/30 p-2">
-//               <p>{ts("not_found")}</p>
-//             </div>
-//           )
-//         )}
-//       </div>
-//       <FormMessage />
-//     </div>
-//   )
-// }
-
-// export default DashboardAddTopics
+export default DashboardAddTopics

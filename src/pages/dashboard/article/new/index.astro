@@ -1,5 +1,5 @@
 ---
-import CreateTopicForm from "@/components/Dashboard/Topic/DashboardCreateTopicForm"
+import CreateArticleForm from "@/components/Dashboard/Article/DashboardCreateArticleForm"
 import DashboardLayout from "@/layouts/DashboardLayout.astro"
 
 const user = Astro.locals.user
@@ -12,18 +12,18 @@ if (!user?.role?.includes("admin" || "author")) {
 <DashboardLayout
   locale="id"
   seo={{
-    title: "Create Topic",
-    description: "Create Topic",
+    title: "Create Article",
+    description: "Create Article",
     canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/article/new`,
     openGraph: {
       basic: {
-        title: `Create Topic | `,
+        title: `Create Article | `,
         url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/article/new`,
         type: "website",
         image: "",
       },
       optional: {
-        description: "Create Topic",
+        description: "Create Article",
         locale: "ID",
       },
     },
@@ -32,7 +32,7 @@ if (!user?.role?.includes("admin" || "author")) {
   <div class="mx-4 flex w-full flex-col">
     <div class="mb-[100px] mt-4 flex items-end justify-end">
       <div class="flex-1 space-y-4">
-        <CreateTopicForm client:load />
+        <CreateArticleForm session={user} client:only="react" />
       </div>
     </div>
   </div></DashboardLayout
