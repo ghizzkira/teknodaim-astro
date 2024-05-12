@@ -6,20 +6,20 @@ compatibility_flags = [ "nodejs_compat" ]
 
 [[d1_databases]]
 binding = "DB"
-database_name = "teknodaim"
-database_id = "8efaeebd-8999-415d-a7fd-fb9abb402f68"
+database_name = "sigasiga"
+database_id = "2ea7f311-8db7-4bcc-9d61-ea3e0accdafb"
 migrations_dir = "./src/lib/db/migrations"
 
 [vars]
 APP_ENV= "production"
 GOOGLE_CLIENT_ID="174500547602-jf04fv159t267gkrtujm4ese9535stoe.apps.googleusercontent.com"
 GOOGLE_CLIENT_SECRET="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"
-GOOGLE_REDIRECT_URL="https://beta.teknodaim.com/auth/login/google/callback"
-PUBLIC_DOMAIN="beta.teknodaim.com"
+GOOGLE_REDIRECT_URL="https://teknodaim-astro.pages.dev/auth/login/google/callback"
+PUBLIC_DOMAIN="teknodaim-astro.pages.dev"
 PUBLIC_WP_DOMAIN="media.teknodaim.com"
 PUBLIC_WP_EN_SUBDOMAIN="en.teknodaim.com"
-PUBLIC_SITE_URL="https://beta.teknodaim.com"
-PUBLIC_API="https://beta.teknodaim.com/api"
+PUBLIC_SITE_URL="https://teknodaim-astro.pages.dev"
+PUBLIC_API="https://teknodaim-astro.pages.dev/api"
 PUBLIC_WP_API="https://media.teknodaim.com/graphql"
 PUBLIC_SITE_TITLE="Teknodaim"
 PUBLIC_SITE_DESCRIPTION="Teknodaim membahas perkembangan teknologi di dunia. Topik yang kami bahas antara lain berita game, review gadget, perkembangan sains, dll."
