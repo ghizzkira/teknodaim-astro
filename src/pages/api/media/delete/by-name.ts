@@ -55,6 +55,6 @@ export const DELETE: APIRoute = async (context: APIContext) => {
     if (error instanceof z.ZodError) {
       return new Response(error.errors[1].message, { status: 422 })
     }
-    return new Response("Internal Server Error", { status: 501 })
+    return new Response(JSON.stringify(error), { status: 501 })
   }
 }
