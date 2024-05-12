@@ -13,6 +13,7 @@ export const DELETE: APIRoute = async (context: APIContext) => {
     const R2_ACCOUNT_ID = context.locals.runtime.env.R2_ACCOUNT_ID
     const R2_ACCESS_KEY = context.locals.runtime.env.R2_ACCESS_KEY
     const R2_SECRET_KEY = context.locals.runtime.env.R2_SECRET_KEY
+    const R2_BUCKET = context.locals.runtime.env.R2_BUCKET
     if (!user?.role?.includes("admin")) {
       return new Response(null, {
         status: 401,
@@ -23,7 +24,7 @@ export const DELETE: APIRoute = async (context: APIContext) => {
     const parsedInput = z.string().parse(body)
 
     const fileProperties = {
-      Bucket: import.meta.env.R2_BUCKET,
+      Bucket: R2_BUCKET,
       Key: parsedInput,
     }
     const r2Config = {
