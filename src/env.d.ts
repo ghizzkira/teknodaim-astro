@@ -25,6 +25,12 @@ type D1Database = import("@cloudflare/workers-types/experimental").D1Database
 
 type ENV = {
   DB: D1Database
+  R2_SECRET_KEY: string
+  R2_ACCESS_KEY: string
+  R2_ACCOUNT_ID: string
+  R2_DOMAIN: string
+  R2_REGION: string
+  R2_BUCKET: string
 }
 
 type Runtime = import("@astrojs/cloudflare").Runtime<ENV>
