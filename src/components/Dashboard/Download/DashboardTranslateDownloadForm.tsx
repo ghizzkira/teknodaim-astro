@@ -1,4 +1,4 @@
-//FIX: change topic type article or all not only article type
+//FIX: change topic type download or all not only download type
 
 import * as React from "react"
 
@@ -26,171 +26,241 @@ import {
 import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast/useToast"
 import { useDisclosure } from "@/hooks/useDisclosure"
-import type { SelectArticle } from "@/lib/db/schema/article"
-import type { SelectMedia } from "@/lib/db/schema/media"
-import type { SelectTopic } from "@/lib/db/schema/topic"
 import type { SelectUser } from "@/lib/db/schema/user"
-import type { LanguageType } from "@/lib/validation/language"
-import type { StatusType } from "@/lib/validation/status"
-import { useUpdateArticle } from "@/hooks/useArticle"
+import { useTranslateDownload } from "@/hooks/useDownload"
 import DeleteMediaButton from "@/components/Media/DeleteMediaButton"
 import SelectMediaDialog from "@/components/Media/SelectMediaDialog"
 import TextEditorExtended from "@/components/TextEditor/TextEditorExtended"
-import DashboardAddAuthors from "../DashboardAddAuthors"
-import DashboardAddEditors from "../DashboardAddEditors"
-import DashboardAddTopics from "../DashboardAddTopics"
+import DashboardAddAuthors from "@/components/Dashboard/DashboardAddAuthors"
+import DashboardAddEditors from "@/components/Dashboard/DashboardAddEditors"
+import DashboardAddTopics from "@/components/Dashboard/DashboardAddTopics"
+import {
+  TableHead,
+  TableBody,
+  TableCell,
+  TableHeader,
+  TableRow,
+  Table,
+} from "@/components/UI/Table"
+import { DashboardAddDownloadFiles } from "@/components/Dashboard/DashboardAddDownloadFiles"
+import {
+  DialogTrigger,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+} from "@/components/UI/Dialog"
+import DashboardShowOptions from "@/components/Dashboard/DashboardShowOptions"
+import DashboardSearchDownloadFiles from "@/components/Dashboard/DashboardSearchDownloadFiles"
+import {
+  DOWNLOAD_SCHEMA_JSON,
+  type TranslateDownload,
+} from "@/lib/validation/download"
+import type {
+  SelectDownload,
+  SelectDownloadFile,
+  SelectMedia,
+  SelectTopic,
+} from "@/lib/db/schema"
+import type { LanguageType } from "@/lib/validation/language"
 
-interface FormValues {
+type FormValues = TranslateDownload
+
+interface SelectedDownloadFileProps {
   id: string
   title: string
-  topics: string[]
-  content: string
-  excerpt?: string
-  slug: string
-  language: LanguageType
-  metaTitle?: string
-  metaDescription?: string
-  status?: StatusType
-  articleTranslationId: string
+  version: string
+  fileSize: string
+  price: string
 }
 
-interface EditArticleFormProps {
-  articleId: string
-  article: Pick<
-    SelectArticle,
+interface TranslateDownloadFormProps {
+  downloadTranslationId: string
+  language: LanguageType
+  downloadId: string | undefined
+  download: Pick<
+    SelectDownload,
     | "id"
     | "title"
-    | "excerpt"
+    | "slug"
     | "content"
     | "language"
-    | "slug"
+    | "excerpt"
+    | "developer"
     | "metaTitle"
     | "metaDescription"
+    | "operatingSystem"
+    | "license"
+    | "officialWebsite"
+    | "schemaType"
+    | "type"
     | "status"
-    | "articleTranslationId"
+    | "downloadTranslationId"
   > & {
     featuredImage: Pick<SelectMedia, "id" | "url">
     authors: Pick<SelectUser, "id" | "name">[]
     editors: Pick<SelectUser, "id" | "name">[]
     topics: Pick<SelectTopic, "id" | "title">[]
+    downloadFiles: Pick<
+      SelectDownloadFile,
+      "id" | "title" | "version" | "fileSize" | "price"
+    >[]
   }
+  session: Partial<SelectUser> | null
 }
 
-const EditArticleForm: React.FunctionComponent<EditArticleFormProps> = (
-  props,
-) => {
-  const { article } = props
+const TranslateDownloadForm: React.FunctionComponent<
+  TranslateDownloadFormProps
+> = (props) => {
+  const { session, download, language, downloadTranslationId } = props
+
   const [loading, setLoading] = React.useState<boolean>(false)
   const [openDialog, setOpenDialog] = React.useState<boolean>(false)
   const [showMetaData, setShowMetaData] = React.useState<boolean>(false)
   const [clearContent, setClearContent] = React.useState<boolean>(false)
+  const [editors, setEditors] = React.useState<string[]>(
+    session ? [session?.id!] : [],
+  )
+
+  const [selectedEditors, setSelectedEditors] = React.useState<
+    { id: string; name: string }[] | []
+  >(
+    session
+      ? [
+          {
+            id: session?.id!,
+            name: session?.name!,
+          },
+        ]
+      : [],
+  )
 
   const [topics, setTopics] = React.useState<string[]>(
-    article
-      ? article.topics.map((topic) => {
+    download
+      ? download.topics.map((topic) => {
           return topic.id
         })
       : [],
   )
   const [authors, setAuthors] = React.useState<string[]>(
-    article
-      ? article.authors.map((author) => {
+    download
+      ? download.authors.map((author) => {
           return author.id
-        })
-      : [],
-  )
-  const [editors, setEditors] = React.useState<string[]>(
-    article
-      ? article.editors.map((author) => {
-          return author.id
-        })
-      : [],
-  )
-  const [selectedFeaturedImageId, setSelectedFeaturedImageId] =
-    React.useState<string>(article ? article.featuredImage.id : "")
-  const [selectedFeaturedImageUrl, setSelectedFeaturedImageUrl] =
-    React.useState<string>(article ? article.featuredImage.url : "")
-  const [selectedTopics, setSelectedTopics] = React.useState<
-    { id: string; title: string }[]
-  >(
-    article
-      ? article.topics.map((topic) => {
-          return { id: topic.id, title: topic.title }
         })
       : [],
   )
 
-  const [selectedAuthors, setSelectedAuthors] = React.useState<
-    { id: string; name: string }[] | []
+  const [selectedTopics, setSelectedTopics] = React.useState<
+    { id: string; title: string }[] | []
   >(
-    article
-      ? article.authors.map((author) => {
-          return { id: author.id, name: author.name! }
+    download
+      ? download.topics.map((topic) => {
+          return { id: topic.id, title: topic.title }
         })
       : [],
   )
-  const [selectedEditors, setSelectedEditors] = React.useState<
+  const [selectedAuthors, setSelectedAuthors] = React.useState<
     { id: string; name: string }[] | []
   >(
-    article
-      ? article.editors.map((author) => {
-          return { id: author.id, name: author.name! }
+    download
+      ? download.authors.map((author) => {
+          return { id: author.id as string, name: author.name! }
+        })
+      : [],
+  )
+
+  const [selectedFeaturedImageId, setSelectedFeaturedImageId] =
+    React.useState<string>(download ? download.featuredImage.id : "")
+  const [selectedFeaturedImageUrl, setSelectedFeaturedImageUrl] =
+    React.useState<string>(download ? download.featuredImage.url : "")
+  const [selectedDownloadFile, setSelectedDownloadFile] = React.useState<
+    SelectedDownloadFileProps[]
+  >(download ? [...download.downloadFiles] : [])
+  const [selectedDownloadFileId, setSelectedDownloadFileId] = React.useState<
+    string[]
+  >(
+    download
+      ? download.downloadFiles.map((file) => {
+          return file.id
         })
       : [],
   )
 
   const { isOpen: isOpenSidebar, onToggle: onToggleSidebar } = useDisclosure()
 
-  const { handleUpdateArticle: updateArticle } = useUpdateArticle({
-    onSuccess: () => {
-      setClearContent((prev) => !prev)
-      form.reset()
-      setSelectedTopics([])
-      setSelectedFeaturedImageUrl("")
-      window.location.replace("/dashboard/article")
-
-      toast({ variant: "success", description: "Update success" })
-    },
-    onError: () => {
-      toast({
-        variant: "danger",
-        description: "Update failed",
+  const handleUpdateFile = React.useCallback(
+    (values: SelectedDownloadFileProps[]) => {
+      setSelectedDownloadFile((prev) => [
+        ...(prev as SelectedDownloadFileProps[]),
+        ...values,
+      ])
+      const listId = values.map((value) => {
+        return value.id
       })
+      setSelectedDownloadFileId((prev) => [...prev, ...listId])
     },
-  })
+    [],
+  )
+
+  const handleDeleteFile = React.useCallback(
+    (value: SelectedDownloadFileProps) => {
+      const filteredResult = selectedDownloadFile?.filter(
+        (item) => item.id !== value.id,
+      )
+      const filteredData = selectedDownloadFileId.filter(
+        (item) => item !== value.id,
+      )
+      setSelectedDownloadFile(filteredResult)
+      setSelectedDownloadFileId(filteredData)
+    },
+    [selectedDownloadFile, selectedDownloadFileId],
+  )
 
   const form = useForm<FormValues>({
     mode: "onChange",
     defaultValues: {
-      id: article?.id,
-      language: article?.language || "id",
-      title: article?.title || "",
-      topics: article
-        ? article.topics.map((topic) => {
-            return topic.id
-          })
-        : [],
-      slug: article?.slug || "",
-      content: article?.content || "",
-      excerpt: article?.excerpt || "",
-      metaTitle: article?.metaTitle ?? "",
-      metaDescription: article?.metaDescription ?? "",
-      status: article?.status || "draft",
-      articleTranslationId: article?.articleTranslationId || "",
+      language: language,
+      downloadTranslationId: downloadTranslationId,
+      developer: download?.developer,
+      operatingSystem: download?.operatingSystem,
+      license: download?.license,
+      officialWebsite: download?.officialWebsite,
+      schemaType: download?.schemaType,
+      type: download?.type,
     },
   })
 
-  const valueLanguage = form.watch("language") as LanguageType | undefined
+  const valueLanguage = form.watch("language")
+
+  const { handleTranslateDownload: translateDownload } = useTranslateDownload({
+    onSuccess: () => {
+      form.reset()
+      setClearContent((prev) => !prev)
+      setSelectedTopics([])
+      setSelectedFeaturedImageUrl("")
+      toast({
+        variant: "success",
+        description: "Translate success",
+      })
+      window.location.replace("/dashboard/download")
+    },
+    onError: () => {
+      toast({
+        variant: "danger",
+        description: "Translate failed",
+      })
+    },
+  })
 
   const onSubmit = (values: FormValues) => {
     setLoading(true)
     const mergedValues = {
       ...values,
       featuredImageId: selectedFeaturedImageId,
+      downloadFiles: selectedDownloadFileId,
       authors: authors,
       editors: editors,
     }
-    updateArticle(mergedValues)
+    translateDownload(mergedValues)
     setLoading(false)
   }
 
@@ -227,14 +297,14 @@ const EditArticleForm: React.FunctionComponent<EditArticleFormProps> = (
         >
           <div className="sticky top-0 z-20 w-full">
             <div className="flex items-center justify-between bg-background px-3 py-5">
-              <Button aria-label="Back To Articles" variant="ghost">
+              <Button aria-label="Back To Downloads" variant="ghost">
                 <a
                   className="flex items-center"
-                  aria-label="Back To Articles"
-                  href="/dashboard/article"
+                  aria-label="Back To Downloads"
+                  href="/dashboard/download"
                 >
-                  <Icon.ChevronLeft aria-label="articles" />
-                  Articles
+                  <Icon.ChevronLeft aria-label="downloads" />
+                  Downloads
                 </a>
               </Button>
               <div>
@@ -251,7 +321,7 @@ const EditArticleForm: React.FunctionComponent<EditArticleFormProps> = (
                   Save as draft
                 </Button>
                 <Button
-                  aria-label="update"
+                  aria-label="submit"
                   type="submit"
                   onClick={() => {
                     form.setValue("status", "published")
@@ -260,7 +330,7 @@ const EditArticleForm: React.FunctionComponent<EditArticleFormProps> = (
                   variant="ghost"
                   loading={loading}
                 >
-                  Update
+                  Submit
                 </Button>
                 <Button
                   type="button"
@@ -300,7 +370,7 @@ const EditArticleForm: React.FunctionComponent<EditArticleFormProps> = (
                                 )
                               textarea.style.height = totalHeight + "px"
                               if (textarea.value === "") {
-                                textarea.style.height = "43px"
+                                textarea.style.height = "42px"
                                 textarea.focus()
                               }
                               if (currentFocus === textarea) {
@@ -308,7 +378,7 @@ const EditArticleForm: React.FunctionComponent<EditArticleFormProps> = (
                               }
                             }}
                             variant="plain"
-                            className="h-10 resize-none overflow-hidden text-[40px] font-bold leading-10"
+                            className="h-10 resize-none overflow-hidden text-[43px] font-bold leading-10"
                             placeholder="Enter title"
                             {...field}
                           />
@@ -317,15 +387,11 @@ const EditArticleForm: React.FunctionComponent<EditArticleFormProps> = (
                       </FormItem>
                     )}
                   />
-                  <FormControl>
-                    <React.Suspense>
-                      <TextEditorExtended
-                        control={form.control}
-                        name="content"
-                        isClear={clearContent}
-                      />
-                    </React.Suspense>
-                  </FormControl>
+                  <TextEditorExtended
+                    control={form.control}
+                    name="content"
+                    isClear={clearContent}
+                  />
                 </div>
               </div>
             </div>
@@ -342,25 +408,126 @@ const EditArticleForm: React.FunctionComponent<EditArticleFormProps> = (
                     <div className="my-2 flex flex-col space-y-4 px-4">
                       <FormField
                         control={form.control}
-                        name="language"
+                        name="developer"
                         rules={{
-                          required: "Language is required",
+                          required: "Developer is Required",
                         }}
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Language</FormLabel>
+                            <FormLabel>Developer</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Enter developer" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="officialWebsite"
+                        rules={{
+                          required: "Website is Required",
+                        }}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Official Website</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="url"
+                                placeholder="Enter official website"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="operatingSystem"
+                        rules={{
+                          required: "Operating system is Required",
+                        }}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Operating System</FormLabel>
+                            <FormControl>
+                              <Input
+                                placeholder="Enter operating system"
+                                {...field}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="license"
+                        rules={{
+                          required: "License is Required",
+                        }}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>License</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Enter license" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="schemaType"
+                        rules={{
+                          required: "Schema is required",
+                        }}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Schema</FormLabel>
                             <Select
                               onValueChange={field.onChange}
                               defaultValue={field.value}
                             >
                               <FormControl>
                                 <SelectTrigger>
-                                  <SelectValue placeholder="Choose language" />
+                                  <SelectValue placeholder="Schema" />
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
-                                <SelectItem value="id">Indonesia</SelectItem>
-                                <SelectItem value="en">English</SelectItem>
+                                {DOWNLOAD_SCHEMA_JSON.map((item) => {
+                                  return (
+                                    <SelectItem value={item}>{item}</SelectItem>
+                                  )
+                                })}
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="type"
+                        rules={{
+                          required: "Type is required",
+                        }}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Type</FormLabel>
+                            <Select
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                            >
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Choose type" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                <SelectItem value="game">Game</SelectItem>
+                                <SelectItem value="app">Application</SelectItem>
                               </SelectContent>
                             </Select>
                             <FormMessage />
@@ -394,7 +561,7 @@ const EditArticleForm: React.FunctionComponent<EditArticleFormProps> = (
                             addTopics={setTopics}
                             selectedTopics={selectedTopics}
                             addSelectedTopics={setSelectedTopics}
-                            topicType="article"
+                            topicType="all"
                           />
                         </div>
                       )}
@@ -515,8 +682,125 @@ const EditArticleForm: React.FunctionComponent<EditArticleFormProps> = (
           </div>
         </form>
       </Form>
+      <FilesSection
+        selectedDownloadFile={selectedDownloadFile}
+        handleUpdateFile={handleUpdateFile}
+        handleDeleteFile={handleDeleteFile}
+        selectedAuthors={selectedAuthors}
+      />
     </div>
   )
 }
 
-export default EditArticleForm
+interface FilesSectionProps {
+  selectedDownloadFile: SelectedDownloadFileProps[]
+  handleUpdateFile: (_value: SelectedDownloadFileProps[]) => void
+  handleDeleteFile: (_value: SelectedDownloadFileProps) => void
+  selectedAuthors:
+    | []
+    | {
+        id: string
+        name: string
+      }[]
+}
+
+const FilesSection: React.FunctionComponent<FilesSectionProps> = React.memo(
+  (props) => {
+    const {
+      selectedDownloadFile,
+      handleUpdateFile,
+      handleDeleteFile,
+      selectedAuthors,
+    } = props
+    const [showForm, setShowForm] = React.useState(false)
+    return (
+      <div className="border-t p-4">
+        <div className="flex justify-between pb-2">
+          <h2>Files</h2>
+
+          <Dialog>
+            <DialogTrigger aria-label="Add File">Add File</DialogTrigger>
+            <DialogContent className="w-full max-w-[unset]">
+              <div className="scrollbar-hide h-[90vh] overflow-y-auto max-lg:h-[80vh]">
+                <div className="space-y-5 px-4">
+                  <DialogTitle>Add Files</DialogTitle>
+                  <DashboardSearchDownloadFiles
+                    updateDownloadFiles={handleUpdateFile}
+                    selectedDownloadFiles={selectedDownloadFile}
+                    deleteDownloadFile={handleDeleteFile}
+                  />
+                  <Button
+                    type="button"
+                    onClick={() => setShowForm((prev) => !prev)}
+                    aria-label="Add File"
+                  >
+                    Translate File
+                  </Button>
+                  {showForm && (
+                    <DashboardAddDownloadFiles
+                      updateDownloadFiles={(data) => {
+                        handleUpdateFile(data)
+                        setShowForm(false)
+                      }}
+                      initial_authors={selectedAuthors}
+                    />
+                  )}
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
+        <div>
+          {selectedDownloadFile && selectedDownloadFile.length > 0 && (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Title</TableHead>
+                  <TableHead>Version</TableHead>
+                  <TableHead>Size</TableHead>
+                  <TableHead>Price</TableHead>
+                  <TableHead>Action</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {selectedDownloadFile.map(
+                  (downloadFile: SelectedDownloadFileProps) => (
+                    <TableRow key={downloadFile.id}>
+                      <TableCell className="whitespace-nowrap">
+                        <div className="flex">
+                          <span className="font-medium">
+                            {downloadFile.title}
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell className="whitespace-nowrap">
+                        <div className="flex">
+                          <span className="font-medium">
+                            {downloadFile.version}
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell>{downloadFile.fileSize}</TableCell>
+                      <TableCell>{downloadFile.price}</TableCell>
+                      <TableCell align="right">
+                        <DashboardShowOptions
+                          onDelete={() => {
+                            void handleDeleteFile(downloadFile)
+                          }}
+                          editUrl={`/dashboard/download-file/edit/${downloadFile.id}`}
+                          description={downloadFile.title}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  ),
+                )}
+              </TableBody>
+            </Table>
+          )}
+        </div>
+      </div>
+    )
+  },
+)
+
+export default TranslateDownloadForm

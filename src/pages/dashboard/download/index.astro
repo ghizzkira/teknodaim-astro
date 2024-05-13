@@ -1,0 +1,58 @@
+---
+import DashboardDownloadContent from "@/components/Dashboard/Download/DashboardDownloadContent"
+import DashboardLayout from "@/layouts/DashboardLayout.astro"
+import {
+  getDownloadsCountByLanguage,
+  getDownloadsDashboard,
+} from "@/lib/action/download"
+
+const user = Astro.locals.user
+const DB = Astro.locals.runtime.env.DB
+const url = Astro.url
+
+const searchParams = new URLSearchParams(url.searchParams)
+const page = searchParams.get("page")
+const language = searchParams.get("language")
+const currentLanguage = language && language === "en" ? "en" : "id"
+const currentPage =
+  page && typeof parseInt(page) === "number" ? parseInt(page) : 1
+const downloadsCount = await getDownloadsCountByLanguage(DB, currentLanguage)
+const downloads = await getDownloadsDashboard(DB, {
+  page: currentPage,
+  perPage: 10,
+  language: currentLanguage,
+})
+if (!user?.role?.includes("admin" || "author")) {
+  return Astro.redirect("/")
+}
+const lastPage = downloadsCount && Math.ceil(downloadsCount / 10)
+---
+
+<DashboardLayout
+  locale="id"
+  seo={{
+    title: "Downloads",
+    description: "Downloads",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/download`,
+    openGraph: {
+      basic: {
+        title: `Downloads | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/download`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: "Downloads",
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <DashboardDownloadContent
+    currentLanguage={currentLanguage}
+    page={currentPage}
+    lastPage={lastPage}
+    downloads={downloads}
+    client:load
+  />
+</DashboardLayout>
