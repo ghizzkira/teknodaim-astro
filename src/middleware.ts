@@ -4,7 +4,6 @@ import { defineMiddleware, sequence } from "astro:middleware"
 
 import { initializeAuth } from "@/lib/auth"
 import type { User } from "lucia"
-import { excludedPaths } from "@/lib/utils/excluded-path"
 
 type Path = string
 
@@ -40,7 +39,6 @@ const validate = defineMiddleware(async (req, next) => {
   return response
 })
 export const auth = defineMiddleware(async (context, next) => {
-  const url = new URL(context.request.url)
   const DB = context.locals.runtime.env.DB
   const auth = initializeAuth(DB)
 
@@ -62,12 +60,7 @@ export const auth = defineMiddleware(async (context, next) => {
   if (!sessionId) {
     context.locals.user = null
     context.locals.session = null
-    if (
-      !url.pathname.endsWith("/") &&
-      !excludedPaths.some((path) => url.pathname.startsWith(path))
-    ) {
-      return context.redirect(url.pathname + `/`, 308)
-    }
+
     return next()
   }
 
@@ -91,13 +84,6 @@ export const auth = defineMiddleware(async (context, next) => {
   }
   context.locals.session = session
   context.locals.user = user as User & { role: UserRole }
-
-  if (
-    !url.pathname.endsWith("/") &&
-    !excludedPaths.some((path) => url.pathname.startsWith(path))
-  ) {
-    return context.redirect(url.pathname + `/`, 308)
-  }
 
   return next()
 })
