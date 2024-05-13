@@ -701,7 +701,7 @@ const FilesSection: React.FunctionComponent<FilesSectionProps> = React.memo(
                         handleUpdateFile(data)
                         setShowForm(false)
                       }}
-                      initial_authors={selectedAuthors}
+                      initialAuthors={selectedAuthors}
                     />
                   )}
                 </div>

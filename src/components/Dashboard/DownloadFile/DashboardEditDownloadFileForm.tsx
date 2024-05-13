@@ -20,41 +20,30 @@ import { useCreateDownloadFile } from "@/hooks/useDownloadFile"
 import Image from "@/components/Image"
 import DeleteMediaButton from "@/components/Media/DeleteMediaButton"
 import SelectMediaDialog from "@/components/Media/SelectMediaDialog"
-import DashboardAddAuthors from "./DashboardAddAuthors"
+import DashboardAddAuthors from "../DashboardAddAuthors"
+import type { UpdateDownloadFile } from "@/lib/validation/download-file"
+import type {
+  SelectDownloadFile,
+  SelectMedia,
+  SelectUser,
+} from "@/lib/db/schema"
 
-interface FormValues {
-  title: string
-  metaTitle?: string
-  metaDescription?: string
-  version: string
-  downloadLink: string
-  fileSize: string
-  currency: string
-  price: string
-}
+type FormValues = UpdateDownloadFile
 
-interface SelectedDownloadFileProps {
-  id: string
-  title: string
-  version: string
-  fileSize: string
-  price: string
-}
-
-interface DashboardAddDownloadFilesProps
+interface DashboardEditDownloadFilesProps
   extends React.HTMLAttributes<HTMLDivElement> {
-  updateDownloadFiles: (_data: SelectedDownloadFileProps[]) => void
-  initialAuthors: { id: string; name: string }[]
+  downloadFile: SelectDownloadFile & { authors?: SelectUser[] }
+  featuredImage: Pick<SelectMedia, "id" | "url">
 }
 
-export const DashboardAddDownloadFiles: React.FunctionComponent<
-  DashboardAddDownloadFilesProps
+const DashboardEditDownloadFiles: React.FunctionComponent<
+  DashboardEditDownloadFilesProps
 > = (props) => {
-  const { updateDownloadFiles, initialAuthors } = props
+  const { downloadFile, featuredImage } = props
 
   const [authors, setAuthors] = React.useState<string[]>(
-    initialAuthors
-      ? initialAuthors.map((author) => {
+    downloadFile?.authors
+      ? downloadFile?.authors?.map((author) => {
           return author.id
         })
       : [],
@@ -62,40 +51,54 @@ export const DashboardAddDownloadFiles: React.FunctionComponent<
   const [selectedAuthors, setSelectedAuthors] = React.useState<
     { id: string; name: string }[] | []
   >(
-    initialAuthors
-      ? initialAuthors.map((author) => {
-          return { id: author.id as string, name: author.name as string }
+    downloadFile?.authors
+      ? downloadFile?.authors?.map((author) => {
+          return { id: author.id!, name: author.name! }
         })
       : [],
   )
   const [loading, setLoading] = React.useState<boolean>(false)
-  const [selectedFeaturedImageId, setSelectedFeaturedImageId] =
-    React.useState<string>("")
-  const [selectedFeaturedImageUrl, setSelectedFeaturedImageUrl] =
-    React.useState<string>("")
   const [openDialog, setOpenDialog] = React.useState<boolean>(false)
   const [showMetaData, setShowMetaData] = React.useState<boolean>(false)
+  const [selectedFeaturedImageId, setSelectedFeaturedImageId] =
+    React.useState<string>(featuredImage ? featuredImage.id : "")
+  const [selectedFeaturedImageUrl, setSelectedFeaturedImageUrl] =
+    React.useState<string>(featuredImage ? featuredImage.url : "")
 
-  const form = useForm<FormValues>()
+  const form = useForm<FormValues>({
+    defaultValues: {
+      title: downloadFile.title,
+      metaTitle: downloadFile.metaTitle ?? "",
+      metaDescription: downloadFile.metaDescription ?? "",
+      version: downloadFile.version,
+      downloadLink: downloadFile.downloadLink || "",
+      fileSize: downloadFile.fileSize,
+      currency: downloadFile.currency,
+      price: downloadFile.price,
+      slug: downloadFile.slug,
+      status: downloadFile.status || "draft",
+      id: downloadFile?.id ?? "",
+    },
+  })
 
   const { handleCreateDownloadFile: createDownloadFileAction } =
     useCreateDownloadFile({
       onSuccess: (data) => {
         if (data) {
-          updateDownloadFiles([data])
           setSelectedFeaturedImageUrl("")
           setSelectedFeaturedImageId("")
           toast({
             variant: "success",
-            description: "Download File Successfully created",
+            description: "Download File Successfully updated",
           })
           form.reset()
+          window.location.replace("/dashboard/download/file")
         }
       },
       onError: () => {
         toast({
           variant: "danger",
-          description: "Failed to create! Please try again later",
+          description: "Failed to update! Please try again later",
         })
       },
     })
@@ -362,3 +365,5 @@ export const DashboardAddDownloadFiles: React.FunctionComponent<
     </div>
   )
 }
+
+export default DashboardEditDownloadFiles

@@ -20,7 +20,7 @@ import { useCreateDownloadFile } from "@/hooks/useDownloadFile"
 import Image from "@/components/Image"
 import DeleteMediaButton from "@/components/Media/DeleteMediaButton"
 import SelectMediaDialog from "@/components/Media/SelectMediaDialog"
-import DashboardAddAuthors from "./DashboardAddAuthors"
+import DashboardAddAuthors from "../DashboardAddAuthors"
 
 interface FormValues {
   title: string
@@ -33,24 +33,15 @@ interface FormValues {
   price: string
 }
 
-interface SelectedDownloadFileProps {
-  id: string
-  title: string
-  version: string
-  fileSize: string
-  price: string
-}
-
-interface DashboardAddDownloadFilesProps
+interface DashboardCreateDownloadFilesProps
   extends React.HTMLAttributes<HTMLDivElement> {
-  updateDownloadFiles: (_data: SelectedDownloadFileProps[]) => void
   initialAuthors: { id: string; name: string }[]
 }
 
-export const DashboardAddDownloadFiles: React.FunctionComponent<
-  DashboardAddDownloadFilesProps
+const DashboardCreateDownloadFiles: React.FunctionComponent<
+  DashboardCreateDownloadFilesProps
 > = (props) => {
-  const { updateDownloadFiles, initialAuthors } = props
+  const { initialAuthors } = props
 
   const [authors, setAuthors] = React.useState<string[]>(
     initialAuthors
@@ -82,7 +73,6 @@ export const DashboardAddDownloadFiles: React.FunctionComponent<
     useCreateDownloadFile({
       onSuccess: (data) => {
         if (data) {
-          updateDownloadFiles([data])
           setSelectedFeaturedImageUrl("")
           setSelectedFeaturedImageId("")
           toast({
@@ -90,6 +80,7 @@ export const DashboardAddDownloadFiles: React.FunctionComponent<
             description: "Download File Successfully created",
           })
           form.reset()
+          window.location.replace("/dashboard/download/file")
         }
       },
       onError: () => {
@@ -362,3 +353,5 @@ export const DashboardAddDownloadFiles: React.FunctionComponent<
     </div>
   )
 }
+
+export default DashboardCreateDownloadFiles

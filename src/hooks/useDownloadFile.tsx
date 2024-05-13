@@ -128,7 +128,6 @@ export function useSearchDownloadFiles(query?: string) {
       )
       const results = (await response.json()) as SelectDownloadFile[]
       setIsLoading(false)
-      console.log(results)
       return results
     } catch (error) {
       setData([])
