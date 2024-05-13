@@ -1,0 +1,50 @@
+---
+import DashboardEditArticleForm from "@/components/Dashboard/Article/DashboardEditArticleForm"
+import DashboardLayout from "@/layouts/DashboardLayout.astro"
+import { getArticleById } from "@/lib/action/article"
+
+const user = Astro.locals.user
+const DB = Astro.locals.runtime.env.DB
+
+if (!user?.role?.includes("admin" || "author")) {
+  return Astro.redirect("/")
+}
+const { articleId } = Astro.params
+const article = await getArticleById(DB, articleId!)
+if (!article) {
+  return Astro.redirect("/404")
+}
+---
+
+<DashboardLayout
+  locale="id"
+  seo={{
+    title: "Edit Article",
+    description: "Edit Article",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/article/edit/${articleId}`,
+    openGraph: {
+      basic: {
+        title: `Edit Article | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/article/edit/${articleId}`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: "Edit Article",
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <div class="mx-4 flex w-full flex-col">
+    <div class="mb-[100px] mt-4 flex items-end justify-end">
+      <div class="flex-1 space-y-4">
+        <DashboardEditArticleForm
+          articleId={articleId}
+          article={article!}
+          client:load
+        />
+      </div>
+    </div>
+  </div></DashboardLayout
+>

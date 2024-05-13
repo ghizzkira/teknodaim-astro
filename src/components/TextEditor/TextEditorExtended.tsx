@@ -20,7 +20,7 @@ interface TextEditorExtendedProps {
 
 const TextEditorExtended = React.memo((props: TextEditorExtendedProps) => {
   const { control, isClear, name } = props
-
+  const [isHydrated, setIsHydrated] = React.useState(true)
   const {
     field: { value, onChange },
   } = useController({ control, name: name })
@@ -49,19 +49,18 @@ const TextEditorExtended = React.memo((props: TextEditorExtendedProps) => {
     prevLocaleRef.current = isClear
   }, [isClear, editor?.commands])
 
-  if (!editor) {
+  React.useEffect(() => {
+    setIsHydrated(false)
+  }, [])
+
+  if (isHydrated) {
     return null
   }
 
   return (
     <>
       {editor && <TextEditorMenu editor={editor} />}
-      {editor && (
-        <TextEditorContent
-          className="text-editor-extended mb-10"
-          editor={editor}
-        />
-      )}
+      {editor && <TextEditorContent className="mb-10 block" editor={editor} />}
       <p className="fixed bottom-0 right-0 p-2">
         {editor?.storage.characterCount.words()} words
       </p>

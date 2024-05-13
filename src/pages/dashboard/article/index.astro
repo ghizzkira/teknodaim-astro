@@ -1,0 +1,58 @@
+---
+import DashboardArticleContent from "@/components/Dashboard/Article/DashboardArticleContent"
+import DashboardLayout from "@/layouts/DashboardLayout.astro"
+import {
+  getArticlesCountByLanguage,
+  getArticlesDashboard,
+} from "@/lib/action/article"
+
+const user = Astro.locals.user
+const DB = Astro.locals.runtime.env.DB
+const url = Astro.url
+
+const searchParams = new URLSearchParams(url.searchParams)
+const page = searchParams.get("page")
+const language = searchParams.get("language")
+const currentLanguage = language && language === "en" ? "en" : "id"
+const currentPage =
+  page && typeof parseInt(page) === "number" ? parseInt(page) : 1
+const articlesCount = await getArticlesCountByLanguage(DB, currentLanguage)
+const articles = await getArticlesDashboard(DB, {
+  page: currentPage,
+  perPage: 10,
+  language: currentLanguage,
+})
+if (!user?.role?.includes("admin" || "author")) {
+  return Astro.redirect("/")
+}
+const lastPage = articlesCount && Math.ceil(articlesCount / 10)
+---
+
+<DashboardLayout
+  locale="id"
+  seo={{
+    title: "Articles",
+    description: "Articles",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/article`,
+    openGraph: {
+      basic: {
+        title: `Articles | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/article`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: "Articles",
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <DashboardArticleContent
+    currentLanguage={currentLanguage}
+    page={currentPage}
+    lastPage={lastPage}
+    articles={articles}
+    client:load
+  />
+</DashboardLayout>
