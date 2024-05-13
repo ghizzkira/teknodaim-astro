@@ -199,7 +199,7 @@ const TranslateArticleForm = (props: TranslateArticleFormProps) => {
                   href="/dashboard/article"
                 >
                   <Icon.ChevronLeft aria-label="articles" />
-                  articles
+                  Articles
                 </a>
               </Button>
               <div>
@@ -225,7 +225,7 @@ const TranslateArticleForm = (props: TranslateArticleFormProps) => {
                   variant="ghost"
                   loading={loading}
                 >
-                  submit
+                  Submit
                 </Button>
                 <Button
                   type="button"
@@ -239,7 +239,7 @@ const TranslateArticleForm = (props: TranslateArticleFormProps) => {
             </div>
           </div>
           <div className="flex min-h-screen flex-row flex-wrap">
-            <div className="order-1 w-full md:px-64 lg:w-10/12">
+            <div className="order-1 w-full lg:w-10/12">
               <div className="relative mt-4 flex items-center justify-center">
                 <div className="flex-1 space-y-4">
                   <FormField
@@ -265,7 +265,7 @@ const TranslateArticleForm = (props: TranslateArticleFormProps) => {
                                 )
                               textarea.style.height = totalHeight + "px"
                               if (textarea.value === "") {
-                                textarea.style.height = "40px"
+                                textarea.style.height = "43px"
                                 textarea.focus()
                               }
                               if (currentFocus === textarea) {

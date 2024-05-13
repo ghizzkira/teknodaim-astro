@@ -1,5 +1,5 @@
 ---
-import CreateArticleForm from "@/components/Dashboard/Article/DashboardCreateArticleForm"
+import CreateDownloadForm from "@/components/Dashboard/Download/DashboardCreateDownloadForm"
 import DashboardLayout from "@/layouts/DashboardLayout.astro"
 
 const user = Astro.locals.user
@@ -12,18 +12,18 @@ if (!user?.role?.includes("admin" || "author")) {
 <DashboardLayout
   locale="id"
   seo={{
-    title: "Create Article",
-    description: "Create Article",
-    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/article/new`,
+    title: "Create Download",
+    description: "Create Download",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/download/new`,
     openGraph: {
       basic: {
-        title: `Create Article | `,
-        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/article/new`,
+        title: `Create Download | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/download/new`,
         type: "website",
         image: "",
       },
       optional: {
-        description: "Create Article",
+        description: "Create Download",
         locale: "ID",
       },
     },
@@ -32,7 +32,7 @@ if (!user?.role?.includes("admin" || "author")) {
   <div class="mx-4 flex w-full flex-col">
     <div class="mb-[100px] mt-4 flex items-end justify-end">
       <div class="flex-1 space-y-4">
-        <CreateArticleForm session={user} client:load />
+        <CreateDownloadForm session={user} client:load />
       </div>
     </div>
   </div></DashboardLayout

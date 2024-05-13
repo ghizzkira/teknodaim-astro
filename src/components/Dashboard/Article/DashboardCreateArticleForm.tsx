@@ -183,7 +183,7 @@ const CreateArticleForm: React.FunctionComponent<CreateArticleFormProps> = (
                   href="/dashboard/article"
                 >
                   <Icon.ChevronLeft aria-label="articles" />
-                  articles
+                  Articles
                 </a>
               </Button>
               <div>
@@ -209,7 +209,7 @@ const CreateArticleForm: React.FunctionComponent<CreateArticleFormProps> = (
                   variant="ghost"
                   loading={loading}
                 >
-                  submit
+                  Submit
                 </Button>
                 <Button
                   type="button"
@@ -223,7 +223,7 @@ const CreateArticleForm: React.FunctionComponent<CreateArticleFormProps> = (
             </div>
           </div>
           <div className="flex min-h-screen flex-row flex-wrap">
-            <div className="order-1 w-full md:px-64 lg:w-10/12">
+            <div className="order-1 w-full lg:w-10/12">
               <div className="relative mt-4 flex items-center justify-center">
                 <div className="flex-1 space-y-4">
                   <FormField
@@ -249,7 +249,7 @@ const CreateArticleForm: React.FunctionComponent<CreateArticleFormProps> = (
                                 )
                               textarea.style.height = totalHeight + "px"
                               if (textarea.value === "") {
-                                textarea.style.height = "40px"
+                                textarea.style.height = "42px"
                                 textarea.focus()
                               }
                               if (currentFocus === textarea) {
