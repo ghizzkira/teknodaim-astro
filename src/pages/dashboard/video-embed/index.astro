@@ -1,0 +1,55 @@
+---
+import DashboardVideoEmbedPage from "@/components/Dashboard/VideoEmbed/DashboardVideoEmbedPage"
+import DashboardLayout from "@/layouts/DashboardLayout.astro"
+import {
+  getVideoEmbedsCountDashboard,
+  getVideoEmbedsDashboard,
+} from "@/lib/action/video-embed"
+
+const user = Astro.locals.user
+const DB = Astro.locals.runtime.env.DB
+const url = Astro.url
+
+const searchParams = new URLSearchParams(url.searchParams)
+const page = searchParams.get("page")
+const currentPage =
+  page && typeof parseInt(page) === "number" ? parseInt(page) : 1
+const videoEmbedsCount = await getVideoEmbedsCountDashboard(DB)
+const videoEmbeds = await getVideoEmbedsDashboard(DB, {
+  page: currentPage,
+  perPage: 10,
+})
+if (!user?.role?.includes("admin" || "author")) {
+  return Astro.redirect("/")
+}
+const lastPage = videoEmbedsCount && Math.ceil(videoEmbedsCount / 10)
+---
+
+<DashboardLayout
+  locale="id"
+  seo={{
+    title: "Video Embeds",
+    description: "Video Embeds",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/video-embed`,
+    openGraph: {
+      basic: {
+        title: `Video Embeds | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/video-embed`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: "Video Embeds",
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <DashboardVideoEmbedPage
+    videoEmbeds={videoEmbeds}
+    page={currentPage}
+    lastPage={lastPage}
+    paramsName="page"
+    client:load
+  />
+</DashboardLayout>

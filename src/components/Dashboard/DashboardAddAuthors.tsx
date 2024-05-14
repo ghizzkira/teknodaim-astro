@@ -132,7 +132,7 @@ const DashboardAddAuthors: React.FunctionComponent<DashboardAddAuthorsProps> = (
                 >
                   <span>{author.name}</span>
                   <Button
-                    // disabled={selectedAuthors.length === 1}
+                    disabled={selectedAuthors.length === 1}
                     aria-label="Delete Author"
                     onClick={() => handleRemoveValue(author)}
                     size="icon"

@@ -11,6 +11,7 @@ if (!user?.role?.includes("admin" || "author")) {
 }
 const { downloadId } = Astro.params
 const download = await getDownloadById(DB, downloadId!)
+console.log(download)
 if (!download) {
   return Astro.redirect("/404")
 }

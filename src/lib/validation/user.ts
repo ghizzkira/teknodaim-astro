@@ -51,5 +51,6 @@ export const updateUserByAdminSchema = z.object({
   }),
 })
 
+export type updateUserByAdmin = z.infer<typeof updateUserByAdminSchema>
 export type UpdateUser = z.infer<typeof updateUserSchema>
 export type UserRole = z.infer<typeof userRole>
