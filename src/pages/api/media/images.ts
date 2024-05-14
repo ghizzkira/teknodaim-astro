@@ -1,5 +1,6 @@
 import type { APIContext, APIRoute } from "astro"
 import { z } from "zod"
+import { Buffer } from "node:buffer"
 
 import { createMedia } from "@/lib/action/media"
 import { uploadImageToR2 } from "@/lib/r2"
@@ -11,7 +12,12 @@ export const POST: APIRoute = async (context: APIContext) => {
     const user = context.locals.user
 
     const DB = context.locals.runtime.env.DB
-
+    const R2_DOMAIN = context.locals.runtime.env.R2_DOMAIN
+    const R2_BUCKET = context.locals.runtime.env.R2_BUCKET
+    const R2_REGION = context.locals.runtime.env.R2_REGION
+    const R2_ACCOUNT_ID = context.locals.runtime.env.R2_ACCOUNT_ID
+    const R2_ACCESS_KEY = context.locals.runtime.env.R2_ACCESS_KEY
+    const R2_SECRET_KEY = context.locals.runtime.env.R2_SECRET_KEY
     if (!user?.role?.includes("admin" || "author")) {
       return new Response(null, {
         status: 401,
@@ -47,11 +53,20 @@ export const POST: APIRoute = async (context: APIContext) => {
         file: buffer,
         fileName: uniqueFileName,
         contentType: defaultFileType,
+        config: {
+          bucket: R2_BUCKET,
+          region: R2_REGION,
+          accountId: R2_ACCOUNT_ID,
+          credentials: {
+            accessKeyId: R2_ACCESS_KEY,
+            secretAccessKey: R2_SECRET_KEY,
+          },
+        },
       })
 
       const data = await createMedia(DB, {
         name: uniqueFileName,
-        url: "https://" + import.meta.env.R2_DOMAIN + "/" + uniqueFileName,
+        url: "https://" + R2_DOMAIN + "/" + uniqueFileName,
         type: defaultFileType,
         authorId: user?.id!,
       })
@@ -68,6 +83,6 @@ export const POST: APIRoute = async (context: APIContext) => {
     if (error instanceof z.ZodError) {
       return new Response(error.errors[0].message, { status: 422 })
     }
-    return new Response("Internal Server Error", { status: 500 })
+    return new Response(JSON.stringify(error), { status: 500 })
   }
 }

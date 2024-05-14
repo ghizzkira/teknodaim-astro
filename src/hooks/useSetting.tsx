@@ -9,7 +9,7 @@ export function useUpdateSetting({
   onError,
 }: {
   onSuccess?: (_data: SelectSetting) => void
-  onError?: () => void
+  onError: () => void
 }) {
   const [isLoading, setIsLoading] = React.useState(false)
 
@@ -30,10 +30,6 @@ export function useUpdateSetting({
       return data
     } catch (error) {
       onError && onError()
-      toast({
-        description: "Error when updating comment, try again",
-        variant: "warning",
-      })
     } finally {
       setIsLoading(false)
     }

@@ -1,0 +1,39 @@
+---
+import CreateUserExpertiseForm from "@/components/Dashboard/UserExpertise/DashboardCreateUserExpertiseForm"
+import DashboardLayout from "@/layouts/DashboardLayout.astro"
+
+const user = Astro.locals.user
+
+if (!user?.role?.includes("admin" || "author")) {
+  return Astro.redirect("/")
+}
+---
+
+<DashboardLayout
+  locale="id"
+  seo={{
+    title: "Create User Expertise",
+    description: "Create User Expertise",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/user-expertise/new`,
+    openGraph: {
+      basic: {
+        title: `Create User Expertise | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/user-expertise/new`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: "Create User Expertise",
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <div class="mx-4 flex w-full flex-col">
+    <div class="mb-[100px] mt-4 flex items-end justify-end">
+      <div class="flex-1 space-y-4">
+        <CreateUserExpertiseForm client:load />
+      </div>
+    </div>
+  </div></DashboardLayout
+>

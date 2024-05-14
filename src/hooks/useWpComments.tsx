@@ -162,7 +162,6 @@ export function useGetWpCommentCountByWpSlug(slug: string) {
     handleGetWpCommentCountByWpSlug()
   }, [])
 
-  // Menambahkan refetch ke return value
   return { data, isLoading, refetch }
 }
 

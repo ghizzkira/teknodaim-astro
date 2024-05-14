@@ -22,10 +22,10 @@ const DashboardPagination: React.FunctionComponent<DashboardPaginationProps> = (
   const { currentPage, lastPage, paramsName = "page" } = props
 
   function updatePage(page: number) {
-    const path = window.location.pathname
-    const params = new URLSearchParams(path?.toString())
+    const currentUrl = new URL(window.location.href)
+    const params = new URLSearchParams(currentUrl?.searchParams.toString())
     params.set(paramsName, page.toString())
-    window.history.pushState(null, "", `?${params.toString()}`)
+    window.location.replace(`?${params.toString()}`)
   }
 
   return (

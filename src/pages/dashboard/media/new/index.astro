@@ -1,0 +1,33 @@
+---
+import UploadMedia from "@/components/Media/UploadMedia"
+import DashboardLayout from "@/layouts/DashboardLayout.astro"
+
+const user = Astro.locals.user
+
+if (!user?.role?.includes("admin" || "author" || "user")) {
+  return Astro.redirect("/")
+}
+---
+
+<DashboardLayout
+  locale="id"
+  seo={{
+    title: "Upload Media",
+    description: "Upload Media",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/media/new`,
+    openGraph: {
+      basic: {
+        title: `Upload Media | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/media/new`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: "Upload Media",
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <UploadMedia toggleUpload={true} client:load /></DashboardLayout
+>

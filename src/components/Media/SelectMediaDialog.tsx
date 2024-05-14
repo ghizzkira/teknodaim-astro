@@ -12,6 +12,8 @@ import { Input } from "@/components/UI/Input"
 import { ScrollArea } from "@/components/UI/ScrollArea"
 import MediaList from "./MediaList"
 import UploadMedia from "./UploadMedia"
+import { useGetMediasSearch } from "@/hooks/useMedia"
+import Image from "@/components/Image"
 
 interface SelectMediaDialogProps {
   handleSelectUpdateMedia: (_media: {
@@ -31,9 +33,8 @@ const SelectMediaDialog: React.FunctionComponent<SelectMediaDialogProps> = (
 
   const [toggleUpload, setToggleUpload] = React.useState<boolean>(false)
   const [searched, setSearched] = React.useState<boolean>(false)
-  const [_searchQuery, setSearchQuery] = React.useState<string>("")
-  //TODO: connect to api
-  // const { data: resultMedias } = api.media.search.useQuery(searchQuery)
+  const [searchQuery, setSearchQuery] = React.useState<string>("")
+  const { data: resultMedias } = useGetMediasSearch(searchQuery)
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
@@ -87,7 +88,7 @@ const SelectMediaDialog: React.FunctionComponent<SelectMediaDialogProps> = (
                   selectMedia={handleSelectUpdateMedia}
                 />
               )}
-              {/* {searched && resultMedias && resultMedias?.length > 0 ? (
+              {searched && resultMedias && resultMedias?.length > 0 ? (
                 <div className="mb-4 grid grid-cols-3 gap-3 lg:grid-cols-5">
                   {resultMedias?.map((media) => {
                     return (
@@ -110,7 +111,7 @@ const SelectMediaDialog: React.FunctionComponent<SelectMediaDialogProps> = (
                 </div>
               ) : (
                 searched && <p>Media not Found</p>
-              )} */}
+              )}
             </div>
           </ScrollArea>
         </DialogContent>

@@ -69,14 +69,11 @@ const UploadMedia: React.FunctionComponent<UploadMediaProps> = (props) => {
   }
 
   return (
-    <div className={toggleUpload === true ? "flex" : "hidden"}>
+    <div className={toggleUpload === true ? "flex w-full" : "hidden"}>
       <div className="flex-1 space-y-4">
         <div id="media-upload" className="space-y-4">
           <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-4 md:mx-64"
-            >
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <DropZone
                 className={cn(previewImages.length > 0 && "hidden")}
                 {...form.register("files")}
@@ -86,7 +83,7 @@ const UploadMedia: React.FunctionComponent<UploadMediaProps> = (props) => {
                   <div className="grid grid-flow-row grid-cols-2 grid-rows-1 gap-2 md:grid-cols-6 md:grid-rows-1">
                     {previewImages.map((preview, index) => (
                       <img
-                        className="h-24 w-full cursor-pointer overflow-hidden rounded-lg object-cover md:h-48"
+                        className="h-24 w-full cursor-pointer overflow-hidden rounded-lg object-cover"
                         key={index}
                         src={preview}
                         alt={`Selected ${index + 1}`}

@@ -1,0 +1,44 @@
+---
+import DashboardEditMediaForm from "@/components/Dashboard/Media/DashboardEditMediaForm"
+import DashboardLayout from "@/layouts/DashboardLayout.astro"
+import { getMediaById } from "@/lib/action/media"
+
+const user = Astro.locals.user
+const DB = Astro.locals.runtime.env.DB
+
+if (!user?.role?.includes("admin" || "author" || "user")) {
+  return Astro.redirect("/")
+}
+const { mediaId } = Astro.params
+const media = await getMediaById(DB, mediaId!)
+if (!media) {
+  return Astro.redirect("/404")
+}
+---
+
+<DashboardLayout
+  locale="id"
+  seo={{
+    title: "Edit Media",
+    description: "Edit Media",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/media/edit/${mediaId}`,
+    openGraph: {
+      basic: {
+        title: `Edit Media | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/media/edit/${mediaId}`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: "Edit Media",
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <div class="mb-[100px] mt-4 flex items-end justify-end">
+    <div class="flex-1 space-y-4">
+      <DashboardEditMediaForm client:load media={media} />
+    </div>
+  </div></DashboardLayout
+>

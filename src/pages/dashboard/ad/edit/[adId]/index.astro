@@ -1,0 +1,46 @@
+---
+import EditAdForm from "@/components/Dashboard/Ad/DashboardEditAdForm"
+import DashboardLayout from "@/layouts/DashboardLayout.astro"
+import { getAdById } from "@/lib/action/ad"
+
+const user = Astro.locals.user
+const DB = Astro.locals.runtime.env.DB
+
+if (!user?.role?.includes("admin" || "author")) {
+  return Astro.redirect("/")
+}
+const { adId } = Astro.params
+const ad = await getAdById(DB, adId!)
+if (!ad) {
+  return Astro.redirect("/404")
+}
+---
+
+<DashboardLayout
+  locale="id"
+  seo={{
+    title: "Edit Ad",
+    description: "Edit Ad",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/ad/edit/${adId}`,
+    openGraph: {
+      basic: {
+        title: `Edit Ad | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/ad/edit/${adId}`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: "Edit Ad",
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <div class="mx-4 flex w-full flex-col">
+    <div class="mb-[100px] mt-4 flex items-end justify-end">
+      <div class="flex-1 space-y-4">
+        <EditAdForm ad={ad} client:load />
+      </div>
+    </div>
+  </div></DashboardLayout
+>

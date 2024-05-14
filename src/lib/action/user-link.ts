@@ -1,9 +1,17 @@
-import { eq, sql } from "drizzle-orm"
+import { count, eq, sql } from "drizzle-orm"
 
 import { initializeDB } from "@/lib/db"
 import { userLinks } from "@/lib/db/schema/user-link"
 import { cuid } from "@/lib/utils/id"
 import type { CreateUserLink, UpdateUserLink } from "@/lib/validation/user-link"
+
+export const getUserLinksById = async (DB: D1Database, input: string) => {
+  const db = initializeDB(DB)
+  const data = await db.query.userLinks.findFirst({
+    where: (userLinks, { eq }) => eq(userLinks.id, input),
+  })
+  return data
+}
 
 export const getUserLinksDashboard = async (
   DB: D1Database,
@@ -20,6 +28,12 @@ export const getUserLinksDashboard = async (
     orderBy: (userLinks, { desc }) => [desc(userLinks.createdAt)],
   })
   return data
+}
+
+export const getUserLinksCount = async (DB: D1Database) => {
+  const db = initializeDB(DB)
+  const data = await db.select({ value: count() }).from(userLinks)
+  return data[0].value
 }
 
 export const getUserLinkById = async (DB: D1Database, input: string) => {

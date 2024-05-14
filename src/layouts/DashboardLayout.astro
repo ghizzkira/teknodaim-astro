@@ -43,7 +43,7 @@ const titleDefault =
   import.meta.env.PUBLIC_SITE_TITLE ??
   "Teknodaim"
 
-if (!user) {
+if (!user?.role?.includes("admin" || "author")) {
   return new Response(null, {
     status: 404,
     statusText: "Not found",

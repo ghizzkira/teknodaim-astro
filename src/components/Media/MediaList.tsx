@@ -1,10 +1,11 @@
 import * as React from "react"
 
-// import Image from "@/components/Image"
-// import LoadingProgress from "@/components/LoadingProgress"
-// import { toast } from "@/components/UI/Toast/useToast"
-// import CopyMediaLinkButton from "./CopyMediaLinkButton"
-// import DeleteMediaButton from "./DeleteMediaButton"
+import LoadingProgress from "@/components/LoadingProgress"
+import { toast } from "@/components/UI/Toast/useToast"
+import CopyMediaLinkButton from "./CopyMediaLinkButton"
+import DeleteMediaButton from "./DeleteMediaButton"
+import { useDeleteMedia, useGetMediasInfinite } from "@/hooks/useMedia"
+import Image from "@/components/Image"
 
 interface MediaListProps extends React.HTMLAttributes<HTMLDivElement> {
   selectMedia?: (_media: { name: string; id: string; url: string }) => void
@@ -14,91 +15,61 @@ interface MediaListProps extends React.HTMLAttributes<HTMLDivElement> {
   onSelect?: () => void
 }
 
-const MediaList: React.FunctionComponent<MediaListProps> = () => {
-  //TODO: connect to api
-  // const prevToggleRef = React.useRef(toggleUpload)
+const MediaList: React.FunctionComponent<MediaListProps> = (props) => {
+  const { selectMedia, isLibrary, toggleUpload, onSelect } = props
+  const prevToggleRef = React.useRef(toggleUpload)
 
-  // const loadMoreRef = React.useRef<HTMLDivElement>(null)
+  const loadMoreRef = React.useRef<HTMLDivElement>(null)
 
-  // const {
-  //   data: medias,
-  //   hasNextPage,
-  //   fetchNextPage,
-  //   refetch: updateMedias,
-  // } = api.media.dashboardInfinite.useInfiniteQuery(
-  //   { limit: 10 },
-  //   {
-  //     staleTime: 0,
-  //     getNextPageParam: (lastPage) => lastPage?.nextCursor,
-  //   },
-  // )
+  const {
+    data,
+    hasNextPage,
+    fetchNextPage,
+    refetch: updateMedias,
+  } = useGetMediasInfinite({ limit: 10 })
+  React.useEffect(() => {
+    if (prevToggleRef.current !== toggleUpload) {
+      updateMedias()
+    }
 
-  // React.useEffect(() => {
-  //   if (prevToggleRef.current !== toggleUpload) {
-  //     updateMedias()
-  //   }
+    prevToggleRef.current = toggleUpload
+  }, [toggleUpload, updateMedias])
 
-  //   prevToggleRef.current = toggleUpload
-  // }, [toggleUpload, updateMedias])
+  const handleObserver = React.useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      const [target] = entries
+      if (target?.isIntersecting && hasNextPage) {
+        setTimeout(() => fetchNextPage(), 2)
+      }
+    },
+    [fetchNextPage, hasNextPage],
+  )
 
-  // const handleObserver = React.useCallback(
-  //   (entries: IntersectionObserverEntry[]) => {
-  //     const [target] = entries
-  //     if (target?.isIntersecting && hasNextPage) {
-  //       setTimeout(() => fetchNextPage(), 2)
-  //     }
-  //   },
-  //   [fetchNextPage, hasNextPage],
-  // )
+  React.useEffect(() => {
+    const lmRef: HTMLDivElement | null = loadMoreRef.current
+    const observer = new IntersectionObserver(handleObserver)
 
-  // React.useEffect(() => {
-  //   const lmRef: HTMLDivElement | null = loadMoreRef.current
-  //   const observer = new IntersectionObserver(handleObserver)
+    if (loadMoreRef.current) observer.observe(loadMoreRef.current)
+    return () => {
+      if (lmRef) {
+        observer.unobserve(lmRef)
+      }
+    }
+  }, [handleObserver, isLibrary, data])
 
-  //   if (loadMoreRef.current) observer.observe(loadMoreRef.current)
-  //   return () => {
-  //     if (lmRef) {
-  //       observer.unobserve(lmRef)
-  //     }
-  //   }
-  // }, [handleObserver, isLibrary, medias])
-
-  // const ts = useScopedI18n("media")
-
-  // const { mutate: deleteMedia } = api.media.deleteByName.useMutation({
-  //   onSuccess: () => {
-  //     updateMedias()
-  //     toast({ variant: "success", description: ts("delete_success") })
-  //   },
-  //   onError: (error) => {
-  //     const errorData = error?.data?.zodError?.fieldErrors
-
-  //     if (errorData) {
-  //       for (const field in errorData) {
-  //         if (errorData.hasOwnProperty(field)) {
-  //           errorData[field]?.forEach((errorMessage) => {
-  //             toast({
-  //               variant: "danger",
-  //               description: errorMessage,
-  //             })
-  //           })
-  //         }
-  //       }
-  //     } else {
-  //       toast({
-  //         variant: "danger",
-  //         description: ts("delete_failed"),
-  //       })
-  //     }
-  //   },
-  // })
+  const { handleDeleteMedia: deleteMedia } = useDeleteMedia({
+    onSuccess: () => {
+      updateMedias()
+      toast({ variant: "success", description: "Success deleting media" })
+    },
+  })
 
   return (
     <div>
-      {/* <div className="mb-4 grid grid-cols-3 gap-3 lg:grid-cols-8">
+      <div className="mb-4 grid grid-cols-3 gap-3 lg:grid-cols-8">
         {isLibrary
-          ? medias?.pages.map((media) =>
-              media?.medias.map((media) => {
+          ? data?.map((item) =>
+              item?.medias.map((media) => {
                 return (
                   <div
                     key={media.name}
@@ -118,34 +89,38 @@ const MediaList: React.FunctionComponent<MediaListProps> = () => {
                         src={media.url}
                         alt={media.name}
                         sizes="(max-width: 768px) 30vw, (max-width: 1200px) 20vw, 33vw"
-                        className="!relative aspect-[1/1] h-[500px] max-w-[unset] rounded-sm border-2 border-muted/30 bg-muted/30 object-cover"
-                        quality={60}
+                        className="!relative aspect-[1/1] !h-[200px] !w-auto max-w-[unset] rounded-sm border-2 border-muted/30 bg-muted/30 object-cover"
+                        width="400"
+                        height="400"
                       />
                     </a>
                   </div>
                 )
               }),
             )
-          : medias?.pages.map((media, i) =>
-              media?.medias.map((media) => {
+          : data?.map((item, i) =>
+              item?.medias.map((media) => {
                 return (
-                  <div key={i}>
-                    <NextImage
+                  <div
+                    onClick={(
+                      e: React.MouseEvent<HTMLImageElement, MouseEvent>,
+                    ) => {
+                      e.preventDefault()
+                      if (selectMedia) selectMedia(media)
+                      if (onSelect) onSelect()
+                    }}
+                    key={i}
+                  >
+                    <Image
                       key={media.id}
                       src={media.url}
                       alt={media.name}
-                      fill
+                      width="400"
+                      height="400"
                       sizes="(max-width: 768px) 30vw,
                     (max-width: 1200px) 20vw,
                     33vw"
-                      className="!relative aspect-[1/1] h-[500px] max-w-[unset] cursor-pointer rounded-sm border-2 border-muted/30 bg-muted/30 object-cover"
-                      onClick={(
-                        e: React.MouseEvent<HTMLImageElement, MouseEvent>,
-                      ) => {
-                        e.preventDefault()
-                        if (selectMedia) selectMedia(media)
-                        if (onSelect) onSelect()
-                      }}
+                      className="!relative aspect-[1/1] !h-[200px] !w-auto max-w-[unset] cursor-pointer rounded-sm border-2 border-muted/30 bg-muted/30 object-cover"
                     />
                   </div>
                 )
@@ -158,7 +133,7 @@ const MediaList: React.FunctionComponent<MediaListProps> = () => {
             <LoadingProgress />
           </div>
         </div>
-      )} */}
+      )}
     </div>
   )
 }
