@@ -30,7 +30,7 @@
     "@astrojs/tailwind": "^5.1.0",
     "@astrojs/ts-plugin": "^1.7.0",
     "@auth/drizzle-adapter": "^1.0.1",
-    "@aws-sdk/client-s3": "^3.574.0",
+    "@aws-sdk/client-s3": "^3.572.0",
     "@lucia-auth/adapter-drizzle": "^1.0.7",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-dialog": "^1.0.5",
@@ -138,7 +138,7 @@
     "prettier-plugin-astro": "^0.13.0",
     "prettier-plugin-tailwindcss": "^0.5.14",
     "tailwindcss-animate": "^1.0.7",
-    "tsx": "^4.9.4",
+    "tsx": "^4.9.3",
     "typescript": "^5.4.5",
     "wrangler": "^3.55.0"
   }
