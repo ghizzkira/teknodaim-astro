@@ -21,8 +21,7 @@ export function useUpdateSetting({
         body: JSON.stringify(input),
       })
       const data = (await response.json()) as SelectSetting
-
-      if (data) {
+      if (response.ok) {
         onSuccess && onSuccess(data)
       } else {
         onError && onError()
@@ -49,6 +48,7 @@ export function useGetSettingByKey(key: string) {
         method: "GET",
       })
       const data = (await response.json()) as SelectSetting
+
       if (data) {
         setData(data)
       }

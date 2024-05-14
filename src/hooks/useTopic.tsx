@@ -189,6 +189,6 @@ export function useSearchTopicsByType({
       }
     }
     livesearch()
-  }, [query, data])
+  }, [query])
   return { data, isLoading, refetch: handleGetTopics }
 }

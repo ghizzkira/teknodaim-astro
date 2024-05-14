@@ -62,8 +62,10 @@ export function useUpdateDownloadFile({
         body: JSON.stringify(input),
       })
       const data = await response.json()
-      if (data) {
+      if (response.ok) {
         onSuccess && onSuccess()
+      } else {
+        onError && onError()
       }
       return data
     } catch (error) {
@@ -93,7 +95,7 @@ export function useDeleteDownloadFile({
       })
       const data = await response.json()
 
-      if (data) {
+      if (response.ok) {
         onSuccess && onSuccess()
       } else {
         onError && onError()

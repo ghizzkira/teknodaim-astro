@@ -21,8 +21,10 @@ export function useCreateAd({
         body: JSON.stringify(input),
       })
       const data = await response.json()
-      if (data) {
+      if (response.ok) {
         onSuccess && onSuccess()
+      } else {
+        onError && onError()
       }
       return data
     } catch (error) {
@@ -57,8 +59,10 @@ export function useUpdateAd({
         body: JSON.stringify(input),
       })
       const data = await response.json()
-      if (data) {
+      if (response.ok) {
         onSuccess && onSuccess()
+      } else {
+        onError && onError()
       }
       return data
     } catch (error) {
@@ -92,7 +96,7 @@ export function useDeleteAd({
       })
       const data = await response.json()
 
-      if (data) {
+      if (response.ok) {
         onSuccess && onSuccess()
       } else {
         onError && onError()

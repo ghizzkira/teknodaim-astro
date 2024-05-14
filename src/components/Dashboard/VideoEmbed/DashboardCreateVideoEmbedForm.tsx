@@ -40,7 +40,6 @@ interface CreateVideoEmbedFormProps {
 
 export default function CreateVideoEmbedForm(props: CreateVideoEmbedFormProps) {
   const { currentUser } = props
-  console.log(currentUser)
   const [loading, setLoading] = React.useState<boolean>(false)
   const [openDialog, setOpenDialog] = React.useState<boolean>(false)
   const [showMetaData, setShowMetaData] = React.useState<boolean>(false)
@@ -149,7 +148,7 @@ export default function CreateVideoEmbedForm(props: CreateVideoEmbedFormProps) {
             e.preventDefault()
           }}
         >
-          <h1 className="pb-2 lg:pb-5">Add VideoEmbed</h1>
+          <h1 className="pb-2 lg:pb-5">Add Video Embed</h1>
           <div className="lg:border-1 flex flex-col space-x-4 lg:flex-row lg:border-border">
             <div className="w-full space-y-4 lg:w-6/12">
               <FormField

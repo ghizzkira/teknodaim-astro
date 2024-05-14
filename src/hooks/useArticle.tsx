@@ -25,8 +25,10 @@ export function useCreateArticle({
         body: JSON.stringify(input),
       })
       const data = await response.json()
-      if (data) {
+      if (response.ok) {
         onSuccess && onSuccess()
+      } else {
+        onError && onError()
       }
       return data
     } catch (error) {

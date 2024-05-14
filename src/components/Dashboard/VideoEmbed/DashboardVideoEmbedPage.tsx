@@ -15,6 +15,7 @@ import { toast } from "@/components/UI/Toast/useToast"
 import { useDeleteVideoEmbed } from "@/hooks/useVideoEmbed"
 import { Badge } from "@/components/UI/Badge"
 import { formatDate } from "@/lib/utils/date"
+import DashboardAddNew from "../DashboardAddNew"
 
 interface DashboardVideoEmbedPageProps {
   videoEmbeds?: SelectVideoEmbed[]
@@ -35,6 +36,7 @@ const DashboardVideoEmbedPage = (props: DashboardVideoEmbedPageProps) => {
     <div className="mx-4 mt-10 flex w-full flex-col">
       <div className="mb-8 flex justify-between">
         <DashboardHeading>Video Embeds</DashboardHeading>
+        <DashboardAddNew url="/dashboard/video-embed/new" />
       </div>
       {videoEmbeds !== undefined && videoEmbeds.length > 0 ? (
         <div className="relative w-full overflow-auto">
@@ -107,7 +109,7 @@ const DashboardVideoEmbedPage = (props: DashboardVideoEmbedPageProps) => {
       ) : (
         <div className="my-64 flex items-center justify-center">
           <h3 className="text-center text-4xl font-bold">
-            No user has been created
+            No video embed has been created
           </h3>
         </div>
       )}

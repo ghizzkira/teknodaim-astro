@@ -140,7 +140,7 @@ export function useGetMediasSearch(query?: string) {
       }
     }
     livesearch()
-  }, [query, data])
+  }, [query])
   return { data, isLoading, refetch: handleGetMediasInfinite }
 }
 export function useGetMediasInfinite({ limit }: { limit: number }) {

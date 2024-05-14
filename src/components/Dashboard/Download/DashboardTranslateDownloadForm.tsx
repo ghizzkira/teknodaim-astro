@@ -370,7 +370,7 @@ const TranslateDownloadForm: React.FunctionComponent<
                                 )
                               textarea.style.height = totalHeight + "px"
                               if (textarea.value === "") {
-                                textarea.style.height = "42px"
+                                textarea.style.height = "45px"
                                 textarea.focus()
                               }
                               if (currentFocus === textarea) {
@@ -378,7 +378,7 @@ const TranslateDownloadForm: React.FunctionComponent<
                               }
                             }}
                             variant="plain"
-                            className="h-10 resize-none overflow-hidden text-[43px] font-bold leading-10"
+                            className="h-12 resize-none overflow-hidden text-[40px] font-bold leading-10"
                             placeholder="Enter title"
                             {...field}
                           />
@@ -787,7 +787,7 @@ const FilesSection: React.FunctionComponent<FilesSectionProps> = React.memo(
                           onDelete={() => {
                             void handleDeleteFile(downloadFile)
                           }}
-                          editUrl={`/dashboard/download-file/edit/${downloadFile.id}`}
+                          editUrl={`/dashboard/download/file/edit/${downloadFile.id}`}
                           description={downloadFile.title}
                         />
                       </TableCell>

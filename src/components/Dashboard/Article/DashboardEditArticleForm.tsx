@@ -300,7 +300,7 @@ const EditArticleForm: React.FunctionComponent<EditArticleFormProps> = (
                                 )
                               textarea.style.height = totalHeight + "px"
                               if (textarea.value === "") {
-                                textarea.style.height = "43px"
+                                textarea.style.height = "45px"
                                 textarea.focus()
                               }
                               if (currentFocus === textarea) {
@@ -308,7 +308,7 @@ const EditArticleForm: React.FunctionComponent<EditArticleFormProps> = (
                               }
                             }}
                             variant="plain"
-                            className="h-10 resize-none overflow-hidden text-[40px] font-bold leading-10"
+                            className="h-12 resize-none overflow-hidden text-[40px] font-bold leading-10"
                             placeholder="Enter title"
                             {...field}
                           />

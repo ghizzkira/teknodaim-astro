@@ -20,8 +20,10 @@ export function useCreateUserExpertise({
         body: JSON.stringify(input),
       })
       const data = await response.json()
-      if (data) {
+      if (response.ok) {
         onSuccess && onSuccess()
+      } else {
+        onError && onError()
       }
       return data
     } catch (error) {
@@ -52,8 +54,10 @@ export function useUpdateUserExpertise({
         body: JSON.stringify(input),
       })
       const data = await response.json()
-      if (data) {
+      if (response.ok) {
         onSuccess && onSuccess()
+      } else {
+        onError && onError()
       }
       return data
     } catch (error) {
@@ -83,7 +87,7 @@ export function useDeleteUserExpertise({
       })
       const data = await response.json()
 
-      if (data) {
+      if (response.ok) {
         onSuccess && onSuccess()
       } else {
         onError && onError()

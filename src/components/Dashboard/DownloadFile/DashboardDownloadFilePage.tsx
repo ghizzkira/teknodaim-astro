@@ -101,7 +101,7 @@ const DashboardDownloadFilePage = (props: DashboardDownloadFilePageProps) => {
                     <TableCell className="w-[100px] p-4 align-middle">
                       <DashboardShowOptions
                         onDelete={() => deleteDownloadFile(downloadFile.id)}
-                        editUrl={`/dashboard/user/edit/${downloadFile.id}`}
+                        editUrl={`/dashboard/download/file/edit/${downloadFile.id}`}
                         description={downloadFile.title!}
                       />
                     </TableCell>

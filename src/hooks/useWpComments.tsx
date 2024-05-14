@@ -38,8 +38,10 @@ export function useWpCreateComment({
         }),
       })
       const data = await response.json()
-      if (data) {
+      if (response.ok) {
         onSuccess && onSuccess()
+      } else {
+        onError && onError()
       }
       return data
     } catch (error) {
@@ -75,8 +77,10 @@ export function useWpUpdateComment({
         body: JSON.stringify(input),
       })
       const data = await response.json()
-      if (data) {
+      if (response.ok) {
         onSuccess && onSuccess()
+      } else {
+        onError && onError()
       }
       return data
     } catch (error) {
@@ -107,12 +111,11 @@ export function useWpDeleteComment({
       })
       const data = await response.json()
 
-      if (data) {
+      if (response.ok) {
         onSuccess && onSuccess()
       } else {
         onError && onError()
       }
-
       return data
     } catch (error) {
       toast({

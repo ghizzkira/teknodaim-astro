@@ -118,12 +118,6 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = (props) => {
                 Add new user expertises
               </SidebarToggleItem>
             </SidebarToggle>
-            <SidebarItem
-              icon={<Icon.Shop aria-label="Shop" />}
-              href="/dashboard/shop"
-            >
-              Shop
-            </SidebarItem>
             <SidebarToggle
               icon={<Icon.Settings aria-label="Filter Post" />}
               title="Setting"
