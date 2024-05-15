@@ -158,7 +158,7 @@ const DashboardAddAuthors: React.FunctionComponent<DashboardAddAuthorsProps> = (
           />
           <FormMessage />
         </div>
-        {searchResults && searchResults.length > 0 && (
+        {searchQuery && searchResults && searchResults.length > 0 && (
           <ul className="border-t border-muted/30">
             {searchResults.map((searchAuthor) => {
               const authorsData = {

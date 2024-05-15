@@ -27,7 +27,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/UI/Select"
-import type { SelectTopic, SelectUser, SelectVideoEmbed } from "@/lib/db/schema"
+import type {
+  SelectMedia,
+  SelectTopic,
+  SelectUser,
+  SelectVideoEmbed,
+} from "@/lib/db/schema"
 import DashboardAddTopics from "../DashboardAddTopics"
 import DashboardAddAuthors from "../DashboardAddAuthors"
 import TextEditorExtended from "@/components/TextEditor/TextEditorExtended"
@@ -52,6 +57,7 @@ interface EditVideoEmbedFormProps {
       > & {
         authors: Pick<SelectUser, "id" | "name">[]
         topics: Pick<SelectTopic, "title" | "slug" | "id">[]
+        featuredImage?: Pick<SelectMedia, "id" | "url">
       })
     | null
 }
@@ -62,9 +68,11 @@ export default function EditVideoEmbedForm(props: EditVideoEmbedFormProps) {
   const [loading, setLoading] = React.useState<boolean>(false)
   const [openDialog, setOpenDialog] = React.useState<boolean>(false)
   const [showMetaData, setShowMetaData] = React.useState<boolean>(false)
-
+  const [selectedFeaturedImageId, setSelectedFeaturedImageId] = React.useState(
+    videoEmbed?.featuredImage?.id,
+  )
   const [selectedFeaturedImageUrl, setSelectedFeaturedImageUrl] =
-    React.useState(videoEmbed?.id)
+    React.useState(videoEmbed?.featuredImage?.url)
   const [authors, setAuthors] = React.useState<string[]>(
     videoEmbed?.authors
       ? videoEmbed.authors.map((author) => {
@@ -73,7 +81,7 @@ export default function EditVideoEmbedForm(props: EditVideoEmbedFormProps) {
       : [],
   )
   const [topics, setTopics] = React.useState<string[]>(
-    videoEmbed
+    videoEmbed?.topics
       ? videoEmbed.topics.map((topic) => {
           return topic.id
         })
@@ -82,7 +90,7 @@ export default function EditVideoEmbedForm(props: EditVideoEmbedFormProps) {
   const [selectedTopics, setSelectedTopics] = React.useState<
     { id: string; title: string }[] | []
   >(
-    videoEmbed
+    videoEmbed?.topics
       ? videoEmbed.topics.map((topic) => {
           return {
             id: topic.id,
@@ -94,7 +102,7 @@ export default function EditVideoEmbedForm(props: EditVideoEmbedFormProps) {
   const [selectedAuthors, setSelectedAuthors] = React.useState<
     { id: string; name: string }[] | []
   >(
-    videoEmbed
+    videoEmbed?.authors
       ? videoEmbed.authors.map((author) => {
           return { id: author.id!, name: author.name! }
         })
@@ -115,13 +123,29 @@ export default function EditVideoEmbedForm(props: EditVideoEmbedFormProps) {
     },
   })
 
-  const form = useForm<FormValues>()
-  const currentEmbedLink = form.watch("embedLink")
+  const form = useForm<FormValues>({
+    defaultValues: {
+      id: videoEmbed?.id ?? "",
+      title: videoEmbed?.title ?? "",
+      slug: videoEmbed?.slug ?? "",
+      topics: videoEmbed?.topics
+        ? videoEmbed.topics.map((topic) => {
+            return topic.id as unknown as string
+          })
+        : [],
+      description: videoEmbed?.description ?? "",
+      embedLink: videoEmbed?.embedLink ?? "",
+      metaDescription: videoEmbed?.metaDescription ?? "",
+      metaTitle: videoEmbed?.metaTitle ?? "",
+      type: videoEmbed?.type,
+      status: videoEmbed?.status ?? "draft",
+    },
+  })
 
   const onSubmit = (values: FormValues) => {
     const mergedValues = {
       ...values,
-      featuredImageUrl: selectedFeaturedImageUrl,
+      featuredImageId: selectedFeaturedImageId,
       authors: authors,
       topics: topics,
     }
@@ -132,6 +156,7 @@ export default function EditVideoEmbedForm(props: EditVideoEmbedFormProps) {
 
   const handleUpdateMedia = (data: { id: string; url: string }) => {
     setSelectedFeaturedImageUrl(data?.url!)
+    setSelectedFeaturedImageId(data.id)
     setOpenDialog(false)
     toast({
       variant: "success",
@@ -141,35 +166,11 @@ export default function EditVideoEmbedForm(props: EditVideoEmbedFormProps) {
 
   const handleDeleteFeaturedImage = () => {
     setSelectedFeaturedImageUrl("")
+    setSelectedFeaturedImageId("")
     toast({
       variant: "success",
       description: "Feature image has been deleted",
     })
-  }
-
-  async function handleGenerateThumbnail() {
-    const url = currentEmbedLink
-    let embedUrl
-    if (url?.includes("tiktok.com")) {
-      embedUrl = `https://www.tiktok.com/oembed?url=${url}`
-    } else if (url?.includes("youtube.com")) {
-      embedUrl = `https://youtube.com/oembed?url=${url}`
-    } else {
-      embedUrl = null
-    }
-    if (embedUrl) {
-      try {
-        const response = await fetch(embedUrl)
-        const data = (await response.json()) as Record<string, string>
-        if (response.ok) {
-          setSelectedFeaturedImageUrl(data?.thumbnail_url)
-          toast({ variant: "success", description: "Image has been selected" })
-        }
-        return data
-      } catch (error) {
-        console.error(error)
-      }
-    }
   }
 
   return (
@@ -253,15 +254,9 @@ export default function EditVideoEmbedForm(props: EditVideoEmbedFormProps) {
                   </FormItem>
                 )}
               />
-              <Button
-                aria-label="Generate Thumbnail"
-                type="button"
-                onClick={handleGenerateThumbnail}
-              >
-                Generate Thumbnail
-              </Button>
+
               <DashboardAddTopics
-                mode="create"
+                mode="edit"
                 fieldName="topics"
                 locale={"id"}
                 control={form.control}

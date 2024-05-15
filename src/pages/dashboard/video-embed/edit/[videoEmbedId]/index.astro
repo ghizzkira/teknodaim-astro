@@ -1,5 +1,5 @@
 ---
-// import EditVideoEmbedForm from "@/components/Dashboard/VideoEmbed/DashboardEditVideoEmbedForm"
+import EditVideoEmbedForm from "@/components/Dashboard/VideoEmbed/DashboardEditVideoEmbedForm"
 import DashboardLayout from "@/layouts/DashboardLayout.astro"
 import { getVideoEmbedById } from "@/lib/action/video-embed"
 
@@ -11,6 +11,7 @@ if (!user?.role?.includes("admin" || "author")) {
 }
 const { videoEmbedId } = Astro.params
 const videoEmbed = await getVideoEmbedById(DB, videoEmbedId!)
+console.log(videoEmbed)
 if (!videoEmbed) {
   return Astro.redirect("/404")
 }
@@ -39,7 +40,7 @@ if (!videoEmbed) {
   <div class="mx-4 flex w-full flex-col">
     <div class="mb-[100px] mt-4 flex items-end justify-end">
       <div class="flex-1 space-y-4">
-        <!-- <EditVideoEmbedForm videoEmbed={videoEmbed!} client:load /> -->
+        <EditVideoEmbedForm videoEmbed={videoEmbed!} client:load />
       </div>
     </div>
   </div></DashboardLayout

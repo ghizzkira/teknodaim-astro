@@ -45,6 +45,8 @@ export default function CreateVideoEmbedForm(props: CreateVideoEmbedFormProps) {
   const [showMetaData, setShowMetaData] = React.useState<boolean>(false)
   const [selectedFeaturedImageUrl, setSelectedFeaturedImageUrl] =
     React.useState<string>("")
+  const [selectedFeaturedImageId, setSelectedFeaturedImageId] =
+    React.useState("")
   const [topics, setTopics] = React.useState<string[]>([])
   const [selectedTopics, setSelectedTopics] = React.useState<
     { id: string; title: string }[] | []
@@ -81,12 +83,11 @@ export default function CreateVideoEmbedForm(props: CreateVideoEmbedFormProps) {
   })
 
   const form = useForm<FormValues>()
-  const currentEmbedLink = form.watch("embedLink")
 
   const onSubmit = (values: FormValues) => {
     const mergedValues = {
       ...values,
-      featuredImageUrl: selectedFeaturedImageUrl,
+      featuredImageId: selectedFeaturedImageId,
       authors: authors,
       topics: topics,
     }
@@ -100,6 +101,7 @@ export default function CreateVideoEmbedForm(props: CreateVideoEmbedFormProps) {
     url: React.SetStateAction<string>
   }) => {
     setSelectedFeaturedImageUrl(data.url)
+    setSelectedFeaturedImageId(data.id)
     setOpenDialog(false)
     toast({
       variant: "success",
@@ -109,35 +111,12 @@ export default function CreateVideoEmbedForm(props: CreateVideoEmbedFormProps) {
 
   const handleDeleteFeaturedImage = () => {
     setSelectedFeaturedImageUrl("")
+    setSelectedFeaturedImageId("")
+
     toast({
       variant: "success",
       description: "Feature image has been deleted",
     })
-  }
-
-  async function handleGenerateThumbnail() {
-    const url = currentEmbedLink
-    let embedUrl
-    if (url?.includes("tiktok.com")) {
-      embedUrl = `https://www.tiktok.com/oembed?url=${url}`
-    } else if (url?.includes("youtube.com")) {
-      embedUrl = `https://youtube.com/oembed?url=${url}`
-    } else {
-      embedUrl = null
-    }
-    if (embedUrl) {
-      try {
-        const response = await fetch(embedUrl)
-        const data = (await response.json()) as Record<string, string>
-        if (response.ok) {
-          setSelectedFeaturedImageUrl(data?.thumbnail_url)
-          toast({ variant: "success", description: "Image has been selected" })
-        }
-        return data
-      } catch (error) {
-        console.error(error)
-      }
-    }
   }
 
   return (
@@ -221,13 +200,7 @@ export default function CreateVideoEmbedForm(props: CreateVideoEmbedFormProps) {
                   </FormItem>
                 )}
               />
-              <Button
-                aria-label="Generate Thumbnail"
-                type="button"
-                onClick={handleGenerateThumbnail}
-              >
-                Generate Thumbnail
-              </Button>
+
               <DashboardAddTopics
                 mode="create"
                 fieldName="topics"
