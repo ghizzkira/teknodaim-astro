@@ -1,0 +1,51 @@
+---
+import DashboardEditMenuContent from "@/components/Dashboard/Menu/DashboardEditMenuContent"
+import DashboardLayout from "@/layouts/DashboardLayout.astro"
+import { getMenuByPosition } from "@/lib/action/menu"
+import { MENU_POSITION } from "@/lib/validation/menu"
+
+const user = Astro.locals.user
+const DB = Astro.locals.runtime.env.DB
+
+if (!user?.role?.includes("admin" || "author")) {
+  return Astro.redirect("/")
+}
+const { menuPosition } = Astro.params
+const menus = await getMenuByPosition(DB, menuPosition!)
+if (!MENU_POSITION.includes(menuPosition!)) {
+  return Astro.redirect("/404")
+}
+---
+
+<DashboardLayout
+  locale="id"
+  seo={{
+    title: "Edit Menu",
+    description: "Edit Menu",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/menu/edit/${menuPosition}`,
+    openGraph: {
+      basic: {
+        title: `Edit Menu | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/menu/edit/${menuPosition}`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: "Edit Menu",
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <div class="mx-4 flex w-full flex-col">
+    <div class="mb-[100px] mt-4 flex items-end justify-end">
+      <div class="flex-1 space-y-4">
+        <DashboardEditMenuContent
+          initialMenus={[menus]}
+          position={menuPosition}
+          client:load
+        />
+      </div>
+    </div>
+  </div></DashboardLayout
+>

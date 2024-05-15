@@ -1,0 +1,49 @@
+---
+import DashboardLayout from "@/layouts/DashboardLayout.astro"
+import { MENU_POSITION } from "@/lib/validation/menu"
+
+const user = Astro.locals.user
+const menus = MENU_POSITION
+if (!user?.role?.includes("admin" || "author")) {
+  return Astro.redirect("/")
+}
+---
+
+<DashboardLayout
+  locale="id"
+  seo={{
+    title: "Video Embeds",
+    description: "Video Embeds",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/menu`,
+    openGraph: {
+      basic: {
+        title: `Video Embeds | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/menu`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: "Video Embeds",
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <div class="min-h-screen px-4 py-8">
+    <h1>List Locations Menu</h1>
+    <ul class="mt-3">
+      {
+        menus.map((menu) => {
+          const title = menu.toUpperCase().replace(/_/g, " ")
+          return (
+            <li class="border-b px-4 py-2">
+              <a aria-label={title} href={`/dashboard/menu/edit/${menu}`}>
+                {title}
+              </a>
+            </li>
+          )
+        })
+      }
+    </ul>
+  </div>
+</DashboardLayout>
