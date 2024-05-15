@@ -262,6 +262,8 @@ export const getVideoEmbedById = async (DB: D1Database, input: string) => {
     where: (videoEmbed, { eq }) => eq(videoEmbed.id, input),
     with: {
       featuredImage: true,
+      topics: true,
+      authors: true,
     },
   })
 
