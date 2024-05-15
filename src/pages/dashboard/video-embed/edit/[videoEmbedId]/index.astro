@@ -11,7 +11,6 @@ if (!user?.role?.includes("admin" || "author")) {
 }
 const { videoEmbedId } = Astro.params
 const videoEmbed = await getVideoEmbedById(DB, videoEmbedId!)
-console.log(videoEmbed)
 if (!videoEmbed) {
   return Astro.redirect("/404")
 }

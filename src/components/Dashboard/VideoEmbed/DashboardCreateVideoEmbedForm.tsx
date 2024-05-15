@@ -120,7 +120,7 @@ export default function CreateVideoEmbedForm(props: CreateVideoEmbedFormProps) {
   }
 
   return (
-    <div className="mx-0 w-full space-y-4 lg:mx-8 lg:p-5">
+    <div className="mx-0 w-full space-y-4 lg:p-5">
       <Form {...form}>
         <form
           onSubmit={(e) => {
@@ -128,7 +128,7 @@ export default function CreateVideoEmbedForm(props: CreateVideoEmbedFormProps) {
           }}
         >
           <h1 className="pb-2 lg:pb-5">Add Video Embed</h1>
-          <div className="lg:border-1 flex flex-col space-x-4 lg:flex-row lg:border-border">
+          <div className="lg:border-1 flex flex-col lg:flex-row lg:space-x-4 lg:border-border">
             <div className="w-full space-y-4 lg:w-6/12">
               <FormField
                 control={form.control}
@@ -146,7 +146,7 @@ export default function CreateVideoEmbedForm(props: CreateVideoEmbedFormProps) {
                   </FormItem>
                 )}
               />
-              <div>
+              <div className="max-w-[500px]">
                 <label>Description</label>
                 <TextEditorExtended control={form.control} name="description" />
               </div>
@@ -235,7 +235,7 @@ export default function CreateVideoEmbedForm(props: CreateVideoEmbedFormProps) {
                     <div className="relative aspect-video h-[150px] w-full cursor-pointer rounded-sm border-2 border-muted/30 lg:h-full lg:max-h-[400px]">
                       <Image
                         src={selectedFeaturedImageUrl}
-                        className="rounded-lg object-cover"
+                        className="h-full w-full rounded-lg object-cover"
                         alt="featured_image"
                         onClick={() => setOpenDialog(true)}
                         sizes="(max-width: 768px) 30vw, (max-width: 1200px) 20vw, 33vw"

@@ -263,7 +263,7 @@ const DashboardCreateDownloadFiles: React.FunctionComponent<
                     <div className="relative aspect-video h-[150px] w-full cursor-pointer rounded-sm border-2 border-muted/30 lg:h-full lg:max-h-[400px]">
                       <Image
                         src={selectedFeaturedImageUrl}
-                        className="rounded-lg object-cover"
+                        className="h-full w-full rounded-lg object-cover"
                         alt="featured_image"
                         onClick={() => setOpenDialog(true)}
                         sizes="(max-width: 768px) 30vw, (max-width: 1200px) 20vw, 33vw"
