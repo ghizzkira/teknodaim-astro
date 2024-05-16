@@ -44,17 +44,17 @@ interface SelectedDownloadFileProps {
 interface DashboardAddDownloadFilesProps
   extends React.HTMLAttributes<HTMLDivElement> {
   updateDownloadFiles: (_data: SelectedDownloadFileProps[]) => void
-  initial_authors: { id: string; name: string }[]
+  initialAuthors: { id: string; name: string }[]
 }
 
 export const DashboardAddDownloadFiles: React.FunctionComponent<
   DashboardAddDownloadFilesProps
 > = (props) => {
-  const { updateDownloadFiles, initial_authors } = props
+  const { updateDownloadFiles, initialAuthors } = props
 
   const [authors, setAuthors] = React.useState<string[]>(
-    initial_authors
-      ? initial_authors.map((author) => {
+    initialAuthors
+      ? initialAuthors.map((author) => {
           return author.id
         })
       : [],
@@ -62,8 +62,8 @@ export const DashboardAddDownloadFiles: React.FunctionComponent<
   const [selectedAuthors, setSelectedAuthors] = React.useState<
     { id: string; name: string }[] | []
   >(
-    initial_authors
-      ? initial_authors.map((author) => {
+    initialAuthors
+      ? initialAuthors.map((author) => {
           return { id: author.id as string, name: author.name as string }
         })
       : [],
@@ -272,7 +272,7 @@ export const DashboardAddDownloadFiles: React.FunctionComponent<
                     <div className="relative aspect-video h-[150px] w-full cursor-pointer rounded-sm border-2 border-muted/30 lg:h-full lg:max-h-[400px]">
                       <Image
                         src={selectedFeaturedImageUrl}
-                        className="rounded-lg object-cover"
+                        className="h-full w-full rounded-lg object-cover"
                         alt="featured_image"
                         onClick={() => setOpenDialog(true)}
                         sizes="(max-width: 768px) 30vw, (max-width: 1200px) 20vw, 33vw"

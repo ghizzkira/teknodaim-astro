@@ -38,10 +38,10 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = (props) => {
           <SidebarToggleItem href="/dashboard/download/new">
             Add new download
           </SidebarToggleItem>
-          <SidebarToggleItem href="/dashboard/download-file">
+          <SidebarToggleItem href="/dashboard/download/file">
             All Download Files
           </SidebarToggleItem>
-          <SidebarToggleItem href="/dashboard/download-file/new">
+          <SidebarToggleItem href="/dashboard/download/file/new">
             Add new download file
           </SidebarToggleItem>
         </SidebarToggle>
@@ -118,12 +118,6 @@ const DashboardSidebar: React.FC<DashboardSidebarProps> = (props) => {
                 Add new user expertises
               </SidebarToggleItem>
             </SidebarToggle>
-            <SidebarItem
-              icon={<Icon.Shop aria-label="Shop" />}
-              href="/dashboard/shop"
-            >
-              Shop
-            </SidebarItem>
             <SidebarToggle
               icon={<Icon.Settings aria-label="Filter Post" />}
               title="Setting"

@@ -48,7 +48,7 @@ export default function EditUserForm(props: EditUserFormProps) {
 
   const [loading, setLoading] = React.useState<boolean>(false)
 
-  const { handleUpdateUser: createUser } = useUpdateUser({
+  const { handleUpdateUser: updateUser } = useUpdateUser({
     onSuccess: () => {
       toast({ variant: "success", description: "Success updating user" })
     },
@@ -68,7 +68,7 @@ export default function EditUserForm(props: EditUserFormProps) {
 
   const onSubmit = (values: FormValues) => {
     setLoading(true)
-    createUser(values, currentUserRole)
+    updateUser(values, currentUserRole)
     setLoading(false)
   }
 

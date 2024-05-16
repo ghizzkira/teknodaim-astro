@@ -1,22 +1,25 @@
 import * as React from "react"
 
 import { toast } from "@/components/UI/Toast/useToast"
-import type { CreateAd, UpdateAd } from "@/lib/validation/ad"
+import type {
+  CreateVideoEmbed,
+  UpdateVideoEmbed,
+} from "@/lib/validation/video-embed"
 
-export function useCreateAd({
+export function useCreateVideoEmbed({
   onSuccess,
   onError,
 }: {
-  input?: CreateAd
+  input?: CreateVideoEmbed
   onSuccess?: () => void
   onError?: () => void
 }) {
   const [isLoading, setIsLoading] = React.useState(false)
 
-  const handleCreateAd = async (input?: CreateAd) => {
+  const handleCreateVideoEmbed = async (input?: CreateVideoEmbed) => {
     setIsLoading(true)
     try {
-      const response = await fetch("/api/ad/create", {
+      const response = await fetch("/api/video-embed/create", {
         method: "POST",
         body: JSON.stringify(input),
       })
@@ -30,7 +33,7 @@ export function useCreateAd({
     } catch (error) {
       onError && onError()
       toast({
-        description: "Error when creating ad, try again",
+        description: "Error when creating video embed, try again",
         variant: "warning",
       })
     } finally {
@@ -38,24 +41,23 @@ export function useCreateAd({
     }
   }
 
-  return { isLoading, handleCreateAd }
+  return { isLoading, handleCreateVideoEmbed }
 }
 
-export function useUpdateAd({
+export function useUpdateVideoEmbed({
   onSuccess,
   onError,
 }: {
-  input?: UpdateAd
   onSuccess?: () => void
-  onError: () => void
+  onError?: () => void
 }) {
   const [isLoading, setIsLoading] = React.useState(false)
 
-  const handleUpdateAd = async (input?: UpdateAd) => {
+  const handleUpdateVideoEmbed = async (input?: UpdateVideoEmbed) => {
     setIsLoading(true)
     try {
-      const response = await fetch("/api/ad/update", {
-        method: "PUT",
+      const response = await fetch("/api/video-embed/update", {
+        method: "POST",
         body: JSON.stringify(input),
       })
       const data = await response.json()
@@ -67,32 +69,28 @@ export function useUpdateAd({
       return data
     } catch (error) {
       onError && onError()
-      toast({
-        description: "Error when updating ad, try again",
-        variant: "warning",
-      })
     } finally {
       setIsLoading(false)
     }
   }
 
-  return { isLoading, handleUpdateAd }
+  return { isLoading, handleUpdateVideoEmbed }
 }
-export function useDeleteAd({
+export function useDeleteVideoEmbed({
   onSuccess,
   onError,
 }: {
   onSuccess?: () => void
-  onError: () => void
+  onError?: () => void
 }) {
   const [isLoading, setIsLoading] = React.useState(false)
 
-  const handleDeleteAd = async (adId: string) => {
+  const handleDeleteVideoEmbed = async (gadgetId: string) => {
     setIsLoading(true)
     try {
-      const response = await fetch("/api/ad/delete", {
+      const response = await fetch("/api/video-embed/delete", {
         method: "DELETE",
-        body: JSON.stringify(adId),
+        body: JSON.stringify(gadgetId),
       })
       const data = await response.json()
 
@@ -110,5 +108,5 @@ export function useDeleteAd({
     }
   }
 
-  return { isLoading, handleDeleteAd }
+  return { isLoading, handleDeleteVideoEmbed }
 }
