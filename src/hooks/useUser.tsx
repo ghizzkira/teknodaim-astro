@@ -28,7 +28,7 @@ export function useUpdateUser({
         body: JSON.stringify(input),
       })
       const data = await response.json()
-      if (data) {
+      if (response.ok) {
         onSuccess && onSuccess()
       } else {
         onError && onError()
@@ -66,7 +66,7 @@ export function useDeleteUser({
       })
       const data = await response.json()
 
-      if (data) {
+      if (response.ok) {
         onSuccess && onSuccess()
       } else {
         onError && onError()
@@ -159,6 +159,6 @@ export function useGetUsersSearch(query?: string) {
       }
     }
     livesearch()
-  }, [query, data])
+  }, [query])
   return { data, isLoading, refetch: handleGetUsers }
 }

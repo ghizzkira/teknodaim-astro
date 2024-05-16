@@ -1,0 +1,55 @@
+---
+import DashboardDownloadFilePage from "@/components/Dashboard/DownloadFile/DashboardDownloadFilePage"
+import DashboardLayout from "@/layouts/DashboardLayout.astro"
+import {
+  getDownloadFilesCount,
+  getDownloadFilesDashboard,
+} from "@/lib/action/download-file"
+
+const user = Astro.locals.user
+const DB = Astro.locals.runtime.env.DB
+const url = Astro.url
+
+const searchParams = new URLSearchParams(url.searchParams)
+const page = searchParams.get("page")
+const currentPage =
+  page && typeof parseInt(page) === "number" ? parseInt(page) : 1
+const downloadFilesCount = await getDownloadFilesCount(DB)
+const downloadFiles = await getDownloadFilesDashboard(DB, {
+  page: currentPage,
+  perPage: 10,
+})
+if (!user?.role?.includes("admin" || "author")) {
+  return Astro.redirect("/")
+}
+const lastPage = downloadFilesCount && Math.ceil(downloadFilesCount / 10)
+---
+
+<DashboardLayout
+  locale="id"
+  seo={{
+    title: "Download Files",
+    description: "Download Files",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/download/file`,
+    openGraph: {
+      basic: {
+        title: `Download Files | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/download/file`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: "Download Files",
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <DashboardDownloadFilePage
+    page={currentPage}
+    lastPage={lastPage}
+    paramsName="page"
+    downloadFiles={downloadFiles}
+    client:load
+  />
+</DashboardLayout>

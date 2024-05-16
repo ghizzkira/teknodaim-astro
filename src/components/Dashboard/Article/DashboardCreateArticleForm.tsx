@@ -249,7 +249,7 @@ const CreateArticleForm: React.FunctionComponent<CreateArticleFormProps> = (
                                 )
                               textarea.style.height = totalHeight + "px"
                               if (textarea.value === "") {
-                                textarea.style.height = "42px"
+                                textarea.style.height = "45px"
                                 textarea.focus()
                               }
                               if (currentFocus === textarea) {
@@ -257,7 +257,7 @@ const CreateArticleForm: React.FunctionComponent<CreateArticleFormProps> = (
                               }
                             }}
                             variant="plain"
-                            className="h-10 resize-none overflow-hidden text-[40px] font-bold leading-10"
+                            className="h-12 resize-none overflow-hidden text-[40px] font-bold leading-10"
                             placeholder="Enter title"
                             {...field}
                           />

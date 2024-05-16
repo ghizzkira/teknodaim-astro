@@ -1,0 +1,50 @@
+---
+import DashboardEditDownloadFileForm from "@/components/Dashboard/DownloadFile/DashboardEditDownloadFileForm"
+import DashboardLayout from "@/layouts/DashboardLayout.astro"
+import { getDownloadFileById } from "@/lib/action/download-file"
+
+const user = Astro.locals.user
+const DB = Astro.locals.runtime.env.DB
+
+if (!user?.role?.includes("admin" || "author")) {
+  return Astro.redirect("/")
+}
+const { downloadFileId } = Astro.params
+const download = await getDownloadFileById(DB, downloadFileId!)
+if (!download) {
+  return Astro.redirect("/404")
+}
+---
+
+<DashboardLayout
+  locale="id"
+  seo={{
+    title: "Edit DownloadFile",
+    description: "Edit DownloadFile",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/download/file/edit/${downloadFileId}`,
+    openGraph: {
+      basic: {
+        title: `Edit DownloadFile | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/download/file/edit/${downloadFileId}`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: "Edit DownloadFile",
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <div class="mx-4 flex w-full flex-col">
+    <div class="mb-[100px] mt-4 flex items-end justify-end">
+      <div class="flex-1 space-y-4">
+        <DashboardEditDownloadFileForm
+          featuredImage={download?.featuredImage}
+          downloadFile={download!}
+          client:load
+        />
+      </div>
+    </div>
+  </div></DashboardLayout
+>
