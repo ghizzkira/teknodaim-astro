@@ -39,7 +39,7 @@ export const getMenuByPosition = async (
   input: MenuPosition,
 ) => {
   const db = initializeDB(DB)
-  const data = await db.query.menus.findFirst({
+  const data = await db.query.menus.findMany({
     where: (menus, { eq }) => eq(menus.position, input),
   })
   return data
