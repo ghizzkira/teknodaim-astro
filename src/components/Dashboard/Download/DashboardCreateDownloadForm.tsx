@@ -32,7 +32,6 @@ import DeleteMediaButton from "@/components/Media/DeleteMediaButton"
 import SelectMediaDialog from "@/components/Media/SelectMediaDialog"
 import TextEditorExtended from "@/components/TextEditor/TextEditorExtended"
 import DashboardAddAuthors from "@/components/Dashboard/DashboardAddAuthors"
-import DashboardAddEditors from "@/components/Dashboard/DashboardAddEditors"
 import DashboardAddTopics from "@/components/Dashboard/DashboardAddTopics"
 import {
   TableHead,
@@ -90,22 +89,7 @@ const CreateDownloadForm: React.FunctionComponent<CreateDownloadFormProps> = (
   const [authors, setAuthors] = React.useState<string[]>(
     session ? [session?.id!] : [],
   )
-  const [editors, setEditors] = React.useState<string[]>(
-    session ? [session?.id!] : [],
-  )
   const [selectedAuthors, setSelectedAuthors] = React.useState<
-    { id: string; name: string }[] | []
-  >(
-    session
-      ? [
-          {
-            id: session?.id!,
-            name: session?.name!,
-          },
-        ]
-      : [],
-  )
-  const [selectedEditors, setSelectedEditors] = React.useState<
     { id: string; name: string }[] | []
   >(
     session
@@ -190,7 +174,6 @@ const CreateDownloadForm: React.FunctionComponent<CreateDownloadFormProps> = (
       featuredImageId: selectedFeaturedImageId,
       downloadFiles: selectedDownloadFileId,
       authors: authors,
-      editors: editors,
     }
     createDownload(mergedValues)
     setLoading(false)
@@ -276,7 +259,7 @@ const CreateDownloadForm: React.FunctionComponent<CreateDownloadFormProps> = (
             </div>
           </div>
           <div className="flex min-h-screen flex-row flex-wrap">
-            <div className="order-1 w-full lg:w-10/12">
+            <div className="order-1 mx-auto w-full break-all lg:w-10/12 lg:px-64">
               <div className="relative mt-4 flex items-center justify-center">
                 <div className="flex-1 space-y-4">
                   <FormField
@@ -310,7 +293,7 @@ const CreateDownloadForm: React.FunctionComponent<CreateDownloadFormProps> = (
                               }
                             }}
                             variant="plain"
-                            className="h-12 resize-none overflow-hidden text-[40px] font-bold leading-10"
+                            className="h-12 max-w-[80vw] resize-none overflow-hidden text-[40px] font-bold leading-10 md:max-w-[unset]"
                             placeholder="Enter title"
                             {...field}
                           />
@@ -430,7 +413,9 @@ const CreateDownloadForm: React.FunctionComponent<CreateDownloadFormProps> = (
                               <SelectContent>
                                 {DOWNLOAD_SCHEMA_JSON.map((item) => {
                                   return (
-                                    <SelectItem value={item}>{item}</SelectItem>
+                                    <SelectItem key={item} value={item}>
+                                      {item}
+                                    </SelectItem>
                                   )
                                 })}
                               </SelectContent>
@@ -568,12 +553,6 @@ const CreateDownloadForm: React.FunctionComponent<CreateDownloadFormProps> = (
                         selectedAuthors={selectedAuthors}
                         addSelectedAuthors={setSelectedAuthors}
                       />
-                      <DashboardAddEditors
-                        editors={editors}
-                        addEditors={setEditors}
-                        selectedEditors={selectedEditors}
-                        addSelectedEditors={setSelectedEditors}
-                      />
                       <div className="rouded-lg bg-muted p-3 lg:p-5">
                         <div className="flex justify-between">
                           <div className={showMetaData ? "pb-4" : "pb-0"}>
@@ -671,13 +650,14 @@ const FilesSection: React.FunctionComponent<FilesSectionProps> = React.memo(
       handleDeleteFile,
       selectedAuthors,
     } = props
-    const [showForm, setShowForm] = React.useState(false)
+    const [openForm, setOpenForm] = React.useState(false)
+    const [openDialog, setOpenDialog] = React.useState(false)
     return (
       <div className="border-t p-4">
         <div className="flex justify-between pb-2">
           <h2>Files</h2>
 
-          <Dialog>
+          <Dialog open={openDialog} onOpenChange={setOpenDialog}>
             <DialogTrigger aria-label="Add File">Add File</DialogTrigger>
             <DialogContent className="w-full max-w-[unset]">
               <div className="scrollbar-hide h-[90vh] overflow-y-auto max-lg:h-[80vh]">
@@ -690,16 +670,17 @@ const FilesSection: React.FunctionComponent<FilesSectionProps> = React.memo(
                   />
                   <Button
                     type="button"
-                    onClick={() => setShowForm((prev) => !prev)}
+                    onClick={() => setOpenForm((prev) => !prev)}
                     aria-label="Add File"
                   >
                     Create File
                   </Button>
-                  {showForm && (
+                  {openForm && (
                     <DashboardAddDownloadFiles
                       updateDownloadFiles={(data) => {
                         handleUpdateFile(data)
-                        setShowForm(false)
+                        setOpenForm(false)
+                        setOpenDialog(false)
                       }}
                       initialAuthors={selectedAuthors}
                     />

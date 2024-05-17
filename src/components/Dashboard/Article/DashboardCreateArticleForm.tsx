@@ -121,7 +121,7 @@ const CreateArticleForm: React.FunctionComponent<CreateArticleFormProps> = (
         variant: "success",
         description: "Create success",
       })
-      // window.location.replace("/dashboard/article")
+      window.location.replace("/dashboard/article")
     },
     onError: () => {
       toast({
@@ -223,7 +223,7 @@ const CreateArticleForm: React.FunctionComponent<CreateArticleFormProps> = (
             </div>
           </div>
           <div className="flex min-h-screen flex-row flex-wrap">
-            <div className="order-1 w-full lg:w-10/12">
+            <div className="order-1 mx-auto w-full break-all lg:w-10/12 lg:px-64">
               <div className="relative mt-4 flex items-center justify-center">
                 <div className="flex-1 space-y-4">
                   <FormField
@@ -257,7 +257,7 @@ const CreateArticleForm: React.FunctionComponent<CreateArticleFormProps> = (
                               }
                             }}
                             variant="plain"
-                            className="h-12 resize-none overflow-hidden text-[40px] font-bold leading-10"
+                            className="h-12 max-w-[80vw] resize-none overflow-hidden text-[40px] font-bold leading-10 md:max-w-[unset]"
                             placeholder="Enter title"
                             {...field}
                           />

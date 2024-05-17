@@ -34,7 +34,7 @@ const DashboardDownloadFilePage = (props: DashboardDownloadFilePageProps) => {
   return (
     <div className="mx-4 mt-10 flex w-full flex-col">
       <div className="mb-8 flex justify-between">
-        <DashboardHeading>DownloadFiles</DashboardHeading>
+        <DashboardHeading>Download Files</DashboardHeading>
       </div>
       {downloadFiles !== undefined && downloadFiles.length > 0 ? (
         <div className="relative w-full overflow-auto">
