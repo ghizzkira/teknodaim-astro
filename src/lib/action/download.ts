@@ -39,6 +39,12 @@ export const getDownloadTranslationById = async (
             id: true,
             title: true,
             language: true,
+            developer: true,
+            operatingSystem: true,
+            license: true,
+            officialWebsite: true,
+            schemaType: true,
+            type: true,
           },
           with: {
             featuredImage: {
@@ -55,11 +61,17 @@ export const getDownloadTranslationById = async (
   )
 
   const downloadFilesData = await db
-    .select({ id: downloadFiles.id, title: downloadFiles.title })
+    .select({
+      id: downloadFiles.id,
+      title: downloadFiles.title,
+      version: downloadFiles.version,
+      fileSize: downloadFiles.fileSize,
+      price: downloadFiles.price,
+    })
     .from(downloadDownloadFiles)
     .leftJoin(downloads, eq(downloadDownloadFiles.downloadId, downloads.id))
     .leftJoin(
-      downloadDownloadFiles,
+      downloadFiles,
       eq(downloadDownloadFiles.downloadFileId, downloadFiles.id),
     )
     .orderBy(desc(downloadFiles.createdAt))
