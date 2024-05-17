@@ -272,8 +272,8 @@ export const updateDownloadFile = async (
   const db = initializeDB(DB)
 
   const data = await db
-    .insert(downloadFiles)
-    .values({
+    .update(downloadFiles)
+    .set({
       ...input,
       updatedAt: sql`CURRENT_TIMESTAMP`,
     })
