@@ -258,16 +258,40 @@ export const getVideoEmbedsByAuthorIdInfinite = async (
 
 export const getVideoEmbedById = async (DB: D1Database, input: string) => {
   const db = initializeDB(DB)
-  const data = await db.query.videoEmbeds.findFirst({
-    where: (videoEmbed, { eq }) => eq(videoEmbed.id, input),
-    with: {
-      featuredImage: true,
-      topics: true,
-      authors: true,
-    },
-  })
+  const videoEmbedData = await db
+    .select()
+    .from(videoEmbeds)
+    .leftJoin(medias, eq(medias.id, videoEmbeds.featuredImageId))
+    .where(eq(videoEmbeds.id, input))
+    .limit(1)
 
-  return data
+  const videoEmbedTopicsData = await db
+    .select({ id: topics.id, title: topics.title })
+    .from(videoEmbedTopics)
+    .leftJoin(videoEmbeds, eq(videoEmbedTopics.videoEmbedId, videoEmbeds.id))
+    .leftJoin(topics, eq(videoEmbedTopics.topicId, topics.id))
+    .where(eq(videoEmbeds.id, input))
+    .all()
+
+  const videoEmbedAuthorsData = await db
+    .select({ id: users.id, name: users.name })
+    .from(videoEmbedAuthors)
+    .leftJoin(videoEmbeds, eq(videoEmbedAuthors.videoEmbedId, videoEmbeds.id))
+    .leftJoin(users, eq(videoEmbedAuthors.userId, users.id))
+    .where(eq(videoEmbeds.id, input))
+    .all()
+
+  const data = videoEmbedData.map((item) => ({
+    ...item.video_embeds,
+    featuredImage: {
+      id: item?.medias?.id!,
+      url: item?.medias?.url!,
+    },
+    topics: videoEmbedTopicsData,
+    authors: videoEmbedAuthorsData,
+  }))
+
+  return data[0]
 }
 
 export const getVideoEmbedBySlug = async (DB: D1Database, input: string) => {
