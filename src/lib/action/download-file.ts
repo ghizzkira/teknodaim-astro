@@ -1,4 +1,4 @@
-import { and, count, eq } from "drizzle-orm"
+import { and, count, eq, sql } from "drizzle-orm"
 
 import { initializeDB } from "@/lib/db"
 import { downloadDownloadFiles, downloads } from "@/lib/db/schema/download"
@@ -275,6 +275,7 @@ export const updateDownloadFile = async (
     .insert(downloadFiles)
     .values({
       ...input,
+      updatedAt: sql`CURRENT_TIMESTAMP`,
     })
     .returning()
 
