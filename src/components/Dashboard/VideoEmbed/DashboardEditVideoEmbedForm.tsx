@@ -58,6 +58,7 @@ interface EditVideoEmbedFormProps {
         authors: Pick<SelectUser, "id" | "name">[]
         topics: Pick<SelectTopic, "title" | "slug" | "id">[]
         featuredImage?: Pick<SelectMedia, "id" | "url">
+        featuredImageUrl?: string
       })
     | null
 }
@@ -71,7 +72,9 @@ export default function EditVideoEmbedForm(props: EditVideoEmbedFormProps) {
     videoEmbed?.featuredImage?.id,
   )
   const [selectedFeaturedImageUrl, setSelectedFeaturedImageUrl] =
-    React.useState(videoEmbed?.featuredImage?.url)
+    React.useState(
+      videoEmbed?.featuredImageUrl ?? videoEmbed?.featuredImage?.url,
+    )
   const [authors, setAuthors] = React.useState<string[]>(
     videoEmbed?.authors
       ? videoEmbed.authors.map((author) => {
@@ -145,12 +148,15 @@ export default function EditVideoEmbedForm(props: EditVideoEmbedFormProps) {
   const onSubmit = (values: FormValues) => {
     const mergedValues = {
       ...values,
-      featuredImageId: selectedFeaturedImageId,
       authors: authors,
       topics: topics,
     }
     setLoading(true)
-    updateVideoEmbed(mergedValues)
+    updateVideoEmbed(
+      selectedFeaturedImageUrl && !selectedFeaturedImageId
+        ? { ...mergedValues, featuredImageUrl: selectedFeaturedImageUrl }
+        : { ...mergedValues, featuredImageId: selectedFeaturedImageId },
+    )
     setLoading(false)
   }
 

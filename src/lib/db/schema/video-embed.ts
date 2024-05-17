@@ -18,6 +18,7 @@ export const videoEmbeds = sqliteTable("video_embeds", {
   metaDescription: text("meta_description"),
   status: text("status", { enum: STATUS_TYPE }).notNull().default("draft"),
   featuredImageId: text("featured_image_id").references(() => medias.id),
+  featuredImageUrl: text("featured_image_url"),
   type: text("type", { enum: VIDEO_EMBED_TYPE }).notNull().default("youtube"),
   createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
   updatedAt: text("updated_at").default(sql`CURRENT_TIMESTAMP`),

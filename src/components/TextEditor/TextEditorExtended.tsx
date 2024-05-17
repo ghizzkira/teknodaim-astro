@@ -23,7 +23,15 @@ const TextEditorExtended = React.memo((props: TextEditorExtendedProps) => {
   const [isHydrated, setIsHydrated] = React.useState(true)
   const {
     field: { value, onChange },
-  } = useController({ control, name: name })
+    fieldState,
+  } = useController({
+    control,
+    name: name,
+    rules: {
+      required: "Content is required",
+      minLength: { message: "Min 50 characters", value: 50 },
+    },
+  })
 
   const prevLocaleRef = React.useRef(isClear)
 
@@ -56,9 +64,8 @@ const TextEditorExtended = React.memo((props: TextEditorExtendedProps) => {
   if (isHydrated) {
     return null
   }
-
   return (
-    <>
+    <div className="relative">
       {editor && <TextEditorMenu editor={editor} />}
       {editor && (
         <TextEditorContent
@@ -66,10 +73,13 @@ const TextEditorExtended = React.memo((props: TextEditorExtendedProps) => {
           editor={editor}
         />
       )}
-      <p className="fixed bottom-0 right-0 p-2">
+      <p className="absolute bottom-0 right-0 p-2">
         {editor?.storage.characterCount.words()} words
       </p>
-    </>
+      {fieldState.error?.message && (
+        <p className="text-sm text-danger">{fieldState.error.message}</p>
+      )}
+    </div>
   )
 })
 

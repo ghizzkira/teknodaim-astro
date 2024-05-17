@@ -435,11 +435,11 @@ export const createVideoEmbed = async (
   const data = await db
     .insert(videoEmbeds)
     .values({
-      ...input,
       id: cuid(),
       slug: slug,
       metaTitle: generatedMetaTitle,
       metaDescription: generatedMetaDescription,
+      ...input,
     })
     .returning()
 
