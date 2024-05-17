@@ -97,11 +97,16 @@ const DashboardAddTopics: React.FunctionComponent<DashboardAddTopicsProps> = (
 
   const { handleCreateTopic: createTopic } = useCreateTopic({
     onSuccess: (data) => {
-      if (data?.id) {
-        addSelectedTopics((prev) => [...prev, { ...data, title: searchQuery }])
-        addTopics((prev: string[]) => [...prev, data?.id])
-        onChange([...topics, data?.id])
+      const results = data?.[0]
+      if (results?.id) {
+        addSelectedTopics((prev) => [
+          ...prev,
+          { ...results, title: searchQuery },
+        ])
+        addTopics((prev: string[]) => [...prev, results?.id])
+        onChange([...topics, results?.id])
         toast({ variant: "success", description: "Create success" })
+        setSearchQuery("")
         setLoadingCreate(false)
       }
       setLoadingCreate(false)
