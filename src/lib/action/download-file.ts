@@ -12,6 +12,8 @@ import type {
   CreateDownloadFile,
   UpdateDownloadFile,
 } from "@/lib/validation/download-file"
+import { medias } from "../db/schema/media"
+import { users } from "../db/schema/user"
 
 export const getDownloadFilesDashboard = async (
   DB: D1Database,
@@ -36,44 +38,34 @@ export const getDownloadFilesDashboard = async (
 export const getDownloadFileById = async (DB: D1Database, input: string) => {
   const db = initializeDB(DB)
 
-  const downloadFileData = await db.query.downloadFiles.findFirst({
-    where: (downloadFiles, { eq }) => eq(downloadFiles.id, input),
-    with: {
-      featuredImage: true,
-      authors: true,
-    },
-  })
+  const downloadFileData = await db
+    .select()
+    .from(downloadFiles)
+    .leftJoin(medias, eq(medias.id, downloadFiles.featuredImageId))
+    .where(eq(downloadFiles.id, input))
+    .limit(1)
 
-  const downloadFileDownloadsData = await db
-    .select({
-      id: downloads.id,
-      title: downloads.title,
-      slug: downloads.slug,
-      developer: downloads.developer,
-      operatingSystem: downloads.operatingSystem,
-      license: downloads.license,
-      officialWebsite: downloads.officialWebsite,
-      schemaType: downloads.schemaType,
-      type: downloads.type,
-    })
-    .from(downloadDownloadFiles)
+  const downloadFileAuthorsData = await db
+    .select({ id: users.id, name: users.name })
+    .from(downloadFileAuthors)
     .leftJoin(
       downloadFiles,
-      eq(downloadDownloadFiles.downloadFileId, downloadFiles.id),
+      eq(downloadFileAuthors.downloadFileId, downloadFiles.id),
     )
-    .leftJoin(
-      downloadDownloadFiles,
-      eq(downloadDownloadFiles.downloadId, downloads.id),
-    )
-    .where(eq(downloadFiles.id, downloadFileData?.id!))
+    .leftJoin(users, eq(downloadFileAuthors.userId, users.id))
+    .where(eq(downloadFiles.id, input))
     .all()
 
-  const data = {
-    ...downloadFileData,
-    downloads: downloadFileDownloadsData,
-  }
+  const data = downloadFileData.map((item) => ({
+    ...item.download_files,
+    featuredImage: {
+      id: item?.medias?.id!,
+      url: item?.medias?.url!,
+    },
+    authors: downloadFileAuthorsData,
+  }))
 
-  return data
+  return data[0]
 }
 
 export const getDownloadFileBySlug = async (DB: D1Database, input: string) => {
