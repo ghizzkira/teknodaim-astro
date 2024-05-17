@@ -16,11 +16,11 @@ import {
   FormMessage,
   Form,
 } from "@/components/UI/Form"
-import { useCreateDownloadFile } from "@/hooks/useDownloadFile"
+import { useUpdateDownloadFile } from "@/hooks/useDownloadFile"
 import Image from "@/components/Image"
 import DeleteMediaButton from "@/components/Media/DeleteMediaButton"
 import SelectMediaDialog from "@/components/Media/SelectMediaDialog"
-import DashboardAddAuthors from "../DashboardAddAuthors"
+import DashboardAddAuthors from "@/components/Dashboard/DashboardAddAuthors"
 import type { UpdateDownloadFile } from "@/lib/validation/download-file"
 import type {
   SelectDownloadFile,
@@ -81,19 +81,17 @@ const DashboardEditDownloadFiles: React.FunctionComponent<
     },
   })
 
-  const { handleCreateDownloadFile: createDownloadFileAction } =
-    useCreateDownloadFile({
-      onSuccess: (data) => {
-        if (data) {
-          setSelectedFeaturedImageUrl("")
-          setSelectedFeaturedImageId("")
-          toast({
-            variant: "success",
-            description: "Download File Successfully updated",
-          })
-          form.reset()
-          window.location.replace("/dashboard/download/file")
-        }
+  const { handleUpdateDownloadFile: updateDownloadFileAction } =
+    useUpdateDownloadFile({
+      onSuccess: () => {
+        setSelectedFeaturedImageUrl("")
+        setSelectedFeaturedImageId("")
+        toast({
+          variant: "success",
+          description: "Download File Successfully updated",
+        })
+        form.reset()
+        window.location.replace("/dashboard/download/file")
       },
       onError: () => {
         toast({
@@ -111,7 +109,7 @@ const DashboardEditDownloadFiles: React.FunctionComponent<
       authors: authors,
     }
 
-    createDownloadFileAction(mergedValues)
+    updateDownloadFileAction(mergedValues)
 
     setLoading(false)
   }
@@ -145,7 +143,7 @@ const DashboardEditDownloadFiles: React.FunctionComponent<
             e.preventDefault()
           }}
         >
-          <h1 className="pb-2 lg:pb-5">Add Download File</h1>
+          <h1 className="pb-2 lg:pb-5">Edit Download File</h1>
           <div className="lg:border-1 flex flex-col lg:flex-row lg:space-x-4 lg:border-border">
             <div className="w-full lg:w-6/12 lg:space-y-4">
               <FormField
@@ -159,6 +157,22 @@ const DashboardEditDownloadFiles: React.FunctionComponent<
                     <FormLabel>Title</FormLabel>
                     <FormControl>
                       <Input placeholder="Enter title" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="slug"
+                rules={{
+                  required: "Slug is required",
+                }}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Slug</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter slug" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -353,11 +367,23 @@ const DashboardEditDownloadFiles: React.FunctionComponent<
               aria-label="submit"
               type="submit"
               onClick={() => {
+                form.setValue("status", "published")
                 form.handleSubmit(onSubmit)()
               }}
               loading={loading}
             >
               Submit
+            </Button>
+            <Button
+              aria-label="save_as_draft"
+              type="submit"
+              onClick={() => {
+                form.setValue("status", "draft")
+                form.handleSubmit(onSubmit)()
+              }}
+              loading={loading}
+            >
+              Save as draft
             </Button>
           </div>
         </form>

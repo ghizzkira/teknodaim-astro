@@ -20,18 +20,10 @@ import { useCreateDownloadFile } from "@/hooks/useDownloadFile"
 import Image from "@/components/Image"
 import DeleteMediaButton from "@/components/Media/DeleteMediaButton"
 import SelectMediaDialog from "@/components/Media/SelectMediaDialog"
-import DashboardAddAuthors from "../DashboardAddAuthors"
+import DashboardAddAuthors from "@/components/Dashboard/DashboardAddAuthors"
+import type { CreateDownloadFile } from "@/lib/validation/download-file"
 
-interface FormValues {
-  title: string
-  metaTitle?: string
-  metaDescription?: string
-  version: string
-  downloadLink: string
-  fileSize: string
-  currency: string
-  price: string
-}
+type FormValues = CreateDownloadFile
 
 interface DashboardCreateDownloadFilesProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -341,11 +333,23 @@ const DashboardCreateDownloadFiles: React.FunctionComponent<
               aria-label="submit"
               type="submit"
               onClick={() => {
+                form.setValue("status", "published")
                 form.handleSubmit(onSubmit)()
               }}
               loading={loading}
             >
               Submit
+            </Button>
+            <Button
+              aria-label="save_as_draft"
+              type="submit"
+              onClick={() => {
+                form.setValue("status", "draft")
+                form.handleSubmit(onSubmit)()
+              }}
+              loading={loading}
+            >
+              Save as draft
             </Button>
           </div>
         </form>
