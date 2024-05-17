@@ -14,7 +14,7 @@ export function useCreateTopic({
   onError,
 }: {
   input?: CreateTopic
-  onSuccess?: (_data: SelectTopic) => void
+  onSuccess?: (_data: SelectTopic[]) => void
   onError: () => void
 }) {
   const [isLoading, setIsLoading] = React.useState(false)
@@ -26,7 +26,7 @@ export function useCreateTopic({
         method: "POST",
         body: JSON.stringify(input),
       })
-      const data = (await response.json()) as SelectTopic
+      const data = (await response.json()) as SelectTopic[]
       if (data) {
         onSuccess && onSuccess(data)
       }

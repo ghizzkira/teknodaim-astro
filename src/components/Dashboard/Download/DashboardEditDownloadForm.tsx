@@ -352,7 +352,7 @@ const EditDownloadForm: React.FunctionComponent<EditDownloadFormProps> = (
             </div>
           </div>
           <div className="flex min-h-screen flex-row flex-wrap">
-            <div className="order-1 w-full lg:w-10/12">
+            <div className="order-1 mx-auto w-full break-all lg:w-10/12 lg:px-64">
               <div className="relative mt-4 flex items-center justify-center">
                 <div className="flex-1 space-y-4">
                   <FormField
@@ -386,7 +386,7 @@ const EditDownloadForm: React.FunctionComponent<EditDownloadFormProps> = (
                               }
                             }}
                             variant="plain"
-                            className="h-12 resize-none overflow-hidden text-[40px] font-bold leading-10"
+                            className="h-12 max-w-[80vw] resize-none overflow-hidden text-[40px] font-bold leading-10 md:max-w-[unset]"
                             placeholder="Enter title"
                             {...field}
                           />
@@ -506,7 +506,9 @@ const EditDownloadForm: React.FunctionComponent<EditDownloadFormProps> = (
                               <SelectContent>
                                 {DOWNLOAD_SCHEMA_JSON.map((item) => {
                                   return (
-                                    <SelectItem value={item}>{item}</SelectItem>
+                                    <SelectItem key={item} value={item}>
+                                      {item}
+                                    </SelectItem>
                                   )
                                 })}
                               </SelectContent>
