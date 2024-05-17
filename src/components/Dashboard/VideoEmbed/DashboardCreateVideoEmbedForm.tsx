@@ -71,7 +71,7 @@ export default function CreateVideoEmbedForm(props: CreateVideoEmbedFormProps) {
     onSuccess: () => {
       form.reset()
       toast({ variant: "success", description: "Success" })
-      //   window.location.replace("/dashboard/video-embed")
+      window.location.replace("/dashboard/video-embed")
     },
     onError: () => {
       setLoading(false)
@@ -83,16 +83,19 @@ export default function CreateVideoEmbedForm(props: CreateVideoEmbedFormProps) {
   })
 
   const form = useForm<FormValues>()
-
+  const currentEmbedLink = form.watch("embedLink")
   const onSubmit = (values: FormValues) => {
     const mergedValues = {
       ...values,
-      featuredImageId: selectedFeaturedImageId,
       authors: authors,
       topics: topics,
     }
     setLoading(true)
-    createVideoEmbed(mergedValues)
+    createVideoEmbed(
+      selectedFeaturedImageUrl && !selectedFeaturedImageId
+        ? { ...mergedValues, featuredImageUrl: selectedFeaturedImageUrl }
+        : { ...mergedValues, featuredImageId: selectedFeaturedImageId },
+    )
     setLoading(false)
   }
 
@@ -117,6 +120,33 @@ export default function CreateVideoEmbedForm(props: CreateVideoEmbedFormProps) {
       variant: "success",
       description: "Feature image has been deleted",
     })
+  }
+
+  async function handleGenerateThumbnail() {
+    let url
+    let oembedUrl = ""
+    try {
+      url = currentEmbedLink
+      if (url?.includes("tiktok.com")) {
+        oembedUrl = `https://www.tiktok.com/oembed?url=${url}`
+      } else if (url?.includes("youtube.com")) {
+        oembedUrl = `https://youtube.com/oembed?url=${url}`
+      }
+      const response = await fetch(oembedUrl)
+      const data = (await response.json()) as Record<string, string>
+      if (response.ok) {
+        setSelectedFeaturedImageUrl(data?.thumbnail_url)
+        toast({
+          variant: "success",
+          description: "Feature image has been selected",
+        })
+      }
+    } catch (error) {
+      toast({
+        variant: "danger",
+        description: "something whent wrong",
+      })
+    }
   }
 
   return (
@@ -200,7 +230,13 @@ export default function CreateVideoEmbedForm(props: CreateVideoEmbedFormProps) {
                   </FormItem>
                 )}
               />
-
+              <Button
+                aria-label="Generate Thumbnail"
+                type="button"
+                onClick={handleGenerateThumbnail}
+              >
+                Generate Thumbnail
+              </Button>
               <DashboardAddTopics
                 mode="create"
                 fieldName="topics"

@@ -136,14 +136,14 @@ const TranslateDownloadForm: React.FunctionComponent<
 
   const [topics, setTopics] = React.useState<string[]>(
     download
-      ? download.topics.map((topic) => {
+      ? download?.topics.map((topic) => {
           return topic.id
         })
       : [],
   )
   const [authors, setAuthors] = React.useState<string[]>(
     download
-      ? download.authors.map((author) => {
+      ? download?.authors.map((author) => {
           return author.id
         })
       : [],
@@ -153,7 +153,7 @@ const TranslateDownloadForm: React.FunctionComponent<
     { id: string; title: string }[] | []
   >(
     download
-      ? download.topics.map((topic) => {
+      ? download?.topics.map((topic) => {
           return { id: topic.id, title: topic.title }
         })
       : [],
@@ -162,24 +162,24 @@ const TranslateDownloadForm: React.FunctionComponent<
     { id: string; name: string }[] | []
   >(
     download
-      ? download.authors.map((author) => {
+      ? download?.authors.map((author) => {
           return { id: author.id as string, name: author.name! }
         })
       : [],
   )
 
   const [selectedFeaturedImageId, setSelectedFeaturedImageId] =
-    React.useState<string>(download ? download.featuredImage.id : "")
+    React.useState<string>(download ? download?.featuredImage.id : "")
   const [selectedFeaturedImageUrl, setSelectedFeaturedImageUrl] =
-    React.useState<string>(download ? download.featuredImage.url : "")
+    React.useState<string>(download ? download?.featuredImage.url : "")
   const [selectedDownloadFile, setSelectedDownloadFile] = React.useState<
     SelectedDownloadFileProps[]
-  >(download ? [...download.downloadFiles] : [])
+  >(download ? [...download?.downloadFiles] : [])
   const [selectedDownloadFileId, setSelectedDownloadFileId] = React.useState<
     string[]
   >(
     download
-      ? download.downloadFiles.map((file) => {
+      ? download?.downloadFiles.map((file) => {
           return file.id
         })
       : [],
@@ -344,7 +344,7 @@ const TranslateDownloadForm: React.FunctionComponent<
             </div>
           </div>
           <div className="flex min-h-screen flex-row flex-wrap">
-            <div className="order-1 w-full lg:w-10/12">
+            <div className="order-1 mx-auto w-full break-all lg:w-10/12 lg:px-64">
               <div className="relative mt-4 flex items-center justify-center">
                 <div className="flex-1 space-y-4">
                   <FormField
@@ -378,7 +378,7 @@ const TranslateDownloadForm: React.FunctionComponent<
                               }
                             }}
                             variant="plain"
-                            className="h-12 resize-none overflow-hidden text-[40px] font-bold leading-10"
+                            className="h-12 max-w-[80vw] resize-none overflow-hidden text-[40px] font-bold leading-10 md:max-w-[unset]"
                             placeholder="Enter title"
                             {...field}
                           />
@@ -498,7 +498,9 @@ const TranslateDownloadForm: React.FunctionComponent<
                               <SelectContent>
                                 {DOWNLOAD_SCHEMA_JSON.map((item) => {
                                   return (
-                                    <SelectItem value={item}>{item}</SelectItem>
+                                    <SelectItem key={item} value={item}>
+                                      {item}
+                                    </SelectItem>
                                   )
                                 })}
                               </SelectContent>

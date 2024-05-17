@@ -106,6 +106,7 @@ export const DashboardAddDownloadFiles: React.FunctionComponent<
       ...values,
       featuredImageId: selectedFeaturedImageId,
       authors: authors,
+      status: "published" as const,
     }
 
     createDownloadFileAction(mergedValues)
