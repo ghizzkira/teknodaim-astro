@@ -750,13 +750,14 @@ const FilesSection: React.FunctionComponent<FilesSectionProps> = React.memo(
       handleDeleteFile,
       selectedAuthors,
     } = props
-    const [showForm, setShowForm] = React.useState(false)
+    const [openForm, setOpenForm] = React.useState(false)
+    const [openDialog, setOpenDialog] = React.useState(false)
     return (
       <div className="border-t p-4">
         <div className="flex justify-between pb-2">
           <h2>Files</h2>
 
-          <Dialog>
+          <Dialog open={openDialog} onOpenChange={setOpenDialog}>
             <DialogTrigger aria-label="Add File">Add File</DialogTrigger>
             <DialogContent className="w-full max-w-[unset]">
               <div className="scrollbar-hide h-[90vh] overflow-y-auto max-lg:h-[80vh]">
@@ -769,16 +770,17 @@ const FilesSection: React.FunctionComponent<FilesSectionProps> = React.memo(
                   />
                   <Button
                     type="button"
-                    onClick={() => setShowForm((prev) => !prev)}
+                    onClick={() => setOpenForm((prev) => !prev)}
                     aria-label="Add File"
                   >
-                    Update File
+                    Update Files
                   </Button>
-                  {showForm && (
+                  {openForm && (
                     <DashboardAddDownloadFiles
                       updateDownloadFiles={(data) => {
                         handleUpdateFile(data)
-                        setShowForm(false)
+                        setOpenForm(false)
+                        setOpenDialog(false)
                       }}
                       initialAuthors={selectedAuthors}
                     />
