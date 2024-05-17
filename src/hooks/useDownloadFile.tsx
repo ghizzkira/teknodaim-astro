@@ -57,8 +57,8 @@ export function useUpdateDownloadFile({
   const handleUpdateDownloadFile = async (input?: UpdateDownloadFile) => {
     setIsLoading(true)
     try {
-      const response = await fetch("/api/download-file/update", {
-        method: "POST",
+      const response = await fetch("/api/download/file/update", {
+        method: "PUT",
         body: JSON.stringify(input),
       })
       const data = await response.json()

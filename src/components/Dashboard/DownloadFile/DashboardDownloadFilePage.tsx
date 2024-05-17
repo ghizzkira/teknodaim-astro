@@ -14,6 +14,7 @@ import DashboardShowOptions from "@/components/Dashboard/DashboardShowOptions"
 import { toast } from "@/components/UI/Toast/useToast"
 import { useDeleteDownloadFile } from "@/hooks/useDownloadFile"
 import { formatDate } from "@/lib/utils/date"
+import DashboardStatusBadge from "@/components/Dashboard/DashboardStatusBadge"
 
 interface DashboardDownloadFilePageProps {
   downloadFiles?: SelectDownloadFile[]
@@ -47,6 +48,9 @@ const DashboardDownloadFilePage = (props: DashboardDownloadFilePageProps) => {
                 </TableHead>
                 <TableHead className="hidden whitespace-nowrap lg:table-cell">
                   Version
+                </TableHead>
+                <TableHead className="hidden whitespace-nowrap lg:table-cell">
+                  Status
                 </TableHead>
                 <TableHead className="hidden whitespace-nowrap lg:table-cell">
                   Date Updated
@@ -86,6 +90,13 @@ const DashboardDownloadFilePage = (props: DashboardDownloadFilePageProps) => {
                         <span className="overflow-hidden text-ellipsis font-medium">
                           {downloadFile.version}
                         </span>
+                      </div>
+                    </TableCell>
+                    <TableCell className="hidden whitespace-nowrap align-middle lg:table-cell">
+                      <div className="flex">
+                        <DashboardStatusBadge status={downloadFile.status}>
+                          {downloadFile.status}
+                        </DashboardStatusBadge>
                       </div>
                     </TableCell>
                     <TableCell className="hidden align-middle lg:table-cell">

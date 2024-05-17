@@ -699,7 +699,6 @@ const FilesSection: React.FunctionComponent<FilesSectionProps> = React.memo(
                   <TableHead>Version</TableHead>
                   <TableHead>Size</TableHead>
                   <TableHead>Price</TableHead>
-                  <TableHead>Action</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

@@ -1,4 +1,4 @@
-import { and, count, eq } from "drizzle-orm"
+import { and, count, eq, sql } from "drizzle-orm"
 
 import { initializeDB } from "@/lib/db"
 import { downloadDownloadFiles, downloads } from "@/lib/db/schema/download"
@@ -27,7 +27,6 @@ export const getDownloadFilesDashboard = async (
   const db = initializeDB(DB)
 
   const data = await db.query.downloadFiles.findMany({
-    where: (downloadFiles, { eq }) => eq(downloadFiles.status, "published"),
     limit: perPage,
     offset: (page - 1) * perPage,
   })
@@ -272,10 +271,12 @@ export const updateDownloadFile = async (
   const db = initializeDB(DB)
 
   const data = await db
-    .insert(downloadFiles)
-    .values({
+    .update(downloadFiles)
+    .set({
       ...input,
+      updatedAt: sql`CURRENT_TIMESTAMP`,
     })
+    .where(eq(downloadFiles.id, input.id))
     .returning()
 
   await db
