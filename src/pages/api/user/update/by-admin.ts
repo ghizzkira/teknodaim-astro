@@ -2,13 +2,13 @@ import type { APIContext, APIRoute } from "astro"
 import { z } from "zod"
 
 import { updateUser } from "@/lib/action/user"
-import { updateUserSchema } from "@/lib/validation/user"
+import { updateUserByAdminSchema } from "@/lib/validation/user"
 
 export const PUT: APIRoute = async (context: APIContext) => {
   try {
     const DB = context.locals.runtime.env.DB
     const body = await context.request.json()
-    const parsedInput = updateUserSchema.parse(body)
+    const parsedInput = updateUserByAdminSchema.parse(body)
 
     const user = context.locals.user
 

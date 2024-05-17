@@ -1,97 +1,113 @@
 import * as React from "react"
 import { useForm } from "react-hook-form"
 
-import Image from "@/components/Image"
 import { Button } from "@/components/UI/Button"
+
+import { Input } from "@/components/UI/Input"
+
+import { Textarea } from "@/components/UI/Textarea"
+import { toast } from "@/components/UI/Toast/useToast"
+
 import {
-  Form,
-  FormControl,
   FormField,
   FormItem,
   FormLabel,
+  FormControl,
   FormMessage,
+  Form,
 } from "@/components/UI/Form"
-import { Input } from "@/components/UI/Input"
-import { Textarea } from "@/components/UI/Textarea"
-import { toast } from "@/components/UI/Toast/useToast"
-import type { LanguageType } from "@/lib/validation/language"
-import type { StatusType } from "@/lib/validation/status"
-import type { TopicType, TopicVisibility } from "@/lib/validation/topic"
-import { useTranslateTopic } from "@/hooks/useTopic"
+import { useCreateDownloadFile } from "@/hooks/useDownloadFile"
+import Image from "@/components/Image"
 import DeleteMediaButton from "@/components/Media/DeleteMediaButton"
 import SelectMediaDialog from "@/components/Media/SelectMediaDialog"
+import DashboardAddAuthors from "../DashboardAddAuthors"
 
 interface FormValues {
-  id: string
   title: string
-  description?: string
   metaTitle?: string
   metaDescription?: string
-  language: LanguageType
-  visibility: TopicVisibility
-  type: TopicType
-  status: StatusType
-  topicTranslationId: string
+  version: string
+  downloadLink: string
+  fileSize: string
+  currency: string
+  price: string
 }
 
-interface TranslateTopicFormProps {
-  topicTranslationId: string
-  language: LanguageType
-  visibility?: TopicVisibility
-  type?: TopicType
+interface DashboardCreateDownloadFilesProps
+  extends React.HTMLAttributes<HTMLDivElement> {
+  initialAuthors: { id: string; name: string }[]
 }
 
-export default function TranslateTopicForm(props: TranslateTopicFormProps) {
-  const { topicTranslationId, language, visibility, type } = props
+const DashboardCreateDownloadFiles: React.FunctionComponent<
+  DashboardCreateDownloadFilesProps
+> = (props) => {
+  const { initialAuthors } = props
 
+  const [authors, setAuthors] = React.useState<string[]>(
+    initialAuthors
+      ? initialAuthors.map((author) => {
+          return author.id
+        })
+      : [],
+  )
+  const [selectedAuthors, setSelectedAuthors] = React.useState<
+    { id: string; name: string }[] | []
+  >(
+    initialAuthors
+      ? initialAuthors.map((author) => {
+          return { id: author.id as string, name: author.name as string }
+        })
+      : [],
+  )
   const [loading, setLoading] = React.useState<boolean>(false)
-  const [openDialog, setOpenDialog] = React.useState<boolean>(false)
-  const [selectFeaturedImageId, setSelectFeaturedImageId] =
+  const [selectedFeaturedImageId, setSelectedFeaturedImageId] =
     React.useState<string>("")
   const [selectedFeaturedImageUrl, setSelectedFeaturedImageUrl] =
     React.useState<string>("")
+  const [openDialog, setOpenDialog] = React.useState<boolean>(false)
   const [showMetaData, setShowMetaData] = React.useState<boolean>(false)
 
-  const { handleTranslateTopic: translateTopic } = useTranslateTopic({
-    onSuccess: () => {
-      form.reset()
-      window.location.replace("/dashboard/topic")
-      toast({ variant: "success", description: "translate_success" })
-    },
-    onError: () => {
-      setLoading(false)
-      toast({
-        description: "Error when translating topic, try again",
-        variant: "warning",
-      })
-    },
-  })
+  const form = useForm<FormValues>()
 
-  const form = useForm<FormValues>({
-    defaultValues: {
-      language: language,
-      visibility: visibility,
-      type: type,
-      topicTranslationId: topicTranslationId,
-    },
-  })
+  const { handleCreateDownloadFile: createDownloadFileAction } =
+    useCreateDownloadFile({
+      onSuccess: (data) => {
+        if (data) {
+          setSelectedFeaturedImageUrl("")
+          setSelectedFeaturedImageId("")
+          toast({
+            variant: "success",
+            description: "Download File Successfully created",
+          })
+          form.reset()
+          window.location.replace("/dashboard/download/file")
+        }
+      },
+      onError: () => {
+        toast({
+          variant: "danger",
+          description: "Failed to create! Please try again later",
+        })
+      },
+    })
 
   const onSubmit = (values: FormValues) => {
+    setLoading(true)
     const mergedValues = {
       ...values,
-      featuredImageId: selectFeaturedImageId,
+      featuredImageId: selectedFeaturedImageId,
+      authors: authors,
     }
 
-    setLoading(true)
-    translateTopic(selectFeaturedImageId ? mergedValues : values)
+    createDownloadFileAction(mergedValues)
+
     setLoading(false)
   }
-
   const handleUpdateMedia = (data: {
     id: React.SetStateAction<string>
     url: React.SetStateAction<string>
   }) => {
-    setSelectFeaturedImageId(data.id)
+    setSelectedFeaturedImageId(data.id)
     setSelectedFeaturedImageUrl(data.url)
     setOpenDialog(false)
     toast({
@@ -101,7 +117,7 @@ export default function TranslateTopicForm(props: TranslateTopicFormProps) {
   }
 
   const handleDeleteFeaturedImage = () => {
-    setSelectFeaturedImageId("")
+    setSelectedFeaturedImageId("")
     setSelectedFeaturedImageUrl("")
     toast({
       variant: "success",
@@ -110,14 +126,14 @@ export default function TranslateTopicForm(props: TranslateTopicFormProps) {
   }
 
   return (
-    <div className="mx-4 flex w-full flex-col">
+    <div className="flex-1 space-y-4">
       <Form {...form}>
         <form
           onSubmit={(e) => {
             e.preventDefault()
           }}
-          className="mx-0 space-y-4 lg:mx-8 lg:p-5"
         >
+          <h1 className="pb-2 lg:pb-5">Add Download File</h1>
           <div className="lg:border-1 flex flex-col lg:flex-row lg:space-x-4 lg:border-border">
             <div className="w-full lg:w-6/12 lg:space-y-4">
               <FormField
@@ -136,14 +152,95 @@ export default function TranslateTopicForm(props: TranslateTopicFormProps) {
                   </FormItem>
                 )}
               />
+              <DashboardAddAuthors
+                authors={authors}
+                addAuthors={setAuthors}
+                selectedAuthors={selectedAuthors}
+                addSelectedAuthors={setSelectedAuthors}
+              />
               <FormField
                 control={form.control}
-                name="description"
+                name="version"
+                rules={{
+                  required: "Version is Required",
+                }}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Description</FormLabel>
+                    <FormLabel>Version</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="Enter description" {...field} />
+                      <Input placeholder="Enter version" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="downloadLink"
+                rules={{
+                  required: "Download link is required",
+                }}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Download link</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="url"
+                        placeholder="Enter download link"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="price"
+                rules={{
+                  required: "Price is required",
+                }}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Price</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="Enter price"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="fileSize"
+                rules={{
+                  required: "File size is required",
+                }}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>File size</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter file size" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="currency"
+                rules={{
+                  required: "Currency is required",
+                }}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Currency</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter currency" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -244,23 +341,11 @@ export default function TranslateTopicForm(props: TranslateTopicFormProps) {
               aria-label="submit"
               type="submit"
               onClick={() => {
-                form.setValue("status", "published")
                 form.handleSubmit(onSubmit)()
               }}
               loading={loading}
             >
               Submit
-            </Button>
-            <Button
-              aria-label="save_as_draft"
-              type="submit"
-              onClick={() => {
-                form.setValue("status", "draft")
-                form.handleSubmit(onSubmit)()
-              }}
-              loading={loading}
-            >
-              Save as draft
             </Button>
           </div>
         </form>
@@ -268,3 +353,5 @@ export default function TranslateTopicForm(props: TranslateTopicFormProps) {
     </div>
   )
 }
+
+export default DashboardCreateDownloadFiles

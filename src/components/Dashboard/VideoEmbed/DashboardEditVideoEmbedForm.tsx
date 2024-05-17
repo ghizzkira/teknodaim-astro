@@ -3,65 +3,121 @@ import { useForm } from "react-hook-form"
 
 import Image from "@/components/Image"
 import { Button } from "@/components/UI/Button"
+
+import type { UpdateVideoEmbed } from "@/lib/validation/video-embed"
+import { useUpdateVideoEmbed } from "@/hooks/useVideoEmbed"
+
+import DeleteMediaButton from "@/components/Media/DeleteMediaButton"
+import SelectMediaDialog from "@/components/Media/SelectMediaDialog"
 import {
-  Form,
-  FormControl,
   FormField,
   FormItem,
   FormLabel,
+  FormControl,
   FormMessage,
+  Form,
 } from "@/components/UI/Form"
 import { Input } from "@/components/UI/Input"
 import { Textarea } from "@/components/UI/Textarea"
 import { toast } from "@/components/UI/Toast/useToast"
-import type { LanguageType } from "@/lib/validation/language"
-import type { StatusType } from "@/lib/validation/status"
-import type { TopicType, TopicVisibility } from "@/lib/validation/topic"
-import { useTranslateTopic } from "@/hooks/useTopic"
-import DeleteMediaButton from "@/components/Media/DeleteMediaButton"
-import SelectMediaDialog from "@/components/Media/SelectMediaDialog"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/UI/Select"
+import type {
+  SelectMedia,
+  SelectTopic,
+  SelectUser,
+  SelectVideoEmbed,
+} from "@/lib/db/schema"
+import DashboardAddTopics from "../DashboardAddTopics"
+import DashboardAddAuthors from "../DashboardAddAuthors"
+import TextEditorExtended from "@/components/TextEditor/TextEditorExtended"
 
-interface FormValues {
-  id: string
-  title: string
-  description?: string
-  metaTitle?: string
-  metaDescription?: string
-  language: LanguageType
-  visibility: TopicVisibility
-  type: TopicType
-  status: StatusType
-  topicTranslationId: string
+type FormValues = UpdateVideoEmbed
+
+interface EditVideoEmbedFormProps {
+  currentUser: SelectUser
+  videoEmbed:
+    | (Pick<
+        SelectVideoEmbed,
+        | "id"
+        | "featuredImageId"
+        | "title"
+        | "slug"
+        | "description"
+        | "embedLink"
+        | "type"
+        | "metaDescription"
+        | "metaTitle"
+        | "status"
+      > & {
+        authors: Pick<SelectUser, "id" | "name">[]
+        topics: Pick<SelectTopic, "title" | "slug" | "id">[]
+        featuredImage?: Pick<SelectMedia, "id" | "url">
+      })
+    | null
 }
 
-interface TranslateTopicFormProps {
-  topicTranslationId: string
-  language: LanguageType
-  visibility?: TopicVisibility
-  type?: TopicType
-}
-
-export default function TranslateTopicForm(props: TranslateTopicFormProps) {
-  const { topicTranslationId, language, visibility, type } = props
+export default function EditVideoEmbedForm(props: EditVideoEmbedFormProps) {
+  const { videoEmbed } = props
 
   const [loading, setLoading] = React.useState<boolean>(false)
   const [openDialog, setOpenDialog] = React.useState<boolean>(false)
-  const [selectFeaturedImageId, setSelectFeaturedImageId] =
-    React.useState<string>("")
-  const [selectedFeaturedImageUrl, setSelectedFeaturedImageUrl] =
-    React.useState<string>("")
   const [showMetaData, setShowMetaData] = React.useState<boolean>(false)
-
-  const { handleTranslateTopic: translateTopic } = useTranslateTopic({
+  const [selectedFeaturedImageId, setSelectedFeaturedImageId] = React.useState(
+    videoEmbed?.featuredImage?.id,
+  )
+  const [selectedFeaturedImageUrl, setSelectedFeaturedImageUrl] =
+    React.useState(videoEmbed?.featuredImage?.url)
+  const [authors, setAuthors] = React.useState<string[]>(
+    videoEmbed?.authors
+      ? videoEmbed.authors.map((author) => {
+          return author.id as unknown as string
+        })
+      : [],
+  )
+  const [topics, setTopics] = React.useState<string[]>(
+    videoEmbed?.topics
+      ? videoEmbed.topics.map((topic) => {
+          return topic.id
+        })
+      : [],
+  )
+  const [selectedTopics, setSelectedTopics] = React.useState<
+    { id: string; title: string }[] | []
+  >(
+    videoEmbed?.topics
+      ? videoEmbed.topics.map((topic) => {
+          return {
+            id: topic.id,
+            title: topic.title,
+          }
+        })
+      : [],
+  )
+  const [selectedAuthors, setSelectedAuthors] = React.useState<
+    { id: string; name: string }[] | []
+  >(
+    videoEmbed?.authors
+      ? videoEmbed.authors.map((author) => {
+          return { id: author.id!, name: author.name! }
+        })
+      : [],
+  )
+  const { handleUpdateVideoEmbed: updateVideoEmbed } = useUpdateVideoEmbed({
     onSuccess: () => {
       form.reset()
-      window.location.replace("/dashboard/topic")
-      toast({ variant: "success", description: "translate_success" })
+      toast({ variant: "success", description: "Success" })
+      window.location.replace("/dashboard/video-embed")
     },
     onError: () => {
       setLoading(false)
       toast({
-        description: "Error when translating topic, try again",
+        description: "Error when updating video embed, try again",
         variant: "warning",
       })
     },
@@ -69,57 +125,65 @@ export default function TranslateTopicForm(props: TranslateTopicFormProps) {
 
   const form = useForm<FormValues>({
     defaultValues: {
-      language: language,
-      visibility: visibility,
-      type: type,
-      topicTranslationId: topicTranslationId,
+      id: videoEmbed?.id ?? "",
+      title: videoEmbed?.title ?? "",
+      slug: videoEmbed?.slug ?? "",
+      topics: videoEmbed?.topics
+        ? videoEmbed.topics.map((topic) => {
+            return topic.id as unknown as string
+          })
+        : [],
+      description: videoEmbed?.description ?? "",
+      embedLink: videoEmbed?.embedLink ?? "",
+      metaDescription: videoEmbed?.metaDescription ?? "",
+      metaTitle: videoEmbed?.metaTitle ?? "",
+      type: videoEmbed?.type,
+      status: videoEmbed?.status ?? "draft",
     },
   })
 
   const onSubmit = (values: FormValues) => {
     const mergedValues = {
       ...values,
-      featuredImageId: selectFeaturedImageId,
+      featuredImageId: selectedFeaturedImageId,
+      authors: authors,
+      topics: topics,
     }
-
     setLoading(true)
-    translateTopic(selectFeaturedImageId ? mergedValues : values)
+    updateVideoEmbed(mergedValues)
     setLoading(false)
   }
 
-  const handleUpdateMedia = (data: {
-    id: React.SetStateAction<string>
-    url: React.SetStateAction<string>
-  }) => {
-    setSelectFeaturedImageId(data.id)
-    setSelectedFeaturedImageUrl(data.url)
+  const handleUpdateMedia = (data: { id: string; url: string }) => {
+    setSelectedFeaturedImageUrl(data?.url!)
+    setSelectedFeaturedImageId(data.id)
     setOpenDialog(false)
     toast({
       variant: "success",
-      description: "Featured image has been selected",
+      description: "Feature image has been selected",
     })
   }
 
   const handleDeleteFeaturedImage = () => {
-    setSelectFeaturedImageId("")
     setSelectedFeaturedImageUrl("")
+    setSelectedFeaturedImageId("")
     toast({
       variant: "success",
-      description: "Featured image has been deleted",
+      description: "Feature image has been deleted",
     })
   }
 
   return (
-    <div className="mx-4 flex w-full flex-col">
+    <div className="mx-0 w-full space-y-4 lg:p-5">
       <Form {...form}>
         <form
           onSubmit={(e) => {
             e.preventDefault()
           }}
-          className="mx-0 space-y-4 lg:mx-8 lg:p-5"
         >
+          <h1 className="pb-2 lg:pb-5">Edit Video Embed</h1>
           <div className="lg:border-1 flex flex-col lg:flex-row lg:space-x-4 lg:border-border">
-            <div className="w-full lg:w-6/12 lg:space-y-4">
+            <div className="w-full space-y-4 lg:w-6/12">
               <FormField
                 control={form.control}
                 name="title"
@@ -136,21 +200,80 @@ export default function TranslateTopicForm(props: TranslateTopicFormProps) {
                   </FormItem>
                 )}
               />
+              <div className="max-w-[500px]">
+                <label>Description</label>
+                <TextEditorExtended control={form.control} name="description" />
+              </div>
               <FormField
                 control={form.control}
-                name="description"
+                name="type"
+                rules={{
+                  required: "Type is required",
+                }}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Description</FormLabel>
+                    <FormLabel>Type</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Choose one type" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="youtube">YouTube</SelectItem>
+                        <SelectItem value="youtube_short">
+                          YoutTube Short
+                        </SelectItem>
+                        <SelectItem value="tiktok">TikTok</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="embedLink"
+                rules={{
+                  required: "Embed Link is Required",
+                  pattern: {
+                    value: /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i,
+                    message: "Embed Link invalid",
+                  },
+                }}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Embed Link</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="Enter description" {...field} />
+                      <Input placeholder="Enter link" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
+
+              <DashboardAddTopics
+                mode="edit"
+                fieldName="topics"
+                locale={"id"}
+                control={form.control}
+                topics={topics}
+                addTopics={setTopics}
+                selectedTopics={selectedTopics}
+                addSelectedTopics={setSelectedTopics}
+                topicType="all"
+              />
+              <DashboardAddAuthors
+                authors={authors}
+                addAuthors={setAuthors}
+                selectedAuthors={selectedAuthors}
+                addSelectedAuthors={setSelectedAuthors}
+              />
             </div>
-            <div className="w-full lg:w-6/12 lg:space-y-4">
+            <div className="w-full space-y-4 lg:w-6/12">
               <FormLabel>Featured image</FormLabel>
               {selectedFeaturedImageUrl ? (
                 <div className="relative overflow-hidden rounded-[18px]">

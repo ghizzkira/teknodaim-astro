@@ -132,7 +132,7 @@ const DashboardAddAuthors: React.FunctionComponent<DashboardAddAuthorsProps> = (
                 >
                   <span>{author.name}</span>
                   <Button
-                    // disabled={selectedAuthors.length === 1}
+                    disabled={selectedAuthors.length === 1}
                     aria-label="Delete Author"
                     onClick={() => handleRemoveValue(author)}
                     size="icon"
@@ -158,7 +158,7 @@ const DashboardAddAuthors: React.FunctionComponent<DashboardAddAuthorsProps> = (
           />
           <FormMessage />
         </div>
-        {searchResults && searchResults.length > 0 && (
+        {searchQuery && searchResults && searchResults.length > 0 && (
           <ul className="border-t border-muted/30">
             {searchResults.map((searchAuthor) => {
               const authorsData = {

@@ -26,35 +26,13 @@ export const getVideoEmbedsDashboard = async (
 ) => {
   const { page, perPage } = input
   const db = initializeDB(DB)
-  const videoEmbedsData = await db.query.videoEmbeds.findMany({
+  const data = await db.query.videoEmbeds.findMany({
     limit: perPage,
     offset: (page - 1) * perPage,
     with: {
       featuredImage: true,
     },
   })
-
-  const videoEmbedTopicsData = await db
-    .select({ id: topics.id, title: topics.title })
-    .from(videoEmbedTopics)
-    .leftJoin(videoEmbeds, eq(videoEmbedTopics.videoEmbedId, videoEmbeds.id))
-    .leftJoin(topics, eq(videoEmbedTopics.topicId, topics.id))
-    .where(eq(videoEmbeds.id, videoEmbedsData[0].id))
-    .all()
-
-  const videoEmbedAuthorsData = await db
-    .select({ id: users.id, name: users.name })
-    .from(videoEmbedAuthors)
-    .leftJoin(videoEmbeds, eq(videoEmbedAuthors.videoEmbedId, videoEmbeds.id))
-    .leftJoin(users, eq(videoEmbedAuthors.userId, users.id))
-    .where(eq(videoEmbeds.id, videoEmbedsData[0].id))
-    .all()
-
-  const data = videoEmbedsData.map((item) => ({
-    ...item,
-    topics: videoEmbedTopicsData,
-    authors: videoEmbedAuthorsData,
-  }))
 
   return data
 }
@@ -284,6 +262,8 @@ export const getVideoEmbedById = async (DB: D1Database, input: string) => {
     where: (videoEmbed, { eq }) => eq(videoEmbed.id, input),
     with: {
       featuredImage: true,
+      topics: true,
+      authors: true,
     },
   })
 

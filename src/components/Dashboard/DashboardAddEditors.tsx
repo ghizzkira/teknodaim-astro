@@ -133,7 +133,7 @@ const DashboardAddEditors: React.FunctionComponent<DashboardAddEditorsProps> = (
                 >
                   <span>{editor.name}</span>
                   <Button
-                    // disabled={selectedAuthors.length === 1}
+                    disabled={selectedEditors.length === 1}
                     aria-label="Delete Editor"
                     onClick={() => handleRemoveValue(editor)}
                     size="icon"

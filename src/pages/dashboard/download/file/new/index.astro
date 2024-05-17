@@ -1,0 +1,39 @@
+---
+import DashboardCreateDownloadFileForm from "@/components/Dashboard/DownloadFile/DashboardCreateDownloadFileForm"
+import DashboardLayout from "@/layouts/DashboardLayout.astro"
+
+const user = Astro.locals.user
+
+if (!user?.role?.includes("admin" || "author")) {
+  return Astro.redirect("/")
+}
+---
+
+<DashboardLayout
+  locale="id"
+  seo={{
+    title: "Create Download File",
+    description: "Create Download File",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/download/file/new`,
+    openGraph: {
+      basic: {
+        title: `Create Download File | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/download/file/new`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: "Create Download File",
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <div class="mx-4 flex w-full flex-col">
+    <div class="mb-[100px] mt-4 flex items-end justify-end">
+      <div class="flex-1 space-y-4">
+        <DashboardCreateDownloadFileForm initialAuthors={[user]} client:load />
+      </div>
+    </div>
+  </div></DashboardLayout
+>
