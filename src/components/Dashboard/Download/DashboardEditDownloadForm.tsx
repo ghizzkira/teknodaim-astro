@@ -32,7 +32,6 @@ import DeleteMediaButton from "@/components/Media/DeleteMediaButton"
 import SelectMediaDialog from "@/components/Media/SelectMediaDialog"
 import TextEditorExtended from "@/components/TextEditor/TextEditorExtended"
 import DashboardAddAuthors from "@/components/Dashboard/DashboardAddAuthors"
-import DashboardAddEditors from "@/components/Dashboard/DashboardAddEditors"
 import DashboardAddTopics from "@/components/Dashboard/DashboardAddTopics"
 import {
   TableHead,
@@ -101,35 +100,17 @@ interface EditDownloadFormProps {
       "id" | "title" | "version" | "fileSize" | "price"
     >[]
   }
-  session: Partial<SelectUser> | null
 }
 
 const EditDownloadForm: React.FunctionComponent<EditDownloadFormProps> = (
   props,
 ) => {
-  const { session, download } = props
+  const { download } = props
 
   const [loading, setLoading] = React.useState<boolean>(false)
   const [openDialog, setOpenDialog] = React.useState<boolean>(false)
   const [showMetaData, setShowMetaData] = React.useState<boolean>(false)
   const [clearContent, setClearContent] = React.useState<boolean>(false)
-  const [editors, setEditors] = React.useState<string[]>(
-    session ? [session?.id!] : [],
-  )
-
-  const [selectedEditors, setSelectedEditors] = React.useState<
-    { id: string; name: string }[] | []
-  >(
-    session
-      ? [
-          {
-            id: session?.id!,
-            name: session?.name!,
-          },
-        ]
-      : [],
-  )
-
   const [topics, setTopics] = React.useState<string[]>(
     download
       ? download.topics.map((topic) => {
@@ -266,7 +247,6 @@ const EditDownloadForm: React.FunctionComponent<EditDownloadFormProps> = (
       featuredImageId: selectedFeaturedImageId,
       downloadFiles: selectedDownloadFileId,
       authors: authors,
-      editors: editors,
     }
     updateDownload(mergedValues)
     setLoading(false)
@@ -648,12 +628,6 @@ const EditDownloadForm: React.FunctionComponent<EditDownloadFormProps> = (
                         addAuthors={setAuthors}
                         selectedAuthors={selectedAuthors}
                         addSelectedAuthors={setSelectedAuthors}
-                      />
-                      <DashboardAddEditors
-                        editors={editors}
-                        addEditors={setEditors}
-                        selectedEditors={selectedEditors}
-                        addSelectedEditors={setSelectedEditors}
                       />
                       <div className="rouded-lg bg-muted p-3 lg:p-5">
                         <div className="flex justify-between">

@@ -32,7 +32,6 @@ import DeleteMediaButton from "@/components/Media/DeleteMediaButton"
 import SelectMediaDialog from "@/components/Media/SelectMediaDialog"
 import TextEditorExtended from "@/components/TextEditor/TextEditorExtended"
 import DashboardAddAuthors from "@/components/Dashboard/DashboardAddAuthors"
-import DashboardAddEditors from "@/components/Dashboard/DashboardAddEditors"
 import DashboardAddTopics from "@/components/Dashboard/DashboardAddTopics"
 import {
   TableHead,
@@ -90,22 +89,7 @@ const CreateDownloadForm: React.FunctionComponent<CreateDownloadFormProps> = (
   const [authors, setAuthors] = React.useState<string[]>(
     session ? [session?.id!] : [],
   )
-  const [editors, setEditors] = React.useState<string[]>(
-    session ? [session?.id!] : [],
-  )
   const [selectedAuthors, setSelectedAuthors] = React.useState<
-    { id: string; name: string }[] | []
-  >(
-    session
-      ? [
-          {
-            id: session?.id!,
-            name: session?.name!,
-          },
-        ]
-      : [],
-  )
-  const [selectedEditors, setSelectedEditors] = React.useState<
     { id: string; name: string }[] | []
   >(
     session
@@ -190,7 +174,6 @@ const CreateDownloadForm: React.FunctionComponent<CreateDownloadFormProps> = (
       featuredImageId: selectedFeaturedImageId,
       downloadFiles: selectedDownloadFileId,
       authors: authors,
-      editors: editors,
     }
     createDownload(mergedValues)
     setLoading(false)
@@ -569,12 +552,6 @@ const CreateDownloadForm: React.FunctionComponent<CreateDownloadFormProps> = (
                         addAuthors={setAuthors}
                         selectedAuthors={selectedAuthors}
                         addSelectedAuthors={setSelectedAuthors}
-                      />
-                      <DashboardAddEditors
-                        editors={editors}
-                        addEditors={setEditors}
-                        selectedEditors={selectedEditors}
-                        addSelectedEditors={setSelectedEditors}
                       />
                       <div className="rouded-lg bg-muted p-3 lg:p-5">
                         <div className="flex justify-between">
