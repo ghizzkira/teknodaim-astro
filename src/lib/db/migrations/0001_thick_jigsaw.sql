@@ -1,1 +1,0 @@
-ALTER TABLE `video_embeds` ADD `featured_image_url` text;

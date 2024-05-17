@@ -7,7 +7,7 @@ export default {
   driver: "d1",
   dbCredentials: {
     wranglerConfigPath: `${process.cwd()}/wrangler.toml`,
-    dbName: "manukakal",
+    dbName: "jamesdio",
   },
   verbose: true,
   strict: true,
