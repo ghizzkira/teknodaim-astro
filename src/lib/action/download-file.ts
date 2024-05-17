@@ -56,10 +56,14 @@ export const getDownloadFileById = async (DB: D1Database, input: string) => {
     .where(eq(downloadFiles.id, input))
     .all()
 
-  const data = {
-    ...downloadFileData,
+  const data = downloadFileData.map((item) => ({
+    ...item.download_files,
+    featuredImage: {
+      id: item?.medias?.id!,
+      url: item?.medias?.url!,
+    },
     authors: downloadFileAuthorsData,
-  }
+  }))
 
   return data[0]
 }
