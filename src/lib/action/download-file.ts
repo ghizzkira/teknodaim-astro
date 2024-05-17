@@ -277,6 +277,7 @@ export const updateDownloadFile = async (
       ...input,
       updatedAt: sql`CURRENT_TIMESTAMP`,
     })
+    .where(eq(downloadFiles.id, input.id))
     .returning()
 
   await db
