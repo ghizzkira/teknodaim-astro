@@ -27,7 +27,6 @@ export const getDownloadFilesDashboard = async (
   const db = initializeDB(DB)
 
   const data = await db.query.downloadFiles.findMany({
-    where: (downloadFiles, { eq }) => eq(downloadFiles.status, "published"),
     limit: perPage,
     offset: (page - 1) * perPage,
   })
