@@ -208,7 +208,7 @@ export const getDownloadFilesCount = async (DB: D1Database) => {
 export const searchDownloadFiles = async (DB: D1Database, input: string) => {
   const db = initializeDB(DB)
 
-  const downloadFilesData = await db.query.downloadFiles.findMany({
+  const data = await db.query.downloadFiles.findMany({
     where: (downloadFiles, { eq, and, or, like }) =>
       and(
         eq(downloadFiles.status, "published"),
@@ -223,35 +223,6 @@ export const searchDownloadFiles = async (DB: D1Database, input: string) => {
     },
     limit: 10,
   })
-
-  const downloadFileDownloadsData = await db
-    .select({
-      id: downloads.id,
-      title: downloads.title,
-      slug: downloads.slug,
-      developer: downloads.developer,
-      operatingSystem: downloads.operatingSystem,
-      license: downloads.license,
-      officialWebsite: downloads.officialWebsite,
-      schemaType: downloads.schemaType,
-      type: downloads.type,
-    })
-    .from(downloadDownloadFiles)
-    .leftJoin(
-      downloadFiles,
-      eq(downloadDownloadFiles.downloadFileId, downloadFiles.id),
-    )
-    .leftJoin(
-      downloadDownloadFiles,
-      eq(downloadDownloadFiles.downloadId, downloads.id),
-    )
-    .where(eq(downloadFiles.id, downloadFilesData[0].id!))
-    .all()
-
-  const data = {
-    ...downloadFilesData,
-    downloads: downloadFileDownloadsData,
-  }
 
   return data
 }
