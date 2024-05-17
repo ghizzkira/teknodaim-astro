@@ -6,8 +6,8 @@ compatibility_flags = [ "nodejs_compat" ]
 
 [[d1_databases]]
 binding = "DB"
-database_name = "sigasiga"
-database_id = "2ea7f311-8db7-4bcc-9d61-ea3e0accdafb"
+database_name = "manukakal"
+database_id = "b2160d20-781b-4365-a173-a2d160c540b2"
 migrations_dir = "./src/lib/db/migrations"
 
 [vars]
