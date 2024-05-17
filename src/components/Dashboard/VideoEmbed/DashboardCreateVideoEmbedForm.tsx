@@ -45,7 +45,7 @@ export default function CreateVideoEmbedForm(props: CreateVideoEmbedFormProps) {
   const [showMetaData, setShowMetaData] = React.useState<boolean>(false)
   const [selectedFeaturedImageUrl, setSelectedFeaturedImageUrl] =
     React.useState<string>("")
-  const [_selectedFeaturedImageId, setSelectedFeaturedImageId] =
+  const [selectedFeaturedImageId, setSelectedFeaturedImageId] =
     React.useState("")
   const [topics, setTopics] = React.useState<string[]>([])
   const [selectedTopics, setSelectedTopics] = React.useState<
@@ -87,13 +87,15 @@ export default function CreateVideoEmbedForm(props: CreateVideoEmbedFormProps) {
   const onSubmit = (values: FormValues) => {
     const mergedValues = {
       ...values,
-      // featuredImageId: selectedFeaturedImageId,
-      featuredImageUrl: selectedFeaturedImageUrl,
       authors: authors,
       topics: topics,
     }
     setLoading(true)
-    createVideoEmbed(mergedValues)
+    createVideoEmbed(
+      selectedFeaturedImageUrl && !selectedFeaturedImageId
+        ? { ...mergedValues, featuredImageUrl: selectedFeaturedImageUrl }
+        : { ...mergedValues, featuredImageId: selectedFeaturedImageId },
+    )
     setLoading(false)
   }
 
