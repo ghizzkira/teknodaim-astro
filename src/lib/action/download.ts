@@ -112,6 +112,7 @@ export const getDownloadById = async (DB: D1Database, input: string) => {
       id: downloadFiles.id,
       title: downloadFiles.title,
       version: downloadFiles.version,
+      fileSize: downloadFiles.fileSize,
       price: downloadFiles.price,
     })
     .from(downloadDownloadFiles)
