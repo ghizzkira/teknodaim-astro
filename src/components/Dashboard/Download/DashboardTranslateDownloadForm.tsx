@@ -136,14 +136,14 @@ const TranslateDownloadForm: React.FunctionComponent<
 
   const [topics, setTopics] = React.useState<string[]>(
     download
-      ? download.topics.map((topic) => {
+      ? download?.topics.map((topic) => {
           return topic.id
         })
       : [],
   )
   const [authors, setAuthors] = React.useState<string[]>(
     download
-      ? download.authors.map((author) => {
+      ? download?.authors.map((author) => {
           return author.id
         })
       : [],
@@ -153,7 +153,7 @@ const TranslateDownloadForm: React.FunctionComponent<
     { id: string; title: string }[] | []
   >(
     download
-      ? download.topics.map((topic) => {
+      ? download?.topics.map((topic) => {
           return { id: topic.id, title: topic.title }
         })
       : [],
@@ -162,24 +162,24 @@ const TranslateDownloadForm: React.FunctionComponent<
     { id: string; name: string }[] | []
   >(
     download
-      ? download.authors.map((author) => {
+      ? download?.authors.map((author) => {
           return { id: author.id as string, name: author.name! }
         })
       : [],
   )
 
   const [selectedFeaturedImageId, setSelectedFeaturedImageId] =
-    React.useState<string>(download ? download.featuredImage.id : "")
+    React.useState<string>(download ? download?.featuredImage.id : "")
   const [selectedFeaturedImageUrl, setSelectedFeaturedImageUrl] =
-    React.useState<string>(download ? download.featuredImage.url : "")
+    React.useState<string>(download ? download?.featuredImage.url : "")
   const [selectedDownloadFile, setSelectedDownloadFile] = React.useState<
     SelectedDownloadFileProps[]
-  >(download ? [...download.downloadFiles] : [])
+  >(download ? [...download?.downloadFiles] : [])
   const [selectedDownloadFileId, setSelectedDownloadFileId] = React.useState<
     string[]
   >(
     download
-      ? download.downloadFiles.map((file) => {
+      ? download?.downloadFiles.map((file) => {
           return file.id
         })
       : [],
