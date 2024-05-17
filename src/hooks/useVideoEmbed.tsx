@@ -57,7 +57,7 @@ export function useUpdateVideoEmbed({
     setIsLoading(true)
     try {
       const response = await fetch("/api/video-embed/update", {
-        method: "POST",
+        method: "PUT",
         body: JSON.stringify(input),
       })
       const data = await response.json()
