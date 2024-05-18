@@ -66,6 +66,30 @@ export const getGadgetsPublishedInfinite = async (
   }
 }
 
+export const getGadgetsById = async (DB: D1Database, input: string) => {
+  const db = initializeDB(DB)
+
+  const data = await db.query.gadgets.findFirst({
+    where: (gadgets, { eq }) => eq(gadgets.id, input),
+    with: {
+      featuredImage: true,
+    },
+  })
+  return data
+}
+
+export const getGadgetsBySlug = async (DB: D1Database, input: string) => {
+  const db = initializeDB(DB)
+
+  const data = await db.query.gadgets.findFirst({
+    where: (gadgets, { eq }) => eq(gadgets.slug, input),
+    with: {
+      featuredImage: true,
+    },
+  })
+  return data
+}
+
 export const getGadgetsByWpTagSlug = async (DB: D1Database, input: string) => {
   const db = initializeDB(DB)
 
