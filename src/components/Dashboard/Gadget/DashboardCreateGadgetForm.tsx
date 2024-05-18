@@ -206,7 +206,7 @@ const CreateGadgetForm: React.FunctionComponent = () => {
                   />
                   <TextEditorExtended
                     control={form.control}
-                    name="content"
+                    name="description"
                     isClear={clearContent}
                   />
                 </div>
@@ -492,27 +492,6 @@ const CreateGadgetForm: React.FunctionComponent = () => {
                       />
                       <FormField
                         control={form.control}
-                        name="platformOs"
-                        rules={{
-                          required: "OS is required",
-                        }}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>OS</FormLabel>
-                            <FormControl>
-                              <Input
-                                type="text"
-                                {...field}
-                                className="max-w-xl"
-                                placeholder="Enter OS"
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
                         name="platformChipset"
                         rules={{
                           required: "Chipset is required",
@@ -598,9 +577,9 @@ const CreateGadgetForm: React.FunctionComponent = () => {
                       />
                       <FormField
                         control={form.control}
-                        name="memoryCardSlot"
+                        name="memoryInternal"
                         rules={{
-                          required: "Card Slot is required",
+                          required: "Internal is required",
                         }}
                         render={({ field }) => (
                           <FormItem>
@@ -754,8 +733,12 @@ const CreateGadgetForm: React.FunctionComponent = () => {
                           required: "3.5mm Jack is required",
                         }}
                         render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>3.5mm Jack</FormLabel>
+                          <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                            <div className="space-y-0.5">
+                              <FormLabel className="text-base">
+                                3.5mm Jack
+                              </FormLabel>
+                            </div>
                             <FormControl>
                               <Switch
                                 checked={field.value}
@@ -840,8 +823,10 @@ const CreateGadgetForm: React.FunctionComponent = () => {
                           required: "Radio is required",
                         }}
                         render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Radio</FormLabel>
+                          <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                            <div className="space-y-0.5">
+                              <FormLabel className="text-base">Radio</FormLabel>
+                            </div>
                             <FormControl>
                               <Switch
                                 checked={field.value}
