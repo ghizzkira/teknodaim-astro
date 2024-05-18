@@ -1,7 +1,7 @@
 ---
 import DashboardEditGadgetForm from "@/components/Dashboard/Gadget/DashboardEditGadgetForm"
 import DashboardLayout from "@/layouts/DashboardLayout.astro"
-import { getGadgetById } from "@/lib/action/gadget"
+import { getGadgetsById } from "@/lib/action/gadget"
 
 const user = Astro.locals.user
 const DB = Astro.locals.runtime.env.DB
@@ -10,7 +10,7 @@ if (!user?.role?.includes("admin" || "author")) {
   return Astro.redirect("/")
 }
 const { gadgetId } = Astro.params
-const gadget = await getGadgetById(DB, gadgetId!)
+const gadget = await getGadgetsById(DB, gadgetId!)
 if (!gadget) {
   return Astro.redirect("/404")
 }
