@@ -31,7 +31,7 @@ import type { SelectGadget } from "@/lib/db/schema"
 type FormValues = UpdateGadget
 
 type GadgetDataProps = SelectGadget & {
-  featured_image?: {
+  featuredImage?: {
     id: string
     url: string
   } | null
@@ -51,9 +51,9 @@ const EditGadgetForm: React.FunctionComponent<EditGadgetFormProps> = (
   const [showMetaData, setShowMetaData] = React.useState<boolean>(false)
   const [clearContent, setClearContent] = React.useState<boolean>(false)
   const [selectedFeaturedImageId, setSelectedFeaturedImageId] =
-    React.useState<string>("")
+    React.useState<string>(gadget?.featuredImage?.id ?? "")
   const [selectedFeaturedImageUrl, setSelectedFeaturedImageUrl] =
-    React.useState<string>("")
+    React.useState<string>(gadget?.featuredImage?.url ?? "")
 
   const { isOpen: isOpenSidebar, onToggle: onToggleSidebar } = useDisclosure()
 
