@@ -54,7 +54,7 @@ export function useUpdateGadget({
     setIsLoading(true)
     try {
       const response = await fetch("/api/gadget/update", {
-        method: "POST",
+        method: "PUT",
         body: JSON.stringify(input),
       })
       const data = await response.json()
