@@ -1,4 +1,4 @@
-import { sql } from "drizzle-orm"
+import { relations, sql } from "drizzle-orm"
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core"
 
 import { STATUS_TYPE } from "@/lib/validation/status"
@@ -56,6 +56,13 @@ export const gadgets = sqliteTable("gadgets", {
   createdAt: text("created_at").default(sql`CURRENT_TIMESTAMP`),
   updatedAt: text("updated_at").default(sql`CURRENT_TIMESTAMP`),
 })
+
+export const gadgetsRelations = relations(gadgets, ({ one }) => ({
+  featuredImage: one(medias, {
+    fields: [gadgets.featuredImageId],
+    references: [medias.id],
+  }),
+}))
 
 export type InsertGadget = typeof gadgets.$inferInsert
 export type SelectGadget = typeof gadgets.$inferSelect
