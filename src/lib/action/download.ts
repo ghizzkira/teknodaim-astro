@@ -187,11 +187,17 @@ export const getDownloadBySlug = async (
     .limit(1)
 
   const downloadFilesData = await db
-    .select({ id: downloadFiles.id, title: downloadFiles.title })
+    .select({
+      id: downloadFiles.id,
+      title: downloadFiles.title,
+      version: downloadFiles.version,
+      fileSize: downloadFiles.fileSize,
+      price: downloadFiles.price,
+    })
     .from(downloadDownloadFiles)
     .leftJoin(downloads, eq(downloadDownloadFiles.downloadId, downloads.id))
     .leftJoin(
-      downloadDownloadFiles,
+      downloadFiles,
       eq(downloadDownloadFiles.downloadFileId, downloadFiles.id),
     )
     .orderBy(desc(downloadFiles.createdAt))
