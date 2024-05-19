@@ -1,0 +1,48 @@
+---
+import { DownloadSearchContent } from "@/components/Download/DownloadSearchContent"
+
+import MainLayout from "@/layouts/MainLayout.astro"
+import { getDownloadsByLanguage } from "@/lib/action/download"
+
+Astro.locals.cache(60)
+
+const DB = Astro.locals.runtime.env.DB
+const currentUrl = Astro.url
+const searchParams = new URLSearchParams(currentUrl.search)
+const currentQuery = searchParams?.get("q")
+
+const downloads = await getDownloadsByLanguage(DB, {
+  language: "en",
+  page: 1,
+  perPage: 10,
+})
+---
+
+<MainLayout
+  locale="en"
+  seo={{
+    title: `Search ${currentQuery}`,
+    description: `Search ${currentQuery}`,
+    languageAlternates: [
+      {
+        href: `${import.meta.env.PUBLIC_SITE_URL}/download/search`,
+        hrefLang: "id",
+      },
+    ],
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/download/search`,
+    openGraph: {
+      basic: {
+        title: `Download | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/download/search`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: `Search ${currentQuery}`,
+        locale: "EN",
+      },
+    },
+  }}
+>
+  <DownloadSearchContent client:load downloads={downloads!} locale={"en"} />
+</MainLayout>

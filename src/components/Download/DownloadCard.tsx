@@ -69,10 +69,10 @@ const DownloadCard: React.FunctionComponent<DownloadCardProps> = (props) => {
           <div className="relative aspect-[4/3] w-full">
             <Image
               src={featuredImage?.url!}
-              className="object-cover"
+              className="!h-full !w-full object-cover"
               alt={title!}
-              width={"50"}
-              height={"50"}
+              width={"300"}
+              height={"300"}
             />
           </div>
         </Link>

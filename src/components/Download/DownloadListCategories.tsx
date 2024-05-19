@@ -11,7 +11,7 @@ import { Icon } from "@/components/UI/Icon"
 import type { LanguageType } from "@/lib/validation/language"
 
 type TopicDataProps = Partial<TopicProps> & {
-  featured_image: Pick<MediaProps, "url"> | null
+  featuredImage: Pick<MediaProps, "url"> | null
 }
 
 interface DownloadListCategoriesProps
@@ -103,9 +103,9 @@ const DownloadListCategories: React.FunctionComponent<
               key={category.id}
               className="inline-flex w-[200px] flex-row overflow-hidden rounded-lg bg-background shadow-lg"
             >
-              {category?.featured_image && (
+              {category?.featuredImage && (
                 <Image
-                  src={category.featured_image.url as string}
+                  src={category.featuredImage.url as string}
                   className="relative h-[135px] w-[70px]"
                   alt={category.title!}
                   width={"100"}

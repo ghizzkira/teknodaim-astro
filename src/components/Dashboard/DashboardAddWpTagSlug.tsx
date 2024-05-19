@@ -1,5 +1,3 @@
-"use client"
-
 import * as React from "react"
 import { useController } from "react-hook-form"
 
@@ -8,7 +6,7 @@ import { Input } from "@/components/UI/Input"
 import { Icon } from "@/components/UI/Icon"
 import { toast } from "@/components/UI/Toast/useToast"
 import { wpGetTagsBySearchAction } from "@/lib/wp/action/wp-tag"
-import { FormLabel } from "../UI/Form"
+import { FormLabel } from "@/components/UI/Form"
 import type { WpTagsDataProps } from "@/lib/wp/action/wp-types"
 
 interface DashboardAddWpTagSlugProps
