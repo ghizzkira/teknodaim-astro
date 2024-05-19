@@ -1,38 +1,38 @@
 import * as React from "react"
 
 import { toast } from "@/components/UI/Toast/useToast"
-import type { SelectWpComment } from "@/lib/db/schema/wp-comment"
+import type { SelectVideoEmbedComment } from "@/lib/db/schema/video-embed-comment"
 import type {
-  CreateWpComment,
-  UpdateWpComment,
-} from "@/lib/validation/wp-comment"
+  CreateVideoEmbedComment,
+  UpdateVideoEmbedComment,
+} from "@/lib/validation/video-embed-comment"
 import type { SelectUser } from "@/lib/db/schema"
 
-export function useWpCreateComment({
+export function useCreateVideoEmbedComment({
   onSuccess,
   onError,
 }: {
-  input?: CreateWpComment & { authorId: string }
+  input?: CreateVideoEmbedComment & { authorId: string }
   onSuccess?: () => void
   onError?: () => void
 }) {
   const [isLoading, setIsLoading] = React.useState(false)
 
   const handleCreateComment = async ({
-    wpPostSlug,
+    videoEmbedId,
     content,
     replyToId,
   }: {
-    wpPostSlug: string
+    videoEmbedId: string
     content: string
     replyToId?: string | null | undefined
   }) => {
     setIsLoading(true)
     try {
-      const response = await fetch("/api/wp-comment/create", {
+      const response = await fetch("/api/video-embed-comment/create", {
         method: "POST",
         body: JSON.stringify({
-          wpPostSlug,
+          videoEmbedId,
           content,
           replyToId,
         }),
@@ -58,7 +58,7 @@ export function useWpCreateComment({
   return { isLoading, handleCreateComment }
 }
 
-export function useUpdateWpComment({
+export function useUpdateVideoEmbedComment({
   onSuccess,
   onError,
   byAdmin,
@@ -70,13 +70,13 @@ export function useUpdateWpComment({
   const [isLoading, setIsLoading] = React.useState(false)
 
   const handleUpdateComment = async (
-    input?: UpdateWpComment & { authorId: string },
+    input: UpdateVideoEmbedComment & { authorId: string },
   ) => {
     setIsLoading(true)
     try {
       const url = byAdmin
-        ? "/api/wp-comment/update/by-admin"
-        : "/api/wp-comment/update"
+        ? "/api/video-embed-comment/update/by-admin"
+        : "/api/video-embed-comment/update"
       const response = await fetch(url, {
         method: "PUT",
         body: JSON.stringify(input),
@@ -97,12 +97,12 @@ export function useUpdateWpComment({
 
   return { isLoading, handleUpdateComment }
 }
-export function useDeleteWpComment({
+export function useDeleteVideoEmbedComment({
   onSuccess,
   onError,
   byAdmin,
 }: {
-  input?: CreateWpComment & { authorId: string }
+  input?: CreateVideoEmbedComment & { authorId: string }
   onSuccess?: () => void
   onError?: () => void
   byAdmin?: boolean
@@ -113,8 +113,8 @@ export function useDeleteWpComment({
     setIsLoading(true)
     try {
       const url = byAdmin
-        ? "/api/wp-comment/delete/by-admin"
-        : "/api/wp-comment/delete"
+        ? "/api/video-embed-comment/delete/by-admin"
+        : "/api/video-embed-comment/delete"
       const response = await fetch(url, {
         method: "DELETE",
         body: JSON.stringify(comment_id),
@@ -139,15 +139,17 @@ export function useDeleteWpComment({
 
   return { isLoading, handleDeleteComment }
 }
-export function useGetWpCommentCountByWpSlug(slug: string) {
+export function useGetVideoEmbedCommentCountByVideoEmbedId(
+  videoEmbedId: string,
+) {
   const [data, setData] = React.useState<number | null>(null)
   const [isLoading, setIsLoading] = React.useState(false)
 
-  const handleGetWpCommentCountByWpSlug = async () => {
+  const handleGetVideoEmbedCommentCountByVideoEmbedId = async () => {
     setIsLoading(true)
     try {
       const response = await fetch(
-        `/api/wp-comment/wp-post-slug/${slug}/count`,
+        `/api/video-embed-comment/videoEmbed/${videoEmbedId}/count`,
         {
           method: "GET",
         },
@@ -168,29 +170,34 @@ export function useGetWpCommentCountByWpSlug(slug: string) {
   }
 
   const refetch = () => {
-    handleGetWpCommentCountByWpSlug()
+    handleGetVideoEmbedCommentCountByVideoEmbedId()
   }
 
   React.useEffect(() => {
-    handleGetWpCommentCountByWpSlug()
+    handleGetVideoEmbedCommentCountByVideoEmbedId()
   }, [])
 
   return { data, isLoading, refetch }
 }
 
-type WpComment = SelectWpComment & { author: SelectUser } & {
-  replies?: (SelectWpComment & { author: SelectUser })[]
+type VideoEmbedComment = SelectVideoEmbedComment & { author: SelectUser } & {
+  replies?: (SelectVideoEmbedComment & { author: SelectUser })[]
 }
 
-export function useGetWpCommentByWpSlugInfinite({
-  slug,
+export function useGetVideoEmbedCommentByVideoEmbedIdInfinite({
+  videoEmbedId,
   limit,
 }: {
-  slug: string
+  videoEmbedId: string
   limit: number
 }) {
   const [comments, setComments] = React.useState<
-    { wpComments: WpComment[]; cursor: string; page: number }[] | []
+    | {
+        videoEmbedComments: VideoEmbedComment[]
+        cursor: string
+        page: number
+      }[]
+    | []
   >([])
   const [isLoading, setIsLoading] = React.useState(false)
   const [lastCursor, setLastCursor] = React.useState<null | string | undefined>(
@@ -200,7 +207,7 @@ export function useGetWpCommentByWpSlugInfinite({
   const loadMoreRef = React.useRef<HTMLDivElement>(null)
   const [hasNextPage, setHasNextPage] = React.useState(true)
 
-  const handleGetWpCommentsByWpSlugInfinite = async (
+  const handleGetVideoEmbedCommentsByVideoEmbedIdInfinite = async (
     nextCursor?: string | null,
   ) => {
     setIsLoading(true)
@@ -208,23 +215,23 @@ export function useGetWpCommentByWpSlugInfinite({
       const searchParams = new URLSearchParams()
       searchParams.set("limit", limit.toString())
       searchParams.set("cursor", nextCursor ?? "")
-      searchParams.set("wpPostSlug", slug ?? "")
+      searchParams.set("videoEmbedId", videoEmbedId ?? "")
 
       const response = await fetch(
-        `/api/wp-comment/wp-post-slug/${slug}/infinite?${searchParams.toString()}`,
+        `/api/video-embed-comment/videoEmbed/${videoEmbedId}/infinite?${searchParams.toString()}`,
         {
           method: "GET",
         },
       )
       const data = (await response.json()) as {
         nextCursor: string
-        wpComments: WpComment[]
+        videoEmbedComments: VideoEmbedComment[]
       }
-      if (data?.wpComments) {
+      if (data?.videoEmbedComments) {
         setComments([
           ...comments,
           {
-            wpComments: data?.wpComments,
+            videoEmbedComments: data?.videoEmbedComments,
             cursor: data?.nextCursor,
             page: page + 1,
           },
@@ -252,7 +259,7 @@ export function useGetWpCommentByWpSlugInfinite({
     (entries: IntersectionObserverEntry[]) => {
       const [target] = entries
       if (target?.isIntersecting && lastCursor !== undefined) {
-        handleGetWpCommentsByWpSlugInfinite(lastCursor)
+        handleGetVideoEmbedCommentsByVideoEmbedIdInfinite(lastCursor)
       }
     },
     [],
@@ -273,11 +280,11 @@ export function useGetWpCommentByWpSlugInfinite({
 
   const fetchCommentsByPage = async (limit: number, cursor = "") => {
     const response = await fetch(
-      `/api/wp-comment/wp-post-slug/${slug}/infinite`,
+      `/api/video-embed-comment/videoEmbed/${videoEmbedId}/infinite`,
       {
         method: "POST",
         body: JSON.stringify({
-          wpPostSlug: slug,
+          videoEmbedId: videoEmbedId,
           limit: limit,
           cursor: cursor,
         }),
@@ -285,12 +292,12 @@ export function useGetWpCommentByWpSlugInfinite({
     )
     const data = (await response.json()) as {
       nextCursor: string
-      wpComments: WpComment[]
+      videoEmbedComments: VideoEmbedComment[]
     }
     return data
   }
 
-  const handleGetWpCommentsByWpSlugInfiniteRefetch = async (
+  const handleGetVideoEmbedCommentsByVideoEmbedIdInfiniteRefetch = async (
     totalPages: number,
   ) => {
     setIsLoading(true)
@@ -300,18 +307,18 @@ export function useGetWpCommentByWpSlugInfinite({
     for (let page = 1; page <= totalPages; page++) {
       try {
         const data = await fetchCommentsByPage(limit, cursor)
-        if (data?.wpComments) {
+        if (data?.videoEmbedComments) {
           if (page <= allComments.length) {
             // Update existing page
             allComments[page - 1] = {
-              wpComments: data?.wpComments,
+              videoEmbedComments: data?.videoEmbedComments,
               cursor: data?.nextCursor,
               page: page,
             }
           } else {
             // Add new page
             allComments.push({
-              wpComments: data?.wpComments,
+              videoEmbedComments: data?.videoEmbedComments,
               cursor: data?.nextCursor,
               page: page,
             })
@@ -337,15 +344,15 @@ export function useGetWpCommentByWpSlugInfinite({
   }
 
   const refetch = () => {
-    handleGetWpCommentsByWpSlugInfiniteRefetch(page + 1)
+    handleGetVideoEmbedCommentsByVideoEmbedIdInfiniteRefetch(page + 1)
   }
 
   const fetchNextPage = () => {
-    handleGetWpCommentsByWpSlugInfinite(lastCursor)
+    handleGetVideoEmbedCommentsByVideoEmbedIdInfinite(lastCursor)
   }
 
   React.useEffect(() => {
-    handleGetWpCommentsByWpSlugInfinite("")
+    handleGetVideoEmbedCommentsByVideoEmbedIdInfinite("")
   }, [])
 
   return {

@@ -6,13 +6,13 @@ import { Textarea } from "@/components/UI/Textarea"
 
 import { cn } from "@/lib/utils/style"
 import { toast } from "@/components/UI/Toast/useToast"
-import { useUpdateWpComment } from "@/hooks/useWpComments"
+import { useUpdateVideoEmbedComment } from "@/hooks/useVideoEmbedComment"
 
 interface FormValues {
   content: string
 }
 
-interface EditWpCommentProps {
+interface EditVideoEmbedCommentProps {
   id: string
   onSuccess: () => void
   content: string
@@ -22,7 +22,9 @@ interface EditWpCommentProps {
   byAdmin?: boolean
 }
 
-const EditWpComment: React.FunctionComponent<EditWpCommentProps> = (props) => {
+const EditVideoEmbedComment: React.FunctionComponent<
+  EditVideoEmbedCommentProps
+> = (props) => {
   const {
     id,
     onSuccess,
@@ -41,7 +43,7 @@ const EditWpComment: React.FunctionComponent<EditWpCommentProps> = (props) => {
     },
   })
 
-  const { handleUpdateComment: update } = useUpdateWpComment({
+  const { handleUpdateComment: update } = useUpdateVideoEmbedComment({
     onSuccess: () => {
       const textarea = document.querySelector("textarea")
       if (textarea && type === "default") {
@@ -136,4 +138,4 @@ const EditWpComment: React.FunctionComponent<EditWpCommentProps> = (props) => {
   )
 }
 
-export default EditWpComment
+export default EditVideoEmbedComment

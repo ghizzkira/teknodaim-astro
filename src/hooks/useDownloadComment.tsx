@@ -1,38 +1,38 @@
 import * as React from "react"
 
 import { toast } from "@/components/UI/Toast/useToast"
-import type { SelectWpComment } from "@/lib/db/schema/wp-comment"
+import type { SelectDownloadComment } from "@/lib/db/schema/download-comment"
 import type {
-  CreateWpComment,
-  UpdateWpComment,
-} from "@/lib/validation/wp-comment"
+  CreateDownloadComment,
+  UpdateDownloadComment,
+} from "@/lib/validation/download-comment"
 import type { SelectUser } from "@/lib/db/schema"
 
-export function useWpCreateComment({
+export function useCreateDownloadComment({
   onSuccess,
   onError,
 }: {
-  input?: CreateWpComment & { authorId: string }
+  input?: CreateDownloadComment & { authorId: string }
   onSuccess?: () => void
   onError?: () => void
 }) {
   const [isLoading, setIsLoading] = React.useState(false)
 
   const handleCreateComment = async ({
-    wpPostSlug,
+    downloadId,
     content,
     replyToId,
   }: {
-    wpPostSlug: string
+    downloadId: string
     content: string
     replyToId?: string | null | undefined
   }) => {
     setIsLoading(true)
     try {
-      const response = await fetch("/api/wp-comment/create", {
+      const response = await fetch("/api/download-comment/create", {
         method: "POST",
         body: JSON.stringify({
-          wpPostSlug,
+          downloadId,
           content,
           replyToId,
         }),
@@ -58,7 +58,7 @@ export function useWpCreateComment({
   return { isLoading, handleCreateComment }
 }
 
-export function useUpdateWpComment({
+export function useUpdateDownloadComment({
   onSuccess,
   onError,
   byAdmin,
@@ -70,13 +70,13 @@ export function useUpdateWpComment({
   const [isLoading, setIsLoading] = React.useState(false)
 
   const handleUpdateComment = async (
-    input?: UpdateWpComment & { authorId: string },
+    input?: UpdateDownloadComment & { authorId: string },
   ) => {
     setIsLoading(true)
     try {
       const url = byAdmin
-        ? "/api/wp-comment/update/by-admin"
-        : "/api/wp-comment/update"
+        ? "/api/download-comment/update/by-admin"
+        : "/api/download-comment/update"
       const response = await fetch(url, {
         method: "PUT",
         body: JSON.stringify(input),
@@ -97,12 +97,12 @@ export function useUpdateWpComment({
 
   return { isLoading, handleUpdateComment }
 }
-export function useDeleteWpComment({
+export function useDeleteDownloadComment({
   onSuccess,
   onError,
   byAdmin,
 }: {
-  input?: CreateWpComment & { authorId: string }
+  input?: CreateDownloadComment & { authorId: string }
   onSuccess?: () => void
   onError?: () => void
   byAdmin?: boolean
@@ -113,8 +113,8 @@ export function useDeleteWpComment({
     setIsLoading(true)
     try {
       const url = byAdmin
-        ? "/api/wp-comment/delete/by-admin"
-        : "/api/wp-comment/delete"
+        ? "/api/download-comment/delete/by-admin"
+        : "/api/download-comment/delete"
       const response = await fetch(url, {
         method: "DELETE",
         body: JSON.stringify(comment_id),
@@ -139,15 +139,15 @@ export function useDeleteWpComment({
 
   return { isLoading, handleDeleteComment }
 }
-export function useGetWpCommentCountByWpSlug(slug: string) {
+export function useGetDownloadCommentCountByDownloadId(downloadId: string) {
   const [data, setData] = React.useState<number | null>(null)
   const [isLoading, setIsLoading] = React.useState(false)
 
-  const handleGetWpCommentCountByWpSlug = async () => {
+  const handleGetDownloadCommentCountByDownloadId = async () => {
     setIsLoading(true)
     try {
       const response = await fetch(
-        `/api/wp-comment/wp-post-slug/${slug}/count`,
+        `/api/download-comment/download/${downloadId}/count`,
         {
           method: "GET",
         },
@@ -168,29 +168,29 @@ export function useGetWpCommentCountByWpSlug(slug: string) {
   }
 
   const refetch = () => {
-    handleGetWpCommentCountByWpSlug()
+    handleGetDownloadCommentCountByDownloadId()
   }
 
   React.useEffect(() => {
-    handleGetWpCommentCountByWpSlug()
+    handleGetDownloadCommentCountByDownloadId()
   }, [])
 
   return { data, isLoading, refetch }
 }
 
-type WpComment = SelectWpComment & { author: SelectUser } & {
-  replies?: (SelectWpComment & { author: SelectUser })[]
+type DownloadComment = SelectDownloadComment & { author: SelectUser } & {
+  replies?: (SelectDownloadComment & { author: SelectUser })[]
 }
 
-export function useGetWpCommentByWpSlugInfinite({
-  slug,
+export function useGetDownloadCommentByDownloadIdInfinite({
+  downloadId,
   limit,
 }: {
-  slug: string
+  downloadId: string
   limit: number
 }) {
   const [comments, setComments] = React.useState<
-    { wpComments: WpComment[]; cursor: string; page: number }[] | []
+    { downloadComments: DownloadComment[]; cursor: string; page: number }[] | []
   >([])
   const [isLoading, setIsLoading] = React.useState(false)
   const [lastCursor, setLastCursor] = React.useState<null | string | undefined>(
@@ -200,7 +200,7 @@ export function useGetWpCommentByWpSlugInfinite({
   const loadMoreRef = React.useRef<HTMLDivElement>(null)
   const [hasNextPage, setHasNextPage] = React.useState(true)
 
-  const handleGetWpCommentsByWpSlugInfinite = async (
+  const handleGetDownloadCommentsByDownloadIdInfinite = async (
     nextCursor?: string | null,
   ) => {
     setIsLoading(true)
@@ -208,23 +208,23 @@ export function useGetWpCommentByWpSlugInfinite({
       const searchParams = new URLSearchParams()
       searchParams.set("limit", limit.toString())
       searchParams.set("cursor", nextCursor ?? "")
-      searchParams.set("wpPostSlug", slug ?? "")
+      searchParams.set("downloadId", downloadId ?? "")
 
       const response = await fetch(
-        `/api/wp-comment/wp-post-slug/${slug}/infinite?${searchParams.toString()}`,
+        `/api/download-comment/download/${downloadId}/infinite?${searchParams.toString()}`,
         {
           method: "GET",
         },
       )
       const data = (await response.json()) as {
         nextCursor: string
-        wpComments: WpComment[]
+        downloadComments: DownloadComment[]
       }
-      if (data?.wpComments) {
+      if (data?.downloadComments) {
         setComments([
           ...comments,
           {
-            wpComments: data?.wpComments,
+            downloadComments: data?.downloadComments,
             cursor: data?.nextCursor,
             page: page + 1,
           },
@@ -252,7 +252,7 @@ export function useGetWpCommentByWpSlugInfinite({
     (entries: IntersectionObserverEntry[]) => {
       const [target] = entries
       if (target?.isIntersecting && lastCursor !== undefined) {
-        handleGetWpCommentsByWpSlugInfinite(lastCursor)
+        handleGetDownloadCommentsByDownloadIdInfinite(lastCursor)
       }
     },
     [],
@@ -273,11 +273,11 @@ export function useGetWpCommentByWpSlugInfinite({
 
   const fetchCommentsByPage = async (limit: number, cursor = "") => {
     const response = await fetch(
-      `/api/wp-comment/wp-post-slug/${slug}/infinite`,
+      `/api/download-comment/download/${downloadId}/infinite`,
       {
         method: "POST",
         body: JSON.stringify({
-          wpPostSlug: slug,
+          downloadId: downloadId,
           limit: limit,
           cursor: cursor,
         }),
@@ -285,12 +285,12 @@ export function useGetWpCommentByWpSlugInfinite({
     )
     const data = (await response.json()) as {
       nextCursor: string
-      wpComments: WpComment[]
+      downloadComments: DownloadComment[]
     }
     return data
   }
 
-  const handleGetWpCommentsByWpSlugInfiniteRefetch = async (
+  const handleGetDownloadCommentsByDownloadIdInfiniteRefetch = async (
     totalPages: number,
   ) => {
     setIsLoading(true)
@@ -300,18 +300,18 @@ export function useGetWpCommentByWpSlugInfinite({
     for (let page = 1; page <= totalPages; page++) {
       try {
         const data = await fetchCommentsByPage(limit, cursor)
-        if (data?.wpComments) {
+        if (data?.downloadComments) {
           if (page <= allComments.length) {
             // Update existing page
             allComments[page - 1] = {
-              wpComments: data?.wpComments,
+              downloadComments: data?.downloadComments,
               cursor: data?.nextCursor,
               page: page,
             }
           } else {
             // Add new page
             allComments.push({
-              wpComments: data?.wpComments,
+              downloadComments: data?.downloadComments,
               cursor: data?.nextCursor,
               page: page,
             })
@@ -337,15 +337,15 @@ export function useGetWpCommentByWpSlugInfinite({
   }
 
   const refetch = () => {
-    handleGetWpCommentsByWpSlugInfiniteRefetch(page + 1)
+    handleGetDownloadCommentsByDownloadIdInfiniteRefetch(page + 1)
   }
 
   const fetchNextPage = () => {
-    handleGetWpCommentsByWpSlugInfinite(lastCursor)
+    handleGetDownloadCommentsByDownloadIdInfinite(lastCursor)
   }
 
   React.useEffect(() => {
-    handleGetWpCommentsByWpSlugInfinite("")
+    handleGetDownloadCommentsByDownloadIdInfinite("")
   }, [])
 
   return {

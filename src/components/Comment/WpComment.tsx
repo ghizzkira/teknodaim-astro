@@ -18,7 +18,7 @@ import {
   useGetWpCommentByWpSlugInfinite,
   useGetWpCommentCountByWpSlug,
   useWpCreateComment,
-  useWpDeleteComment,
+  useDeleteWpComment,
 } from "@/hooks/useWpComments"
 import { formatDateFromNow } from "@/lib/utils/date"
 import type { LanguageType } from "@/lib/validation/language"
@@ -26,7 +26,7 @@ import EditWPComment from "./EditWpComment"
 import ReplyWpComment from "./ReplyWpComment"
 
 interface WpCommentFormProps {
-  wp_post_slug: string
+  wpPostSlug: string
   locale: LanguageType
 }
 
@@ -37,7 +37,7 @@ interface FormValues {
 
 const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
   (props) => {
-    const { wp_post_slug, locale } = props
+    const { wpPostSlug, locale } = props
 
     const { session } = useSession()
     const [openDeleteModal, setOpenDeleteModal] = React.useState<string | null>(
@@ -48,14 +48,14 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
     const [isLoading, setIsLoading] = React.useState(false)
 
     const { data: commentCount, refetch: refetchCount } =
-      useGetWpCommentCountByWpSlug(wp_post_slug)
+      useGetWpCommentCountByWpSlug(wpPostSlug)
     const {
       comments,
       fetchNextPage,
       hasNextPage,
       refetch: updateComment,
     } = useGetWpCommentByWpSlugInfinite({
-      slug: wp_post_slug,
+      slug: wpPostSlug,
       limit: 10,
     })
 
@@ -80,14 +80,14 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
     const onSubmit: SubmitHandler<FormValues> = (values) => {
       setIsLoading(true)
       createComment({
-        wpPostSlug: wp_post_slug,
+        wpPostSlug: wpPostSlug,
         content: values.content,
       })
 
       setIsLoading(false)
     }
 
-    const { handleDeleteComment: deleteWpCommentAction } = useWpDeleteComment({
+    const { handleDeleteComment: deleteWpCommentAction } = useDeleteWpComment({
       onSuccess: () => {
         updateComment()
         refetchCount()
@@ -240,7 +240,7 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
                               <div className="w-full">
                                 {isReplyied === comment?.id ? (
                                   <ReplyWpComment
-                                    wp_post_slug={wp_post_slug ?? ""}
+                                    wpPostSlug={wpPostSlug ?? ""}
                                     reply_to_id={comment?.id ?? ""}
                                     avatar={session?.user?.image}
                                     username={session?.user?.username!}
@@ -257,13 +257,13 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
                           ) : (
                             <EditWPComment
                               id={comment.id}
-                              wp_post_slug={wp_post_slug ?? ""}
                               onCancel={() => setIsEdited("")}
                               onSuccess={() => {
                                 setIsEdited("")
                                 updateComment()
                               }}
                               content={comment.content ?? ""}
+                              authorId={session?.user?.id!}
                             />
                           )}
                         </figcaption>
@@ -377,7 +377,7 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
                                   <div className="w-full">
                                     {isReplyied === reply?.id ? (
                                       <ReplyWpComment
-                                        wp_post_slug={wp_post_slug ?? ""}
+                                        wpPostSlug={wpPostSlug ?? ""}
                                         reply_to_id={comment?.id ?? ""}
                                         avatar={session?.user?.image}
                                         username={session?.user?.username!}
@@ -400,7 +400,7 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
                                     updateComment()
                                   }}
                                   content={reply.content ?? ""}
-                                  wp_post_slug={wp_post_slug}
+                                  authorId={session?.user?.id!}
                                 />
                               )}
                             </figcaption>

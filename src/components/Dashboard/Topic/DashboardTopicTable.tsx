@@ -34,7 +34,6 @@ export default function TopicTable(props: TopicTableProps) {
 
   const { handleDeleteTopic: deleteTopic } = useDeleteTopic({
     onSuccess: () => {
-      //
       toast({ variant: "success", description: "Topic has been deleted" })
       window.location.reload()
     },
