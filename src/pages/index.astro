@@ -16,18 +16,14 @@ Astro.locals.cache(60)
 const { posts, pageInfo } = await wpGetAllPostsAction("ID")
 const DB = Astro.locals.runtime.env.DB
 const data = await getSettingByKey(DB, "settings")
-const dataShop = await getSettingByKey(DB, "shop_settings")
 
 let siteSettings
 
 if (data) {
   const parsedData = JSON.parse(data.value)
   siteSettings = { ...parsedData }
-  if (dataShop) {
-    const parsedDataShop = JSON.parse(dataShop.value)
-    siteSettings = { ...parsedData, ...parsedDataShop }
-  }
 }
+
 const trendingPosts = await getWpPopularPostsLast7Days(DB, {
   language: "id",
   page: 1,

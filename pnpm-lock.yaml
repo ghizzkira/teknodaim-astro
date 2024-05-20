@@ -206,9 +206,6 @@ importers:
       dayjs:
         specifier: ^1.11.11
         version: 1.11.11
-      digiflazz-sdk:
-        specifier: ^0.1.11
-        version: 0.1.11
       dotenv:
         specifier: ^16.4.5
         version: 16.4.5
@@ -263,9 +260,6 @@ importers:
       tippy.js:
         specifier: ^6.3.7
         version: 6.3.7
-      tripay-sdk:
-        specifier: ^0.1.4
-        version: 0.1.4
       zod:
         specifier: ^3.23.8
         version: 3.23.8
@@ -3247,9 +3241,6 @@ packages:
     resolution: {integrity: sha512-M0JtH+hlOL5pLQwHOLNYZaXuhqmvS8oExsqB1SBYgA4Dk7u/xx+YdGHXaK5pyUfed5mYXdlYiphWq3G8cRi5JQ==}
     engines: {node: '>=4'}
 
-  axios@1.6.8:
-    resolution: {integrity: sha512-v/ZHtJDU39mDpyBoFVkETcd/uNdxrWRrg3bKpOKzXFA6Bvqopts6ALSMU3y6ijYxbw2B+wPrIv46egTzJXCLGQ==}
-
   axobject-query@3.2.1:
     resolution: {integrity: sha512-jsyHu61e6N4Vbz/v18DHwWYKK0bSWLqn47eeDSKPB7m8tqMHF9YJ+mhIk2lVteyZrY8tnSj/jHOv4YiTCuCJgg==}
 
@@ -3606,9 +3597,6 @@ packages:
 
   difflib@0.2.4:
     resolution: {integrity: sha512-9YVwmMb0wQHQNr5J9m6BSj6fk4pfGITGQOOs+D9Fl+INODWFOfvhIU1hNv6GgR1RBoC/9NJcwu77zShxV0kT7w==}
-
-  digiflazz-sdk@0.1.11:
-    resolution: {integrity: sha512-Yq1xkER6JrWpgVs/emhntyiaTGLwUEJP0FYfP4pDj8kmGZkZBif4/Wa0OH5I0OxCYVK1N9rZ47Fukqv4yRUk2A==}
 
   dir-glob@3.0.1:
     resolution: {integrity: sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==}
@@ -4116,15 +4104,6 @@ packages:
     resolution: {integrity: sha512-9UbaD6XdAL97+k/n+N7JwX46K/M6Zc6KcFYskrYL8wbBV/Uyk0CTAMY0VT+qiK5PM7AIc9aTWYtq65U7T+aCNQ==}
     engines: {node: '>=8'}
 
-  follow-redirects@1.15.6:
-    resolution: {integrity: sha512-wWN62YITEaOpSK584EZXJafH1AGpO8RVgElfkuXbTOrPX4fIfOyEpW/CsiNd8JdYrAoOvafRTOEnvsO++qCqFA==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-
   for-each@0.3.3:
     resolution: {integrity: sha512-jqYfLp7mo9vIyQf8ykW2v7A+2N4QjeCeI5+Dz9XraiO1ign81wjiH7Fb9vSOWvQfNtmSa4H2RoQTrrXivdUZmw==}
 
@@ -4138,10 +4117,6 @@ packages:
   form-data@2.3.3:
     resolution: {integrity: sha512-1lLKB2Mu3aGP1Q/2eCOx0fNbRMe7XdwktwOruhfqqd0rIJWwN4Dh+E3hrPSlDCXnSR7UtZ1N38rVXm+6+MEhJQ==}
     engines: {node: '>= 0.12'}
-
-  form-data@4.0.0:
-    resolution: {integrity: sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==}
-    engines: {node: '>= 6'}
 
   formdata-polyfill@4.0.10:
     resolution: {integrity: sha512-buewHzMvYL29jdeQTVILecSaZKnt/RJWjoZCF5OW60Z67/GmSLBkOFM7qh1PI3zFNtJbaZL5eQu1vLfazOwj4g==}
@@ -5491,9 +5466,6 @@ packages:
   prosemirror-view@1.33.6:
     resolution: {integrity: sha512-zRLUNgLIQfd8IfGprsXxWTjdA8xEAFJe8cDNrOptj6Mop9sj+BMeVbJvceyAYCm5G2dOdT2prctH7K9dfnpIMw==}
 
-  proxy-from-env@1.1.0:
-    resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
-
   psl@1.9.0:
     resolution: {integrity: sha512-E/ZsdU4HLs/68gYzgGTkMicWTLPdAftJLfJFlLUAAKZGkStNU72sZjT66SnMDVOfOWY/YAoiD7Jxa9iHvngcag==}
 
@@ -6018,9 +5990,6 @@ packages:
 
   trim-lines@3.0.1:
     resolution: {integrity: sha512-kRj8B+YHZCc9kQYdWfJB2/oUl9rA99qbowYYBtr4ui4mZyAQ2JpvVBd/6U2YloATfqBhBTSMhTpgBHtU0Mf3Rg==}
-
-  tripay-sdk@0.1.4:
-    resolution: {integrity: sha512-/z9ghr6WwApzLCnGC8otgQP32BFOvTA2SQbzMqcJhwlxRKCK1Uja9zPAMLv2JERmOgalUCyyxvBr9jRiYvxH6A==}
 
   trough@2.2.0:
     resolution: {integrity: sha512-tmMpK00BjZiUyVyvrBK7knerNgmgvcV/KLVyuma/SC+TQN167GrMRciANTz09+k3zW8L8t60jWO1GpfkZdjTaw==}
@@ -9780,14 +9749,6 @@ snapshots:
 
   axe-core@4.7.0: {}
 
-  axios@1.6.8:
-    dependencies:
-      follow-redirects: 1.15.6
-      form-data: 4.0.0
-      proxy-from-env: 1.1.0
-    transitivePeerDependencies:
-      - debug
-
   axobject-query@3.2.1:
     dependencies:
       dequal: 2.0.3
@@ -10125,12 +10086,6 @@ snapshots:
   difflib@0.2.4:
     dependencies:
       heap: 0.2.7
-
-  digiflazz-sdk@0.1.11:
-    dependencies:
-      axios: 1.6.8
-    transitivePeerDependencies:
-      - debug
 
   dir-glob@3.0.1:
     dependencies:
@@ -10829,8 +10784,6 @@ snapshots:
 
   flattie@1.1.1: {}
 
-  follow-redirects@1.15.6: {}
-
   for-each@0.3.3:
     dependencies:
       is-callable: 1.2.7
@@ -10843,12 +10796,6 @@ snapshots:
   forever-agent@0.6.1: {}
 
   form-data@2.3.3:
-    dependencies:
-      asynckit: 0.4.0
-      combined-stream: 1.0.8
-      mime-types: 2.1.35
-
-  form-data@4.0.0:
     dependencies:
       asynckit: 0.4.0
       combined-stream: 1.0.8
@@ -12409,8 +12356,6 @@ snapshots:
       prosemirror-state: 1.4.3
       prosemirror-transform: 1.9.0
 
-  proxy-from-env@1.1.0: {}
-
   psl@1.9.0: {}
 
   pump@3.0.0:
@@ -13112,12 +13057,6 @@ snapshots:
       punycode: 2.3.1
 
   trim-lines@3.0.1: {}
-
-  tripay-sdk@0.1.4:
-    dependencies:
-      axios: 1.6.8
-    transitivePeerDependencies:
-      - debug
 
   trough@2.2.0: {}
 

@@ -26,18 +26,6 @@ interface SideNavProps {
   //       "id" | "title" | "link" | "location" | "icon" | "order" | "active"
   //     >[]
   //   | null
-  // menuSideBarShopAll?:
-  //   | Pick<
-  //       MenuProps,
-  //       "id" | "title" | "link" | "location" | "icon" | "order" | "active"
-  //     >[]
-  //   | null
-  // menuSideBarShopByLang?:
-  //   | Pick<
-  //       MenuProps,
-  //       "id" | "title" | "link" | "location" | "icon" | "order" | "active"
-  //     >[]
-  //   | null
   type?: "default" | "video" | "shorts" | "video-content"
   toggleSideNav?: () => void
   locale: LanguageType
@@ -47,8 +35,6 @@ const SideNav: React.FunctionComponent<SideNavProps> = (props) => {
   const {
     // menuSideBarAll,
     // menuSideBarByLang,
-    // menuSideBarShopAll,
-    // menuSideBarShopByLang,
     type = "default",
     locale,
     toggleSideNav,
@@ -172,69 +158,8 @@ const SideNav: React.FunctionComponent<SideNavProps> = (props) => {
             })}
           </>
         )}
-        {!isMain && (
-          <>
-            {menuSideBarShopAll?.map((menu) => {
-              if (menu.active) {
-                return (
-                  <li key={menu.id}>
-                    <a
-                      role="link"
-                      aria-label={menu.title}
-                      href={menu.link}
-                      className="flex transform flex-row items-center transition-transform duration-200 ease-in hover:translate-x-2"
-                    >
-                      {menu.icon?.includes("http") && (
-                        <span className="relative mr-2 aspect-[1/1] h-5 w-5 overflow-hidden rounded bg-transparent">
-                          <Image
-                            src={menu.icon}
-                            alt={menu.title}
-                            sizes={`(max-width: 1200px) 20px, 20px`}
-                          />
-                        </span>
-                      )}
-                      <p className="inline-flex items-center font-bold hover:text-primary">
-                        {menu.title}
-                      </p>
-                    </a>
-                  </li>
-                )
-              }
-              return
-            })}
-          </>
-        )}
         {isMain &&
           menuSideBarByLang?.map((menu) => {
-            if (menu.active) {
-              return (
-                <li key={menu.id}>
-                  <a
-                    role="link"
-                    aria-label={menu.title}
-                    href={menu.link}
-                    className="flex transform flex-row items-center transition-transform duration-200 ease-in hover:translate-x-2"
-                  >
-                    {menu.icon?.includes("http") && (
-                      <span className="relative mr-2 aspect-[1/1] h-5 w-5 overflow-hidden rounded bg-transparent">
-                        <Image
-                          src={menu.icon}
-                          alt={menu.title}
-                          sizes={`(max-width: 1200px) 20px, 20px`}
-                        />
-                      </span>
-                    )}
-                    <p className="inline-flex items-center font-bold hover:text-primary">
-                      {menu.title}
-                    </p>
-                  </a>
-                </li>
-              )
-            }
-            return
-          })}
-        {!isMain &&
-          menuSideBarShopByLang?.map((menu) => {
             if (menu.active) {
               return (
                 <li key={menu.id}>
@@ -298,20 +223,6 @@ const SideNav: React.FunctionComponent<SideNavProps> = (props) => {
                 className={stylesIcons}
               />
               Video
-            </p>
-          </Link>
-        </li>
-        <li>
-          <Link
-            locale={locale}
-            role="link"
-            aria-label="Go To Shop Page"
-            href="/"
-            className="flex transform flex-row items-center transition-transform duration-200 ease-in hover:translate-x-2"
-          >
-            <p className="inline-flex items-center font-bold hover:text-primary">
-              <Icon.Shop aria-label="Go To Shop Page" className={stylesIcons} />
-              Shop
             </p>
           </Link>
         </li>
