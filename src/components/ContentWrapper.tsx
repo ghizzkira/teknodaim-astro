@@ -1,7 +1,7 @@
 import ParseContent from "./ParseContent"
 import { splitReactNodes } from "@/lib/utils/content"
 import type { LanguageType } from "@/lib/validation/language"
-import React from "react"
+import * as React from "react"
 
 interface ContentWrapperProps {
   content: string

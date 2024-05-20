@@ -128,6 +128,7 @@ export function useDeleteWpComment({
       }
       return data
     } catch (error) {
+      onError && onError()
       toast({
         description: "Error when deleting comment, try again",
         variant: "warning",
@@ -272,15 +273,15 @@ export function useGetWpCommentByWpSlugInfinite({
   }, [handleObserver])
 
   const fetchCommentsByPage = async (limit: number, cursor = "") => {
+    const searchParams = new URLSearchParams()
+    searchParams.set("limit", limit.toString())
+    searchParams.set("cursor", cursor ?? "")
+    searchParams.set("wpPostSlug", slug ?? "")
+
     const response = await fetch(
-      `/api/wp-comment/wp-post-slug/${slug}/infinite`,
+      `/api/wp-comment/wp-post-slug/${slug}/infinite?${searchParams.toString()}`,
       {
-        method: "POST",
-        body: JSON.stringify({
-          wpPostSlug: slug,
-          limit: limit,
-          cursor: cursor,
-        }),
+        method: "GET",
       },
     )
     const data = (await response.json()) as {

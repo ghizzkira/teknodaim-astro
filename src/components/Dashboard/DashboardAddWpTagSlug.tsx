@@ -1,5 +1,10 @@
 import * as React from "react"
-import { useController } from "react-hook-form"
+import {
+  useController,
+  type Control,
+  type FieldValues,
+  type Path,
+} from "react-hook-form"
 
 import { Button } from "@/components/UI/Button"
 import { Input } from "@/components/UI/Input"
@@ -9,16 +14,16 @@ import { wpGetTagsBySearchAction } from "@/lib/wp/action/wp-tag"
 import { FormLabel } from "@/components/UI/Form"
 import type { WpTagsDataProps } from "@/lib/wp/action/wp-types"
 
-interface DashboardAddWpTagSlugProps
-  extends React.HTMLAttributes<HTMLDivElement> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  control: any
-  fieldName: string
+interface DashboardAddWpTagSlugProps<
+  TFieldValues extends FieldValues = FieldValues,
+> extends React.HTMLAttributes<HTMLDivElement> {
+  control: Control<TFieldValues>
+  fieldName: Path<TFieldValues>
 }
 
-const DashboardAddWpTagSlug: React.FunctionComponent<
-  DashboardAddWpTagSlugProps
-> = (props) => {
+const DashboardAddWpTagSlug = <TFieldValues extends FieldValues = FieldValues>(
+  props: DashboardAddWpTagSlugProps<TFieldValues>,
+) => {
   const { control, fieldName } = props
 
   const [searchQuery, setSearchQuery] = React.useState<string>("")

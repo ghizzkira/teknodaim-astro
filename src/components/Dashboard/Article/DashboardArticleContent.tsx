@@ -6,7 +6,7 @@ import { Button } from "@/components/UI/Button"
 import { cn } from "@/lib/utils/style"
 import DashboardAddNew from "@/components/Dashboard/DashboardAddNew"
 import DashboardHeading from "@/components/Dashboard/DashboardHeading"
-import React from "react"
+import * as React from "react"
 
 interface ArticlesProps extends SelectArticle {
   articleTranslation: {
