@@ -1,0 +1,76 @@
+---
+import SingleDownload from "@/components/Template/SingleDownload.astro"
+import MainLayout from "@/layouts/MainLayout.astro"
+import {
+  getDownloadBySlug,
+  getDownloadsByType,
+  getRelatedDownloadsInfinite,
+} from "@/lib/action/download"
+
+Astro.locals.cache(60)
+const { slug } = Astro.params
+const DB = Astro.locals.runtime.env.DB
+
+const downloads = await getDownloadsByType(DB, {
+  language: "en",
+  type: "app",
+  page: 1,
+  perPage: 10,
+})
+const download = await getDownloadBySlug(DB, {
+  slug: slug!,
+  downloadFilePage: 1,
+  downloadFilePerPage: 10,
+})
+const language = download?.language
+
+if (!download) {
+  return Astro.redirect("/404")
+}
+
+if (language !== "en") {
+  return Astro.redirect(`/en/download/app/${download.slug}`)
+}
+
+const relatedDownloads = await getRelatedDownloadsInfinite(DB, {
+  limit: 10,
+  topicId: download?.topics?.[0]?.id ?? "",
+  language: "en",
+  currentDownloadId: download?.id,
+})
+---
+
+<MainLayout
+  locale="en"
+  seo={{
+    title: `Download the latest version of ${download?.metaTitle ?? download?.title} for ${download?.operatingSystem}`,
+    description: download?.metaDescription!,
+    languageAlternates: [
+      {
+        href: `${import.meta.env.PUBLIC_SITE_URL}/download/app/${download.slug}`,
+        hrefLang: "id",
+      },
+    ],
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/en/download/app/${download.slug}`,
+    openGraph: {
+      basic: {
+        title: `Download ${download?.metaTitle ?? download?.title} untuk ${download?.operatingSystem} Versi Terbaru | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/en/download/app/${download.slug}`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: download?.metaDescription!,
+        locale: "EN",
+      },
+    },
+  }}
+>
+  <SingleDownload
+    relatedDownloads={relatedDownloads}
+    downloads={downloads}
+    download={download}
+    type="app"
+    locale="en"
+  />
+</MainLayout>

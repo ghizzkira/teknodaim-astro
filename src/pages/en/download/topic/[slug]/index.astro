@@ -1,0 +1,44 @@
+---
+import DownloadByTopic from "@/components/Template/DownloadByTopic.astro"
+import MainLayout from "@/layouts/MainLayout.astro"
+import { getTopicBySlug } from "@/lib/action/topic"
+
+Astro.locals.cache(60)
+
+const DB = Astro.locals.runtime.env.DB
+const { slug } = Astro.params
+const topicDownload = await getTopicBySlug(DB, slug!)
+
+if (!topicDownload) {
+  return Astro.redirect("/404")
+}
+---
+
+<MainLayout
+  locale="en"
+  seo={{
+    title: topicDownload.title,
+    description: topicDownload.metaDescription ?? topicDownload.title,
+    languageAlternates: [
+      {
+        href: `${import.meta.env.PUBLIC_SITE_URL}/download/topic/${slug}`,
+        hrefLang: "id",
+      },
+    ],
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/en/download/topic/${slug}`,
+    openGraph: {
+      basic: {
+        title: `Download | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/en/download/topic/${slug}`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: topicDownload.metaDescription ?? topicDownload.title,
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <DownloadByTopic topicId={topicDownload.id} locale="en" />
+</MainLayout>

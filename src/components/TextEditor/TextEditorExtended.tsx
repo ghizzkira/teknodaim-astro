@@ -1,24 +1,31 @@
 // TODO: translate with useScopeI18n
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import * as React from "react"
 import {
   EditorContent as TextEditorContent,
   useEditor as useTextEditor,
 } from "@tiptap/react"
-import { useController } from "react-hook-form"
+import {
+  useController,
+  type Control,
+  type FieldValues,
+  type Path,
+} from "react-hook-form"
 
 import { TextEditorExtension } from "./TextEditorExtension"
 import { TextEditorMenu } from "./TextEditorMenu"
 
-interface TextEditorExtendedProps {
-  control: any
+interface TextEditorExtendedProps<
+  TFieldValues extends FieldValues = FieldValues,
+> {
+  control: Control<TFieldValues>
+  name: Path<TFieldValues>
   isClear?: boolean
-  name: string
 }
 
-const TextEditorExtended = React.memo((props: TextEditorExtendedProps) => {
+const TextEditorExtended = <TFieldValues extends FieldValues = FieldValues>(
+  props: TextEditorExtendedProps<TFieldValues>,
+) => {
   const { control, isClear, name } = props
   const [isHydrated, setIsHydrated] = React.useState(true)
   const {
@@ -81,6 +88,6 @@ const TextEditorExtended = React.memo((props: TextEditorExtendedProps) => {
       )}
     </div>
   )
-})
+}
 
 export default TextEditorExtended

@@ -1,0 +1,52 @@
+---
+import DashboardGadgetPage from "@/components/Dashboard/Gadget/DashboardGadgetPage"
+import DashboardLayout from "@/layouts/DashboardLayout.astro"
+import { getGadgetsCount, getGadgetsDashboard } from "@/lib/action/gadget"
+
+const user = Astro.locals.user
+const DB = Astro.locals.runtime.env.DB
+const url = Astro.url
+
+const searchParams = new URLSearchParams(url.searchParams)
+const page = searchParams.get("page")
+const currentPage =
+  page && typeof parseInt(page) === "number" ? parseInt(page) : 1
+const gadgetsCount = await getGadgetsCount(DB)
+const gadgets = await getGadgetsDashboard(DB, {
+  page: currentPage,
+  perPage: 10,
+})
+if (!user?.role?.includes("admin" || "author")) {
+  return Astro.redirect("/")
+}
+const lastPage = gadgetsCount && Math.ceil(gadgetsCount / 10)
+---
+
+<DashboardLayout
+  locale="id"
+  seo={{
+    title: "Gadgets",
+    description: "Gadgets",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/gadget`,
+    openGraph: {
+      basic: {
+        title: `Gadgets | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/gadget`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: "Gadgets",
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <DashboardGadgetPage
+    page={currentPage}
+    lastPage={lastPage}
+    gadgets={gadgets}
+    paramsName="page"
+    client:load
+  />
+</DashboardLayout>

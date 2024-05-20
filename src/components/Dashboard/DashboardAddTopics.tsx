@@ -1,6 +1,11 @@
 // TODO: handle arrow down
 import * as React from "react"
-import { useController } from "react-hook-form"
+import {
+  useController,
+  type Control,
+  type FieldValues,
+  type Path,
+} from "react-hook-form"
 
 import { Button } from "@/components/UI/Button"
 import { FormLabel, FormMessage } from "@/components/UI/Form"
@@ -13,7 +18,9 @@ import type { LanguageType } from "@/lib/validation/language"
 import type { TopicType } from "@/lib/validation/topic"
 import { useCreateTopic, useSearchTopicsByType } from "@/hooks/useTopic"
 
-interface DashboardAddTopicsProps extends React.HTMLAttributes<HTMLDivElement> {
+interface DashboardAddTopicsProps<
+  TFieldValues extends FieldValues = FieldValues,
+> extends React.HTMLAttributes<HTMLDivElement> {
   topics: string[]
   topicType: TopicType
   locale: LanguageType
@@ -31,13 +38,12 @@ interface DashboardAddTopicsProps extends React.HTMLAttributes<HTMLDivElement> {
       }[]
     >
   >
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  control: any
-  fieldName: string
+  control: Control<TFieldValues>
+  fieldName: Path<TFieldValues>
 }
 
-const DashboardAddTopics: React.FunctionComponent<DashboardAddTopicsProps> = (
-  props,
+const DashboardAddTopics = <TFieldValues extends FieldValues = FieldValues>(
+  props: DashboardAddTopicsProps<TFieldValues>,
 ) => {
   const {
     topics,

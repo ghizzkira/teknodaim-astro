@@ -26,7 +26,9 @@ const DownloadSearch: React.FunctionComponent<DownloadSearchProps> = (
     if (onSearch) {
       onSearch(query)
     } else {
-      window.location.replace(`/download/search?q=${encodeURIComponent(query)}`)
+      window.location.replace(
+        `/download/search/?q=${encodeURIComponent(query)}`,
+      )
     }
   }
 

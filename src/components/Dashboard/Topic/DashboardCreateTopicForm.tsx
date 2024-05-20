@@ -243,8 +243,8 @@ export default function CreateTopicForm() {
                         alt="featured_image"
                         onClick={() => setOpenDialog(true)}
                         sizes="(max-width: 768px) 30vw, (max-width: 1200px) 20vw, 33vw"
-                        width={"200"}
-                        height={"200"}
+                        width={"500"}
+                        height={"500"}
                       />
                     </div>
                   </SelectMediaDialog>

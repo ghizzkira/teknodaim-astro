@@ -1,0 +1,39 @@
+---
+import CreateGadgetForm from "@/components/Dashboard/Gadget/DashboardCreateGadgetForm"
+import DashboardLayout from "@/layouts/DashboardLayout.astro"
+
+const user = Astro.locals.user
+
+if (!user?.role?.includes("admin" || "author")) {
+  return Astro.redirect("/")
+}
+---
+
+<DashboardLayout
+  locale="id"
+  seo={{
+    title: "Create Gadget",
+    description: "Create Gadget",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/gadget/new`,
+    openGraph: {
+      basic: {
+        title: `Create Gadget | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/gadget/new`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: "Create Gadget",
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <div class="flex w-full flex-col max-md:mx-4">
+    <div class="mb-[100px] mt-4 flex items-end justify-end">
+      <div class="flex-1 space-y-4">
+        <CreateGadgetForm client:load />
+      </div>
+    </div>
+  </div></DashboardLayout
+>

@@ -66,7 +66,7 @@ const MediaList: React.FunctionComponent<MediaListProps> = (props) => {
 
   return (
     <div>
-      <div className="mb-4 grid grid-cols-3 gap-3 lg:grid-cols-8">
+      <div className="mb-4 grid grid-cols-3 gap-3 lg:grid-cols-6">
         {isLibrary
           ? data?.map((item) =>
               item?.medias.map((media) => {
@@ -89,7 +89,7 @@ const MediaList: React.FunctionComponent<MediaListProps> = (props) => {
                         src={media.url}
                         alt={media.name}
                         sizes="(max-width: 768px) 30vw, (max-width: 1200px) 20vw, 33vw"
-                        className="!relative aspect-[1/1] !h-[200px] !w-auto max-w-[unset] rounded-sm border-2 border-muted/30 bg-muted/30 object-cover"
+                        className="!relative aspect-[1/1] !h-auto !w-full max-w-[unset] rounded-sm border-2 border-muted/30 bg-muted/30 object-cover"
                         width="400"
                         height="400"
                       />
@@ -120,7 +120,7 @@ const MediaList: React.FunctionComponent<MediaListProps> = (props) => {
                       sizes="(max-width: 768px) 30vw,
                     (max-width: 1200px) 20vw,
                     33vw"
-                      className="!relative aspect-[1/1] !h-[200px] !w-auto max-w-[unset] cursor-pointer rounded-sm border-2 border-muted/30 bg-muted/30 object-cover"
+                      className="!relative aspect-[1/1] !h-auto !w-full max-w-[unset] cursor-pointer rounded-sm border-2 border-muted/30 bg-muted/30 object-cover"
                     />
                   </div>
                 )

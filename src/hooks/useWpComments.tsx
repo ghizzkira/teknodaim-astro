@@ -58,22 +58,27 @@ export function useWpCreateComment({
   return { isLoading, handleCreateComment }
 }
 
-export function useWpUpdateComment({
-  input,
+export function useUpdateWpComment({
   onSuccess,
   onError,
+  byAdmin,
 }: {
-  input?: UpdateWpComment & { authorId: string }
   onSuccess?: () => void
   onError?: () => void
+  byAdmin?: boolean
 }) {
   const [isLoading, setIsLoading] = React.useState(false)
 
-  const handleUpdateComment = async () => {
+  const handleUpdateComment = async (
+    input?: UpdateWpComment & { authorId: string },
+  ) => {
     setIsLoading(true)
     try {
-      const response = await fetch("/api/wp-comment/create", {
-        method: "POST",
+      const url = byAdmin
+        ? "/api/wp-comment/update/by-admin"
+        : "/api/wp-comment/update"
+      const response = await fetch(url, {
+        method: "PUT",
         body: JSON.stringify(input),
       })
       const data = await response.json()
@@ -92,20 +97,25 @@ export function useWpUpdateComment({
 
   return { isLoading, handleUpdateComment }
 }
-export function useWpDeleteComment({
+export function useDeleteWpComment({
   onSuccess,
   onError,
+  byAdmin,
 }: {
   input?: CreateWpComment & { authorId: string }
   onSuccess?: () => void
   onError?: () => void
+  byAdmin?: boolean
 }) {
   const [isLoading, setIsLoading] = React.useState(false)
 
   const handleDeleteComment = async (comment_id: string) => {
     setIsLoading(true)
     try {
-      const response = await fetch("/api/wp-comment/delete", {
+      const url = byAdmin
+        ? "/api/wp-comment/delete/by-admin"
+        : "/api/wp-comment/delete"
+      const response = await fetch(url, {
         method: "DELETE",
         body: JSON.stringify(comment_id),
       })
@@ -118,6 +128,7 @@ export function useWpDeleteComment({
       }
       return data
     } catch (error) {
+      onError && onError()
       toast({
         description: "Error when deleting comment, try again",
         variant: "warning",
@@ -262,15 +273,15 @@ export function useGetWpCommentByWpSlugInfinite({
   }, [handleObserver])
 
   const fetchCommentsByPage = async (limit: number, cursor = "") => {
+    const searchParams = new URLSearchParams()
+    searchParams.set("limit", limit.toString())
+    searchParams.set("cursor", cursor ?? "")
+    searchParams.set("wpPostSlug", slug ?? "")
+
     const response = await fetch(
-      `/api/wp-comment/wp-post-slug/${slug}/infinite`,
+      `/api/wp-comment/wp-post-slug/${slug}/infinite?${searchParams.toString()}`,
       {
-        method: "POST",
-        body: JSON.stringify({
-          wpPostSlug: slug,
-          limit: limit,
-          cursor: cursor,
-        }),
+        method: "GET",
       },
     )
     const data = (await response.json()) as {

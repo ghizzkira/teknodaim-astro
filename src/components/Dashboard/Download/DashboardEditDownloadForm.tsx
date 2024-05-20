@@ -581,7 +581,7 @@ const EditDownloadForm: React.FunctionComponent<EditDownloadFormProps> = (
                             addTopics={setTopics}
                             selectedTopics={selectedTopics}
                             addSelectedTopics={setSelectedTopics}
-                            topicType="all"
+                            topicType="download"
                           />
                         </div>
                       )}
