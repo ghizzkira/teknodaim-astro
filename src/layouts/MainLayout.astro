@@ -16,18 +16,14 @@ interface Props {
 const user = Astro.locals.user
 const DB = Astro.locals.runtime.env.DB
 const data = await getSettingByKey(DB, "settings")
-const dataShop = await getSettingByKey(DB, "shop_settings")
 
 let siteSettings
 
 if (data) {
   const parsedData = JSON.parse(data.value)
   siteSettings = { ...parsedData }
-  if (dataShop) {
-    const parsedDataShop = JSON.parse(dataShop.value)
-    siteSettings = { ...parsedData, ...parsedDataShop }
-  }
 }
+
 const { seo, locale } = Astro.props
 const title = seo?.title || import.meta.env.PUBLIC_SITE_TITLE
 const description = seo?.description || import.meta.env.PUBLIC_SITE_DESCRIPTION
