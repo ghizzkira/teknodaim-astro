@@ -68,7 +68,6 @@ async function generateSiteMap() {
   const base = [
     "/article/",
     "/download/",
-    "/sitemap/shop/index.xml",
     "/sitemap/wp-category/index.xml",
     "/sitemap/wp-tag/index.xml",
   ].map((route) => ({

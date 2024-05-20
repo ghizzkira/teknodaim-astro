@@ -23,17 +23,12 @@ const trendingPosts = await getWpPopularPostsLast7Days(DB, {
 })
 
 const data = await getSettingByKey(DB, "settings")
-const dataShop = await getSettingByKey(DB, "shop_settings")
 
 let siteSettings
 
 if (data) {
   const parsedData = JSON.parse(data.value)
   siteSettings = { ...parsedData }
-  if (dataShop) {
-    const parsedDataShop = JSON.parse(dataShop.value)
-    siteSettings = { ...parsedData, ...parsedDataShop }
-  }
 }
 
 const filterPostData = await getSettingByKey(DB, "filter_post")

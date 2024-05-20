@@ -1425,7 +1425,6 @@ export const basecolor = `:root {
     --warning-foreground: 46 92% 95%;
     --danger: 0 72% 51%;
     --danger-foreground: 0 86% 97%;
-    --shop: 36.8 90.36% 51.18%;
     --news: 230.85deg 44.36% 73.92%;
     --news-foreground: 232.71deg 57.22% 36.67%;
     --tips: 186.29deg 70.47% 70.78%;
@@ -1464,7 +1463,6 @@ export const basecolor = `:root {
     --warning-foreground: 46 92% 95%;
     --danger: 0 63% 31%;
     --danger-foreground: 210 40% 98%;
-    --shop: 36.8 90.36% 51.18%;
     --news: 230.85deg 44.36% 73.92%;
     --news-foreground: 232.71deg 57.22% 36.67%;
     --tips: 186.29deg 70.47% 70.78%;

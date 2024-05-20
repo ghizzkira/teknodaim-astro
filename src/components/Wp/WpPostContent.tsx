@@ -177,7 +177,7 @@ const WpPostContent: React.FunctionComponent<WpPostContentProps> = React.memo(
                   alt={featuredImageAlt}
                   width={"800"}
                   height={"800"}
-                  fetchPriority="high"
+                  fetchpriority="high"
                 />
               </div>
               {featuredImageCaption && (

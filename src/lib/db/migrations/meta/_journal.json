@@ -15,6 +15,13 @@
       "when": 1715933787946,
       "tag": "0001_thick_jigsaw",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1716172789236,
+      "tag": "0002_lumpy_triathlon",
+      "breakpoints": true
     }
   ]
 }

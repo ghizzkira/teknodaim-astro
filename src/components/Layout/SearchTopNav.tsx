@@ -241,24 +241,6 @@ const SearchTopNav: React.FunctionComponent<SearchTopNavProps> = React.memo(
                   </div>
                 </div>
                 <div className="mb-1">
-                  <h5 className="mb-2 border-b">Top Up</h5>
-                  <div className="flex flex-col space-y-4">
-                    {filteredList ? (
-                      filteredList.map((list) => {
-                        return (
-                          <ShopCardSearch
-                            brand={list.brand}
-                            imageUrl={list.thumbnail_image!}
-                            key={list.brand}
-                          />
-                        )
-                      })
-                    ) : (
-                      <p>Product not found</p>
-                    )}
-                  </div>
-                </div>
-                <div className="mb-1">
                   <h5 className="mb-2 border-b">Users</h5>
                   <div className="flex flex-col space-y-4">
                     {users && users?.length > 1 ? (
@@ -414,22 +396,6 @@ const SearchTopNav: React.FunctionComponent<SearchTopNavProps> = React.memo(
                         </>
                       )}
                     </div>
-                  </div>
-                  <div className="mb-1">
-                    <h5 className="mb-2 border-b">Top Up</h5>
-                    {filteredList ? (
-                      filteredList.map((list) => {
-                        return (
-                          <ShopCardSearch
-                            brand={list.brand}
-                            imageUrl={list.thumbnail_image!}
-                            key={list.brand}
-                          />
-                        )
-                      })
-                    ) : (
-                      <p>Product not found</p>
-                    )}
                   </div>
                   <div className="mb-1">
                     <h5 className="mb-2 border-b">Users</h5>
