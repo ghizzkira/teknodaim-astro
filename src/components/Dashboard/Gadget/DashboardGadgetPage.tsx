@@ -14,8 +14,8 @@ import DashboardShowOptions from "@/components/Dashboard/DashboardShowOptions"
 import { toast } from "@/components/UI/Toast/useToast"
 import { useDeleteGadget } from "@/hooks/useGadget"
 import { formatDate } from "@/lib/utils/date"
-import DashboardAddNew from "../DashboardAddNew"
-import DashboardStatusBadge from "../DashboardStatusBadge"
+import DashboardAddNew from "@/components/Dashboard/DashboardAddNew"
+import DashboardStatusBadge from "@/components/Dashboard/DashboardStatusBadge"
 
 interface DashboardGadgetPageProps {
   gadgets?: SelectGadget[]

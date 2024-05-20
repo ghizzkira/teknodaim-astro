@@ -28,8 +28,8 @@ import {
   SelectValue,
 } from "@/components/UI/Select"
 import type { SelectUser } from "@/lib/db/schema"
-import DashboardAddTopics from "../DashboardAddTopics"
-import DashboardAddAuthors from "../DashboardAddAuthors"
+import DashboardAddTopics from "@/components/Dashboard/DashboardAddTopics"
+import DashboardAddAuthors from "@/components/Dashboard/DashboardAddAuthors"
 import TextEditorExtended from "@/components/TextEditor/TextEditorExtended"
 
 type FormValues = CreateVideoEmbed

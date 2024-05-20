@@ -22,7 +22,7 @@ interface FormValues {
 
 interface ReplyWpCommentProps {
   wpPostSlug: string
-  reply_to_id: string
+  replyToId: string
   onSuccess: () => void
   avatar?: string | null
   username?: string
@@ -32,8 +32,7 @@ interface ReplyWpCommentProps {
 const ReplyWpComment: React.FunctionComponent<ReplyWpCommentProps> = (
   props,
 ) => {
-  const { wpPostSlug, onSuccess, avatar, username, reply_to_id, onCancel } =
-    props
+  const { wpPostSlug, onSuccess, avatar, username, replyToId, onCancel } = props
 
   const [isLoading, setIsLoading] = React.useState(false)
 
@@ -60,7 +59,7 @@ const ReplyWpComment: React.FunctionComponent<ReplyWpCommentProps> = (
     createComment({
       wpPostSlug: wpPostSlug,
       content: values.content,
-      replyToId: reply_to_id,
+      replyToId: replyToId,
     })
     setIsLoading(false)
   }

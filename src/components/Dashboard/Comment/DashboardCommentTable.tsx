@@ -19,7 +19,7 @@ import type {
 import { useDeleteDownloadComment } from "@/hooks/useDownloadComment"
 import { useDeleteVideoEmbedComment } from "@/hooks/useVideoEmbedComment"
 import { useDeleteWpComment } from "@/hooks/useWpComments"
-import DashboardCommentShowOptions from "../DashboardCommentShowOptions"
+import DashboardCommentShowOptions from "@/components/Dashboard/DashboardCommentShowOptions"
 
 interface DashboardCommentTableProps {
   comments:

@@ -271,7 +271,7 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
                                 {isReplyied === comment?.id ? (
                                   <ReplyWpComment
                                     wpPostSlug={wpPostSlug ?? ""}
-                                    reply_to_id={comment?.id ?? ""}
+                                    replyToId={comment?.id ?? ""}
                                     avatar={session?.user?.image}
                                     username={session?.user?.username!}
                                     onSuccess={() => {
@@ -408,7 +408,7 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
                                     {isReplyied === reply?.id ? (
                                       <ReplyWpComment
                                         wpPostSlug={wpPostSlug ?? ""}
-                                        reply_to_id={comment?.id ?? ""}
+                                        replyToId={comment?.id ?? ""}
                                         avatar={session?.user?.image}
                                         username={session?.user?.username!}
                                         onSuccess={() => {
