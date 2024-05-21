@@ -74,37 +74,11 @@ export const getDownloadFileBySlug = async (DB: D1Database, input: string) => {
     where: (downloadFiles, { eq }) => eq(downloadFiles.slug, input),
     with: {
       featuredImage: true,
-      authors: true,
     },
   })
 
-  const downloadFileDownloadsData = await db
-    .select({
-      id: downloads.id,
-      title: downloads.title,
-      slug: downloads.slug,
-      developer: downloads.developer,
-      operatingSystem: downloads.operatingSystem,
-      license: downloads.license,
-      officialWebsite: downloads.officialWebsite,
-      schemaType: downloads.schemaType,
-      type: downloads.type,
-    })
-    .from(downloadDownloadFiles)
-    .leftJoin(
-      downloadFiles,
-      eq(downloadDownloadFiles.downloadFileId, downloadFiles.id),
-    )
-    .leftJoin(
-      downloadDownloadFiles,
-      eq(downloadDownloadFiles.downloadId, downloads.id),
-    )
-    .where(eq(downloadFiles.slug, input))
-    .all()
-
   const data = {
     ...downloadFileData,
-    downloads: downloadFileDownloadsData,
   }
 
   return data

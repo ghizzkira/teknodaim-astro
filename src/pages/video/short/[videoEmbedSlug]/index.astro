@@ -1,0 +1,99 @@
+---
+import JsonLdScript from "@/components/JsonLdScript"
+import MainLayout from "@/layouts/MainLayout.astro"
+import { getVideoEmbedBySlug } from "@/lib/action/video-embed"
+import InfiniteScrollVideoEmbedShortByTopic from "@/components/VideoEmbed/InfiniteScrollShortVideoEmbedByTopic"
+const DB = Astro.locals.runtime.env.DB
+const { videoEmbedSlug } = Astro.params
+const videoEmbed = await getVideoEmbedBySlug(DB, videoEmbedSlug!)
+const mainTopic = videoEmbed?.topics?.[0]
+const mainAuthor = videoEmbed?.authors?.[0]
+if (!videoEmbed) {
+  return Astro.redirect("/404")
+}
+
+const breadcrumbJson = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: import.meta.env.PUBLIC_SITE_TITLE,
+      item: import.meta.env.PUBLIC_SITE_URL,
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Video",
+      item: `${import.meta.env.PUBLIC_SITE_URL}/video`,
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: videoEmbed?.title,
+      item: `${import.meta.env.PUBLIC_SITE_URL}/video/${videoEmbedSlug}`,
+    },
+  ],
+}
+const videoJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  name: videoEmbed?.title,
+  description: videoEmbed?.description,
+  contentUrl: `${import.meta.env.PUBLIC_SITE_URL}/video/short/${videoEmbed?.slug}`,
+  embedUrl: videoEmbed?.embedLink,
+  uploadDate: videoEmbed?.createdAt,
+  thumbnailUrl: [videoEmbed?.featuredImageUrl ?? videoEmbed?.featuredImage.url],
+}
+---
+
+<MainLayout
+  locale="id"
+  seo={{
+    title: videoEmbed?.metaTitle!,
+    description: videoEmbed?.metaDescription ?? videoEmbed?.metaTitle!,
+
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/video/short/${videoEmbedSlug}`,
+    openGraph: {
+      basic: {
+        title: `${videoEmbed?.metaTitle} | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/video/short/${videoEmbedSlug}`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: videoEmbed?.metaTitle!,
+        locale: "ID",
+      },
+    },
+  }}
+  type="shorts"
+  headerType="shorts"
+>
+  <JsonLdScript jsonld={JSON.stringify(videoJsonLd)} />
+  <JsonLdScript jsonld={JSON.stringify(breadcrumbJson)} />
+  <div class="fade-up-element mx-auto flex w-full">
+    <section class="w-full">
+      {
+        videoEmbed && (
+          <div>
+            {mainTopic && (
+              <InfiniteScrollVideoEmbedShortByTopic
+                locale="id"
+                topicId={mainTopic.id ?? ""}
+                mainTitle={videoEmbed.title ?? ""}
+                mainLink={videoEmbed.embedLink ?? ""}
+                mainId={videoEmbed.id ?? ""}
+                mainImage={videoEmbed.featuredImageUrl ?? ""}
+                mainDescription={videoEmbed.description ?? ""}
+                mainAuthorImage={mainAuthor?.image ?? ""}
+                mainAuthorUsername={mainAuthor?.username ?? ""}
+              />
+            )}
+          </div>
+        )
+      }
+    </section>
+  </div>
+</MainLayout>

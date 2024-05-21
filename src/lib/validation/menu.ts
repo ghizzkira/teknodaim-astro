@@ -7,18 +7,12 @@ export const MENU_POSITION = [
   "sidebar_all_id_amp",
   "sidebar_all_en",
   "sidebar_all_en_amp",
-  "sidebar_shop_all",
-  "sidebar_shop_en",
-  "sidebar_shop_id",
   "footer_all",
   "footer_all_amp",
   "footer_id",
   "footer_id_amp",
   "footer_en",
   "footer_en_amp",
-  "footer_shop_all",
-  "footer_shop_id",
-  "footer_shop_en",
 ] as const
 
 export const menuPosition = z.enum(MENU_POSITION)

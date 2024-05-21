@@ -23,8 +23,8 @@ import SelectMediaDialog from "@/components/Media/SelectMediaDialog"
 import TextEditorExtended from "@/components/TextEditor/TextEditorExtended"
 
 import { type UpdateGadget } from "@/lib/validation/gadget"
-import DashboardAddWpCategorySlug from "../DashboardAddWpCategorySlug"
-import DashboardAddWpTagSlug from "../DashboardAddWpTagSlug"
+import DashboardAddWpCategorySlug from "@/components/Dashboard/DashboardAddWpCategorySlug"
+import DashboardAddWpTagSlug from "@/components/Dashboard/DashboardAddWpTagSlug"
 import { Switch } from "@/components/UI/Switch"
 import type { SelectGadget } from "@/lib/db/schema"
 

@@ -14,8 +14,8 @@ import DashboardShowOptions from "@/components/Dashboard/DashboardShowOptions"
 import { toast } from "@/components/UI/Toast/useToast"
 import { useDeleteGadget } from "@/hooks/useGadget"
 import { formatDate } from "@/lib/utils/date"
-import DashboardAddNew from "../DashboardAddNew"
-import DashboardStatusBadge from "../DashboardStatusBadge"
+import DashboardAddNew from "@/components/Dashboard/DashboardAddNew"
+import DashboardStatusBadge from "@/components/Dashboard/DashboardStatusBadge"
 
 interface DashboardGadgetPageProps {
   gadgets?: SelectGadget[]
@@ -72,14 +72,14 @@ const DashboardGadgetPage = (props: DashboardGadgetPageProps) => {
                     <TableCell className="hidden whitespace-nowrap align-middle lg:table-cell">
                       <div className="flex">
                         <span className="overflow-hidden text-ellipsis font-medium">
-                          {gadget.wpTagSlug ?? "none"}
+                          {gadget.wpTagSlug ?? "-"}
                         </span>
                       </div>
                     </TableCell>
                     <TableCell className="hidden whitespace-nowrap align-middle lg:table-cell">
                       <div className="flex">
                         <span className="overflow-hidden text-ellipsis font-medium">
-                          {gadget.wpCategorySlug ?? "none"}
+                          {gadget.wpCategorySlug ?? "-"}
                         </span>
                       </div>
                     </TableCell>

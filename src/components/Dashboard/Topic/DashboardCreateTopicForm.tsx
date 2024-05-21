@@ -54,7 +54,7 @@ export default function CreateTopicForm() {
     onSuccess: () => {
       form.reset()
       toast({ variant: "success", description: "Success" })
-      // window.location.replace("/dashboard/topic")
+      window.location.replace("/dashboard/topic")
     },
     onError: () => {
       setLoading(false)
@@ -203,6 +203,8 @@ export default function CreateTopicForm() {
                         <SelectItem value="article">Article</SelectItem>
                         <SelectItem value="review">Review</SelectItem>
                         <SelectItem value="tutorial">Tutorial</SelectItem>
+                        <SelectItem value="video">Video</SelectItem>
+                        <SelectItem value="download">download</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -243,8 +245,8 @@ export default function CreateTopicForm() {
                         alt="featured_image"
                         onClick={() => setOpenDialog(true)}
                         sizes="(max-width: 768px) 30vw, (max-width: 1200px) 20vw, 33vw"
-                        width={"200"}
-                        height={"200"}
+                        width={"500"}
+                        height={"500"}
                       />
                     </div>
                   </SelectMediaDialog>

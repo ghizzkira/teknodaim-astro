@@ -1,5 +1,10 @@
 import * as React from "react"
-import { useController } from "react-hook-form"
+import {
+  useController,
+  type Control,
+  type FieldValues,
+  type Path,
+} from "react-hook-form"
 
 import { Button } from "@/components/UI/Button"
 
@@ -10,16 +15,18 @@ import { FormLabel } from "@/components/UI/Form"
 import { Input } from "@/components/UI/Input"
 import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
 
-interface DashboardAddWpCategorySlugProps
-  extends React.HTMLAttributes<HTMLDivElement> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  control: any
-  fieldName: string
+interface DashboardAddWpCategorySlugProps<
+  TFieldValues extends FieldValues = FieldValues,
+> extends React.HTMLAttributes<HTMLDivElement> {
+  control: Control<TFieldValues>
+  fieldName: Path<TFieldValues>
 }
 
-const DashboardAddWpCategorySlug: React.FunctionComponent<
-  DashboardAddWpCategorySlugProps
-> = (props) => {
+const DashboardAddWpCategorySlug = <
+  TFieldValues extends FieldValues = FieldValues,
+>(
+  props: DashboardAddWpCategorySlugProps<TFieldValues>,
+) => {
   const { control, fieldName } = props
 
   const [searchQuery, setSearchQuery] = React.useState<string>("")

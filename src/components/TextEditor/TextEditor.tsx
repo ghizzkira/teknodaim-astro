@@ -1,7 +1,5 @@
 // TODO: styling link and youtube prompt
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import * as React from "react"
 import Document from "@tiptap/extension-document"
 import Paragraph from "@tiptap/extension-paragraph"
@@ -10,15 +8,22 @@ import {
   EditorContent as TextEditorContent,
   useEditor as useTextEditor,
 } from "@tiptap/react"
-import { useController } from "react-hook-form"
+import {
+  useController,
+  type Control,
+  type FieldValues,
+  type Path,
+} from "react-hook-form"
 
-interface TextEditorProps {
-  control: any
+interface TextEditorProps<TFieldValues extends FieldValues = FieldValues> {
+  control: Control<TFieldValues>
+  name: Path<TFieldValues>
   isClear?: boolean
-  name: string
 }
 
-const TextEditor = React.memo((props: TextEditorProps) => {
+const TextEditor = <TFieldValues extends FieldValues = FieldValues>(
+  props: TextEditorProps<TFieldValues>,
+) => {
   const { control, isClear, name } = props
 
   const {
@@ -63,6 +68,6 @@ const TextEditor = React.memo((props: TextEditorProps) => {
       )}
     </>
   )
-})
+}
 
 export default TextEditor

@@ -15,7 +15,7 @@ import { toast } from "@/components/UI/Toast/useToast"
 import { useDeleteVideoEmbed } from "@/hooks/useVideoEmbed"
 import { Badge } from "@/components/UI/Badge"
 import { formatDate } from "@/lib/utils/date"
-import DashboardAddNew from "../DashboardAddNew"
+import DashboardAddNew from "@/components/Dashboard/DashboardAddNew"
 
 interface DashboardVideoEmbedPageProps {
   videoEmbeds?: SelectVideoEmbed[]

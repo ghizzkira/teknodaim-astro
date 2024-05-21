@@ -1,0 +1,57 @@
+---
+import type { SelectTopic, SelectDownload } from "@/lib/db/schema"
+import type { DownloadType } from "@/lib/validation/download"
+import type { LanguageType } from "@/lib/validation/language"
+import DownloadDropdownTopics from "@/components/Download/DownloadDropdownTopics"
+import DownloadList from "@/components/Download/DownloadList"
+import DownloadListCategories from "@/components/Download/DownloadListCategories"
+import DownloadSearch from "@/components/Download/DownloadSearch"
+import InfiniteScrollDownload from "@/components/Download/InfiniteScrollDownload"
+
+interface Props {
+  topics: SelectTopic[]
+  downloadsByType: SelectDownload[]
+  locale: LanguageType
+  type: DownloadType
+}
+
+const { topics, downloadsByType, locale, type } = Astro.props
+---
+
+<div
+  class="fade-up-element mx-auto flex w-full flex-col max-[991px]:px-4 md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]"
+>
+  <div class="flex flex-col space-y-8 rounded-md bg-muted/10 p-5">
+    <div class="flex items-center justify-between gap-2">
+      <div class="flex space-x-2">
+        <DownloadDropdownTopics
+          locale={locale}
+          topics={topics!}
+          title="Categories"
+        />
+      </div>
+      <div>
+        <DownloadSearch client:load />
+      </div>
+    </div>
+
+    <div>
+      <div class="mb-2">
+        <h2>Pilih Kategori</h2>
+      </div>
+      {topics && <DownloadListCategories categories={topics} />}
+    </div>
+  </div>
+  <div class="w-full px-4">
+    <div class={"my-2 flex flex-row justify-start"}>
+      <h2>Apps</h2>
+    </div>
+    <DownloadList downloads={downloadsByType!} />
+  </div>
+  <div class="w-full px-4">
+    <div class={"my-2 flex flex-row justify-start"}>
+      <h2>Newest</h2>
+    </div>
+    <InfiniteScrollDownload client:load locale={locale} type={type} />
+  </div>
+</div>

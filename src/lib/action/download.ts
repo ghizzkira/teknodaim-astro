@@ -187,11 +187,17 @@ export const getDownloadBySlug = async (
     .limit(1)
 
   const downloadFilesData = await db
-    .select({ id: downloadFiles.id, title: downloadFiles.title })
+    .select({
+      id: downloadFiles.id,
+      title: downloadFiles.title,
+      version: downloadFiles.version,
+      fileSize: downloadFiles.fileSize,
+      price: downloadFiles.price,
+    })
     .from(downloadDownloadFiles)
     .leftJoin(downloads, eq(downloadDownloadFiles.downloadId, downloads.id))
     .leftJoin(
-      downloadDownloadFiles,
+      downloadFiles,
       eq(downloadDownloadFiles.downloadFileId, downloadFiles.id),
     )
     .orderBy(desc(downloadFiles.createdAt))
@@ -240,7 +246,7 @@ export const getDownloadsByLanguage = async (
   const db = initializeDB(DB)
   const { language, page, perPage } = input
 
-  const downloadData = await db.query.downloads.findMany({
+  const data = await db.query.downloads.findMany({
     where: (downloads, { eq, and }) =>
       and(eq(downloads.language, language), eq(downloads.status, "published")),
     limit: perPage,
@@ -248,25 +254,9 @@ export const getDownloadsByLanguage = async (
     orderBy: (downloads, { desc }) => [desc(downloads.updatedAt)],
     with: {
       featuredImage: true,
+      downloadFiles: true,
     },
   })
-
-  const downloadFilesData = await db
-    .select({ id: downloadFiles.id, title: downloadFiles.title })
-    .from(downloadDownloadFiles)
-    .leftJoin(downloads, eq(downloadDownloadFiles.downloadId, downloads.id))
-    .leftJoin(
-      downloadDownloadFiles,
-      eq(downloadDownloadFiles.downloadFileId, downloadFiles.id),
-    )
-    .orderBy(desc(downloadFiles.createdAt))
-    .where(eq(downloads.id, downloadData[0].id))
-    .all()
-
-  const data = downloadData.map((item) => ({
-    ...item,
-    downloadFiles: downloadFilesData,
-  }))
 
   return data
 }
@@ -283,7 +273,7 @@ export const getDownloadsByLanguageInfinite = async (
 
   const { language, limit = 50, cursor } = input
 
-  const downloadData = await db.query.downloads.findMany({
+  const data = await db.query.downloads.findMany({
     where: (downloads, { eq, and, lt }) =>
       and(
         eq(downloads.language, language),
@@ -293,25 +283,9 @@ export const getDownloadsByLanguageInfinite = async (
     limit: limit + 1,
     with: {
       featuredImage: true,
+      downloadFiles: true,
     },
   })
-
-  const downloadFilesData = await db
-    .select({ id: downloadFiles.id, title: downloadFiles.title })
-    .from(downloadDownloadFiles)
-    .leftJoin(downloads, eq(downloadDownloadFiles.downloadId, downloads.id))
-    .leftJoin(
-      downloadDownloadFiles,
-      eq(downloadDownloadFiles.downloadFileId, downloadFiles.id),
-    )
-    .orderBy(desc(downloadFiles.createdAt))
-    .where(eq(downloads.id, downloadData[0].id))
-    .all()
-
-  const data = downloadData.map((item) => ({
-    ...item,
-    downloadFiles: downloadFilesData,
-  }))
 
   let nextCursor: string | undefined = undefined
 
@@ -341,7 +315,7 @@ export const getDownloadsByType = async (
 
   const db = initializeDB(DB)
 
-  const downloadData = await db.query.downloads.findMany({
+  const data = await db.query.downloads.findMany({
     where: (downloads, { eq, and }) =>
       and(
         eq(downloads.type, type),
@@ -353,25 +327,9 @@ export const getDownloadsByType = async (
     orderBy: (downloads, { desc }) => [desc(downloads.updatedAt)],
     with: {
       featuredImage: true,
+      downloadFiles: true,
     },
   })
-
-  const downloadFilesData = await db
-    .select({ id: downloadFiles.id, title: downloadFiles.title })
-    .from(downloadDownloadFiles)
-    .leftJoin(downloads, eq(downloadDownloadFiles.downloadId, downloads.id))
-    .leftJoin(
-      downloadDownloadFiles,
-      eq(downloadDownloadFiles.downloadFileId, downloadFiles.id),
-    )
-    .orderBy(desc(downloadFiles.createdAt))
-    .where(eq(downloads.id, downloadData[0].id))
-    .all()
-
-  const data = downloadData.map((item) => ({
-    ...item,
-    downloadFiles: downloadFilesData,
-  }))
 
   return data
 }

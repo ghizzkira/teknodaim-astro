@@ -6,11 +6,13 @@ import { STATUS_TYPE } from "./status"
 export const TOPIC_TYPE = [
   "all",
   "article",
+  "download",
   "review",
   "tutorial",
   "movie",
   "tv",
   "game",
+  "video",
 ] as const
 
 export const TOPIC_VISIBILITY = ["public", "internal"] as const

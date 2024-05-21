@@ -8,18 +8,14 @@ import { getSettingByKey } from "@/lib/action/setting"
 const user = Astro.locals.user
 const DB = Astro.locals.runtime.env.DB
 const data = await getSettingByKey(DB, "settings")
-const dataShop = await getSettingByKey(DB, "shop_settings")
 
 let settings
 
 if (data) {
   const parsedData = JSON.parse(data.value)
   settings = { ...parsedData }
-  if (dataShop) {
-    const parsedDataShop = JSON.parse(dataShop.value)
-    settings = { ...parsedData, ...parsedDataShop }
-  }
 }
+
 if (!user?.role?.includes("admin" || "author")) {
   Astro.redirect("/")
 }

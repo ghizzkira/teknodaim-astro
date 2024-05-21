@@ -33,9 +33,9 @@ import { useCreateArticle } from "@/hooks/useArticle"
 import DeleteMediaButton from "@/components/Media/DeleteMediaButton"
 import SelectMediaDialog from "@/components/Media/SelectMediaDialog"
 import TextEditorExtended from "@/components/TextEditor/TextEditorExtended"
-import DashboardAddAuthors from "../DashboardAddAuthors"
-import DashboardAddEditors from "../DashboardAddEditors"
-import DashboardAddTopics from "../DashboardAddTopics"
+import DashboardAddAuthors from "@/components/Dashboard/DashboardAddAuthors"
+import DashboardAddEditors from "@/components/Dashboard/DashboardAddEditors"
+import DashboardAddTopics from "@/components/Dashboard/DashboardAddTopics"
 
 interface FormValues {
   content: string

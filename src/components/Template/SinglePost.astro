@@ -109,11 +109,7 @@ const { firstContent, secondContent } = splitReactNodes(
           locale={locale}
         >
           <div slot="CommentComponent">
-            <WpComment
-              locale={locale}
-              wp_post_slug={slug!}
-              client:only="react"
-            />
+            <WpComment locale={locale} wpPostSlug={slug!} client:only="react" />
           </div>
         </WpPostContent>
       )
