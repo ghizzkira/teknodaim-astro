@@ -31,6 +31,7 @@ export const getVideoEmbedsDashboard = async (
     offset: (page - 1) * perPage,
     with: {
       featuredImage: true,
+      authors: true,
     },
   })
 
@@ -160,7 +161,9 @@ export const getVideoEmbedsByType = async (
   },
 ) => {
   const { type, page, perPage } = input
+
   const db = initializeDB(DB)
+
   const data = await db.query.videoEmbeds.findMany({
     where: (videoEmbeds, { eq, and }) =>
       and(eq(videoEmbeds.type, type), eq(videoEmbeds.status, "published")),
