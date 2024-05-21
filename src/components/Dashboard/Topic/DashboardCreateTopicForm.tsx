@@ -54,7 +54,7 @@ export default function CreateTopicForm() {
     onSuccess: () => {
       form.reset()
       toast({ variant: "success", description: "Success" })
-      // window.location.replace("/dashboard/topic")
+      window.location.replace("/dashboard/topic")
     },
     onError: () => {
       setLoading(false)
@@ -203,6 +203,8 @@ export default function CreateTopicForm() {
                         <SelectItem value="article">Article</SelectItem>
                         <SelectItem value="review">Review</SelectItem>
                         <SelectItem value="tutorial">Tutorial</SelectItem>
+                        <SelectItem value="video">Video</SelectItem>
+                        <SelectItem value="download">download</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />

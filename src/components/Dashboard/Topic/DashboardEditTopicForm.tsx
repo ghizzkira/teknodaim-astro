@@ -255,6 +255,8 @@ export default function EditTopicForm(props: EditTopicFormProps) {
                         <SelectItem value="article">Article</SelectItem>
                         <SelectItem value="review">Review</SelectItem>
                         <SelectItem value="tutorial">Tutorial</SelectItem>
+                        <SelectItem value="video">Video</SelectItem>
+                        <SelectItem value="download">download</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />

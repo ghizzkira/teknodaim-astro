@@ -11,6 +11,8 @@ import type { LanguageType } from "@/lib/validation/language"
 interface Props {
   seo?: SeoProps
   locale: LanguageType
+  type?: "default" | "video" | "shorts" | "video-content"
+  headerType?: "default" | "video" | "shorts" | "video-content"
 }
 
 const user = Astro.locals.user
@@ -24,7 +26,7 @@ if (data) {
   siteSettings = { ...parsedData }
 }
 
-const { seo, locale } = Astro.props
+const { seo, locale, type, headerType } = Astro.props
 const title = seo?.title || import.meta.env.PUBLIC_SITE_TITLE
 const description = seo?.description || import.meta.env.PUBLIC_SITE_DESCRIPTION
 const titleTemplate = `%s | ${seo?.titleTemplate ?? siteSettings?.siteTitle ?? import.meta.env.PUBLIC_SITE_TITLE ?? ""}`
@@ -100,8 +102,12 @@ const titleDefault =
     />
   </head>
   <body class="font-400 font-sans antialiased">
-    <MainContainer settings={siteSettings} user={user} locale={locale}
-      ><slot /></MainContainer
+    <MainContainer
+      type={type}
+      headerType={headerType}
+      settings={siteSettings}
+      user={user}
+      locale={locale}><slot /></MainContainer
     >
   </body>
 </html>

@@ -315,7 +315,12 @@ export const getVideoEmbedBySlug = async (DB: D1Database, input: string) => {
     .all()
 
   const videoEmbedAuthorsData = await db
-    .select({ id: users.id, name: users.name, username: users.username })
+    .select({
+      id: users.id,
+      name: users.name,
+      username: users.username,
+      image: users.image,
+    })
     .from(videoEmbedAuthors)
     .leftJoin(videoEmbeds, eq(videoEmbedAuthors.videoEmbedId, videoEmbeds.id))
     .leftJoin(users, eq(videoEmbedAuthors.userId, users.id))

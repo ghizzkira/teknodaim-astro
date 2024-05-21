@@ -1,0 +1,108 @@
+---
+import { VideoContent } from "@/components/VideoEmbed/VideoEmbedBySlugContent"
+import JsonLdScript from "@/components/JsonLdScript"
+import MainLayout from "@/layouts/MainLayout.astro"
+import { getTopicsByType } from "@/lib/action/topic"
+import {
+  getVideoEmbedBySlug,
+  getVideoEmbedsByTopicIdInfinite,
+} from "@/lib/action/video-embed"
+
+const DB = Astro.locals.runtime.env.DB
+const { videoEmbedSlug } = Astro.params
+const videoEmbed = await getVideoEmbedBySlug(DB, videoEmbedSlug!)
+
+const related = await getVideoEmbedsByTopicIdInfinite(DB, {
+  limit: 10,
+  topicId: videoEmbed?.topics?.[0]?.id ?? "",
+})
+const topics = await getTopicsByType(DB, {
+  language: "id",
+  type: "video",
+  page: 1,
+  perPage: 20,
+})
+
+if (!videoEmbed) {
+  return Astro.redirect("/404")
+}
+
+const breadcrumbJson = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: import.meta.env.PUBLIC_SITE_TITLE,
+      item: import.meta.env.PUBLIC_SITE_URL,
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Video",
+      item: `${import.meta.env.PUBLIC_SITE_URL}/video`,
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: videoEmbed?.title,
+      item: `${import.meta.env.PUBLIC_SITE_URL}/video/${videoEmbedSlug}`,
+    },
+  ],
+}
+
+const videoJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  name: videoEmbed?.title ?? "",
+  description: videoEmbed?.description ?? "",
+  contentUrl: `${import.meta.env.PUBLIC_SITE_URL}/video/${videoEmbed?.slug}`,
+  embedUrl: videoEmbed?.embedLink ?? "",
+  uploadDate: videoEmbed?.createdAt ?? "",
+  thumbnailUrl: [videoEmbed?.featuredImageUrl ?? videoEmbed?.featuredImage.url],
+}
+---
+
+<MainLayout
+  locale="id"
+  seo={{
+    title: videoEmbed?.metaTitle!,
+    description: videoEmbed?.metaDescription ?? videoEmbed?.metaTitle!,
+
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/video/short/${videoEmbedSlug}`,
+    openGraph: {
+      basic: {
+        title: `${videoEmbed?.metaTitle} | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/video/short/${videoEmbedSlug}`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: videoEmbed?.metaTitle!,
+        locale: "ID",
+      },
+    },
+  }}
+  type="shorts"
+  headerType="default"
+>
+  <JsonLdScript jsonld={JSON.stringify(videoJsonLd)} />
+  <JsonLdScript jsonld={JSON.stringify(breadcrumbJson)} />
+  <div
+    class="fade-up-element mx-auto mt-[65px] flex w-full flex-col md:mt-[unset] lg:max-w-[1280px] lg:flex-row"
+  >
+    {
+      videoEmbed && (
+        <VideoContent
+          topics={topics}
+          videos={related?.videoEmbeds}
+          className="w-full"
+          videoEmbed={videoEmbed}
+          locale="id"
+          client:load
+        />
+      )
+    }
+  </div>
+</MainLayout>

@@ -303,7 +303,7 @@ export default function EditVideoEmbedForm(props: EditVideoEmbedFormProps) {
                 addTopics={setTopics}
                 selectedTopics={selectedTopics}
                 addSelectedTopics={setSelectedTopics}
-                topicType="all"
+                topicType="video"
               />
               <DashboardAddAuthors
                 authors={authors}
