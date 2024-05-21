@@ -1,0 +1,46 @@
+---
+import DashboardEditGadgetForm from "@/components/Dashboard/Gadget/DashboardEditGadgetForm"
+import DashboardLayout from "@/layouts/DashboardLayout.astro"
+import { getGadgetsById } from "@/lib/action/gadget"
+
+const user = Astro.locals.user
+const DB = Astro.locals.runtime.env.DB
+
+if (!user?.role?.includes("admin" || "author")) {
+  return Astro.redirect("/")
+}
+const { gadgetId } = Astro.params
+const gadget = await getGadgetsById(DB, gadgetId!)
+if (!gadget) {
+  return Astro.redirect("/404")
+}
+---
+
+<DashboardLayout
+  locale="id"
+  seo={{
+    title: "Edit Gadget",
+    description: "Edit Gadget",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/gadget/edit/${gadgetId}`,
+    openGraph: {
+      basic: {
+        title: `Edit Gadget | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/gadget/edit/${gadgetId}`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: "Edit Gadget",
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <div class="flex w-full flex-col max-md:mx-4">
+    <div class="mb-[100px] mt-4 flex items-end justify-end">
+      <div class="flex-1 space-y-4">
+        <DashboardEditGadgetForm gadget={gadget!} client:load />
+      </div>
+    </div>
+  </div>
+</DashboardLayout>

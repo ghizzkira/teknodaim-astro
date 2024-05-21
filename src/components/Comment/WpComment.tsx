@@ -18,15 +18,22 @@ import {
   useGetWpCommentByWpSlugInfinite,
   useGetWpCommentCountByWpSlug,
   useWpCreateComment,
-  useWpDeleteComment,
+  useDeleteWpComment,
 } from "@/hooks/useWpComments"
 import { formatDateFromNow } from "@/lib/utils/date"
 import type { LanguageType } from "@/lib/validation/language"
 import EditWPComment from "./EditWpComment"
 import ReplyWpComment from "./ReplyWpComment"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/UI/Form"
 
 interface WpCommentFormProps {
-  wp_post_slug: string
+  wpPostSlug: string
   locale: LanguageType
 }
 
@@ -37,7 +44,7 @@ interface FormValues {
 
 const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
   (props) => {
-    const { wp_post_slug, locale } = props
+    const { wpPostSlug, locale } = props
 
     const { session } = useSession()
     const [openDeleteModal, setOpenDeleteModal] = React.useState<string | null>(
@@ -48,18 +55,18 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
     const [isLoading, setIsLoading] = React.useState(false)
 
     const { data: commentCount, refetch: refetchCount } =
-      useGetWpCommentCountByWpSlug(wp_post_slug)
+      useGetWpCommentCountByWpSlug(wpPostSlug)
     const {
       comments,
       fetchNextPage,
       hasNextPage,
       refetch: updateComment,
     } = useGetWpCommentByWpSlugInfinite({
-      slug: wp_post_slug,
+      slug: wpPostSlug,
       limit: 10,
     })
 
-    const { register, handleSubmit, reset } = useForm<FormValues>()
+    const form = useForm<FormValues>()
 
     const { handleCreateComment: createComment } = useWpCreateComment({
       onSuccess: () => {
@@ -68,7 +75,7 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
           textarea.style.height = "30px"
         }
         updateComment()
-        reset()
+        form.setValue("content", "")
         refetchCount()
         toast({
           variant: "success",
@@ -80,14 +87,14 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
     const onSubmit: SubmitHandler<FormValues> = (values) => {
       setIsLoading(true)
       createComment({
-        wpPostSlug: wp_post_slug,
+        wpPostSlug: wpPostSlug,
         content: values.content,
       })
 
       setIsLoading(false)
     }
 
-    const { handleDeleteComment: deleteWpCommentAction } = useWpDeleteComment({
+    const { handleDeleteComment: deleteWpCommentAction } = useDeleteWpComment({
       onSuccess: () => {
         updateComment()
         refetchCount()
@@ -114,7 +121,7 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
             </div>
           </div>
           {session ? (
-            <form className="mb-5 mt-4" onSubmit={(e) => e.preventDefault()}>
+            <div className="mb-5 mt-4">
               <div className="flex">
                 <div className="relative h-10 w-10 overflow-hidden rounded-full bg-muted">
                   {session?.user?.image ? (
@@ -132,45 +139,68 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
                     />
                   )}
                 </div>
+
                 <div className="ml-1 flex w-full flex-1 flex-col items-center">
-                  <div className="mx-3 mb-2 w-full border-b border-border">
-                    <Textarea
-                      variant="plain"
-                      onInput={(event) => {
-                        const textarea = event.currentTarget
-                        const currentFocus = document.activeElement
-                        const totalHeight =
-                          textarea.scrollHeight -
-                          parseInt(getComputedStyle(textarea).paddingTop) -
-                          parseInt(getComputedStyle(textarea).paddingBottom)
-                        textarea.style.height = totalHeight + "px"
-                        if (textarea.value === "") {
-                          textarea.style.height = "30px"
-                          textarea.focus()
-                        }
-                        if (currentFocus === textarea) {
-                          textarea.focus()
-                        }
-                      }}
-                      {...register("content", {
-                        required: "content must be filled",
-                      })}
-                      className="mx-2 h-[30px] max-h-[180px] w-full resize-none overflow-hidden border border-b"
-                      placeholder="Write comment…"
-                    />
-                  </div>
-                  <Button
-                    aria-label="Submit Comment"
-                    loading={isLoading}
-                    variant="outline"
-                    className="ml-auto block h-auto rounded-full px-2 py-1"
-                    onClick={handleSubmit(onSubmit)}
-                  >
-                    {!isLoading && "Submit"}
-                  </Button>
+                  <Form {...form}>
+                    <form
+                      className="w-full"
+                      onSubmit={form.handleSubmit(onSubmit)}
+                    >
+                      <div className="mx-3 mb-2 w-full border-b border-border">
+                        <FormField
+                          control={form.control}
+                          name="content"
+                          rules={{ required: "Content must be filled" }}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormControl>
+                                <Textarea
+                                  variant="plain"
+                                  onInput={(event) => {
+                                    const textarea = event.currentTarget
+                                    const currentFocus = document.activeElement
+                                    const totalHeight =
+                                      textarea.scrollHeight -
+                                      parseInt(
+                                        getComputedStyle(textarea).paddingTop,
+                                      ) -
+                                      parseInt(
+                                        getComputedStyle(textarea)
+                                          .paddingBottom,
+                                      )
+                                    textarea.style.height = totalHeight + "px"
+                                    if (textarea.value === "") {
+                                      textarea.style.height = "30px"
+                                      textarea.focus()
+                                    }
+                                    if (currentFocus === textarea) {
+                                      textarea.focus()
+                                    }
+                                  }}
+                                  {...field}
+                                  className="mx-2 h-[30px] max-h-[180px] w-full resize-none overflow-hidden border border-b"
+                                  placeholder="Write comment…"
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      <Button
+                        aria-label="Submit Comment"
+                        loading={isLoading}
+                        type="submit"
+                        variant="outline"
+                        className="ml-auto block h-auto rounded-full px-2 py-1"
+                      >
+                        {!isLoading && "Submit"}
+                      </Button>
+                    </form>
+                  </Form>
                 </div>
               </div>
-            </form>
+            </div>
           ) : (
             <div className="my-8 flex items-center justify-center">
               <Button asChild aria-label="You should sign in before comment">
@@ -240,8 +270,8 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
                               <div className="w-full">
                                 {isReplyied === comment?.id ? (
                                   <ReplyWpComment
-                                    wp_post_slug={wp_post_slug ?? ""}
-                                    reply_to_id={comment?.id ?? ""}
+                                    wpPostSlug={wpPostSlug ?? ""}
+                                    replyToId={comment?.id ?? ""}
                                     avatar={session?.user?.image}
                                     username={session?.user?.username!}
                                     onSuccess={() => {
@@ -257,13 +287,13 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
                           ) : (
                             <EditWPComment
                               id={comment.id}
-                              wp_post_slug={wp_post_slug ?? ""}
                               onCancel={() => setIsEdited("")}
                               onSuccess={() => {
                                 setIsEdited("")
                                 updateComment()
                               }}
                               content={comment.content ?? ""}
+                              authorId={session?.user?.id!}
                             />
                           )}
                         </figcaption>
@@ -377,8 +407,8 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
                                   <div className="w-full">
                                     {isReplyied === reply?.id ? (
                                       <ReplyWpComment
-                                        wp_post_slug={wp_post_slug ?? ""}
-                                        reply_to_id={comment?.id ?? ""}
+                                        wpPostSlug={wpPostSlug ?? ""}
+                                        replyToId={comment?.id ?? ""}
                                         avatar={session?.user?.image}
                                         username={session?.user?.username!}
                                         onSuccess={() => {
@@ -400,7 +430,7 @@ const WpComment: React.FunctionComponent<WpCommentFormProps> = React.memo(
                                     updateComment()
                                   }}
                                   content={reply.content ?? ""}
-                                  wp_post_slug={wp_post_slug}
+                                  authorId={session?.user?.id!}
                                 />
                               )}
                             </figcaption>

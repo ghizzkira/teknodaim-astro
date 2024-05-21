@@ -1,0 +1,58 @@
+---
+import DownloadByType from "@/components/Template/DownloadByType.astro"
+import MainLayout from "@/layouts/MainLayout.astro"
+import { getDownloadsByType } from "@/lib/action/download"
+import { getTopicsByType } from "@/lib/action/topic"
+
+Astro.locals.cache(60)
+
+const DB = Astro.locals.runtime.env.DB
+
+const apps = await getDownloadsByType(DB, {
+  language: "id",
+  type: "app",
+  page: 1,
+  perPage: 10,
+})
+
+const topics = await getTopicsByType(DB, {
+  language: "id",
+  type: "download",
+  page: 1,
+  perPage: 10,
+})
+---
+
+<MainLayout
+  locale="id"
+  seo={{
+    title: "App",
+    description: "App",
+    languageAlternates: [
+      {
+        href: `${import.meta.env.PUBLIC_SITE_URL}/download/app/en`,
+        hrefLang: "en",
+      },
+    ],
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/download/app`,
+    openGraph: {
+      basic: {
+        title: `App | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/download/app`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: "App",
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <DownloadByType
+    topics={topics}
+    downloadsByType={apps}
+    type="app"
+    locale="id"
+  />
+</MainLayout>

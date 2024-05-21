@@ -1,14 +1,14 @@
 import type { APIRoute } from "astro"
 import { z } from "zod"
 
-import { getDownloadsByTopicId } from "@/lib/action/download"
+import { getDownloadsByTopicIdInfinite } from "@/lib/action/download"
 import { languageType } from "@/lib/validation/language"
 
 const inputSchema = z.object({
   language: languageType,
   topicId: z.string(),
-  page: z.number(),
-  perPage: z.number(),
+  limit: z.number().optional(),
+  cursor: z.string().optional(),
 })
 
 export const GET: APIRoute = async ({ locals, params, request }) => {
@@ -20,17 +20,16 @@ export const GET: APIRoute = async ({ locals, params, request }) => {
 
     const url = new URL(request.url)
     const queryParams = new URLSearchParams(url.search)
-    const page = parseInt(queryParams.get("page") ?? "1")
-    const perPage = parseInt(queryParams.get("perPage") ?? "10")
-
+    const limit = parseInt(queryParams.get("limit") ?? "50")
+    const cursor = queryParams.get("cursor")
     const parsedInput = inputSchema.parse({
       language,
       topicId,
-      page,
-      perPage,
+      limit,
+      cursor,
     })
 
-    const data = await getDownloadsByTopicId(DB, parsedInput)
+    const data = await getDownloadsByTopicIdInfinite(DB, parsedInput)
 
     if (!data) {
       return new Response(null, {

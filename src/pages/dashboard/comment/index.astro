@@ -1,0 +1,100 @@
+---
+import DashboardCommentContent from "@/components/Dashboard/Comment/DashboardCommentContent"
+import DashboardLayout from "@/layouts/DashboardLayout.astro"
+import {
+  getArticleCommentsCount,
+  getArticleCommentsDashboard,
+} from "@/lib/action/article-comment"
+import {
+  getDownloadCommentsCount,
+  getDownloadCommentsDashboard,
+} from "@/lib/action/download-comment"
+import {
+  getVideoEmbedCommentsCount,
+  getVideoEmbedCommentsDashboard,
+} from "@/lib/action/video-embed-comment"
+import {
+  getWpCommentsCount,
+  getWpCommentsDashboard,
+} from "@/lib/action/wp-comment"
+
+const user = Astro.locals.user
+const DB = Astro.locals.runtime.env.DB
+const url = Astro.url
+
+const searchParams = new URLSearchParams(url.searchParams)
+const page = searchParams.get("page")
+const type = searchParams.get("type")
+const currentType = !type ? "article" : type
+const currentPage =
+  page && typeof parseInt(page) === "number" ? parseInt(page) : 1
+let commentsData
+let commentsCountData
+if (currentType === "article") {
+  const comments = await getArticleCommentsDashboard(DB, {
+    page: currentPage,
+    perPage: 10,
+  })
+  const commentsCount = await getArticleCommentsCount(DB)
+  commentsData = comments
+  commentsCountData = commentsCount
+} else if (currentType === "download") {
+  const comments = await getDownloadCommentsDashboard(DB, {
+    page: currentPage,
+    perPage: 10,
+  })
+  const commentsCount = await getDownloadCommentsCount(DB)
+  commentsData = comments
+  commentsCountData = commentsCount
+} else if (currentType === "video-embed") {
+  const comments = await getVideoEmbedCommentsDashboard(DB, {
+    page: currentPage,
+    perPage: 10,
+  })
+  const commentsCount = await getVideoEmbedCommentsCount(DB)
+  commentsData = comments
+  commentsCountData = commentsCount
+} else if (currentType === "wp-post") {
+  const comments = await getWpCommentsDashboard(DB, {
+    page: currentPage,
+    perPage: 10,
+  })
+  const commentsCount = await getWpCommentsCount(DB)
+  commentsData = comments
+  commentsCountData = commentsCount
+}
+if (!user?.role?.includes("admin" || "author")) {
+  return Astro.redirect("/")
+}
+const lastPage = commentsCountData && Math.ceil(commentsCountData / 10)
+---
+
+<DashboardLayout
+  locale="id"
+  seo={{
+    title: "Comments",
+    description: "Comments",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/topic`,
+    openGraph: {
+      basic: {
+        title: `Comments | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/dashboard/topic`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: "Comments",
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <DashboardCommentContent
+    type={currentType}
+    page={currentPage}
+    lastPage={lastPage ?? 1}
+    comments={commentsData!}
+    authorId={user.id}
+    client:load
+  />
+</DashboardLayout>

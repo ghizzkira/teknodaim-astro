@@ -8,18 +8,20 @@ import type {
 import { Button } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
 import DownloadCard from "./DownloadCard"
+import type { LanguageType } from "@/lib/validation/language"
 
 type DownloadDataProps = Partial<DownloadProps> & {
-  featured_image: Pick<MediaProps, "url">
-  download_files?: Partial<DownloadFileProps>[]
+  featuredImage: Pick<MediaProps, "url">
+  downloadFiles?: Partial<DownloadFileProps>[]
 }
 
 interface DownloadListProps extends React.HTMLAttributes<HTMLDivElement> {
   downloads: DownloadDataProps[]
+  locale: LanguageType
 }
 
 const DownloadList: React.FunctionComponent<DownloadListProps> = (props) => {
-  const { downloads } = props
+  const { downloads, locale } = props
 
   const [prevDisplay, setPrevDisplay] = React.useState<string>("md:hidden")
   const [nextDisplay, setNextDisplay] = React.useState<string>("md:flex")
@@ -104,7 +106,7 @@ const DownloadList: React.FunctionComponent<DownloadListProps> = (props) => {
               <DownloadCard
                 className="h-[280px] w-[200px]"
                 download={download!}
-                locale={"id"}
+                locale={locale}
               />
             </React.Fragment>
           )

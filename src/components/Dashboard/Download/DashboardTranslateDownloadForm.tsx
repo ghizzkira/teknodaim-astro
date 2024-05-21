@@ -563,7 +563,7 @@ const TranslateDownloadForm: React.FunctionComponent<
                             addTopics={setTopics}
                             selectedTopics={selectedTopics}
                             addSelectedTopics={setSelectedTopics}
-                            topicType="all"
+                            topicType="download"
                           />
                         </div>
                       )}

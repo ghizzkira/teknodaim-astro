@@ -1,0 +1,68 @@
+---
+import SingleDownloadFile from "@/components/Template/SingleDownloadFile.astro"
+import MainLayout from "@/layouts/MainLayout.astro"
+import { getDownloadBySlug, getDownloadsByType } from "@/lib/action/download"
+import { getDownloadFileBySlug } from "@/lib/action/download-file"
+
+Astro.locals.cache(60)
+
+const { slug, fileSlug } = Astro.params
+const DB = Astro.locals.runtime.env.DB
+
+const downloads = await getDownloadsByType(DB, {
+  language: "id",
+  type: "game",
+  page: 1,
+  perPage: 10,
+})
+const download = await getDownloadBySlug(DB, {
+  slug: slug!,
+  downloadFilePage: 1,
+  downloadFilePerPage: 10,
+})
+
+if (!download) {
+  return Astro.redirect("/404")
+}
+
+const downloadFile = await getDownloadFileBySlug(DB, fileSlug!)
+
+if (!downloadFile) {
+  return Astro.redirect("/404")
+}
+---
+
+<MainLayout
+  locale="id"
+  seo={{
+    title: `Download ${download?.metaTitle ?? download?.title} ${downloadFile?.title} untuk ${download?.operatingSystem}`,
+    description: download?.metaDescription!,
+    languageAlternates: [
+      {
+        href: `${import.meta.env.PUBLIC_SITE_URL}/en/download/game/${download.slug}/${downloadFile.slug}`,
+        hrefLang: "en",
+      },
+    ],
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/download/game/${download.slug}/${downloadFile.slug}`,
+    openGraph: {
+      basic: {
+        title: `Download ${download?.metaTitle ?? download?.title} ${downloadFile?.title} untuk ${download?.operatingSystem} | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/download/game/${download.slug}/${downloadFile.slug}`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: download?.metaDescription!,
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <SingleDownloadFile
+    downloads={downloads}
+    download={download}
+    downloadFile={downloadFile}
+    type="game"
+    locale="id"
+  />
+</MainLayout>

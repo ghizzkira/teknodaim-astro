@@ -1,0 +1,20 @@
+---
+import InfiniteScrollDownloadByTopic from "@/components/Download/InfiniteScrollDownloadByTopic"
+
+const { topicId, locale } = Astro.props
+---
+
+<div
+  class="fade-up-element mx-auto flex w-full flex-col max-[991px]:px-4 md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]"
+>
+  <div class="w-full px-4">
+    <div class={"my-2 flex flex-row justify-start"}>
+      <h2>Newest</h2>
+    </div>
+    <InfiniteScrollDownloadByTopic
+      client:load
+      language={locale}
+      topicId={topicId}
+    />
+  </div>
+</div>

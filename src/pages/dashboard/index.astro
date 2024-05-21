@@ -7,9 +7,12 @@ import { Icon } from "@/components/UI/Icon"
 import DashboardLayout from "@/layouts/DashboardLayout.astro"
 import { getAdsCount } from "@/lib/action/ad"
 import { getArticlesCount } from "@/lib/action/article"
+import { getDownloadsCount } from "@/lib/action/download"
+import { getGadgetsCount } from "@/lib/action/gadget"
 import { getMediasCount } from "@/lib/action/media"
 import { getTopicsCount } from "@/lib/action/topic"
 import { getUsersCount } from "@/lib/action/user"
+import { getVideoEmbedsCount } from "@/lib/action/video-embed"
 
 const user = Astro.locals.user
 const DB = Astro.locals.runtime.env.DB
@@ -18,6 +21,9 @@ const topics = await getTopicsCount(DB)
 const medias = await getMediasCount(DB)
 const ads = await getAdsCount(DB)
 const users = await getUsersCount(DB)
+const downloads = await getDownloadsCount(DB)
+const gadgets = await getGadgetsCount(DB)
+const videoEmbeds = await getVideoEmbedsCount(DB)
 if (!user?.role?.includes("admin" || "author")) {
   return Astro.redirect("/")
 }
@@ -56,10 +62,31 @@ if (!user?.role?.includes("admin" || "author")) {
       </DashboardBox>
       <DashboardBox>
         <DashboardBoxIconWrapper>
+          <Icon.Download />
+        </DashboardBoxIconWrapper>
+        <DashboardBoxCount>{downloads}</DashboardBoxCount>
+        <DashboardBoxDescription>downloads</DashboardBoxDescription>
+      </DashboardBox>
+      <DashboardBox>
+        <DashboardBoxIconWrapper>
+          <Icon.Smartphone />
+        </DashboardBoxIconWrapper>
+        <DashboardBoxCount>{gadgets}</DashboardBoxCount>
+        <DashboardBoxDescription>gadgets</DashboardBoxDescription>
+      </DashboardBox>
+      <DashboardBox>
+        <DashboardBoxIconWrapper>
           <Icon.Topic />
         </DashboardBoxIconWrapper>
         <DashboardBoxCount>{topics}</DashboardBoxCount>
         <DashboardBoxDescription>topics</DashboardBoxDescription>
+      </DashboardBox>
+      <DashboardBox>
+        <DashboardBoxIconWrapper>
+          <Icon.Youtube />
+        </DashboardBoxIconWrapper>
+        <DashboardBoxCount>{videoEmbeds}</DashboardBoxCount>
+        <DashboardBoxDescription>video embeds</DashboardBoxDescription>
       </DashboardBox>
       <DashboardBox>
         <DashboardBoxIconWrapper>

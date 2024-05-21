@@ -505,7 +505,7 @@ const CreateDownloadForm: React.FunctionComponent<CreateDownloadFormProps> = (
                             addTopics={setTopics}
                             selectedTopics={selectedTopics}
                             addSelectedTopics={setSelectedTopics}
-                            topicType="all"
+                            topicType="download"
                           />
                         </div>
                       )}

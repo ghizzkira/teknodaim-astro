@@ -28,8 +28,8 @@ import {
   SelectValue,
 } from "@/components/UI/Select"
 import type { SelectUser } from "@/lib/db/schema"
-import DashboardAddTopics from "../DashboardAddTopics"
-import DashboardAddAuthors from "../DashboardAddAuthors"
+import DashboardAddTopics from "@/components/Dashboard/DashboardAddTopics"
+import DashboardAddAuthors from "@/components/Dashboard/DashboardAddAuthors"
 import TextEditorExtended from "@/components/TextEditor/TextEditorExtended"
 
 type FormValues = CreateVideoEmbed
@@ -275,8 +275,8 @@ export default function CreateVideoEmbedForm(props: CreateVideoEmbedFormProps) {
                         alt="featured_image"
                         onClick={() => setOpenDialog(true)}
                         sizes="(max-width: 768px) 30vw, (max-width: 1200px) 20vw, 33vw"
-                        width={"200"}
-                        height={"200"}
+                        width={"500"}
+                        height={"500"}
                       />
                     </div>
                   </SelectMediaDialog>
