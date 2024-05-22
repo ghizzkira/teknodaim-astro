@@ -143,7 +143,10 @@ const fileVersion =
                         href={`/download/${type}/${download.slug}/${fileVersion?.slug}`}
                         className={cn(buttonVariants())}
                       >
-                        Download
+                        Download{" "}
+                        {fileVersion?.fileSize
+                          ? `(${fileVersion?.fileSize})`
+                          : ""}
                       </Link>
                     )
                 }
