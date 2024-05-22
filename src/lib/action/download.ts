@@ -195,7 +195,6 @@ export const getDownloadBySlug = async (
       version: downloadFiles.version,
       fileSize: downloadFiles.fileSize,
       price: downloadFiles.price,
-      slug: downloadFiles.slug,
     })
     .from(downloadDownloadFiles)
     .leftJoin(downloads, eq(downloadDownloadFiles.downloadId, downloads.id))
