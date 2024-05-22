@@ -90,6 +90,11 @@ const DashboardVideoEmbedPage = (props: DashboardVideoEmbedPageProps) => {
                       <DashboardShowOptions
                         onDelete={() => deleteVideoEmbed(videoEmbed.id)}
                         editUrl={`/dashboard/video-embed/edit/${videoEmbed.id}`}
+                        viewUrl={
+                          videoEmbed?.type !== "youtube_short"
+                            ? `/video/${videoEmbed.slug}`
+                            : `/video/short/${videoEmbed.slug}`
+                        }
                         description={videoEmbed.title!}
                       />
                     </TableCell>

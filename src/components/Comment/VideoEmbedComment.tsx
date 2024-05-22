@@ -158,7 +158,7 @@ export const VideoEmbedComment: React.FunctionComponent<VideoEmbedCommentFormPro
       deleteVideoEmbedCommentAction(comment_id)
     }
 
-    const CommentsContent = (props: { className?: string }) => {
+    const CommentsContainer = (props: { className?: string }) => {
       const { className } = props
       return (
         <>
@@ -271,7 +271,7 @@ export const VideoEmbedComment: React.FunctionComponent<VideoEmbedCommentFormPro
                 return page?.videoEmbedComments.map((comment, i) => {
                   return (
                     <>
-                      <CommentsData
+                      <CommentsContent
                         key={comment.id + i}
                         comment={comment}
                         isEdited={isEdited}
@@ -291,7 +291,7 @@ export const VideoEmbedComment: React.FunctionComponent<VideoEmbedCommentFormPro
                       {openReplies === comment.id &&
                         comment?.replies?.map((reply, i) => {
                           return (
-                            <ReplyData
+                            <ReplyContent
                               key={reply.id + i}
                               reply={reply}
                               isEdited={isEdited}
@@ -391,7 +391,7 @@ export const VideoEmbedComment: React.FunctionComponent<VideoEmbedCommentFormPro
                   <Icon.Close className="h-4 w-4" />
                 </Button>
               </div>
-              <CommentsContent className="h-auto overflow-y-auto" />
+              <CommentsContainer className="h-auto overflow-y-auto" />
             </div>
           </details>
         ) : (
@@ -401,7 +401,7 @@ export const VideoEmbedComment: React.FunctionComponent<VideoEmbedCommentFormPro
                 type === "video" ? "hidden sm:block" : "block w-full",
               )}
             >
-              {<CommentsContent />}
+              {<CommentsContainer />}
             </div>
           )
         )}
@@ -430,7 +430,7 @@ interface CommensDataProps extends React.HTMLAttributes<HTMLLIElement> {
   handleDeleteComment: (id: string) => void
 }
 
-const CommentsData: React.FunctionComponent<CommensDataProps> = React.memo(
+const CommentsContent: React.FunctionComponent<CommensDataProps> = React.memo(
   (props) => {
     const {
       comment,
@@ -593,7 +593,7 @@ const CommentsData: React.FunctionComponent<CommensDataProps> = React.memo(
   },
 )
 
-interface ReplyDataProps extends React.HTMLAttributes<HTMLLIElement> {
+interface ReplyContentProps extends React.HTMLAttributes<HTMLLIElement> {
   reply: RepliesProps
   isEdited: string | null
   setIsEdited: React.Dispatch<React.SetStateAction<string>>
@@ -608,7 +608,7 @@ interface ReplyDataProps extends React.HTMLAttributes<HTMLLIElement> {
   handleDeleteComment: (id: string) => void
 }
 
-const ReplyData: React.FunctionComponent<ReplyDataProps> = React.memo(
+const ReplyContent: React.FunctionComponent<ReplyContentProps> = React.memo(
   (props) => {
     const {
       reply,

@@ -22,12 +22,12 @@ const DownloadCardSide: React.FunctionComponent<DownloadCardSideProps> = (
         <div className="relative flex max-w-xs flex-col space-y-3 md:max-w-3xl md:flex-row md:space-x-4 md:space-y-0">
           <div className="relative aspect-[1/1] h-[75px] w-auto max-w-[unset] overflow-hidden rounded-md">
             <Image
-              className="object-cover"
+              className="!h-full !w-full object-cover"
               src={src}
               alt={title}
               sizes="(max-width: 768px) 50px, 100px"
-              width={"100"}
-              height={"100"}
+              width={"200"}
+              height={"200"}
             />
           </div>
           <div className="flex w-full flex-col space-y-2 md:w-2/3">

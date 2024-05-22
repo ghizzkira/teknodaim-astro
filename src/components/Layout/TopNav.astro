@@ -7,7 +7,7 @@ import Logo from "@/components/Brand/Logo"
 import Link from "@/components/Link"
 import ThemeSwitcher from "@/components/Theme/ThemeSwitcher.astro"
 // import ThemeSwitcher from "@/components/theme/theme-switcher"
-import { Button } from "@/components/UI/Button"
+import { buttonVariants } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
 import UserMenu from "@/components/User/UserMenu"
 import { cn } from "@/lib/utils/style"
@@ -69,136 +69,131 @@ const {
             headerType === "shorts" ? "hidden md:block" : "flex",
           )}
         >
-          <div class="hidden items-center space-x-4 lg:flex">
+          <div class="hidden items-center space-x-1 lg:flex">
             {
               facebookUsername && (
-                <Button
+                <a
                   aria-label="Facebook"
-                  className="hidden p-1 lg:flex"
-                  variant="ghost"
-                  size="icon"
-                  asChild
+                  href={`https://www.facebook.com/${facebookUsername}`}
+                  target="_blank"
+                  class={cn(
+                    buttonVariants({
+                      variant: "ghost",
+                      size: "icon",
+                      className: "hidden p-1 lg:flex",
+                    }),
+                  )}
                 >
-                  <a
+                  <Icon.Facebook
+                    className="h-[19px] w-[19px]"
                     aria-label="Facebook"
-                    href={`https://www.facebook.com/${facebookUsername}`}
-                    target="_blank"
-                  >
-                    <Icon.Facebook
-                      className="h-[19px] w-[19px]"
-                      aria-label="Facebook"
-                    />
-                  </a>
-                </Button>
+                  />
+                </a>
               )
             }
             {
               twitterUsername && (
-                <Button
+                <a
                   aria-label="Twitter"
-                  className="hidden p-1 lg:flex"
-                  variant="ghost"
-                  size="icon"
-                  asChild
+                  href={`https://www.twitter.com/${twitterUsername}`}
+                  target="_blank"
+                  class={cn(
+                    buttonVariants({
+                      variant: "ghost",
+                      size: "icon",
+                      className: "hidden p-1 lg:flex",
+                    }),
+                  )}
                 >
-                  <a
+                  <Icon.Twitter
+                    className="h-[19px] w-[19px]"
                     aria-label="Twitter"
-                    href={`https://www.twitter.com/${twitterUsername}`}
-                    target="_blank"
-                  >
-                    <Icon.Twitter
-                      className="h-[19px] w-[19px]"
-                      aria-label="Twitter"
-                    />
-                  </a>
-                </Button>
+                  />
+                </a>
               )
             }
             {
               instagramUsername && (
-                <Button
+                <a
                   aria-label="Instagram"
-                  className="hidden p-1 lg:flex"
-                  variant="ghost"
-                  size="icon"
-                  asChild
+                  href={`https://www.instagram.com/${instagramUsername}`}
+                  target="_blank"
+                  class={cn(
+                    buttonVariants({
+                      variant: "ghost",
+                      size: "icon",
+                      className: "hidden p-1 lg:flex",
+                    }),
+                  )}
                 >
-                  <a
-                    href={`https://www.instagram.com/${instagramUsername}`}
-                    target="_blank"
-                  >
-                    <Icon.Instagram
-                      className="h-[19px] w-[19px]"
-                      aria-label="Instagram"
-                    />
-                  </a>
-                </Button>
+                  <Icon.Instagram
+                    className="h-[19px] w-[19px]"
+                    aria-label="Instagram"
+                  />
+                </a>
               )
             }
             {
               tiktokUsername && (
-                <Button
+                <a
                   aria-label="Tiktok"
-                  className="hidden p-1 lg:flex"
-                  variant="ghost"
-                  size="icon"
-                  asChild
+                  href={`https://tiktok.com/${tiktokUsername}`}
+                  target="_blank"
+                  class={cn(
+                    buttonVariants({
+                      variant: "ghost",
+                      size: "icon",
+                      className: "hidden p-1 lg:flex",
+                    }),
+                  )}
                 >
-                  <a
+                  <Icon.Tiktok
+                    className="h-[19px] w-[19px]"
                     aria-label="Tiktok"
-                    href={`https://tiktok.com/${tiktokUsername}`}
-                    target="_blank"
-                  >
-                    <Icon.Tiktok
-                      className="h-[19px] w-[19px]"
-                      aria-label="Tiktok"
-                    />
-                  </a>
-                </Button>
+                  />
+                </a>
               )
             }
             {
               whatsappChannel && (
-                <Button
+                <a
                   aria-label="WhatsApp Channel"
-                  className="hidden p-1 lg:flex"
-                  variant="ghost"
-                  size="icon"
-                  asChild
+                  href={`https://whatsapp.com/channel/${whatsappChannel}`}
+                  target="_blank"
+                  class={cn(
+                    buttonVariants({
+                      variant: "ghost",
+                      size: "icon",
+                      className: "hidden p-1 lg:flex",
+                    }),
+                  )}
                 >
-                  <a
+                  <Icon.WhatsApp
+                    className="h-[19px] w-[19px]"
                     aria-label="WhatsApp Channel"
-                    href={`https://whatsapp.com/channel/${whatsappChannel}`}
-                    target="_blank"
-                  >
-                    <Icon.WhatsApp
-                      className="h-[19px] w-[19px]"
-                      aria-label="WhatsApp Channel"
-                    />
-                  </a>
-                </Button>
+                  />
+                </a>
               )
             }
             {
               youtubeChannel && (
-                <Button
+                <a
                   aria-label="Youtube"
-                  className="hidden p-1 lg:flex"
-                  variant="ghost"
-                  size="icon"
-                  asChild
+                  href={`https://www.youtube.com/${youtubeChannel}`}
+                  target="_blank"
+                  class={cn(
+                    buttonVariants({
+                      variant: "ghost",
+                      size: "icon",
+                      className: "hidden p-1 lg:flex",
+                    }),
+                  )}
                 >
-                  <a
+                  <Icon.Youtube
+                    className="h-[19px] w-[19px]"
                     aria-label="Youtube"
-                    href={`https://www.youtube.com/${youtubeChannel}`}
-                    target="_blank"
-                  >
-                    <Icon.Youtube
-                      className="h-[19px] w-[19px]"
-                      aria-label="Youtube"
-                    />
-                  </a>
-                </Button>
+                  />
+                </a>
               )
             }
           </div>
