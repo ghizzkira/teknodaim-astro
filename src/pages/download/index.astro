@@ -1,4 +1,5 @@
 ---
+import JsonLdScript from "@/components/JsonLdScript"
 import Download from "@/components/Template/Download.astro"
 import MainLayout from "@/layouts/MainLayout.astro"
 import {
@@ -34,6 +35,25 @@ const topics = await getTopicsByType(DB, {
   page: 1,
   perPage: 10,
 })
+
+const breadcrumbJson = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: import.meta.env.PUBLIC_SITE_TITLE,
+      item: import.meta.env.PUBLIC_SITE_URL,
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Download",
+      item: `${import.meta.env.PUBLIC_SITE_URL}/download`,
+    },
+  ],
+}
 ---
 
 <MainLayout
@@ -62,6 +82,7 @@ const topics = await getTopicsByType(DB, {
     },
   }}
 >
+  <JsonLdScript jsonld={JSON.stringify(breadcrumbJson)} />
   <Download
     topics={topics}
     games={games}

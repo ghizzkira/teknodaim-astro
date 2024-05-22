@@ -246,7 +246,7 @@ export default function CreateVideoEmbedForm(props: CreateVideoEmbedFormProps) {
                 addTopics={setTopics}
                 selectedTopics={selectedTopics}
                 addSelectedTopics={setSelectedTopics}
-                topicType="all"
+                topicType="video"
               />
               <DashboardAddAuthors
                 authors={authors}

@@ -12,6 +12,7 @@ export const TOPIC_TYPE = [
   "movie",
   "tv",
   "game",
+  "video",
 ] as const
 
 export const TOPIC_VISIBILITY = ["public", "internal"] as const

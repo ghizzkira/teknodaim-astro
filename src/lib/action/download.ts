@@ -44,6 +44,7 @@ export const getDownloadTranslationById = async (
             license: true,
             officialWebsite: true,
             schemaType: true,
+            slug: true,
             type: true,
           },
           with: {

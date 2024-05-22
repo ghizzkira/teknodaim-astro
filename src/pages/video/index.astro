@@ -1,0 +1,142 @@
+---
+import JsonLdScript from "@/components/JsonLdScript"
+import VideoNav from "@/components/Layout/VideoNav"
+import InfiniteScrollVideoEmbed from "@/components/VideoEmbed/InfiniteScrollVideoEmbed"
+import ScrollListShortVideoEmbed from "@/components/VideoEmbed/ScrollListShortVideoEmbed"
+import VideoEmbedCard from "@/components/VideoEmbed/VideoEmbedCard"
+import MainLayout from "@/layouts/MainLayout.astro"
+import { getTopicsByType } from "@/lib/action/topic"
+import {
+  getVideoEmbedsByType,
+  getVideoEmbedsByTypeInfinite,
+} from "@/lib/action/video-embed"
+
+const DB = Astro.locals.runtime.env.DB
+const infiniteDatas = await getVideoEmbedsByTypeInfinite(DB, {
+  type: "youtube",
+  limit: 10,
+})
+const shortVideos = await getVideoEmbedsByType(DB, {
+  type: "youtube_short",
+  page: 1,
+  perPage: 10,
+})
+
+const topics = await getTopicsByType(DB, {
+  language: "id",
+  type: "video",
+  page: 1,
+  perPage: 20,
+})
+const firstSectionVideos = infiniteDatas?.videoEmbeds?.slice(0, 6)
+const secondSectionVideos = infiniteDatas?.videoEmbeds?.slice(
+  6,
+  infiniteDatas?.videoEmbeds.length,
+)
+const breadcrumbJson = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: import.meta.env.PUBLIC_SITE_TITLE,
+      item: import.meta.env.PUBLIC_SITE_URL,
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Video",
+      item: `${import.meta.env.PUBLIC_SITE_URL}/video`,
+    },
+  ],
+}
+---
+
+<MainLayout
+  locale="id"
+  seo={{
+    title: "Video",
+    description: "Video",
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/video`,
+    openGraph: {
+      basic: {
+        title: `Video | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/video`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: "Video",
+        locale: "ID",
+      },
+    },
+  }}
+>
+  <JsonLdScript jsonld={JSON.stringify(breadcrumbJson)} />
+  <section class="fade-up-element flex w-full flex-col">
+    {
+      topics && (
+        <div class="sticky top-[64px] z-[50] mb-5">
+          <VideoNav locale={"id"} client:load topics={topics} />
+        </div>
+      )
+    }
+    <div
+      class="mx-auto mt-5 flex w-full md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]"
+    >
+      <section class="w-full space-y-3">
+        <div
+          class="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:px-4 md:grid-cols-3"
+        >
+          {
+            infiniteDatas?.videoEmbeds?.length &&
+            infiniteDatas?.videoEmbeds?.length > 0 ? (
+              firstSectionVideos?.map((video) => {
+                return (
+                  <VideoEmbedCard
+                    locale="id"
+                    title={video.title}
+                    featuredImageUrl={
+                      video.featuredImageUrl ?? video.featuredImage?.url ?? ""
+                    }
+                    slug={video.slug}
+                  />
+                )
+              })
+            ) : (
+              <h3 class="my-16 text-center text-3xl">
+                No videos have been posted
+              </h3>
+            )
+          }
+        </div>
+        {
+          shortVideos && (
+            <>
+              <div class="mb-[25px] border-l-[3px] border-l-main px-3">
+                <h4 class="text-[18px] font-bold leading-[36px] text-main">
+                  Shorts
+                </h4>
+              </div>
+              <ScrollListShortVideoEmbed
+                locale="id"
+                shortVideos={shortVideos}
+              />
+            </>
+          )
+        }
+
+        {
+          infiniteDatas?.nextCursor && (
+            <InfiniteScrollVideoEmbed
+              videoEmbeds={secondSectionVideos!}
+              cursor={infiniteDatas?.nextCursor!}
+              locale={"id"}
+            />
+          )
+        }
+      </section>
+    </div>
+  </section>
+</MainLayout>
