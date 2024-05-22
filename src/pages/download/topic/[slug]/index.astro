@@ -1,7 +1,8 @@
 ---
+import JsonLdScript from "@/components/JsonLdScript"
 import DownloadByTopic from "@/components/Template/DownloadByTopic.astro"
 import MainLayout from "@/layouts/MainLayout.astro"
-import { getTopicBySlug } from "@/lib/action/topic"
+import { getTopciTranslationById, getTopicBySlug } from "@/lib/action/topic"
 
 Astro.locals.cache(60)
 
@@ -11,6 +12,46 @@ const topicDownload = await getTopicBySlug(DB, slug!)
 
 if (!topicDownload) {
   return Astro.redirect("/404")
+}
+
+const primaryLanguage = topicDownload.language
+
+const topicTranslation = await getTopciTranslationById(
+  DB,
+  topicDownload.topicTranslationId!,
+)
+
+const otherLanguageTopic = topicTranslation?.topics.find(
+  (topic) => topic.language !== primaryLanguage,
+)
+
+if (otherLanguageTopic?.language === "id") {
+  return Astro.redirect(`/download/topic/${otherLanguageTopic.slug}`)
+}
+
+const breadcrumbJson = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: import.meta.env.PUBLIC_SITE_TITLE,
+      item: import.meta.env.PUBLIC_SITE_URL,
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Download",
+      item: `${import.meta.env.PUBLIC_SITE_URL}/download`,
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: topicDownload?.title,
+      item: `${import.meta.env.PUBLIC_SITE_URL}/download/topic/${slug}`,
+    },
+  ],
 }
 ---
 
@@ -40,5 +81,6 @@ if (!topicDownload) {
     },
   }}
 >
+  <JsonLdScript jsonld={JSON.stringify(breadcrumbJson)} />
   <DownloadByTopic topicId={topicDownload.id} locale="id" />
 </MainLayout>

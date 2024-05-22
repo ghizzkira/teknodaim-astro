@@ -1,7 +1,12 @@
 ---
+import JsonLdScript from "@/components/JsonLdScript"
 import SingleDownloadFile from "@/components/Template/SingleDownloadFile.astro"
 import MainLayout from "@/layouts/MainLayout.astro"
-import { getDownloadBySlug, getDownloadsByType } from "@/lib/action/download"
+import {
+  getDownloadBySlug,
+  getDownloadTranslationById,
+  getDownloadsByType,
+} from "@/lib/action/download"
 import { getDownloadFileBySlug } from "@/lib/action/download-file"
 
 Astro.locals.cache(60)
@@ -29,6 +34,105 @@ const downloadFile = await getDownloadFileBySlug(DB, fileSlug!)
 
 if (!downloadFile) {
   return Astro.redirect("/404")
+}
+
+const primaryLanguage = download.language
+
+const downloadTranslation = await getDownloadTranslationById(
+  DB,
+  download.downloadTranslationId!,
+)
+
+const otherLanguageDownload = downloadTranslation?.downloads?.find(
+  (download) => download.language !== primaryLanguage,
+)
+
+if (otherLanguageDownload?.language === "id") {
+  return Astro.redirect(
+    `/en/download/app/${otherLanguageDownload.slug}/${fileSlug}`,
+  )
+}
+
+const breadcrumbJson = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: import.meta.env.PUBLIC_SITE_TITLE,
+      item: `${import.meta.env.PUBLIC_SITE_URL}/en`,
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Download",
+      item: `${import.meta.env.PUBLIC_SITE_URL}/en/download`,
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: "Apps",
+      item: `${import.meta.env.PUBLIC_SITE_URL}/en/download/app`,
+    },
+    {
+      "@type": "ListItem",
+      position: 4,
+      name: `Download the latest version of ${download?.metaTitle ?? download?.title} for ${download?.operatingSystem}`,
+      item: `${import.meta.env.PUBLIC_SITE_URL}/en/download/app/${slug}`,
+    },
+    {
+      "@type": "ListItem",
+      position: 5,
+      name: `Download ${download?.metaTitle ?? download?.title} ${downloadFile?.title} for ${download?.operatingSystem}`,
+      item: `${import.meta.env.PUBLIC_SITE_URL}/en/download/app/${slug}`,
+    },
+  ],
+}
+
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  url: `${import.meta.env.PUBLIC_SITE_URL}/en/download/game/${download.slug}/${downloadFile?.version}`,
+  headline: download.metaTitle ?? download.title,
+  image: [download?.featuredImage?.url],
+  datePublished: download.createdAt,
+  dateModified: download.createdAt,
+  author: [
+    {
+      "@type": "Person",
+      name: import.meta.env.PUBLIC_SITE_TITLE,
+      url: import.meta.env.PUBLIC_SITE_URL,
+    },
+  ],
+  publisher: {
+    "@type": "Organization",
+    name: import.meta.env.PUBLIC_SITE_TITLE,
+    logo: {
+      "@type": "ImageObject",
+      url: import.meta.env.PUBLIC_LOGO_URL,
+    },
+  },
+  description: download.metaDescription ?? download.excerpt,
+  isAccessibleForFree: true,
+}
+
+const softwareAppJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: download.metaTitle ?? download.title,
+  offers: {
+    "@type": "Offer",
+    price: downloadFile?.price,
+    priceCurrency: downloadFile?.currency,
+  },
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: "5.0",
+    reviewCount: "1",
+  },
+  operatingSystem: download.operatingSystem,
+  applicationCategory: download.schemaType,
 }
 ---
 
@@ -58,6 +162,9 @@ if (!downloadFile) {
     },
   }}
 >
+  <JsonLdScript jsonld={JSON.stringify(articleJsonLd)} />
+  <JsonLdScript jsonld={JSON.stringify(softwareAppJsonLd)} />
+  <JsonLdScript jsonld={JSON.stringify(breadcrumbJson)} />
   <SingleDownloadFile
     downloads={downloads}
     download={download}
