@@ -29,9 +29,9 @@ const { type, download, locale, downloads, downloadFile } = Astro.props
         />
         <BreadcrumbLink
           href={`/download/${type}`}
-          className="text-[12px] text-foreground"
+          className="text-[12px] text-foreground first-letter:uppercase"
         >
-          {type.toLocaleUpperCase()}
+          {type}
         </BreadcrumbLink>
         <BreadcrumbSeparator
           className="inline-flex list-none text-foreground"
@@ -80,6 +80,7 @@ const { type, download, locale, downloads, downloadFile } = Astro.props
                 <DownloadButtonAction
                   downloadLink={downloadFile?.downloadLink as string}
                   fileSize={downloadFile?.fileSize as string}
+                  client:load
                 />
               </div>
             </div>
