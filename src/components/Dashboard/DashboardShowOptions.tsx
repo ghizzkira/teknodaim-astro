@@ -65,7 +65,7 @@ const DashboardShowOptions: React.FC<DashboardShowOptionsProps> = (props) => {
           {viewUrl && (
             <DropdownMenuItem asChild>
               <Link locale="id" href={viewUrl as string}>
-                <Icon.ViewSidebar className="mr-2 size-4" />
+                <Icon.Eye className="mr-2 size-4" />
                 View
               </Link>
             </DropdownMenuItem>

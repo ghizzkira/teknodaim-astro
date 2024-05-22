@@ -8,6 +8,7 @@ import {
   getDownloadsByType,
   getRelatedDownloadsInfinite,
 } from "@/lib/action/download"
+import { getDownloadFileById } from "@/lib/action/download-file"
 
 Astro.locals.cache(60)
 const { slug } = Astro.params
@@ -43,6 +44,11 @@ const otherLanguageDownload = downloadTranslation?.downloads?.find(
 if (otherLanguageDownload?.language === "en") {
   return Astro.redirect(`/en/download/app/${otherLanguageDownload.slug}`)
 }
+
+const latestVersionFile = await getDownloadFileById(
+  DB,
+  download?.downloadFiles?.[0]?.id ?? "",
+)
 
 const relatedDownloads = await getRelatedDownloadsInfinite(DB, {
   limit: 10,
@@ -160,6 +166,7 @@ const softwareAppJsonLd = {
     relatedDownloads={relatedDownloads}
     downloads={downloads}
     download={download}
+    latestVersionFile={latestVersionFile}
     type="app"
     locale="en"
   />
