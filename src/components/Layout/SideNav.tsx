@@ -197,7 +197,7 @@ const SideNav: React.FunctionComponent<SideNavProps> = (props) => {
             locale={locale}
             role="link"
             aria-label="Go To Download Page"
-            href="/"
+            href="/download"
             className="flex transform flex-row items-center transition-transform duration-200 ease-in hover:translate-x-2"
           >
             <p className="inline-flex items-center font-bold hover:text-primary">
@@ -214,7 +214,7 @@ const SideNav: React.FunctionComponent<SideNavProps> = (props) => {
             locale={locale}
             role="link"
             aria-label="Go To Video Page"
-            href="/"
+            href="/video"
             className="flex transform flex-row items-center transition-transform duration-200 ease-in hover:translate-x-2"
           >
             <p className="inline-flex items-center font-bold hover:text-primary">

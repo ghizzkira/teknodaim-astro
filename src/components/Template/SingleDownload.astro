@@ -17,12 +17,13 @@ import {
 import { formatDate } from "@/lib/utils/date"
 import DownloadCardSide from "@/components/Download/DownloadCardSide"
 import DownloadDetailBox from "@/components/Download/DownloadDetailBox"
-import { Button } from "@/components/UI/Button"
+import { buttonVariants } from "@/components/UI/Button"
 import Link from "@/components/Link"
 import { Image } from "astro:assets"
 import type { DownloadType } from "@/lib/validation/download"
 import ContentWrapper from "@/components/ContentWrapper"
 import DownloadComment from "@/components/Comment/DownloadComment"
+import { cn } from "@/lib/utils/style"
 
 type DownloadProps = SelectDownload & {
   featuredImage?: Partial<SelectMedia>
@@ -61,9 +62,9 @@ const fileVersion =
       <BreadcrumbSeparator className="inline-flex list-none text-foreground" />
       <BreadcrumbLink
         href={`/download/${type}`}
-        className="text-[12px] text-foreground"
+        className="text-[12px] text-foreground first-letter:uppercase"
       >
-        {type.toLocaleUpperCase()}
+        {type}
       </BreadcrumbLink>
       <BreadcrumbSeparator className="inline-flex list-none text-foreground" />
       <BreadcrumbItem>
@@ -87,7 +88,7 @@ const fileVersion =
                     <Image
                       src={download?.featuredImage?.url}
                       alt={download?.title as string}
-                      class="rounded-lg object-cover"
+                      class="!h-full !w-full rounded-lg object-cover"
                       sizes="(max-width: 768px) 30vw, (max-width: 1200px) 20vw, 33vw"
                       quality={60}
                       width={500}
@@ -123,28 +124,27 @@ const fileVersion =
               </div>
               <p>{download?.developer}</p>
               <div class={"inline-flex space-x-2 pt-12"}>
-                <Button asChild type="button" aria-label="Official Web">
-                  <a
-                    href={download?.officialWebsite}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    Official Web
-                  </a>
-                </Button>
+                <a
+                  href={download?.officialWebsite}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Official Web"
+                  class={cn(buttonVariants())}
+                >
+                  Official Web
+                </a>
                 {
                   download &&
                     download?.downloadFiles?.length &&
                     download?.downloadFiles?.length > 0 && (
-                      <Button asChild aria-label="Download">
-                        <Link
-                          locale={locale}
-                          aria-label="Download"
-                          href={`/download/${type}/${download.slug}/${fileVersion?.slug}`}
-                        >
-                          Download
-                        </Link>
-                      </Button>
+                      <Link
+                        locale={locale}
+                        aria-label="Download"
+                        href={`/download/${type}/${download.slug}/${fileVersion?.slug}`}
+                        className={cn(buttonVariants())}
+                      >
+                        Download
+                      </Link>
                     )
                 }
               </div>
@@ -320,6 +320,7 @@ const fileVersion =
         downloads?.map((download) => {
           return (
             <DownloadCardSide
+              locale={locale}
               src={download.featuredImage?.url!}
               title={download.title}
               slug={`/download/${download.type}/${download.slug}`}

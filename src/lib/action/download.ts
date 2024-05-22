@@ -123,6 +123,7 @@ export const getDownloadById = async (DB: D1Database, input: string) => {
   const downloadFilesData = await db
     .select({
       id: downloadFiles.id,
+      slug: downloadFiles.slug,
       title: downloadFiles.title,
       version: downloadFiles.version,
       fileSize: downloadFiles.fileSize,
