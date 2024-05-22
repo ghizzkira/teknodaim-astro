@@ -17,6 +17,7 @@ const downloads = await getDownloadsByLanguage(DB, {
   page: 1,
   perPage: 10,
 })
+
 const apps = await getDownloadsByType(DB, {
   language: "id",
   type: "app",

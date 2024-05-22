@@ -37,16 +37,17 @@ interface Props {
   download: DownloadProps
   type: DownloadType
   relatedDownloads: { downloads: DownloadProps[] }
+  latestVersionFile: Partial<SelectDownloadFile>
 }
 
-const { download, downloads, locale, type, relatedDownloads } = Astro.props
-
-const fileVersion =
-  download &&
-  download?.downloadFiles?.length &&
-  download?.downloadFiles?.length > 0
-    ? download?.downloadFiles[0]
-    : undefined
+const {
+  download,
+  downloads,
+  locale,
+  type,
+  relatedDownloads,
+  latestVersionFile,
+} = Astro.props
 ---
 
 <div
@@ -109,7 +110,7 @@ const fileVersion =
                     download?.downloadFiles?.length &&
                     download?.downloadFiles?.length > 0 && (
                       <>
-                        <p>{fileVersion?.version}</p>
+                        <p>{latestVersionFile?.version}</p>
                         <Link
                           locale={locale}
                           aria-label="Show All Version Page"
@@ -140,10 +141,13 @@ const fileVersion =
                       <Link
                         locale={locale}
                         aria-label="Download"
-                        href={`/download/${type}/${download.slug}/${fileVersion?.slug}`}
+                        href={`/download/${type}/${download.slug}/${latestVersionFile?.slug}`}
                         className={cn(buttonVariants())}
                       >
-                        Download
+                        Download{" "}
+                        {latestVersionFile?.fileSize
+                          ? `(${latestVersionFile?.fileSize})`
+                          : ""}
                       </Link>
                     )
                 }
@@ -224,7 +228,7 @@ const fileVersion =
               download?.downloadFiles?.length > 0 && (
                 <DownloadDetailBox
                   title="File Size"
-                  value={fileVersion?.fileSize}
+                  value={latestVersionFile?.fileSize}
                 >
                   <Fragment slot="icon">
                     <Icon.Folder
