@@ -42,6 +42,7 @@ export function useCreateArticleComment({
         onSuccess && onSuccess()
       } else {
         onError && onError()
+        return null
       }
       return data
     } catch (error) {
@@ -86,6 +87,7 @@ export function useUpdateArticleComment({
         onSuccess && onSuccess()
       } else {
         onError && onError()
+        return null
       }
       return data
     } catch (error) {
@@ -125,6 +127,7 @@ export function useDeleteArticleComment({
         onSuccess && onSuccess()
       } else {
         onError && onError()
+        return null
       }
       return data
     } catch (error) {
@@ -239,6 +242,7 @@ export function useGetArticleCommentByArticleIdInfinite({
         setHasNextPage(false)
       }
     } catch (error) {
+      setHasNextPage(false)
       toast({
         description: "Error when getting comment, try again",
         variant: "warning",
@@ -323,6 +327,7 @@ export function useGetArticleCommentByArticleIdInfinite({
           break
         }
       } catch (error) {
+        setHasNextPage(false)
         toast({
           description: "Error when getting comment, try again",
           variant: "warning",

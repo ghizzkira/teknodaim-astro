@@ -96,7 +96,7 @@ const EditArticleComment: React.FunctionComponent<EditArticleCommentProps> = (
               rules={{ required: "Content must be filled" }}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Edit Comment</FormLabel>
+                  {type === "dashboard" && <FormLabel>Edit Comment</FormLabel>}
                   <FormControl>
                     <Textarea
                       variant={type !== "default" ? "solid" : "plain"}

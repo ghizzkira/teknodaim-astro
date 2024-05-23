@@ -11,7 +11,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/UI/Form"
 import { useCreateVideoEmbedComment } from "@/hooks/useVideoEmbedComment"
@@ -102,7 +101,6 @@ const ReplyVideoEmbedComment: React.FunctionComponent<
                   rules={{ required: "Content must be filled" }}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Edit Comment</FormLabel>
                       <FormControl>
                         <Textarea
                           variant="plain"

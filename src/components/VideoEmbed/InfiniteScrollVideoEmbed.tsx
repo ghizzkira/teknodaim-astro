@@ -4,7 +4,7 @@ import type { LanguageType } from "@/lib/validation/language"
 import VideoEmbedCard from "./VideoEmbedCard"
 import type { SelectMedia, SelectUser, SelectVideoEmbed } from "@/lib/db/schema"
 import LoadingProgress from "@/components/LoadingProgress"
-import { useGetVideoEmbedsByType } from "@/hooks/useVideoEmbed"
+import { useGetVideoEmbedsByTypeInfinite } from "@/hooks/useVideoEmbed"
 
 type VideoEmbeds = Pick<
   SelectVideoEmbed,
@@ -28,7 +28,7 @@ const InfiniteScrollVideoEmbed: React.FunctionComponent<
 
   const loadMoreRef = React.useRef<HTMLDivElement>(null)
 
-  const { data, hasNextPage, fetchNextPage } = useGetVideoEmbedsByType({
+  const { data, hasNextPage, fetchNextPage } = useGetVideoEmbedsByTypeInfinite({
     type: "youtube",
     limit: 10,
   })

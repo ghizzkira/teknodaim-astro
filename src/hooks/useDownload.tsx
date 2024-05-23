@@ -31,6 +31,7 @@ export function useCreateDownload({
         onSuccess && onSuccess()
       } else {
         onError && onError()
+        return null
       }
       return data
     } catch (error) {
@@ -69,6 +70,7 @@ export function useTranslateDownload({
         onSuccess && onSuccess()
       } else {
         onError && onError()
+        return null
       }
       return data
     } catch (error) {
@@ -106,6 +108,7 @@ export function useUpdateDownload({
         onSuccess && onSuccess()
       } else {
         onError && onError()
+        return null
       }
       return data
     } catch (error) {
@@ -139,6 +142,7 @@ export function useDeleteDownload({
         onSuccess && onSuccess()
       } else {
         onError && onError()
+        return null
       }
 
       return data
@@ -254,6 +258,7 @@ export function useGetDownloadsByLanguageInfinite({
         setHasNextPage(false)
       }
     } catch (error) {
+      setHasNextPage(false)
       toast({
         description: "Error when getting downloads, try again",
         variant: "warning",
@@ -333,6 +338,7 @@ export function useGetDownloadsByLanguageInfinite({
           break
         }
       } catch (error) {
+        setHasNextPage(false)
         toast({
           description: "Error when getting downloads, try again",
           variant: "warning",
@@ -505,6 +511,7 @@ export function useGetDownloadsByLanguageByTopicInfinite({
           break
         }
       } catch (error) {
+        setHasNextPage(false)
         toast({
           description: "Error when getting downloads, try again",
           variant: "warning",

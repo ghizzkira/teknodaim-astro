@@ -32,6 +32,7 @@ export function useUpdateUser({
         onSuccess && onSuccess()
       } else {
         onError && onError()
+        return null
       }
       return data
     } catch (error) {
@@ -70,6 +71,7 @@ export function useDeleteUser({
         onSuccess && onSuccess()
       } else {
         onError && onError()
+        return null
       }
 
       return data

@@ -29,6 +29,7 @@ export function useCreateDownloadFile({
         onSuccess && onSuccess(data?.[0])
       } else {
         onError && onError()
+        return null
       }
       return data
     } catch (error) {
@@ -66,6 +67,7 @@ export function useUpdateDownloadFile({
         onSuccess && onSuccess()
       } else {
         onError && onError()
+        return null
       }
       return data
     } catch (error) {
@@ -99,6 +101,7 @@ export function useDeleteDownloadFile({
         onSuccess && onSuccess()
       } else {
         onError && onError()
+        return null
       }
 
       return data

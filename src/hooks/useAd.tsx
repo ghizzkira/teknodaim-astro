@@ -25,6 +25,7 @@ export function useCreateAd({
         onSuccess && onSuccess()
       } else {
         onError && onError()
+        return null
       }
       return data
     } catch (error) {
@@ -63,6 +64,7 @@ export function useUpdateAd({
         onSuccess && onSuccess()
       } else {
         onError && onError()
+        return null
       }
       return data
     } catch (error) {
@@ -100,6 +102,7 @@ export function useDeleteAd({
         onSuccess && onSuccess()
       } else {
         onError && onError()
+        return null
       }
 
       return data

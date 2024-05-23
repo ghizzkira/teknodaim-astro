@@ -29,6 +29,7 @@ export function useCreateArticle({
         onSuccess && onSuccess()
       } else {
         onError && onError()
+        return null
       }
       return data
     } catch (error) {
@@ -67,6 +68,7 @@ export function useTranslateArticle({
         onSuccess && onSuccess()
       } else {
         onError && onError()
+        return null
       }
       return data
     } catch (error) {
@@ -102,6 +104,9 @@ export function useUpdateArticle({
       const data = await response.json()
       if (response.ok) {
         onSuccess && onSuccess()
+      } else {
+        onError && onError()
+        return null
       }
       return data
     } catch (error) {
@@ -135,6 +140,7 @@ export function useDeleteArticle({
         onSuccess && onSuccess()
       } else {
         onError && onError()
+        return null
       }
 
       return data

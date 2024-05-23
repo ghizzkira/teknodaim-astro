@@ -12,7 +12,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/UI/Form"
 
@@ -93,7 +92,6 @@ const ReplyWpComment: React.FunctionComponent<ReplyWpCommentProps> = (
                   rules={{ required: "Content must be filled" }}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Edit Comment</FormLabel>
                       <FormControl>
                         <Textarea
                           variant="plain"

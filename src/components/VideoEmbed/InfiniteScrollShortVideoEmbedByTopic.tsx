@@ -5,7 +5,7 @@ import ShortVideoEmbedContent from "./ShortVideoEmbedContent"
 import type { SelectAd } from "@/lib/db/schema"
 import Ad from "@/components/Ad"
 import LoadingProgress from "@/components/LoadingProgress"
-import { useGetVideoEmbedsByTopic } from "@/hooks/useVideoEmbed"
+import { useGetVideoEmbedsByTopicInfinite } from "@/hooks/useVideoEmbed"
 
 interface InfiniteScrollShortVideoEmbedByTopicProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -40,10 +40,12 @@ const InfiniteScrollShortVideoEmbedByTopic: React.FunctionComponent<
   const loadMoreRef = React.useRef<HTMLDivElement>(null)
   const containerRef = React.useRef<HTMLDivElement>(null)
 
-  const { data, hasNextPage, fetchNextPage } = useGetVideoEmbedsByTopic({
-    topicId,
-    limit: 1,
-  })
+  const { data, hasNextPage, fetchNextPage } = useGetVideoEmbedsByTopicInfinite(
+    {
+      topicId,
+      limit: 1,
+    },
+  )
 
   const handleObserver = React.useCallback(
     (entries: IntersectionObserverEntry[]) => {

@@ -114,7 +114,11 @@ const breadcrumbJson = {
       class="mx-auto mt-5 flex w-full md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]"
     >
       <section class="w-full">
-        <InfiniteScrollVideoEmbedByTopic locale="id" topicId={topic?.id!} />
+        <InfiniteScrollVideoEmbedByTopic
+          locale="id"
+          topicId={topic?.id!}
+          client:load
+        />
       </section>
     </div>
   </section>

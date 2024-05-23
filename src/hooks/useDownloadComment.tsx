@@ -42,6 +42,7 @@ export function useCreateDownloadComment({
         onSuccess && onSuccess()
       } else {
         onError && onError()
+        return null
       }
       return data
     } catch (error) {
@@ -86,6 +87,7 @@ export function useUpdateDownloadComment({
         onSuccess && onSuccess()
       } else {
         onError && onError()
+        return null
       }
       return data
     } catch (error) {
@@ -125,6 +127,7 @@ export function useDeleteDownloadComment({
         onSuccess && onSuccess()
       } else {
         onError && onError()
+        return null
       }
       return data
     } catch (error) {

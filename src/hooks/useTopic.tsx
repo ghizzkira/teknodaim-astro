@@ -27,8 +27,11 @@ export function useCreateTopic({
         body: JSON.stringify(input),
       })
       const data = (await response.json()) as SelectTopic[]
-      if (data) {
+      if (response.ok) {
         onSuccess && onSuccess(data)
+      } else {
+        onError && onError()
+        return null
       }
       return data
     } catch (error) {
@@ -59,8 +62,11 @@ export function useTranslateTopic({
         body: JSON.stringify(input),
       })
       const data = await response.json()
-      if (data) {
+      if (response.ok) {
         onSuccess && onSuccess()
+      } else {
+        onError && onError()
+        return null
       }
       return data
     } catch (error) {
@@ -90,8 +96,11 @@ export function useUpdateTopic({
         body: JSON.stringify(input),
       })
       const data = await response.json()
-      if (data) {
+      if (response.ok) {
         onSuccess && onSuccess()
+      } else {
+        onError && onError()
+        return null
       }
       return data
     } catch (error) {
@@ -121,10 +130,11 @@ export function useDeleteTopic({
       })
       const data = await response.json()
 
-      if (data) {
+      if (response.ok) {
         onSuccess && onSuccess()
       } else {
         onError && onError()
+        return null
       }
 
       return data
