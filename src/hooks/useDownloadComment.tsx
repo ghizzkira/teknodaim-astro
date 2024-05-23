@@ -239,6 +239,7 @@ export function useGetDownloadCommentByDownloadIdInfinite({
         setHasNextPage(false)
       }
     } catch (error) {
+      setHasNextPage(false)
       toast({
         description: "Error when getting comment, try again",
         variant: "warning",
@@ -272,15 +273,15 @@ export function useGetDownloadCommentByDownloadIdInfinite({
   }, [handleObserver])
 
   const fetchCommentsByPage = async (limit: number, cursor = "") => {
+    const searchParams = new URLSearchParams()
+    searchParams.set("limit", limit.toString())
+    searchParams.set("cursor", cursor ?? "")
+    searchParams.set("downloadId", downloadId ?? "")
+
     const response = await fetch(
-      `/api/download-comment/download/${downloadId}/infinite`,
+      `/api/download-comment/download/${downloadId}/infinite?${searchParams.toString()}`,
       {
-        method: "POST",
-        body: JSON.stringify({
-          downloadId: downloadId,
-          limit: limit,
-          cursor: cursor,
-        }),
+        method: "GET",
       },
     )
     const data = (await response.json()) as {
@@ -323,6 +324,7 @@ export function useGetDownloadCommentByDownloadIdInfinite({
           break
         }
       } catch (error) {
+        setHasNextPage(false)
         toast({
           description: "Error when getting comment, try again",
           variant: "warning",
