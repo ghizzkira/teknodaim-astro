@@ -239,6 +239,7 @@ export function useGetDownloadCommentByDownloadIdInfinite({
         setHasNextPage(false)
       }
     } catch (error) {
+      setHasNextPage(false)
       toast({
         description: "Error when getting comment, try again",
         variant: "warning",
@@ -323,6 +324,7 @@ export function useGetDownloadCommentByDownloadIdInfinite({
           break
         }
       } catch (error) {
+        setHasNextPage(false)
         toast({
           description: "Error when getting comment, try again",
           variant: "warning",

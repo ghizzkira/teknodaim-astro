@@ -240,6 +240,7 @@ export function useGetWpCommentByWpSlugInfinite({
         setHasNextPage(false)
       }
     } catch (error) {
+      setHasNextPage(false)
       toast({
         description: "Error when getting comment, try again",
         variant: "warning",
@@ -324,6 +325,7 @@ export function useGetWpCommentByWpSlugInfinite({
           break
         }
       } catch (error) {
+        setHasNextPage(false)
         toast({
           description: "Error when getting comment, try again",
           variant: "warning",
