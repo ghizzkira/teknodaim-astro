@@ -149,7 +149,7 @@ export function useGetVideoEmbedCommentCountByVideoEmbedId(
     setIsLoading(true)
     try {
       const response = await fetch(
-        `/api/video-embed-comment/videoEmbed/${videoEmbedId}/count`,
+        `/api/video-embed-comment/video-embed/${videoEmbedId}/count`,
         {
           method: "GET",
         },
@@ -218,7 +218,7 @@ export function useGetVideoEmbedCommentByVideoEmbedIdInfinite({
       searchParams.set("videoEmbedId", videoEmbedId ?? "")
 
       const response = await fetch(
-        `/api/video-embed-comment/videoEmbed/${videoEmbedId}/infinite?${searchParams.toString()}`,
+        `/api/video-embed-comment/video-embed/${videoEmbedId}/infinite?${searchParams.toString()}`,
         {
           method: "GET",
         },
@@ -246,6 +246,8 @@ export function useGetVideoEmbedCommentByVideoEmbedIdInfinite({
         setHasNextPage(false)
       }
     } catch (error) {
+      setHasNextPage(false)
+
       toast({
         description: "Error when getting comment, try again",
         variant: "warning",
@@ -279,15 +281,15 @@ export function useGetVideoEmbedCommentByVideoEmbedIdInfinite({
   }, [handleObserver])
 
   const fetchCommentsByPage = async (limit: number, cursor = "") => {
+    const searchParams = new URLSearchParams()
+    searchParams.set("limit", limit.toString())
+    searchParams.set("cursor", cursor ?? "")
+    searchParams.set("videoEmbedId", videoEmbedId ?? "")
+
     const response = await fetch(
-      `/api/video-embed-comment/videoEmbed/${videoEmbedId}/infinite`,
+      `/api/video-embed-comment/video-embed/${videoEmbedId}/infinite?${searchParams.toString()}`,
       {
-        method: "POST",
-        body: JSON.stringify({
-          videoEmbedId: videoEmbedId,
-          limit: limit,
-          cursor: cursor,
-        }),
+        method: "GET",
       },
     )
     const data = (await response.json()) as {
@@ -330,6 +332,7 @@ export function useGetVideoEmbedCommentByVideoEmbedIdInfinite({
           break
         }
       } catch (error) {
+        setHasNextPage(false)
         toast({
           description: "Error when getting comment, try again",
           variant: "warning",
