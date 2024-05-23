@@ -1,0 +1,121 @@
+---
+import VideoNav from "@/components/Layout/VideoNav"
+import JsonLdScript from "@/components/JsonLdScript"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbSeparator,
+} from "@/components/UI/Breadcrumb"
+import InfiniteScrollVideoEmbedByTopic from "@/components/VideoEmbed/InfiniteScrollVideoEmbedByTopic"
+import MainLayout from "@/layouts/MainLayout.astro"
+import { getTopicBySlug, getTopicsByType } from "@/lib/action/topic"
+
+const DB = Astro.locals.runtime.env.DB
+const { slug } = Astro.params
+
+const topics = await getTopicsByType(DB, {
+  language: "id",
+  type: "video",
+  page: 1,
+  perPage: 20,
+})
+
+const topic = await getTopicBySlug(DB, slug!)
+
+if (!topic) {
+  return Astro.redirect("/404")
+}
+
+const breadcrumbJson = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: import.meta.env.PUBLIC_SITE_TITLE,
+      item: import.meta.env.PUBLIC_SITE_URL,
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Video",
+      item: `${import.meta.env.PUBLIC_SITE_URL}/video`,
+    },
+    {
+      "@type": "ListItem",
+      position: 3,
+      name: topic?.title,
+      item: `${import.meta.env.PUBLIC_SITE_URL}/video/topic/${slug}`,
+    },
+  ],
+}
+---
+
+<MainLayout
+  locale="id"
+  seo={{
+    title: topic?.metaTitle!,
+    description: topic?.metaDescription ?? topic?.metaTitle!,
+
+    canonical: `${import.meta.env.PUBLIC_SITE_URL}/video/topic/${slug}`,
+    openGraph: {
+      basic: {
+        title: `Download | `,
+        url: `${import.meta.env.PUBLIC_SITE_URL}/video/topic/${slug}`,
+        type: "website",
+        image: "",
+      },
+      optional: {
+        description: topic?.metaTitle!,
+        locale: "ID",
+      },
+    },
+  }}
+  type="video"
+>
+  <JsonLdScript jsonld={JSON.stringify(breadcrumbJson)} />
+
+  <section class="fade-up-element flex w-full flex-col">
+    {
+      topics && (
+        <div class="sticky top-[64px] z-[50] mb-5">
+          <VideoNav locale="id" topics={topics} />
+        </div>
+      )
+    }
+    <div
+      class="relative mb-10 flex flex-col bg-gradient-to-r from-main/90 to-main py-10"
+    >
+      <div class="absolute top-1 ml-4">
+        <Breadcrumb className="inline-flex items-center">
+          <BreadcrumbItem>
+            <BreadcrumbLink className="text-[12px] text-background" href="/">
+              Home
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator
+            className="inline-flex list-none text-background"
+          /><BreadcrumbItem>
+            <BreadcrumbLink className="text-[12px] text-background">
+              {topic?.title}
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+        </Breadcrumb>
+      </div>
+      <div class="self-center">
+        <h1 class="text-[36px] font-bold text-background">
+          {topic?.title}
+        </h1>
+      </div>
+    </div>
+    <div
+      class="mx-auto mt-5 flex w-full md:max-[991px]:max-w-[750px] min-[992px]:max-[1199px]:max-w-[970px] min-[1200px]:max-w-[1170px]"
+    >
+      <section class="w-full">
+        <InfiniteScrollVideoEmbedByTopic locale="id" topicId={topic?.id!} />
+      </section>
+    </div>
+  </section>
+</MainLayout>
