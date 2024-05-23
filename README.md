@@ -7,9 +7,9 @@ TODO:
 - [x] add popular and trending pages
 - [x] add amp
 - [x] robots.txt
+- [ ] delay adsense and use react lazy load for adsense ad component
 - [ ] add feed and google news feed
 - [ ] add search
-- [ ] delay adsense and use react lazy load for adsense ad component
 - [ ] add sitemap
 
 JSON-LD TODO:
