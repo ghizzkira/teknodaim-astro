@@ -35,7 +35,7 @@ export const videoEmbedCommentsRelations = relations(
       references: [videoEmbeds.id],
     }),
     replies: many(videoEmbedComments, {
-      relationName: "video_mbed_comments_replies",
+      relationName: "video_embed_comments_replies",
     }),
   }),
 )
