@@ -229,11 +229,16 @@ export const VideoContent = (props: VideoContentProps) => {
           })}
 
         {videoEmbed.id && (
-          <section className="my-5 px-4" id="comment">
-            <div className="mb-5 flex flex-col justify-center">
-              <VideoEmbedComment locale={locale} videoEmbedId={videoEmbed.id} />
-            </div>
-          </section>
+          <React.Suspense>
+            <section className="my-5 px-4" id="comment">
+              <div className="mb-5 flex flex-col justify-center">
+                <VideoEmbedComment
+                  locale={locale}
+                  videoEmbedId={videoEmbed.id}
+                />
+              </div>
+            </section>
+          </React.Suspense>
         )}
       </div>
       <aside className="w-full sm:px-4 lg:hidden">

@@ -36,6 +36,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/UI/Form"
+import useIsMobile from "@/hooks/useIsMobile"
 
 type RepliesProps = SelectVideoEmbedComment & {
   author: Pick<SelectUser, "name" | "image">
@@ -65,6 +66,7 @@ export const VideoEmbedComment: React.FunctionComponent<VideoEmbedCommentFormPro
     const { videoEmbedId, locale, type = "video" } = props
 
     const { session } = useSession()
+    const isMobile = useIsMobile()
 
     const [openDeleteAction, setOpenDeleteAction] = React.useState<
       string | null
@@ -72,7 +74,6 @@ export const VideoEmbedComment: React.FunctionComponent<VideoEmbedCommentFormPro
     const [isEdited, setIsEdited] = React.useState("")
     const [isReplyied, setIsReplyied] = React.useState("")
     const [isLoading, setIsLoading] = React.useState(false)
-    const [isMobile, setIsMobile] = React.useState(true)
     const [openReplies, setOpenReplites] = React.useState<string | null>(null)
 
     const { data: commentCount, refetch } =
@@ -88,22 +89,6 @@ export const VideoEmbedComment: React.FunctionComponent<VideoEmbedCommentFormPro
     })
 
     const form = useForm<FormValues>()
-
-    React.useEffect(() => {
-      const mediaQueryList = window.matchMedia("(max-width: 640px)")
-
-      const listener = (event: MediaQueryListEvent) => {
-        setIsMobile(event.matches)
-      }
-
-      listener(mediaQueryList as unknown as MediaQueryListEvent)
-
-      mediaQueryList.addEventListener("change", listener)
-
-      return () => {
-        mediaQueryList.removeEventListener("change", listener)
-      }
-    }, [])
 
     const { handleCreateComment: createComment } = useCreateVideoEmbedComment({
       onSuccess: () => {
@@ -177,7 +162,7 @@ export const VideoEmbedComment: React.FunctionComponent<VideoEmbedCommentFormPro
               </div>
             </div>
             {session?.user ? (
-              <form className="mb-5 mt-4" onSubmit={(e) => e.preventDefault()}>
+              <div className="mb-5 mt-4">
                 <div className="flex">
                   <div className="relative h-10 w-10 overflow-hidden rounded-full bg-muted">
                     {session?.user?.image ? (
@@ -255,7 +240,7 @@ export const VideoEmbedComment: React.FunctionComponent<VideoEmbedCommentFormPro
                     </Form>
                   </div>
                 </div>
-              </form>
+              </div>
             ) : (
               <div className="my-8 flex items-center justify-center">
                 <Button asChild aria-label="Sign In">

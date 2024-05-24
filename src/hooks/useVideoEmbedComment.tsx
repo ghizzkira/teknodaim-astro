@@ -180,7 +180,9 @@ export function useGetVideoEmbedCommentCountByVideoEmbedId(
   return { data, isLoading, refetch }
 }
 
-type VideoEmbedComment = SelectVideoEmbedComment & { author: SelectUser } & {
+export type VideoEmbedCommentProps = SelectVideoEmbedComment & {
+  author: SelectUser
+} & {
   replies?: (SelectVideoEmbedComment & { author: SelectUser })[]
 }
 
@@ -193,7 +195,7 @@ export function useGetVideoEmbedCommentByVideoEmbedIdInfinite({
 }) {
   const [comments, setComments] = React.useState<
     | {
-        videoEmbedComments: VideoEmbedComment[]
+        videoEmbedComments: VideoEmbedCommentProps[]
         cursor: string
         page: number
       }[]
@@ -225,7 +227,7 @@ export function useGetVideoEmbedCommentByVideoEmbedIdInfinite({
       )
       const data = (await response.json()) as {
         nextCursor: string
-        videoEmbedComments: VideoEmbedComment[]
+        videoEmbedComments: VideoEmbedCommentProps[]
       }
       if (data?.videoEmbedComments) {
         setComments([
@@ -294,7 +296,7 @@ export function useGetVideoEmbedCommentByVideoEmbedIdInfinite({
     )
     const data = (await response.json()) as {
       nextCursor: string
-      videoEmbedComments: VideoEmbedComment[]
+      videoEmbedComments: VideoEmbedCommentProps[]
     }
     return data
   }
