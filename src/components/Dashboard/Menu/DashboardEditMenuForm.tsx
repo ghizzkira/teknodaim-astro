@@ -75,13 +75,18 @@ export const CreateMenuForm: React.FunctionComponent<CreateMenuFormProps> = (
   })
 
   const onSubmit = (values: CreateMenu) => {
-    const mergedValues = {
-      ...values,
-      order: parseInt(values.order as unknown as string),
-      icon: selectedIconUrl!,
-      iconDark: selectedIconUrlDark!,
+    if (!selectedIconUrl && !selectedIconUrlDark) {
+      toast({ variant: "danger", description: "icons is required" })
+      return
+    } else {
+      const mergedValues = {
+        ...values,
+        order: parseInt(values.order as unknown as string),
+        icon: selectedIconUrl!,
+        iconDark: selectedIconUrlDark!,
+      }
+      createMenuAction(mergedValues)
     }
-    createMenuAction(mergedValues)
   }
   const handleUpdateMedia = (res: { id: string; url: string }) => {
     setSelectedIconUrl(res?.url as string)
@@ -306,7 +311,7 @@ interface EditMenuFormProps {
 export const EditMenuForm: React.FunctionComponent<EditMenuFormProps> = (
   props,
 ) => {
-  const { setMenus, menu, onSuccess } = props
+  const { menu, onSuccess } = props
   const [openDialog, setOpenDialog] = React.useState<boolean>(false)
   const [openDialogDark, setOpenDialogDark] = React.useState<boolean>(false)
   const [selectedIconUrl, setSelectedIconUrl] = React.useState<string | null>(
@@ -327,17 +332,10 @@ export const EditMenuForm: React.FunctionComponent<EditMenuFormProps> = (
   })
 
   const { handleUpdateMenu: updateMenuAction } = useUpdateMenu({
-    onSuccess: (data) => {
+    onSuccess: () => {
       toast({ variant: "success", description: "Menu has been edited" })
       onSuccess(null)
-      setMenus((prevMenus) =>
-        prevMenus.map((prevMenu) => {
-          if (prevMenu.id === menu.id && data) {
-            return data
-          }
-          return prevMenu
-        }),
-      )
+      window.location.reload()
     },
     onError: () => {
       toast({
@@ -348,13 +346,19 @@ export const EditMenuForm: React.FunctionComponent<EditMenuFormProps> = (
   })
 
   const onSubmit = (values: CreateMenu) => {
-    const mergedValues = {
-      ...values,
-      order: parseInt(values.order as unknown as string),
-      icon: selectedIconUrl!,
-      id: menu.id!,
+    if (!selectedIconUrl && !selectedIconUrlDark) {
+      toast({ variant: "danger", description: "icons is required" })
+      return
+    } else {
+      const mergedValues = {
+        ...values,
+        order: parseInt(values.order as unknown as string),
+        icon: selectedIconUrl!,
+        iconDark: selectedIconUrlDark!,
+        id: menu.id!,
+      }
+      updateMenuAction(mergedValues)
     }
-    updateMenuAction(mergedValues)
   }
   const handleUpdateMedia = (res: { id: string; url: string }) => {
     setSelectedIconUrl(res?.url as string)

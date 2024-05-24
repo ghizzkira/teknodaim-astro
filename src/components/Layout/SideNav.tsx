@@ -8,24 +8,16 @@ import Link from "@/components/Link"
 import { Button } from "@/components/UI/Button"
 import { Icon } from "@/components/UI/Icon"
 import type { LanguageType } from "@/lib/validation/language"
+import type { SelectMenu } from "@/lib/db/schema"
+import Image from "../Image"
 
 // import env from "@/env"
 // import ThemeSwitcher from "@/components/theme/theme-switcher"
 
 interface SideNavProps {
   isMain: boolean
-  // menuSideBarAll?:
-  //   | Pick<
-  //       MenuProps,
-  //       "id" | "title" | "link" | "location" | "icon" | "order" | "active"
-  //     >[]
-  //   | null
-  // menuSideBarByLang?:
-  //   | Pick<
-  //       MenuProps,
-  //       "id" | "title" | "link" | "location" | "icon" | "order" | "active"
-  //     >[]
-  //   | null
+  menuSideBarAll: SelectMenu[] | null
+  menuSideBarByLang: SelectMenu[] | null
   type?: "default" | "video" | "shorts" | "video-content"
   toggleSideNav?: () => void
   locale: LanguageType
@@ -33,8 +25,8 @@ interface SideNavProps {
 
 const SideNav: React.FunctionComponent<SideNavProps> = (props) => {
   const {
-    // menuSideBarAll,
-    // menuSideBarByLang,
+    menuSideBarAll,
+    menuSideBarByLang,
     type = "default",
     locale,
     toggleSideNav,
@@ -73,100 +65,49 @@ const SideNav: React.FunctionComponent<SideNavProps> = (props) => {
         </div>
       )}
       <LanguageSwitcher locale={locale} />
-      {/* <ul className="flex flex-col space-y-3 border-b border-muted p-4">
-        {!isMain && (
-          <li>
-            <a
-              aria-label="Go To Homepage"
-              href="/"
-              role="link"
-              className="flex transform flex-row items-center transition-transform duration-200 ease-in hover:translate-x-2"
-            >
-              <p className="inline-flex items-center font-bold hover:text-primary">
-                {
-                  <Icon.Home
-                    aria-label="Go To Homepage"
-                    className={stylesIcons}
-                  />
-                }
-                {"Home"}
-              </p>
-            </a>
-          </li>
-        )}
-        {isMain && (
-          <>
-            <li>
-              <a
+      <ul className="flex flex-col space-y-3 border-b border-muted p-4">
+        <li>
+          <a
+            aria-label="Go To Trending Page"
+            href="/trending"
+            role="link"
+            className="flex transform flex-row items-center transition-transform duration-200 ease-in hover:translate-x-2"
+          >
+            <p className="inline-flex items-center font-bold hover:text-primary">
+              <Icon.Trending
                 aria-label="Go To Trending Page"
-                href="/trending"
-                role="link"
-                className="flex transform flex-row items-center transition-transform duration-200 ease-in hover:translate-x-2"
-              >
-                <p className="inline-flex items-center font-bold hover:text-primary">
-                  <Icon.Trending
-                    aria-label="Go To Trending Page"
-                    className={stylesIcons}
-                  />
-                  Trending
-                </p>
-              </a>
-            </li>
-            <li>
-              <a
+                className={stylesIcons}
+              />
+              Trending
+            </p>
+          </a>
+        </li>
+        <li>
+          <a
+            aria-label="Go To Popular Page"
+            href="/popular"
+            role="link"
+            className="flex transform flex-row items-center transition-transform duration-200 ease-in hover:translate-x-2"
+          >
+            <p className="inline-flex items-center font-bold hover:text-primary">
+              <Icon.Bolt
                 aria-label="Go To Popular Page"
-                href="/popular"
-                role="link"
-                className="flex transform flex-row items-center transition-transform duration-200 ease-in hover:translate-x-2"
-              >
-                <p className="inline-flex items-center font-bold hover:text-primary">
-                  <Icon.Bolt
-                    aria-label="Go To Popular Page"
-                    className={stylesIcons}
-                  />
-                  Popular
-                </p>
-              </a>
-            </li>
-            {menuSideBarAll?.map((menu) => {
-              if (menu.active) {
-                return (
-                  <li key={menu.id}>
-                    <a
-                      aria-label={menu.title}
-                      href={menu.link}
-                      role="link"
-                      className="flex transform flex-row items-center transition-transform duration-200 ease-in hover:translate-x-2"
-                    >
-                      {menu.icon?.includes("http") && (
-                        <span className="relative mr-2 aspect-[1/1] h-5 w-5 overflow-hidden rounded bg-transparent">
-                          <Image
-                            src={menu.icon}
-                            alt={menu.title}
-                            sizes={`(max-width: 1200px) 20px, 20px`}
-                          />
-                        </span>
-                      )}
-                      <p className="inline-flex items-center font-bold hover:text-primary">
-                        {menu.title}
-                      </p>
-                    </a>
-                  </li>
-                )
-              }
-              return
-            })}
-          </>
-        )}
-        {isMain &&
-          menuSideBarByLang?.map((menu) => {
-            if (menu.active) {
+                className={stylesIcons}
+              />
+              Popular
+            </p>
+          </a>
+        </li>
+        {menuSideBarAll
+          ?.sort((a, b) => a.order - b.order)
+          .map((menu) => {
+            if (menu.active && menu.link) {
               return (
                 <li key={menu.id}>
                   <a
-                    role="link"
                     aria-label={menu.title}
-                    href={menu.link}
+                    href={menu.link!}
+                    role="link"
                     className="flex transform flex-row items-center transition-transform duration-200 ease-in hover:translate-x-2"
                   >
                     {menu.icon?.includes("http") && (
@@ -175,6 +116,17 @@ const SideNav: React.FunctionComponent<SideNavProps> = (props) => {
                           src={menu.icon}
                           alt={menu.title}
                           sizes={`(max-width: 1200px) 20px, 20px`}
+                          width="20"
+                          height="20"
+                          className="block !h-full !w-full dark:hidden"
+                        />
+                        <Image
+                          src={menu.iconDark!}
+                          alt={menu.title}
+                          sizes={`(max-width: 1200px) 20px, 20px`}
+                          width="20"
+                          height="20"
+                          className="hidden !h-full !w-full dark:block"
                         />
                       </span>
                     )}
@@ -187,7 +139,48 @@ const SideNav: React.FunctionComponent<SideNavProps> = (props) => {
             }
             return
           })}
-      </ul> */}
+        {menuSideBarByLang
+          ?.sort((a, b) => a.order - b.order)
+          .map((menu) => {
+            if (menu.active && menu.link) {
+              return (
+                <li key={menu.id}>
+                  <a
+                    role="link"
+                    aria-label={menu.title}
+                    href={menu.link!}
+                    className="flex transform flex-row items-center transition-transform duration-200 ease-in hover:translate-x-2"
+                  >
+                    {menu.icon?.includes("http") && (
+                      <span className="relative mr-2 aspect-[1/1] h-5 w-5 overflow-hidden rounded bg-transparent">
+                        <Image
+                          src={menu.icon}
+                          alt={menu.title}
+                          sizes={`(max-width: 1200px) 20px, 20px`}
+                          width="20"
+                          height="20"
+                          className="block !h-full !w-full dark:hidden"
+                        />
+                        <Image
+                          src={menu.iconDark!}
+                          alt={menu.title}
+                          sizes={`(max-width: 1200px) 20px, 20px`}
+                          width="20"
+                          height="20"
+                          className="hidden !h-full !w-full dark:block"
+                        />
+                      </span>
+                    )}
+                    <p className="inline-flex items-center font-bold hover:text-primary">
+                      {menu.title}
+                    </p>
+                  </a>
+                </li>
+              )
+            }
+            return
+          })}
+      </ul>
       <div className="flex flex-col items-start space-y-3 border-b border-border p-4">
         {/* <ThemeSwitcher /> */}
       </div>

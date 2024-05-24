@@ -2,22 +2,28 @@ import type { WpCategoriesDataProps } from "@/lib/wp/action/wp-types"
 
 export const splitUriWP = (uri: string, slug: string) => {
   let newString = uri
-  const globalUri = new RegExp(
-    `https://${import.meta.env.PUBLIC_WP_EN_SUBDOMAIN}/`,
-    "g",
-  )
+  let globalUrl
+
+  try {
+    globalUrl = new URL(import.meta.env.PUBLIC_WP_EN_SUBDOMAIN)
+  } catch (e) {
+    globalUrl = new URL("https://en.teknodaim.com")
+  }
+
+  const globalUri = new RegExp(`https://${globalUrl.hostname}/`, "g")
+
   if (
-    newString.includes(
-      `https://${import.meta.env.PUBLIC_WP_EN_SUBDOMAIN}` ?? "en.teknodaim.com",
-    )
+    newString.includes(`https://${globalUrl.hostname}` ?? "en.teknodaim.com")
   ) {
     newString = newString.replace(globalUri ?? "/", "/")
   }
+
   const regex = /^\/(\w+)(\/.*)$/
   const match: RegExpMatchArray | null = newString.match(regex)
 
   const newUri =
     match?.[1] && match[1].length > 0 ? `/${match[1]}/${slug}` : newString
+
   return newUri
 }
 

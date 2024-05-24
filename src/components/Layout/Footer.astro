@@ -1,6 +1,4 @@
 ---
-import * as React from "react"
-
 // import a from "next/link"
 // import { type Menu as MenuProps } from "@prisma/client"
 
@@ -8,6 +6,7 @@ import Logo from "@/components/Brand/Logo"
 import Link from "@/components/Link"
 import { Icon } from "@/components/UI/Icon"
 import type { LanguageType } from "@/lib/validation/language"
+import type { SelectMenu } from "@/lib/db/schema"
 
 interface Props {
   className?: string
@@ -16,22 +15,20 @@ interface Props {
   supportEmail?: string
   whatsappNumber?: number
   locale: LanguageType
-  // menusFooterAll?:
-  //   | Pick<
-  //       MenuProps,
-  //       "id" | "title" | "link" | "location" | "icon" | "order" | "active"
-  //     >[]
-  //   | null
-  // menusFooterByLang?:
-  //   | Pick<
-  //       MenuProps,
-  //       "id" | "title" | "link" | "location" | "icon" | "order" | "active"
-  //     >[]
-  //   | null
+  menusFooterAll?: SelectMenu[] | null
+  menusFooterByLang?: SelectMenu[] | null
 }
 
-const { address, siteTitle, className, locale, supportEmail, whatsappNumber } =
-  Astro.props
+const {
+  address,
+  siteTitle,
+  className,
+  locale,
+  supportEmail,
+  whatsappNumber,
+  menusFooterAll,
+  menusFooterByLang,
+} = Astro.props
 
 const currentYear = new Date().getFullYear()
 ---
@@ -94,44 +91,48 @@ const currentYear = new Date().getFullYear()
           <div>
             <ul class="space-y-2 font-medium text-foreground/80">
               {
-                /* {menusFooterAll?.map((menu) => {
-              if (menu.active) {
-                return (
-                  <li key={menu.id}>
-                    <a
-                      aria-label={`Open ${menu.title}`}
-                      href={menu.link}
-                      class="hover:underline"
-                    >
-                      {menu.title}
-                    </a>
-                  </li>
-                )
-              }
-              return
-            })} */
+                menusFooterAll
+                  ?.sort((a, b) => a.order - b.order)
+                  .map((menu) => {
+                    if (menu.active && menu.link) {
+                      return (
+                        <li>
+                          <a
+                            aria-label={`Open ${menu.title}`}
+                            href={menu.link}
+                            class="hover:underline"
+                          >
+                            {menu.title}
+                          </a>
+                        </li>
+                      )
+                    }
+                    return
+                  })
               }
             </ul>
           </div>
           <div>
             <ul class="space-y-2 font-medium text-foreground/80">
               {
-                /* {menusFooterByLang?.map((menu) => {
-              if (menu.active) {
-                return (
-                  <li key={menu.id}>
-                    <a
-                      aria-label={menu.title}
-                      href={menu.link}
-                      class="hover:underline"
-                    >
-                      {menu.title}
-                    </a>
-                  </li>
-                )
-              }
-              return
-            })} */
+                menusFooterByLang
+                  ?.sort((a, b) => a.order - b.order)
+                  .map((menu) => {
+                    if (menu.active && menu.link) {
+                      return (
+                        <li>
+                          <a
+                            aria-label={menu.title}
+                            href={menu.link}
+                            class="hover:underline"
+                          >
+                            {menu.title}
+                          </a>
+                        </li>
+                      )
+                    }
+                    return
+                  })
               }
             </ul>
           </div>

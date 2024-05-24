@@ -8,34 +8,15 @@ import type { LanguageType } from "@/lib/validation/language"
 import Footer from "./Footer.astro"
 import SideNav from "./SideNav"
 import TopNav from "./TopNav.astro"
+import type { SelectMenu } from "@/lib/db/schema"
 
 interface Props {
   locale: LanguageType
   headerType?: "default" | "video" | "shorts" | "video-content"
-  // menus?:
-  //   | Pick<
-  //       MenuProps,
-  //       "id" | "title" | "link" | "location" | "icon" | "order" | "active"
-  //     >[]
-  //   | null
-  // menusByLang?:
-  //   | Pick<
-  //       MenuProps,
-  //       "id" | "title" | "link" | "location" | "icon" | "order" | "active"
-  //     >[]
-  //   | null
-  // menusFooterAll?:
-  //   | Pick<
-  //       MenuProps,
-  //       "id" | "title" | "link" | "location" | "icon" | "order" | "active"
-  //     >[]
-  //   | null
-  // menusFooterByLang?:
-  //   | Pick<
-  //       MenuProps,
-  //       "id" | "title" | "link" | "location" | "icon" | "order" | "active"
-  //     >[]
-  //   | null
+  menus: SelectMenu[] | null
+  menusByLang: SelectMenu[] | null
+  menusFooterAll?: SelectMenu[] | null
+  menusFooterByLang?: SelectMenu[] | null
   type?: "default" | "video" | "shorts" | "video-content"
   settings?: Record<string, string>
   user?: User | null
@@ -44,11 +25,11 @@ interface Props {
 const {
   locale,
   headerType = "default",
-  // menus,
-  // menusByLang,
+  menus,
+  menusByLang,
   settings,
-  // menusFooterAll,
-  // menusFooterByLang,
+  menusFooterAll,
+  menusFooterByLang,
   type = "default",
   user,
 } = Astro.props as Props
@@ -93,7 +74,13 @@ const {
     type === "shorts" && "-translate-x-full peer-checked/menu:translate-x-0",
   )}
 >
-  <SideNav isMain={true} locale={locale} client:load />
+  <SideNav
+    menuSideBarAll={menus}
+    menuSideBarByLang={menusByLang}
+    isMain={true}
+    locale={locale}
+    client:load
+  />
 </div>
 <div
   id="center"
@@ -114,6 +101,8 @@ const {
 {
   type !== "shorts" && (
     <Footer
+      menusFooterByLang={menusFooterByLang}
+      menusFooterAll={menusFooterAll}
       className={
         type === "default"
           ? "md:pl-[250px] peer-checked/menu:md:pl-0"

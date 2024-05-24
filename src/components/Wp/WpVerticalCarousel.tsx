@@ -13,7 +13,7 @@ import { splitUriWP } from "@/lib/wp/helper"
 interface WpVerticalCarouselProps {
   articles: WpSinglePostDataProps[]
   filteredQueries?: string[]
-  locale?: LanguageType
+  locale: LanguageType
 }
 
 const WpVerticalCarousel: React.FunctionComponent<WpVerticalCarouselProps> = (

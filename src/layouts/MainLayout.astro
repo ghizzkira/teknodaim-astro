@@ -7,6 +7,7 @@ import MainContainer from "@/components/Layout/MainContainer.astro"
 import Themes from "@/components/Theme/Themes.astro"
 import { getSettingByKey } from "@/lib/action/setting"
 import type { LanguageType } from "@/lib/validation/language"
+import { getMenuByPosition } from "@/lib/action/menu"
 
 interface Props {
   seo?: SeoProps
@@ -15,9 +16,21 @@ interface Props {
   headerType?: "default" | "video" | "shorts" | "video-content"
 }
 
+const { seo, locale, type, headerType } = Astro.props
+
 const user = Astro.locals.user
 const DB = Astro.locals.runtime.env.DB
 const data = await getSettingByKey(DB, "settings")
+const menus = await getMenuByPosition(DB, "sidebar_all")
+const menusByLang = await getMenuByPosition(
+  DB,
+  locale !== "en" ? "sidebar_all_id" : "sidebar_all_en",
+)
+const footerMenus = await getMenuByPosition(DB, "footer_all")
+const footerMenusByLang = await getMenuByPosition(
+  DB,
+  locale !== "en" ? "footer_id" : "footer_en",
+)
 
 let siteSettings
 
@@ -26,7 +39,6 @@ if (data) {
   siteSettings = { ...parsedData }
 }
 
-const { seo, locale, type, headerType } = Astro.props
 const title = seo?.title || import.meta.env.PUBLIC_SITE_TITLE
 const description = seo?.description || import.meta.env.PUBLIC_SITE_DESCRIPTION
 const titleTemplate = `%s | ${seo?.titleTemplate ?? siteSettings?.siteTitle ?? import.meta.env.PUBLIC_SITE_TITLE ?? ""}`
@@ -103,6 +115,10 @@ const titleDefault =
   </head>
   <body class="font-400 font-sans antialiased">
     <MainContainer
+      menus={menus}
+      menusByLang={menusByLang}
+      menusFooterAll={footerMenus}
+      menusFooterByLang={footerMenusByLang}
       type={type}
       headerType={headerType}
       settings={siteSettings}

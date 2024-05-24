@@ -109,6 +109,7 @@ const MenuContent: React.FunctionComponent<MenuContentProps> = (props) => {
               <TableHeader>
                 <TableRow>
                   <TableHead>Title</TableHead>
+                  <TableHead className="hidden md:table-cell">Order</TableHead>
                   <TableHead className="hidden md:table-cell">Link</TableHead>
                   <TableHead className="hidden md:table-cell">Active</TableHead>
                   <TableHead className="hidden md:table-cell">Icon</TableHead>
@@ -124,6 +125,9 @@ const MenuContent: React.FunctionComponent<MenuContentProps> = (props) => {
                         <div className="flex flex-col space-y-2">
                           <span className="font-medium">{menu.title}</span>
                         </div>
+                      </TableCell>
+                      <TableCell className="hidden md:table-cell">
+                        {menu.order}
                       </TableCell>
                       <TableCell className="hidden md:table-cell">
                         {menu.link}
