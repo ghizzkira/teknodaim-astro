@@ -227,7 +227,6 @@ export const VideoEmbedComment: React.FunctionComponent<VideoEmbedCommentFormPro
                                       textarea.style.height = totalHeight + "px"
                                       if (textarea.value === "") {
                                         textarea.style.height = "30px"
-                                        textarea.focus()
                                       }
                                       if (currentFocus === textarea) {
                                         textarea.focus()

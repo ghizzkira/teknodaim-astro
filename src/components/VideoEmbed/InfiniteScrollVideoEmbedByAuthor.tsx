@@ -3,7 +3,7 @@ import * as React from "react"
 import VideoEmbedCard from "./VideoEmbedCard"
 import type { LanguageType } from "@/lib/validation/language"
 import LoadingProgress from "@/components/LoadingProgress"
-import { useGetVideoEmbedsByAuthor } from "@/hooks/useVideoEmbed"
+import { useGetVideoEmbedsByAuthorInfinite } from "@/hooks/useVideoEmbed"
 
 interface InfiniteScollVideoEmbedByAuthorProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -18,10 +18,11 @@ const InfiniteScollVideoEmbedByAuthor: React.FunctionComponent<
 
   const loadMoreRef = React.useRef<HTMLDivElement>(null)
 
-  const { data, hasNextPage, fetchNextPage } = useGetVideoEmbedsByAuthor({
-    authorId,
-    limit: 10,
-  })
+  const { data, hasNextPage, fetchNextPage } =
+    useGetVideoEmbedsByAuthorInfinite({
+      authorId,
+      limit: 10,
+    })
 
   const handleObserver = React.useCallback(
     (entries: IntersectionObserverEntry[]) => {

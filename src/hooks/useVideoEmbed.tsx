@@ -117,7 +117,7 @@ type VideoEmbedDataProps = SelectVideoEmbed & {
   featuredImage?: Pick<SelectMedia, "id" | "url">
 }
 
-export function useGetVideoEmbedsByAuthor({
+export function useGetVideoEmbedsByAuthorInfinite({
   limit,
   authorId,
 }: {
@@ -171,6 +171,7 @@ export function useGetVideoEmbedsByAuthor({
         setHasNextPage(false)
       }
     } catch (error) {
+      setHasNextPage(false)
       toast({
         description: "Error when getting videoEmbeds, try again",
         variant: "warning",
@@ -250,6 +251,7 @@ export function useGetVideoEmbedsByAuthor({
           break
         }
       } catch (error) {
+        setHasNextPage(false)
         toast({
           description: "Error when getting videoEmbeds, try again",
           variant: "warning",
@@ -285,7 +287,7 @@ export function useGetVideoEmbedsByAuthor({
   }
 }
 
-export function useGetVideoEmbedsByTopic({
+export function useGetVideoEmbedsByTopicInfinite({
   limit,
   topicId,
 }: {
@@ -339,6 +341,7 @@ export function useGetVideoEmbedsByTopic({
         setHasNextPage(false)
       }
     } catch (error) {
+      setHasNextPage(false)
       toast({
         description: "Error when getting videoEmbeds, try again",
         variant: "warning",
@@ -418,8 +421,9 @@ export function useGetVideoEmbedsByTopic({
           break
         }
       } catch (error) {
+        setHasNextPage(false)
         toast({
-          description: "Error when getting videoEmbeds, try again",
+          description: "Error when getting videos, try again",
           variant: "warning",
         })
       }
@@ -453,7 +457,7 @@ export function useGetVideoEmbedsByTopic({
   }
 }
 
-export function useGetVideoEmbedsByType({
+export function useGetVideoEmbedsByTypeInfinite({
   limit,
   type,
 }: {
@@ -507,6 +511,7 @@ export function useGetVideoEmbedsByType({
         setHasNextPage(false)
       }
     } catch (error) {
+      setHasNextPage(false)
       toast({
         description: "Error when getting videoEmbeds, try again",
         variant: "warning",
@@ -586,6 +591,7 @@ export function useGetVideoEmbedsByType({
           break
         }
       } catch (error) {
+        setHasNextPage(false)
         toast({
           description: "Error when getting videoEmbeds, try again",
           variant: "warning",

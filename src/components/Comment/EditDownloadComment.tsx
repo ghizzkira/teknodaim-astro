@@ -95,7 +95,7 @@ const EditDownloadComment: React.FunctionComponent<EditDownloadCommentProps> = (
               name="content"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Edit Comment</FormLabel>
+                  {type === "dashboard" && <FormLabel>Edit Comment</FormLabel>}
                   <FormControl>
                     <Textarea
                       variant={type !== "default" ? "solid" : "plain"}

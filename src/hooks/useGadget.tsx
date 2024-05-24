@@ -25,6 +25,7 @@ export function useCreateGadget({
         onSuccess && onSuccess()
       } else {
         onError && onError()
+        return null
       }
       return data
     } catch (error) {
@@ -62,6 +63,7 @@ export function useUpdateGadget({
         onSuccess && onSuccess()
       } else {
         onError && onError()
+        return null
       }
       return data
     } catch (error) {
@@ -95,6 +97,7 @@ export function useDeleteGadget({
         onSuccess && onSuccess()
       } else {
         onError && onError()
+        return null
       }
 
       return data

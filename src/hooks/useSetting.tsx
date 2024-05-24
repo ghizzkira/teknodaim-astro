@@ -25,6 +25,7 @@ export function useUpdateSetting({
         onSuccess && onSuccess(data)
       } else {
         onError && onError()
+        return null
       }
       return data
     } catch (error) {
@@ -49,13 +50,18 @@ export function useGetSettingByKey(key: string) {
       })
       const data = (await response.json()) as SelectSetting
 
-      if (data) {
+      if (response.ok) {
         setData(data)
+      } else {
+        toast({
+          description: "Error when getting datas, try again",
+          variant: "warning",
+        })
       }
       return data
     } catch (error) {
       toast({
-        description: "Error when getting count, try again",
+        description: "Error when getting datas, try again",
         variant: "warning",
       })
     } finally {

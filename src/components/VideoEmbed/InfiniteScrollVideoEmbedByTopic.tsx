@@ -2,7 +2,7 @@ import * as React from "react"
 
 import VideoEmbedCard from "./VideoEmbedCard"
 import type { LanguageType } from "@/lib/validation/language"
-import { useGetVideoEmbedsByTopic } from "@/hooks/useVideoEmbed"
+import { useGetVideoEmbedsByTopicInfinite } from "@/hooks/useVideoEmbed"
 import LoadingProgress from "@/components/LoadingProgress"
 
 interface InfiniteScrollVideoEmbedByTopicProps
@@ -18,11 +18,12 @@ const InfiniteScrollVideoEmbedByTopic: React.FunctionComponent<
 
   const loadMoreRef = React.useRef<HTMLDivElement>(null)
 
-  const { data, hasNextPage, fetchNextPage } = useGetVideoEmbedsByTopic({
-    topicId,
-    limit: 10,
-  })
-
+  const { data, hasNextPage, fetchNextPage } = useGetVideoEmbedsByTopicInfinite(
+    {
+      topicId,
+      limit: 10,
+    },
+  )
   const handleObserver = React.useCallback(
     (entries: IntersectionObserverEntry[]) => {
       const [target] = entries
@@ -56,7 +57,7 @@ const InfiniteScrollVideoEmbedByTopic: React.FunctionComponent<
                     const mainAuthor = video?.authors?.[0]
                     return (
                       <VideoEmbedCard
-                        key={video.id}
+                        key={video.title}
                         title={video.title}
                         featuredImageUrl={
                           video.featuredImageUrl ??

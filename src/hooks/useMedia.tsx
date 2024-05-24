@@ -22,8 +22,11 @@ export function useUploadMedia({
         body: JSON.stringify(input),
       })
       const data = await response.json()
-      if (data) {
+      if (response.ok) {
         onSuccess && onSuccess()
+      } else {
+        onError && onError()
+        return null
       }
       return data
     } catch (error) {
@@ -54,8 +57,11 @@ export function useUpdateMedia({
         body: JSON.stringify(input),
       })
       const data = await response.json()
-      if (data) {
+      if (response.ok) {
         onSuccess && onSuccess()
+      } else {
+        onError && onError()
+        return null
       }
       return data
     } catch (error) {
@@ -85,8 +91,9 @@ export function useDeleteMedia({
       })
       const data = await response.json()
 
-      if (data) {
+      if (response.ok) {
         onSuccess && onSuccess()
+        return null
       } else {
         onError && onError()
       }
@@ -191,6 +198,7 @@ export function useGetMediasInfinite({ limit }: { limit: number }) {
         setHasNextPage(false)
       }
     } catch (error) {
+      setHasNextPage(false)
       toast({
         description: "Error when getting medias, try again",
         variant: "warning",
@@ -270,6 +278,7 @@ export function useGetMediasInfinite({ limit }: { limit: number }) {
           break
         }
       } catch (error) {
+        setHasNextPage(false)
         toast({
           description: "Error when getting medias, try again",
           variant: "warning",

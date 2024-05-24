@@ -39,7 +39,7 @@ const VideoEmbedCard: React.FunctionComponent<VideoEmbedCardProps> = (
             <Image
               alt={`Image ${title}`}
               src={featuredImageUrl}
-              className="!h-full !w-full object-cover transition group-hover:grayscale-[50%]"
+              className="!h-full !w-full object-cover transition"
               width="500"
               height="500"
             />

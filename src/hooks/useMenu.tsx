@@ -26,6 +26,7 @@ export function useCreateMenu({
         onSuccess && onSuccess(data)
       } else {
         onError && onError()
+        return null
       }
       return data
     } catch (error) {
@@ -63,6 +64,7 @@ export function useUpdateMenu({
         onSuccess && onSuccess(data)
       } else {
         onError && onError()
+        return null
       }
       return data
     } catch (error) {
@@ -96,6 +98,7 @@ export function useDeleteMenu({
         onSuccess && onSuccess(data)
       } else {
         onError && onError()
+        return null
       }
 
       return data
