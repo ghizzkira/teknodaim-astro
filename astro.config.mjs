@@ -23,9 +23,6 @@ export default defineConfig({
       id: import.meta.env.PUBLIC_EN_SITE_URL ?? "http://localhost:4321",
     },
   },
-  experimental: {
-    i18nDomains: true,
-  },
   adapter: cloudflare({
     mode: "directory",
     imageService: "cloudflare",
