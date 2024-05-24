@@ -13,7 +13,6 @@ export const wpHttp = async <T>(
       variables,
     }),
   }
-
   const url = new URL(import.meta.env.PUBLIC_WP_API ?? "")
 
   try {
@@ -28,6 +27,7 @@ export const wpHttp = async <T>(
     return [data as T, null]
   } catch (err) {
     console.error(url.href, err)
+    throw new Error(err as unknown as string)
     return [null, err as Error]
   }
 }
